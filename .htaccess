@@ -1,0 +1,14 @@
+### Rewrite Rules Added by CyberPanel Rewrite Rule Generator
+
+RewriteEngine On
+RewriteCond %{HTTPS}  !=on
+RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+
+RewriteCond %{REQUEST_URI} ^/system.*
+RewriteRule ^(.*)$ index.php?/$1 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ index.php?/$1 [L,QSA]
+
+RewriteCond %{REQUEST_URI} !\.(?:zip|css|js|jpg|jpeg|png|gif|eot|ttf|woff|woff2|svg|ico|json)$ [NC]
+RewriteRule ^assets/ - [L,F]

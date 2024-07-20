@@ -1,0 +1,13 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
+ERROR - 2023-11-08 04:21:23 --> Severity: Warning --> Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) /home/sbst-banten.com/public_html/application/views/backend/inventory/detail_divisi.php 24
