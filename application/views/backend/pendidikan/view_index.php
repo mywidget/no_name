@@ -6,7 +6,7 @@
 					Master Data
 				</div>
                 <h2 class="page-title">
-					Data Unit & Kelas
+					Data Pendidikan & Pekerjaan
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
@@ -21,15 +21,14 @@
             <div class="col-6">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">List Data Unit</h3>
+						<h3 class="card-title">List Data Pendidikan</h3>
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
-									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchUnit()">
-										<option value="5">5</option>
+									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchPendidikan()">
 										<option value="10">10</option>
 										<option value="20">20</option>
 										<option value="50">50</option>
@@ -42,13 +41,13 @@
 								<div class="d-none d-sm-inline-block">Search:</div>
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
-										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari unit" onkeyup="searchUnit();"/>
+										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari unit" onkeyup="searchPendidikan();"/>
 										<span class="input-group-text">
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Unit" title="Cari Unit" onclick="searchUnit();"><i class="ti ti-search fa-lg"></i>&nbsp;
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Unit" title="Cari Unit" onclick="searchPendidikan();"><i class="ti ti-search fa-lg"></i>&nbsp;
 											</a>
 											<a href="#" class="link-secondary clear_unit" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear search">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
 											</a>
-											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModalUnit" aria-label="Tambah Unit" data-id="0" data-mod="add">
+											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModalPendidikan" aria-label="Tambah Unit" data-id="0" data-mod="add">
 												&nbsp;<i class="ti ti-plus fa-lg"></i>
 											</a>
 										</span>
@@ -58,22 +57,21 @@
 						</div>
 					</div>
 					
-					<div class="pb-2" id="posts_content_unit">
+					<div class="pb-2" id="posts_content_pendidikan">
 					</div>
 				</div><!-- /.card -->
 			</div>
             <div class="col-6">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">List Data Kelas</h3>
+						<h3 class="card-title">List Data pekerjaan</h3>
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
-									<select id="limit_kelas" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchKelas()">
-										<option value="5">5</option>
+									<select id="limit_pekerjaan" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchPekerjaan()">
 										<option value="10">10</option>
 										<option value="20">20</option>
 										<option value="50">50</option>
@@ -81,28 +79,18 @@
 									</select>
 								</div>
 							</div> 
-							<div class="text-muted">
-								<div class="d-none d-sm-inline-block">Unit</div>
-								<div class="mx-2 d-inline-block">
-									<select id="unit_kelas" name="unit_kelas" class="form-control form-select" style="width:120px!important" onchange="searchKelas()">
-										<option value="0">Semua Unit</option>
-										<?php foreach($unit AS $val): ?>
-										<option value="<?=$val->id;?>"><?=$val->nama_jurusan;?></option>
-										<?php endforeach; ?>
-									</select>
-								</div>
-							</div> 
+							
 							<div class="ms-auto text-muted">
 								<div class="d-none d-sm-inline-block">Search:</div>
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
-										<input type="text" id="keywords_kelas" class="form-control w-20" placeholder="Cari Kelas" onkeyup="searchKelas();" style="width:120px!important"/>
+										<input type="text" id="keywords_pekerjaan" class="form-control w-20" placeholder="Cari pekerjaan" onkeyup="searchPekerjaan();" />
 										<span class="input-group-text">
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Kelas" title="Cari Kelas" onclick="searchKelas();"><i class="ti ti-search fa-lg"></i>&nbsp;
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari pekerjaan" title="Cari pekerjaan" onclick="searchPekerjaan();"><i class="ti ti-search fa-lg"></i>&nbsp;
 											</a>
-											<a href="#" class="link-secondary clear_kelas" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear Pencarian">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
+											<a href="#" class="link-secondary clear_pekerjaan" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear Pencarian">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
 											</a>
-											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModalKelas" aria-label="Tambah Kelas" data-id="0" data-mod="add">
+											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModalPekerjaan" aria-label="Tambah pekerjaan" data-id="0" data-mod="add">
 												&nbsp;<i class="ti ti-plus fa-lg"></i>
 											</a>
 										</span>
@@ -112,7 +100,7 @@
 						</div>
 					</div>
 					
-					<div class="pb-2" id="posts_content_kelas">
+					<div class="pb-2" id="posts_content_pekerjaan">
 					</div>
 				</div><!-- /.card -->
 			</div>
@@ -135,46 +123,34 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
-				<button class="btn btn-danger hapus_unit" type="button">YA</button> 
+				<button class="btn btn-danger hapus_pendidikan" type="button">YA</button> 
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="modal modal-blur fade" id="OpenModalUnit" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="OpenModalPendidikan" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="myModalLabelUnit">Tambah Unit</h5>
+				<h5 class="modal-title" id="myModalLabelPendidikan">Tambah Pendidikan</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form id="formAdd">
-					<input type="hidden" class="form-control" id="id_unit" name="id_unit">
-					<input type="hidden" class="form-control" id="type_unit" name="type_unit">
+				<form id="formAdd" method="POST">
+					<input type="hidden" class="form-control" id="id_pendidikan" name="id_pendidikan">
+					<input type="hidden" class="form-control" id="type_pendidikan" name="type_pendidikan">
 					<div class="card-block">
 						<div class="form-group mb-1">
-							<label class="form-label" for="kode_unit">Kode Unit</label>
-							<input type="text" name="kode_unit" value="" class="form-control" id="kode_unit" placeholder="Kode Unit" required="">
-						</div>
-						<div class="form-group mb-1">
-							<label class="form-label" for="nama_unit">Nama Unit</label>
-							<input type="text" name="nama_unit" class="form-control" id="nama_unit" placeholder="Nama Unit" value="" required="" autocomplete="off">
-						</div>
-						<div class="form-group mb-1">
-							<label class="form-label" for="pendaftaran">Biaya Pendaftaran</label>
-							<input type="text" name="pendaftaran" class="form-control" id="pendaftaran" placeholder="Biaya Pendaftaran" value="" required="">
+							<label class="form-label" for="title_pendidikan">Pendidikan Terakhir</label>
+							<input type="text" name="title_pendidikan" value="" class="form-control" id="title_pendidikan" placeholder="Pendidikan Terakhir" required="" autofocus>
 						</div>
 						
 						<div class="form-group mb-1">
-							<label class="form-label" for="kenaikan">Biaya Kenaikan Tingkat</label>
-							<input type="text" name="kenaikan" class="form-control" id="kenaikan" placeholder="Biaya Kenaikan Tingkat" value="" required="">
-						</div>
-						
-						<div class="form-group mb-1">
-							<label class="form-label" for="aktif_unit">Aktif</label>
-							<select name="aktif_unit" id="aktif_unit" class="form-control form-select">
-								<option value="Ya">Ya</option>
+							<label class="form-label" for="aktif_pendidikan">Aktif</label>
+							<select name="aktif_pendidikan" id="aktif_pendidikan" class="form-control form-select">
+								<option value="">Pilih</option>
+								<option value="Ya" selected>Ya</option>
 								<option value="Tidak">Tidak</option>
 							</select>
 						</div>
@@ -184,46 +160,33 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-				<button type="button" onClick="simpanUnit()" id="btn-unit" class="btn btn-success">Submit</button>
+				<button type="button" id="btn-unit" class="btn btn-success simpanPendidikan">Submit</button>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="modal modal-blur fade" id="OpenModalKelas" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="OpenModalPekerjaan" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="myModalLabelKelas">Tambah Kelas</h5>
+				<h5 class="modal-title" id="myModalLabelpekerjaan">Tambah pekerjaan</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form id="formAddKelas">
-					<input type="hidden" class="form-control" id="id_kelas" name="id_kelas">
-					<input type="hidden" class="form-control" id="type_kelas" name="type_kelas">
+				<form id="formAddpekerjaan" method="POST">
+					<input type="hidden" class="form-control" id="id_pekerjaan" name="id_pekerjaan">
+					<input type="hidden" class="form-control" id="type_pekerjaan" name="type_pekerjaan">
 					<div class="card-block">
 						<div class="form-group mb-1">
-							<label class="form-label" for="kode_kelas">Unit</label>
-							<select name="unit_kelas" id="unit_kelas" class="form-control form-select">
-								<option value="">Pilih Unit</option>
-								<?php foreach($unit AS $val) : ?>
-								<option value="<?=$val->id;?>"><?=$val->nama_jurusan;?></option>
-								<?php endforeach; ?>
-							</select>
+							<label class="form-label" for="title_pekerjaan">Pekerjaan</label>
+							<input type="text" name="title_pekerjaan" value="" class="form-control" id="title_pekerjaan" placeholder="pekerjaan" required="">
 						</div>
 						<div class="form-group mb-1">
-							<label class="form-label" for="kode_kelas">Kode Kelas</label>
-							<input type="text" name="kode_kelas" value="" class="form-control" id="kode_kelas" placeholder="Kode Kelas" required="">
-						</div>
-						<div class="form-group mb-1">
-							<label class="form-label" for="nama_kelas">Nama Kelas</label>
-							<input type="text" name="nama_kelas" class="form-control" id="nama_kelas" placeholder="Nama Kelas" value="" required="" autocomplete="off">
-						</div>
-						
-						<div class="form-group mb-1">
-							<label class="form-label" for="aktif_kelas">Aktif</label>
-							<select name="aktif_kelas" id="aktif_kelas" class="form-control form-select">
-								<option value="Ya">Ya</option>
+							<label class="form-label" for="aktif_pekerjaan">Aktif</label>
+							<select name="aktif_pekerjaan" id="aktif_pekerjaan" class="form-control form-select">
+								<option value="">Pilih</option>
+								<option value="Ya" selected>Ya</option>
 								<option value="Tidak">Tidak</option>
 							</select>
 						</div>
@@ -233,14 +196,14 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-				<button type="button" onClick="simpanKelas()" id="btn-kelas" class="btn btn-success">Submit</button>
+				<button type="button" id="btn-pekerjaan" class="btn btn-success simpanPekerjaan">Submit</button>
 			</div>
 		</div>
 	</div>
 </div>
 
 
-<div class="modal modal-blur fade" id="confirm-delete-kelas" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="confirm-delete-pekerjaan" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -251,11 +214,11 @@
 				<h3>Apa kamu yakin?</h3>
 				<div class="text-muted">Apakah Anda benar-benar ingin menghapus data? Apa yang telah Anda lakukan tidak dapat dibatalkan.</div>
 				<p class="debug-url"></p>
-				<input type="hidden" id="data-kelas">
+				<input type="hidden" id="data-pekerjaan">
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
-				<button class="btn btn-danger hapus_kelas" type="button">YA</button> 
+				<button class="btn btn-danger hapus_pekerjaan" type="button">YA</button> 
 			</div>
 		</div>
 	</div>
@@ -273,15 +236,47 @@
 	$this->RenderScript[] = function() {
 	?>
 	<script>
+		$(document).ready(function () {
+			shortcut.add("F1",function() {
+				$("#OpenModalPendidikan").modal('show');
+				$('#type_pendidikan').val('new');
+				greet();
+				
+			});
+			shortcut.add("F2",function() {
+				$("#OpenModalPekerjaan").modal('show');
+				$('#type_pekerjaan').val('new');
+				greetp();
+			});
+		});
+		$("#formAdd").on("keypress", function (event) { 
+			console.log("aaya"); 
+			var keyPressed = event.keyCode || event.which; 
+			if (keyPressed === 13) { 
+				event.preventDefault(); 
+                // return false; 
+				$(".simpanPendidikan").click()
+			} 
+		}); 
 		
-		searchUnit();
-		function searchUnit(page_num){
+		$("#formAddpekerjaan").on("keypress", function (event) { 
+			console.log("aaya"); 
+			var keyPressed = event.keyCode || event.which; 
+			if (keyPressed === 13) { 
+				event.preventDefault(); 
+                // return false; 
+				$(".simpanPekerjaan").click()
+			} 
+		}); 
+		
+		searchPendidikan();
+		function searchPendidikan(page_num){
 			page_num = page_num?page_num:0;
 			var limit = $('#limits').val();
 			var keywords = $('#keywords').val();
 			$.ajax({
 				type: 'POST',
-				url: base_url+'psb/ajax_list_unit/'+page_num,
+				url: base_url+'psb/ajax_list_pendidikan/'+page_num,
 				data:{page:page_num,
 					limit:limit,
 					keywords:keywords,
@@ -294,34 +289,41 @@
 					$('body').loading();
 				},
 				success: function(html){
-					$('#posts_content_unit').html(html);
+					$('#posts_content_pendidikan').html(html);
 					$('body').loading('stop');
 				}
 			});
 		}
+		function greet() {
+			setTimeout(function () {
+				$('#title_pendidikan').focus();
+			}, 1000);
+		}
+		function greetp() {
+			setTimeout(function () {
+				$('#title_pekerjaan').focus();
+			}, 1000);
+		}
 		
-		$('#OpenModalUnit').on('show.bs.modal', function(e) {
+		$('#OpenModalPendidikan').on('show.bs.modal', function(e) {
 			var id = $(e.relatedTarget).data('id');
 			var mod = $(e.relatedTarget).data('mod');
 			$('input').val('');
 			if(id != 0){
-				$('#type_unit').val('edit');
-				$("#myModalLabelUnit").html("Edit Unit")
+				$('#type_pendidikan').val('edit');
+				$("#myModalLabelPendidikan").html("Edit pendidikan")
 				$.ajax({
 					type: 'POST',
-					url: base_url + "psb/edit_unit",
+					url: base_url + "psb/edit_pendidikan",
 					data: {id:id,mod:mod},
 					dataType: "json",
 					beforeSend: function () {
 						$("body").loading({zIndex:1060});
 					},
 					success: function(data) {
-						$('#id_unit').val(data.id);
-						$('#kode_unit').val(data.kode);
-						$('#nama_unit').val(data.nama);
-						$('#pendaftaran').val(data.pendaftaran);
-						$('#kenaikan').val(data.kenaikan);
-						$('#aktif_unit').val(data.aktif);
+						$('#id_pendidikan').val(data.id);
+						$('#title_pendidikan').val(data.title);
+						$('#aktif_pendidikan').val(data.aktif);
 						$('body').loading('stop');
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
@@ -331,33 +333,35 @@
 				});
 				}else{
 				
-				$("#myModalLabelUnit").html("Tambah Unit")
-				$('#type_unit').val('new');
+				$("#myModalLabelPendidikan").html("Tambah Pendidikan")
+				$('#type_pendidikan').val('new');
+				greet();
 			}
 			
 		});
 		
 		
-		function simpanUnit()
-		{
+		
+		$(document).on('click','.simpanPendidikan',function(e){
 			// console.log('submit');
-			if($("#kode_unit").val()==''){
-				$("#kode_unit").addClass('form-control-warning');
+			if($("#title_pendidikan").val()==''){
+				$("#title_pendidikan").addClass('form-control-warning');
 				showNotif('top-center','Input Data','Harus diisi','warning');
-				$("#kode_unit").focus();
+				$("#title_pendidikan").focus();
 				return;
 			}
-			if($("#nama_unit").val()==''){
-				$("#nama_unit").addClass('form-control-warning');
-				showNotif('top-center','Input Data','Harus diisi','warning');
-				$("#nama_unit").focus();
+			if($("#aktif_pendidikan").val()==''){
+				$("#aktif_pendidikan").addClass('form-control-warning');
+				showNotif('top-center','Input Data','Harus dipilih','warning');
+				$("#aktif_pendidikan").focus();
 				return;
 			}
+			
 			
 			var formData = $("#formAdd").serialize();
 			$.ajax({
 				type: "POST",
-				url: base_url+"psb/simpan_unit",
+				url: base_url+"psb/simpan_pendidikan",
 				dataType: 'json',
 				data: formData,
 				beforeSend: function () {
@@ -367,24 +371,24 @@
 					$('body').loading('stop');
 					if(data.status==200){
 						showNotif('bottom-right',data.title,data.msg,'success');
-						$("#OpenModalUnit").modal('hide');
+						$("#OpenModalPendidikan").modal('hide');
 						$('input').val('');
 						}else{
 						showNotif('bottom-right',data.title,data.msg,'error');
 					}
 					
-					searchUnit();
+					searchPendidikan();
 					} ,error: function(xhr, status, error) {
 					showNotif('bottom-right','Peringatan',error,'error');
 					$('body').loading('stop');
 				}
 			});
-		}
+		});
 		
-		$(document).on('click','.hapus_unit',function(e){
+		$(document).on('click','.hapus_pendidikan',function(e){
 			var id = $("#data-hapus").val();
 			$.ajax({
-				url: base_url + 'psb/hapus_unit',
+				url: base_url + 'psb/hapus_pendidikan',
 				data: {id:id},
 				method: 'POST',
 				dataType:'json',
@@ -398,7 +402,7 @@
 						}else{
 						sweet('Peringatan!!!',data.msg,'warning','warning');
 					}
-					searchUnit();
+					searchPendidikan();
 					
 					$('body').loading('stop');　
 					},error: function(xhr, status, error) {
@@ -410,26 +414,24 @@
 		
 		$(document).on('click','.clear_unit',function(e){
 			$("#keywords").val('');
-			searchUnit();
+			searchPendidikan();
 		});
 		
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$('#data-hapus').val($(e.relatedTarget).data('id'));
 		});
 		
-		searchKelas();
-		function searchKelas(page_num){
+		searchPekerjaan();
+		function searchPekerjaan(page_num){
 			page_num = page_num?page_num:0;
-			var limit = $('#limit_kelas').val();
-			var keywords = $('#keywords_kelas').val();
-			var unit_kelas = $('#unit_kelas').val();
+			var limit = $('#limit_pekerjaan').val();
+			var keywords = $('#keywords_pekerjaan').val();
 			$.ajax({
 				type: 'POST',
-				url: base_url+'psb/ajax_list_kelas/'+page_num,
+				url: base_url+'psb/ajax_list_pekerjaan/'+page_num,
 				data:{page:page_num,
 					limit:limit,
 					keywords:keywords,
-					unit:unit_kelas,
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					sweet('Peringatan!!!',thrownError,'warning','warning');
@@ -439,33 +441,34 @@
 					$('body').loading();
 				},
 				success: function(html){
-					$('#posts_content_kelas').html(html);
+					$('#posts_content_pekerjaan').html(html);
 					$('body').loading('stop');
 				}
 			});
 		}
 		
-		$('#OpenModalKelas').on('show.bs.modal', function(e) {
+		
+		$('#OpenModalPekerjaan').on('show.bs.modal', function(e) {
 			var id = $(e.relatedTarget).data('id');
 			var mod = $(e.relatedTarget).data('mod');
 			$('input').val('');
 			if(id != 0){
-				$('#type_kelas').val('edit');
-				$("#myModalLabelKelas").html("Edit Kelas")
+				$('#type_pekerjaan').val('edit');
+				$("#myModalLabelpekerjaan").html("Edit pekerjaan")
 				$.ajax({
 					type: 'POST',
-					url: base_url + "psb/edit_kelas",
+					url: base_url + "psb/edit_pekerjaan",
 					data: {id:id,mod:mod},
 					dataType: "json",
 					beforeSend: function () {
 						$("body").loading({zIndex:1060});
 					},
 					success: function(data) {
-						$('#id_kelas').val(data.id);
-						$('#kode_kelas').val(data.kode);
-						$('#nama_kelas').val(data.nama);
-						$('#unit_kelas').val(data.unit);
-						$('#aktif_kelas').val(data.aktif);
+						$('#id_pekerjaan').val(data.id);
+						$('#kode_pekerjaan').val(data.kode);
+						$('#nama_pekerjaan').val(data.nama);
+						$('#unit_pekerjaan').val(data.unit);
+						$('#aktif_pekerjaan').val(data.aktif);
 						$('body').loading('stop');
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
@@ -475,37 +478,33 @@
 				});
 				}else{
 				
-				$("#myModalLabelUnit").html("Tambah Unit")
-				$('#type_kelas').val('new');
+				$("#myModalLabelPendidikan").html("Tambah Unit")
+				$('#type_pekerjaan').val('new');
+				
+				greetp();
 			}
 			
 		});
-		function simpanKelas()
-		{
+		
+		$(document).on('click','.simpanPekerjaan',function(e){
 			// console.log('submit');
-			if($("#unit_kelas").val()==''){
-				$("#unit_kelas").addClass('form-control-warning');
+			if($("#title_pekerjaan").val()==''){
+				$("#title_pekerjaan").addClass('form-control-warning');
+				showNotif('top-center','Input Data','Harus diisi','warning');
+				$("#title_pekerjaan").focus();
+				return;
+			}
+			if($("#aktif_pekerjaan").val()==''){
+				$("#aktif_pekerjaan").addClass('form-control-warning');
 				showNotif('top-center','Input Data','Harus dipilih','warning');
-				$("#unit_kelas").focus();
-				return;
-			}
-			if($("#kode_kelas").val()==''){
-				$("#kode_kelas").addClass('form-control-warning');
-				showNotif('top-center','Input Data','Harus diisi','warning');
-				$("#kode_kelas").focus();
-				return;
-			}
-			if($("#nama_kelas").val()==''){
-				$("#nama_kelas").addClass('form-control-warning');
-				showNotif('top-center','Input Data','Harus diisi','warning');
-				$("#nama_kelas").focus();
+				$("#aktif_pekerjaan").focus();
 				return;
 			}
 			
-			var formData = $("#formAddKelas").serialize();
+			var formData = $("#formAddpekerjaan").serialize();
 			$.ajax({
 				type: "POST",
-				url: base_url+"psb/simpan_kelas",
+				url: base_url+"psb/simpan_pekerjaan",
 				dataType: 'json',
 				data: formData,
 				beforeSend: function () {
@@ -515,24 +514,24 @@
 					$('body').loading('stop');
 					if(data.status==200){
 						showNotif('bottom-right',data.title,data.msg,'success');
-						$("#OpenModalKelas").modal('hide');
+						$("#OpenModalPekerjaan").modal('hide');
 						$('input').val('');
 						}else{
 						showNotif('bottom-right',data.title,data.msg,'error');
 					}
 					
-					searchKelas();
+					searchPekerjaan();
 					} ,error: function(xhr, status, error) {
 					showNotif('bottom-right','Peringatan',error,'error');
 					$('body').loading('stop');
 				}
 			});
-		}
+		});
 		
-		$(document).on('click','.hapus_kelas',function(e){
-			var id = $("#data-kelas").val();
+		$(document).on('click','.hapus_pekerjaan',function(e){
+			var id = $("#data-pekerjaan").val();
 			$.ajax({
-				url: base_url + 'psb/hapus_kelas',
+				url: base_url + 'psb/hapus_pekerjaan',
 				data: {id:id},
 				method: 'POST',
 				dataType:'json',
@@ -540,13 +539,13 @@
 					$('body').loading();　
 				},
 				success: function(data) {
-					$('#confirm-delete-kelas').modal('hide');
+					$('#confirm-delete-pekerjaan').modal('hide');
 					if(data.status==true){
 						showNotif('bottom-right',data.title,data.msg,'success');
 						}else{
 						sweet('Peringatan!!!',data.msg,'warning','warning');
 					}
-					searchKelas();
+					searchPekerjaan();
 					
 					$('body').loading('stop');　
 					},error: function(xhr, status, error) {
@@ -556,15 +555,15 @@
 			});
 		});
 		
-		$(document).on('click','.clear_kelas',function(e){
-			$("#keywords_kelas").val('');
-			searchKelas();
+		$(document).on('click','.clear_pekerjaan',function(e){
+			$("#keywords_pekerjaan").val('');
+			searchPekerjaan();
 		});
 		
-		$('#confirm-delete-kelas').on('show.bs.modal', function(e) {
-			$('#data-kelas').val($(e.relatedTarget).data('id'));
+		$('#confirm-delete-pekerjaan').on('show.bs.modal', function(e) {
+			$('#data-pekerjaan').val($(e.relatedTarget).data('id'));
 		});
 	</script>        
 	
 	
-<?php } ?>	
+<?php } ?>			

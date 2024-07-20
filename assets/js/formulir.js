@@ -64,13 +64,13 @@ $(document).ready(function () {
 // ambil data kelas ketika data memilih unit
 $('body').on("change","#form_unit",function(){
     var id = $(this).val();
+    var statusSantri = $('#statusPendidikan').val();
     load_kamar(id)
-    var data = {id:id};
-    
+    // console.log(statusSantri)
     $.ajax({
         type: 'POST',
         url: base_url+ "dashboard/kelas",
-        data: data,
+        data: {id:id,status:statusSantri},
         dataType : "json",
         beforeSend: function(){
             $("#form_kelas").empty();
@@ -89,6 +89,16 @@ $('body').on("change","#form_unit",function(){
             }
         }
     });
+});
+
+$('body').on("change","#gender",function(){
+   var status = $("#statusPendidikan").val();
+    $("#statusPendidikan").val(status).change();
+});
+
+$('body').on("change","#statusPendidikan",function(){
+   var form_unit = $("#form_unit").val();
+    $("#form_unit").val(form_unit).change();
 });
 
 $('body').on("change","#form_kelas",function(){
@@ -113,10 +123,13 @@ $('body').on("change","#form_kelas",function(){
 
 function load_kamar(id)
 {
+    
+    var gender = $("#gender").val();
+    console.log(gender)
     $.ajax({
         type: 'POST',
         url: base_url+ "dashboard/load_kamar",
-        data: {id:id},
+        data: {id:id,gender:gender},
         dataType : "json",
         beforeSend: function(){
             $("#form_kamar").empty();
@@ -328,7 +341,7 @@ $('#formPendaftaran').on('submit', function (e) {
         contentType: false,
         url: base_url+ "dashboard/proses",
         success: (response) => {
-            console.log(response)
+            // console.log(response)
             if (response.status === false) {
                 // alerts()
                 swal.fire({

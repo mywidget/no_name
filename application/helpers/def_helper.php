@@ -673,11 +673,32 @@
         return $string;  
 	} 
 	
-	function copyYear($copyYear='')
-    {
-        if($copyYear==''){
-            $copyYear = 2015; 
+	function get_kelas($str=0)
+	{
+		if($str==7)
+		{
+			$_str = 1;
+			}elseif($str==8){
+			$_str = 2;
+			}elseif($str==9){
+			$_str = 3;
+			}elseif($str==10){
+			$_str = 1;
+			}elseif($str==11){
+			$_str = 2;
+			}elseif($str==12){
+			$_str = 3;
+			}else{
+			$_str = 1;
 		}
-        $curYear = date('Y'); 
-        return 'copyright &#169;&#160;' . $copyYear . (($copyYear != $curYear) ? ' - ' . $curYear : ''); 
+		return $_str;
+	}
+	
+	function copyYear($copyYear='')
+	{
+		if($copyYear==''){
+			$copyYear = 2015; 
+		}
+		$curYear = date('Y'); 
+		return 'copyright &#169;&#160;' . $copyYear . (($copyYear != $curYear) ? ' - ' . $curYear : ''); 
 	}

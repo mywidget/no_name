@@ -30,7 +30,6 @@
         <link rel="stylesheet" type="text/css" href="<?=base_url();?>assets/backend/css/datatables.min.css"/>
         <link rel="stylesheet" type="text/css" href="<?=base_url();?>assets/backend/libs/daterangepicker/daterangepicker.css"/>
         <link rel="stylesheet"  type="text/css" href="<?=base_url();?>assets/backend/libs/litepicker/dist/css/litepicker.css?1666304673" defer></link>
-        <script src="<?= base_url('assets/'); ?>backend/jquery/jquery.min.js" type="text/javascript"></script>
         <!-- CSS -->
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
         <!-- Default theme -->
@@ -38,11 +37,13 @@
         <!-- Semantic UI theme -->
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
         <!-- Bootstrap theme -->
+        <script src="<?= base_url('assets/'); ?>backend/jquery/jquery.min.js" type="text/javascript"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
         <!-- Tabler Core -->
         <script src="<?= base_url('assets/'); ?>backend/libs/daterangepicker/moment.min.js" type="text/javascript"></script>
         <script src="<?= base_url('assets/'); ?>backend/libs/jQuery-slimScroll/jquery.slimscroll.js" type="text/javascript"></script>
         <script src="<?=base_url('assets/');?>backend/js/validation.min.js" type="text/javascript"></script>
+        <script src="<?=base_url();?>assets/js/shortcut.js" defer></script>
         <script src="<?=base_url('assets/');?>backend/libs/select2/dist/js/select2.min.js" type="text/javascript"></script>
         <script src="<?=base_url('assets/');?>backend/libs/datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
         <script src="<?=base_url('assets/');?>backend/libs/selectize/js/standalone/selectize.js" type="text/javascript"></script>
@@ -209,6 +210,7 @@
         </div>
         
         <!-- Libs JS -->
+        
         <script src="<?= base_url('assets/'); ?>backend/libs/jquery.loading/jquery.loading.js"></script>
         <script src="<?= base_url('assets/'); ?>backend/libs/sweetalert2/sweetalert2.min.js"></script>
         
@@ -250,6 +252,7 @@
             });
             
         </script>
+        
         <?php
             if(isset($this->RenderScript))
             foreach($this->RenderScript as $script) {

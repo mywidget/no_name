@@ -51,6 +51,15 @@
 			$this->thm->load('backend/template','backend/tahun_akademik/view_index',$data);
 		}
 		
+		public function pendidikan()
+        {
+			cek_menu_akses();
+			cek_crud_akses('READ');
+			$data['title'] = 'Data Pendidikan & Pekerjaan | '.$this->title;
+			
+			$this->thm->load('backend/template','backend/pendidikan/view_index',$data);
+		}
+		
         function ajax_list_unit()
         {
             // Define offset 
@@ -322,10 +331,7 @@
                 } else {
                 $offset = $page;
 			}
-            $keywords = $this->input->post('keywords');
-            if (!empty($keywords)) {
-                $conditions['search']['keywords'] = $keywords;
-			}
+			
 			$limit = $this->input->post('limit');
             if (!empty($limit)) {
                 $conditions['search']['limit'] = $limit;
@@ -333,7 +339,17 @@
 				$limit = 5;
 			}
 			
+            $keywords = $this->input->post('keywords');
+            if (!empty($keywords)) {
+                $conditions['search']['keywords'] = $keywords;
+			}
 			
+			
+            $unit = $this->input->post('unit');
+            if (!empty($unit)) {
+                $conditions['where'] = ['id_unit'=>$unit];
+			}
+			 
             // Get record count 
             $conditions['returnType'] = 'count';
             $totalRec = $this->model_pendaftar->getKelas($conditions);
@@ -393,7 +409,11 @@
 			cek_input_post('GET');
 			cek_crud_akses('UPDATE');
 			$type = $this->input->post('type_kelas',TRUE);
-			// dump($_POST);
+			$kode_kelas = $this->input->post('kode_kelas',TRUE);
+			$exp = explode(' ',$kode_kelas);
+			
+			$get_kode = get_kelas($exp[0]);
+			// dump($get_kode);
 			if($type=='new'){
 				$this->form_validation->set_rules(array(
 				array(
@@ -423,6 +443,7 @@
 					"id_unit"	=> $this->input->post('unit_kelas',TRUE),
 					"kode_kelas"	=> $this->input->post('kode_kelas',TRUE),
 					"nama_kelas"	=> $this->input->post('nama_kelas',TRUE),
+					"status"	    => $get_kode,
 					"aktif"	    => $this->input->post('aktif_kelas',TRUE),
 					];
 					$insert = $this->model_app->input('rb_kelas',$data_post);
@@ -453,7 +474,6 @@
 			
 			if($type=='edit'){
 				$postid 	= decrypt_url($this->input->post('id_kelas',TRUE));
-				$kode_kelas	= $this->input->post('kode_kelas',TRUE);
 				$nama_kelas	= $this->input->post('nama_kelas',TRUE);
 				
 				$this->form_validation->set_rules(array(array(
@@ -469,7 +489,7 @@
 				$this->form_validation->set_rules(array(array(
 				'field' => 'nama_kelas',
 				'label' => 'Nama Kelas',
-				'rules' => 'required|trim|max_length[50]|callback__cek_edit_nama_unit['.$nama_kelas.']',
+				'rules' => 'required|trim|max_length[50]|callback__cek_edit_nama_kelas['.$nama_kelas.']',
 				'errors' => array(
 				'required' => '%s. Harus di isi',
 				'max_length' => '%s maksimal 50 digit.',
@@ -482,6 +502,7 @@
 					"id_unit"	=> $this->input->post('unit_kelas',TRUE),
 					"kode_kelas"	=> $this->input->post('kode_kelas',TRUE),
 					"nama_kelas"	=> $this->input->post('nama_kelas',TRUE),
+					"status"	    => $get_kode,
 					"aktif"	    => $this->input->post('aktif_kelas',TRUE),
 					];
 					// dump($data_post);
@@ -890,7 +911,7 @@
 			cek_input_post('GET');
 			cek_crud_akses('UPDATE');
 			$type = $this->input->post('type',TRUE);
-			 
+			
 			if($type=='new'){
 				$this->form_validation->set_rules(array(
 				array(
@@ -920,6 +941,7 @@
 					"id_unit"	=> $this->input->post('id_unit',TRUE),
 					"nama_kamar"	=> $this->input->post('nama_kamar',TRUE),
 					"kuota"	=> $this->input->post('kuota',TRUE),
+					"gender"	=> $this->input->post('gender',TRUE),
 					"aktif"	    => $this->input->post('aktif',TRUE),
 					];
 					$insert = $this->model_app->input('rb_kamar',$data_post);
@@ -950,11 +972,12 @@
 			
 			if($type=='edit'){
 				$postid 	= decrypt_url($this->input->post('id',TRUE));
-				 
+				
 				$data_post 	= [
 				"id_unit"	=> $this->input->post('id_unit',TRUE),
 				"nama_kamar"	=> $this->input->post('nama_kamar',TRUE),
 				"kuota"	=> $this->input->post('kuota',TRUE),
+				"gender"	=> $this->input->post('gender',TRUE),
 				"aktif"	    => $this->input->post('aktif',TRUE),
 				];
 				
@@ -1019,6 +1042,400 @@
 			
 		}
 		
+		function ajax_list_pendidikan()
+        {
+            // Define offset 
+            $page = $this->input->post('page');
+            if (!$page) {
+                $offset = 0;
+                } else {
+                $offset = $page;
+			}
+            $keywords = $this->input->post('keywords');
+            if (!empty($keywords)) {
+                $conditions['search']['keywords'] = $keywords;
+			}
+			$limit = $this->input->post('limit');
+            if (!empty($limit)) {
+                $conditions['search']['limit'] = $limit;
+				}else{
+				$limit = $this->perPage;
+			}
+			
+			
+            // Get record count 
+            $conditions['returnType'] = 'count';
+            $totalRec = $this->model_pendaftar->getPendidikan($conditions);
+            
+            // Pagination configuration 
+            $config['target']      = '#posts_content_pendidikan';
+            $config['base_url']    = base_url('psb/ajax_list_pendidikan');
+            $config['total_rows']  = $totalRec;
+            $config['per_page']    = $limit;
+            $config['link_func']   = 'searchPendidikan';
+            
+            // Initialize pagination library 
+            $this->ajax_pagination->initialize($config);
+            
+            // Get records 
+            $conditions['start'] = $offset;
+            $conditions['limit'] = $limit;
+			
+            unset($conditions['returnType']);
+            $data['start'] = $offset;
+            $data['record'] = $this->model_pendaftar->getPendidikan($conditions);
+			
+            // Load the data list view 
+			$this->load->view('backend/pendidikan/get-ajax-pendidikan',$data);
+			
+		}
+		
+		function edit_pendidikan(){
+			
+			if ($this->input->is_ajax_request()) 
+			{
+				cek_crud_akses('CONTENT');
+				$id = $this->db->escape_str($this->input->post('id'));
+				$index = decrypt_url($id);
+				
+				$result = $this->model_app->view_where('rb_pendidikan',['id'=>$index]);
+				if($result->num_rows() > 0)
+				{
+					
+					$response = [
+					'status'	=>true,
+					'id'		=>$id,
+					'title'		=>$result->row()->title,
+					'aktif'		=>$result->row()->aktif,
+					];
+					
+					}else{
+					
+					$response = [
+					'status'=>false,
+					'msg'=>'Gagal'
+					];
+				}
+				$this->thm->json_output($response);
+			}
+		}
+		
+		function simpan_pendidikan(){
+			cek_input_post('GET');
+			cek_crud_akses('UPDATE');
+			$type = $this->input->post('type_pendidikan',TRUE);
+			
+			if($type=='new'){
+				$this->form_validation->set_rules(array(
+				array(
+				'field'             => 'title_pendidikan',
+				'label'             => 'Pendidikan Terakhir',
+				'rules'             => 'required|trim|min_length[2]|is_unique[rb_pendidikan.title]',
+				'errors'            => array(
+				'required'          => '%s. Harus di isi',
+				'min_length'        => '%s minimal 2 digit.',
+				'is_unique'         => '%s sudah ada.'
+				)
+				),
+				));
+				if ( $this->form_validation->run() ) 
+				{
+					$data_post 	= [
+					"title"	=> $this->input->post('title_pendidikan',TRUE),
+					"aktif"	    => $this->input->post('aktif_pendidikan',TRUE),
+					];
+					$insert = $this->model_app->input('rb_pendidikan',$data_post);
+					if($insert['status']==true)
+					{
+						$arr = [
+						'status'=>200,
+						'title' =>'Input data',
+						'msg'   =>'Data berhasil Input'
+						];
+					}
+					else
+					{
+						$arr = [
+						'status'=>201,
+						'title' =>'Input data',
+						'msg'   =>'Data gagal Input'
+						];
+					}
+					}else{
+					$response['status'] = false;
+					$response['title'] = 'Error Input';
+					$response['msg']= validation_errors();
+					$this->thm->json_output($response);
+				}
+			}
+			
+			
+			if($type=='edit'){
+				$postid 	= decrypt_url($this->input->post('id_pendidikan',TRUE));
+				
+				$data_post 	= [
+				"title"	=> $this->input->post('title_pendidikan',TRUE),
+				"aktif"	    => $this->input->post('aktif_pendidikan',TRUE),
+				];
+				
+				$update = $this->model_app->update('rb_pendidikan',$data_post, ['id'=>$postid]);
+				if($update['status']=='ok')
+				{
+					$arr = [
+					'status'=>200,
+					'title' =>'Update data',
+					'msg'   =>'Data berhasil diupdate'
+					];
+				}
+				else
+				{
+					$arr = [
+					'status'=>201,
+					'title' =>'Update data',
+					'msg'   =>'Data gagal diupdate'
+					];
+				}
+				
+			}
+			if($type==''){
+				$arr = [
+				'status'=>201,
+				'title' =>'Input data',
+				'msg'   =>'Data gagal'
+				];
+			}
+			
+			$this->thm->json_output($arr);
+			
+		}
+		
+		function hapus_pendidikan(){
+			cek_input_post('GET');
+			cek_crud_akses('DELETE');
+			$id 	= decrypt_url($this->input->post('id',TRUE));
+			
+			$cek = $this->model_app->view_where('rb_psb_daftar', ['ijasah_terakhir'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data tidak bisa dihapus');
+				}else{
+				$where = array('id' => $id);
+				$search = $this->model_app->edit('rb_pendidikan', $where);
+				if($search->num_rows()>0){
+					$row = $search->row_array();
+					$res = $this->model_app->hapus('rb_pendidikan',$where);
+					if($res==true){
+						$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
+						}else{
+						$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
+					}
+					
+					}else{
+					$data = array('status'=>false,'msg'=>'Data gagal dihapus');
+				}
+				
+				$this->thm->json_output($data);
+			}
+			
+		}
+		
+		function ajax_list_pekerjaan()
+        {
+            // Define offset 
+            $page = $this->input->post('page');
+            if (!$page) {
+                $offset = 0;
+                } else {
+                $offset = $page;
+			}
+            $keywords = $this->input->post('keywords');
+            if (!empty($keywords)) {
+                $conditions['search']['keywords'] = $keywords;
+			}
+			$limit = $this->input->post('limit');
+            if (!empty($limit)) {
+                $conditions['search']['limit'] = $limit;
+				}else{
+				$limit = $this->perPage;
+			}
+			
+			
+            // Get record count 
+            $conditions['returnType'] = 'count';
+            $totalRec = $this->model_pendaftar->getPekerjaan($conditions);
+            
+            // Pagination configuration 
+            $config['target']      = '#posts_content_pekerjaan';
+            $config['base_url']    = base_url('psb/ajax_list_pekerjaan');
+            $config['total_rows']  = $totalRec;
+            $config['per_page']    = $limit;
+            $config['link_func']   = 'searchPekerjaan';
+            
+            // Initialize pagination library 
+            $this->ajax_pagination->initialize($config);
+            
+            // Get records 
+            $conditions['start'] = $offset;
+            $conditions['limit'] = $limit;
+			
+            unset($conditions['returnType']);
+            $data['start'] = $offset;
+            $data['record'] = $this->model_pendaftar->getPekerjaan($conditions);
+			
+            // Load the data list view 
+			$this->load->view('backend/pendidikan/get-ajax-pekerjaan',$data);
+			
+		}
+		
+		function edit_pekerjaan(){
+			
+			if ($this->input->is_ajax_request()) 
+			{
+				cek_crud_akses('CONTENT');
+				$id = $this->db->escape_str($this->input->post('id'));
+				$index = decrypt_url($id);
+				
+				$result = $this->model_app->view_where('rb_pekerjaan',['id'=>$index]);
+				if($result->num_rows() > 0)
+				{
+					
+					$response = [
+					'status'	=>true,
+					'id'		=>$id,
+					'title'		=>$result->row()->title,
+					'aktif'		=>$result->row()->aktif,
+					];
+					
+					}else{
+					
+					$response = [
+					'status'=>false,
+					'msg'=>'Gagal'
+					];
+				}
+				$this->thm->json_output($response);
+			}
+		}
+		
+		function simpan_pekerjaan(){
+			cek_input_post('GET');
+			cek_crud_akses('UPDATE');
+			$type = $this->input->post('type_pekerjaan',TRUE);
+			
+			if($type=='new'){
+				$this->form_validation->set_rules(array(
+				array(
+				'field'             => 'title_pekerjaan',
+				'label'             => 'Pekerjaan',
+				'rules'             => 'required|trim|min_length[2]|is_unique[rb_pekerjaan.title]',
+				'errors'            => array(
+				'required'          => '%s. Harus di isi',
+				'min_length'        => '%s minimal 2 digit.',
+				'is_unique'         => '%s sudah ada.'
+				)
+				),
+				));
+				if ( $this->form_validation->run() ) 
+				{
+					$data_post 	= [
+					"title"	=> $this->input->post('title_pekerjaan',TRUE),
+					"aktif"	    => $this->input->post('aktif_pekerjaan',TRUE),
+					];
+					$insert = $this->model_app->input('rb_pekerjaan',$data_post);
+					if($insert['status']==true)
+					{
+						$arr = [
+						'status'=>200,
+						'title' =>'Input data',
+						'msg'   =>'Data berhasil Input'
+						];
+					}
+					else
+					{
+						$arr = [
+						'status'=>201,
+						'title' =>'Input data',
+						'msg'   =>'Data gagal Input'
+						];
+					}
+					}else{
+					$response['status'] = false;
+					$response['title'] = 'Error Input';
+					$response['msg']= validation_errors();
+					$this->thm->json_output($response);
+				}
+			}
+			
+			
+			if($type=='edit'){
+				$postid 	= decrypt_url($this->input->post('id_pekerjaan',TRUE));
+				
+				$data_post 	= [
+				"title"	=> $this->input->post('title_pekerjaan',TRUE),
+				"aktif"	    => $this->input->post('aktif_pekerjaan',TRUE),
+				];
+				
+				$update = $this->model_app->update('rb_pendidikan',$data_post, ['id'=>$postid]);
+				if($update['status']=='ok')
+				{
+					$arr = [
+					'status'=>200,
+					'title' =>'Update data',
+					'msg'   =>'Data berhasil diupdate'
+					];
+				}
+				else
+				{
+					$arr = [
+					'status'=>201,
+					'title' =>'Update data',
+					'msg'   =>'Data gagal diupdate'
+					];
+				}
+				
+			}
+			if($type==''){
+				$arr = [
+				'status'=>201,
+				'title' =>'Input data',
+				'msg'   =>'Data gagal'
+				];
+			}
+			
+			$this->thm->json_output($arr);
+			
+		}
+		
+		function hapus_pekerjaan(){
+			cek_input_post('GET');
+			cek_crud_akses('DELETE');
+			$id 	= decrypt_url($this->input->post('id',TRUE));
+			
+			$cek = $this->model_app->view_or_where('rb_psb_daftar', ['pekerjaan_ayah'=>$id],['pekerjaan_ibu'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data tidak bisa dihapus');
+				}else{
+				$where = array('id' => $id);
+				$search = $this->model_app->edit('rb_pekerjaan', $where);
+				if($search->num_rows()>0){
+					$row = $search->row_array();
+					$res = $this->model_app->hapus('rb_pekerjaan',$where);
+					if($res==true){
+						$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
+						}else{
+						$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
+					}
+					
+					}else{
+					$data = array('status'=>false,'msg'=>'Data gagal dihapus');
+				}
+				
+				$this->thm->json_output($data);
+			}
+			
+		}
+		
 		public function _cek_edit_kode_unit($val = '') 
 		{
 			$id_post = ($this->input->post('id_unit') ? decrypt_url($this->input->post('id_unit')) : 0);
@@ -1048,8 +1465,9 @@
 		public function _cek_edit_kode_kelas($val = '') 
 		{
 			$id_post = ($this->input->post('id_kelas') ? decrypt_url($this->input->post('id_kelas')) : 0);
-			$cek = $this->model_pendaftar->cek_kode_kelas($id_post, $val);
 			
+			$cek = $this->model_pendaftar->cek_kode_kelas($id_post, $val);
+			// dump($cek);
 			if ( $cek === FALSE ) 
 			{
 				$this->form_validation->set_message('_cek_edit_kode_kelas', 'Kode Kelas sudah ada');
@@ -1065,36 +1483,36 @@
 			
 			if ( $cek === FALSE ) 
 			{
-				$this->form_validation->set_message('_cek_edit_nama_kelas', 'Nama Unit sudah ada');
-				} 
-				
-				return $cek;
-			}
+				$this->form_validation->set_message('_cek_edit_nama_kelas', 'Nama Kelas sudah ada');
+			} 
 			
-			public function _cek_edit_kode_tahun($val = '') 
+			return $cek;
+		}
+		
+		public function _cek_edit_kode_tahun($val = '') 
+		{
+			$id_post = ($this->input->post('id_tahun') ? decrypt_url($this->input->post('id_tahun')) : 0);
+			$cek = $this->model_pendaftar->cek_kode_tahun($id_post, $val);
+			
+			if ( $cek === FALSE ) 
 			{
-				$id_post = ($this->input->post('id_tahun') ? decrypt_url($this->input->post('id_tahun')) : 0);
-				$cek = $this->model_pendaftar->cek_kode_tahun($id_post, $val);
-				
-				if ( $cek === FALSE ) 
-				{
-					$this->form_validation->set_message('_cek_edit_kode_tahun', 'Kode Tahun sudah ada');
-				} 
-				
-				return $cek;
-			}
+				$this->form_validation->set_message('_cek_edit_kode_tahun', 'Kode Tahun sudah ada');
+			} 
 			
-			public function _cek_edit_nama_tahun($val = '') 
+			return $cek;
+		}
+		
+		public function _cek_edit_nama_tahun($val = '') 
+		{
+			$id_post = ($this->input->post('id_tahun') ? decrypt_url($this->input->post('id_tahun')) : 0);
+			$cek = $this->model_pendaftar->cek_nama_tahun($id_post, $val);
+			
+			if ( $cek === FALSE ) 
 			{
-				$id_post = ($this->input->post('id_tahun') ? decrypt_url($this->input->post('id_tahun')) : 0);
-				$cek = $this->model_pendaftar->cek_nama_tahun($id_post, $val);
-				
-				if ( $cek === FALSE ) 
-				{
-					$this->form_validation->set_message('_cek_edit_nama_tahun', 'Nama Tahun sudah ada');
-				} 
-				
-				return $cek;
-			}
+				$this->form_validation->set_message('_cek_edit_nama_tahun', 'Nama Tahun sudah ada');
+			} 
 			
-		}																				
+			return $cek;
+		}
+		
+	}																					

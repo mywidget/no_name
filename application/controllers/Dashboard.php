@@ -40,14 +40,14 @@
 			$this->thm->set('title', 'Formulir Pendaftaran | '. tag_key('site_title'));
 			$this->thm->set('description', tag_key('site_desc'));
 			$this->thm->set('keywords', tag_key('site_keys'));
+			$data['menu'] = $this->model_data->get_categories();
 			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
-			
 			$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('rb_unit','id,nama_jurusan','id','ASC')->result_array();
-			// dump($data['unit_sekolah']);
 			$data['kamar'] = $this->model_app->view_ordering('rb_kamar','nama_kamar','ASC')->result_array();
 			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
-			$data['menu'] = $this->model_data->get_categories();
-			// dump($data['provinsi']);
+			$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
+			$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
+			 
 			$this->thm->load('frontend/template','frontend/formulir',$data);
 		}
 		
@@ -105,8 +105,13 @@
 			if ( $this->input->is_ajax_request() ) 
 			{
 				$id = $this->input->post('id',true);
-				
-				$kelas = $this->model_app->view_where_ordering('rb_kelas',['id_unit'=>$id],'nama_kelas','ASC')->result();
+				$status = $this->input->post('status',true);
+				if($status=='Baru'){
+					$where = ['id_unit'=>$id,'aktif'=>'Ya','status'=>1];
+					}else{
+					$where = ['id_unit'=>$id];
+				}
+				$kelas = $this->model_app->view_where_ordering('rb_kelas',$where,'nama_kelas','ASC')->result();
 				$response = [];
 				foreach($kelas AS $val)
 				{
@@ -145,8 +150,9 @@
 			if ( $this->input->is_ajax_request() ) 
 			{
 				$id = $this->input->post('id',true);
-				
-				$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id])->result();
+				$gender = $this->input->post('gender',true);
+				$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'gender'=>$gender,'aktif'=>'Ya'])->result();
+				// dump($kamar);
 				foreach($kamar AS $val){
 					$response[] = ['id'=>($val->nama_kamar),
 					'name'=>($val->nama_kamar)
@@ -183,7 +189,7 @@
 			if ( $this->input->is_ajax_request() ) 
 			{
 				
-				$result = $this->model_app->view_where_ordering('t_provinces',['status'=>0],'id','ASC')->result();
+				$result = $this->model_app->view_where_ordering('t_provinces',['status'=>0],'name','ASC')->result();
 				$response = [];
 				foreach($result AS $val)
 				{

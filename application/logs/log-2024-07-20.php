@@ -91,3 +91,10 @@ ERROR - 2024-07-20 21:22:50 --> Severity: Notice --> Trying to get property 'kuo
 ERROR - 2024-07-20 21:22:50 --> Severity: Notice --> Trying to get property 'kuota' of non-object E:\laragon\www\ppdb\application\controllers\Dashboard.php 171
 ERROR - 2024-07-20 21:22:55 --> Severity: Notice --> Trying to get property 'kuota' of non-object E:\laragon\www\ppdb\application\controllers\Dashboard.php 170
 ERROR - 2024-07-20 21:22:55 --> Severity: Notice --> Trying to get property 'kuota' of non-object E:\laragon\www\ppdb\application\controllers\Dashboard.php 171
+ERROR - 2024-07-20 23:10:12 --> Severity: error --> Exception: syntax error, unexpected ',', expecting ')' E:\laragon\www\ppdb\application\controllers\Dashboard.php 114
+ERROR - 2024-07-20 23:10:12 --> Severity: error --> Exception: syntax error, unexpected ',', expecting ')' E:\laragon\www\ppdb\application\controllers\Dashboard.php 114
+ERROR - 2024-07-20 23:25:22 --> Severity: error --> Exception: syntax error, unexpected 'if' (T_IF) E:\laragon\www\ppdb\application\controllers\Psb.php 401
+ERROR - 2024-07-20 23:34:05 --> Severity: Warning --> explode(): Empty delimiter E:\laragon\www\ppdb\application\controllers\Psb.php 397
+ERROR - 2024-07-20 23:34:05 --> Severity: Notice --> Trying to access array offset on value of type bool E:\laragon\www\ppdb\application\controllers\Psb.php 399
+ERROR - 2024-07-20 23:56:38 --> Severity: Notice --> Undefined variable: response E:\laragon\www\ppdb\application\controllers\Dashboard.php 163
+ERROR - 2024-07-20 23:58:22 --> Severity: Notice --> Undefined variable: response E:\laragon\www\ppdb\application\controllers\Dashboard.php 163

@@ -147,6 +147,12 @@
 			$this->db->like($data);
 			return $this->db->get($table);
 		}
+		public function view_or_where($table,$where,$or_where){
+			$this->db->where($where);
+			$this->db->or_where($or_where);
+			return $this->db->get($table);
+		}
+		
 		public function view_or_like($table,$data,$data1,$data2){
 			$this->db->like($data);
 			$this->db->or_like($data1);

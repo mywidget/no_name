@@ -5,11 +5,8 @@
                 <thead class="thead-dark">
                   	<tr>
                         <th class="w-1 text-center">No</th>
-                        <th class="w-15 text-left">Nama Kamar</th>
-                        <th class="w-15 text-left">Kuota</th>
-                        <th class="w-15 text-left">Unit</th>
-                        <th class="w-15 text-left">Kamar</th>
-                        <th class="w-12 text-end">Status | Aksi</th>
+                        <th class="w-15 text-left">Pendidikan Terakhir</th>
+                        <th class="w-12 text-end">Aksi</th>
                     </tr>
                 </thead>  
                 <tbody> 
@@ -18,27 +15,15 @@
                         foreach ($record as $row){
                             $kode = encrypt_url($row['id']);
                             
-                            if ($row['aktif'] == 'Ya')
-                            { 
-                                $aktif ='<i class="fa fa-check-circle" data-bs-toggle="tooltip" title="Aktif"></i>';
-                                $status = '<a href="#" class="btn btn-success btn-sm active" aria-current="page">'.$aktif.'</a>';
-                                }else{ 
-                                $aktif = '<i class="fa fa-check-circle-o" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
-                                $status = '<a href="#" class="btn btn-secondary btn-sm active" aria-current="page">'.$aktif.'</a>';
-                            }
                             $hapus = '<a class="btn btn-danger" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
-                            
+                             
                         ?>
                         <tr>
                             <td><?=$no;?></td>
-                            <td><?=$row['nama_kamar'];?></td>
-                            <td><?=$row['kuota'];?></td>
-                            <td><?=get_unit($row['id_unit']);?></td>
-                            <td><?=$row['gender'];?></td>
+                            <td><?=$row['title'];?></td>
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
-                                    <?=$status;?>
-                                    <a href='javascript:void(0);' class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#OpenModal' data-id='<?=$kode;?>' data-mod='edit' class='openPopup text-info'><i class="ti ti-edit"></i>&nbsp;&nbsp;Edit</a>
+                                    <a href='javascript:void(0);' class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#OpenModalPendidikan' data-id='<?=$kode;?>' data-mod='edit' class='openPopup text-info'><i class="ti ti-edit"></i>&nbsp;&nbsp;Edit</a>
                                     <?=$hapus;?>
                                 </div>
                             </td>
@@ -60,3 +45,13 @@
         </table>
     <?php } ?>
 </div>
+<script>
+    $(document).ready(function(){
+        $('.openPopup').on('click',function(){
+            var dataURL = $(this).attr('data-href');
+            $('.modal-body1').load(dataURL,function(){
+                $('#myModalEdit').modal({show:true});
+            });
+        }); 
+    });    
+</script>    

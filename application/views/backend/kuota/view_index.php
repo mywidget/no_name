@@ -32,7 +32,6 @@
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
 									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchData()">
-										<option value="5">5</option>
 										<option value="10">10</option>
 										<option value="20">20</option>
 										<option value="50">50</option>
@@ -117,9 +116,19 @@
 							<input type="text" name="nama_kamar" class="form-control" id="nama_kamar" placeholder="Nama Tahun " value="" required="" autocomplete="off">
 						</div>
 						<div class="form-group mb-1">
+							<label class="form-label" for="gender">Kamar Khusus</label>
+							<select name="gender" id="gender" class="form-control form-select">
+								<option value="" selected>Pilih</option>
+								<option value="Laki-laki">Laki-laki</option>
+								<option value="Perempuan">Perempuan</option>
+							</select>
+						</div>
+						
+						<div class="form-group mb-1">
 							<label class="form-label" for="kuota">Kuota Kamar</label>
 							<input type="text" name="kuota" class="form-control" id="kuota" placeholder="kuota" value="" required="">
 						</div>
+						
 						
 						<div class="form-group mb-1">
 							<label class="form-label" for="aktif">Aktif</label>
@@ -184,7 +193,7 @@
 	$('#OpenModal').on('show.bs.modal', function(e) {
 		var id = $(e.relatedTarget).data('id');
 		var mod = $(e.relatedTarget).data('mod');
-		$('select').val('');
+		$('#id_unit').val('');
 		$('input').val('');
 		if(id != 0){
 			$('#type').val('edit');

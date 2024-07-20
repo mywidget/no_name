@@ -137,7 +137,7 @@
                 <li>Pilihan Pendidikan</li>
             </h5>
             <div class="container p-0">
-                <div class="row align-items-center">
+                <div class="row align-items-center d-none">
                     <div class="col-sm-3 col-md-3 col-lg-2">
                         <label for="statusSantri" class="form-label m-0"><small> Status </small></label>
                     </div>
@@ -145,7 +145,17 @@
                         <input type="text" name="s_pendidikan" id="statusSantri" value="Baru" class="form-control" readonly="">
                     </div>
                 </div>
-                
+                <div class="row align-items-center mt-2">
+                    <div class="col-sm-3 col-md-3 col-lg-2">
+                        <label for="statusPendidikan" class="form-label m-0"><small>Status di Sekolah</small></label>
+                    </div>
+                    <div class="col-sm-9 col-md-8 col-lg-6">
+                        <select name="status_sekolah" id="statusPendidikan" class="form-select">
+                            <option value="Baru">Baru</option>
+                            <option value="Pindahan">Pindahan</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="row align-items-center mt-2">
                     <div class="col-sm-3 col-md-3 col-lg-2">
                         <label for="unit" class="form-label m-0"><small> Unit Sekolah </small></label>
@@ -184,17 +194,7 @@
                         <div class="invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="row align-items-center mt-2">
-                    <div class="col-sm-3 col-md-3 col-lg-2">
-                        <label for="statusPendidikan" class="form-label m-0"><small>Status di Sekolah</small></label>
-                    </div>
-                    <div class="col-sm-9 col-md-8 col-lg-6">
-                        <select name="status_sekolah" id="statusPendidikan" class="form-select">
-                            <option value="Baru">Baru</option>
-                            <option value="Pindahan">Pindahan</option>
-                        </select>
-                    </div>
-                </div>
+                
             </div>
             
             <div class="row align-items-center mt-2">
@@ -231,10 +231,10 @@
                     <div class="col-sm-9 col-md-8 col-lg-6">
                         <select name="ijasah_terakhir" id="ijazahTerakhir" class="form-select" required="">
                             <option value="" selected="" disabled="">Pilih</option>
-                            <option value="TK-PAUD">TK-PAUD</option>
-                            <option value="SD-MI">SD-MI</option>
-                            <option value="SLTP">SLTP</option>
-                            <option value="SLTA" selected>SLTA</option>
+                            <option value="TK/PAUD">TK/PAUD</option>
+                            <option value="SD/MI">SD/MI</option>
+                            <option value="SMP/MTs/Sederajat">MP/MTs/Sederajat</option>
+                            <option value="SMA/MA/Sederajat" selected>SMA/MA/Sederajat</option>
                             <option value="Diploma">Diploma</option>
                             <option value="Sarjana">Sarjana</option>
                             <option value="Pasca Sarjana">Pasca Sarjana</option>
@@ -330,20 +330,9 @@
                     <div class="col-sm-9 col-md-8 col-lg-6">
                         <select name="pendidikan_terakhir_ayah" id="pendidikanAyah" class="form-select" required="">
                             <option value="">Pilih Pendidikan</option>
-                            <option value="Tidak Sekolah">Tidak Sekolah</option>
-                            <option value="PAUD/TK">PAUD/TK</option>
-                            <option value="SD/MI" selected>SD/MI</option>
-                            <option value="SLTP">SLTP</option>
-                            <option value="SLTA">SLTA</option>
-                            <option value="D1">D1</option>
-                            <option value="D2">D2</option>
-                            <option value="D3">D3</option>
-                            <option value="D4">D4</option>
-                            <option value="S1">S1</option>
-                            <option value="S2">S2</option>
-                            <option value="S3">S3</option>
-                            <option value="Pesantren">Pesantren</option>
-                            <option value="PGA">PGA</option>
+                            <?php foreach($pendidikan AS $val): ?>
+                            <option value="<?=$val->title;?>"><?=$val->title;?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                 </div>
@@ -354,25 +343,9 @@
                     <div class="col-sm-9 col-md-8 col-lg-6">
                         <select name="pekerjaan_ayah" id="pekerjaanAyah" class="form-select" required="">
                             <option value="">Pilih Pekerjaan</option>
-                            <option value="0"></option>
-                            <option value="TIDAK BEKERJA">TIDAK BEKERJA</option>
-                            <option value="PNS">PNS</option>
-                            <option value="GURU">GURU</option>
-                            <option value="PENGUSAHA">PENGUSAHA</option>
-                            <option value="PETANI">PETANI</option>
-                            <option value="PEKERJA PABRIK">PEKERJA PABRIK</option>
-                            <option value="TUKANG BANGUNAN">TUKANG BANGUNAN</option>
-                            <option value="PENSIUNAN">PENSIUNAN</option>
-                            <option value="TNI/POLRI">TNI/POLRI</option>
-                            <option value="WIRASWASTA">WIRASWASTA</option>
-                            <option value="PEDAGANG">PEDAGANG</option>
-                            <option value="NELAYAN">NELAYAN</option>
-                            <option value="SUPIR/KONDEKTUR">SUPIR/KONDEKTUR</option>
-                            <option value="LAINNYA" selected>LAINNYA</option>
-                            <option value="Mubaligh">Mubaligh</option>
-                            <option value="Karyawan">Karyawan</option>
-                            <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option>
-                            <option value="Penjahit">Penjahit</option>
+                            <?php foreach($pekerjaan AS $val): ?>
+                            <option value="<?=$val->title;?>"><?=$val->title;?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                 </div>
@@ -412,20 +385,9 @@
                     <div class="col-sm-9 col-md-8 col-lg-6">
                         <select name="pendidikan_terakhir_ibu" id="pendidikanIbu" class="form-select" required="">
                             <option value="">Pilih Pendidikan</option>
-                            <option value="Tidak Sekolah">Tidak Sekolah</option>
-                            <option value="PAUD/TK">PAUD/TK</option>
-                            <option value="SD/MI">SD/MI</option>
-                            <option value="SLTP">SLTP</option>
-                            <option value="SLTA" selected>SLTA</option>
-                            <option value="D1">D1</option>
-                            <option value="D2">D2</option>
-                            <option value="D3">D3</option>
-                            <option value="D4">D4</option>
-                            <option value="S1">S1</option>
-                            <option value="S2">S2</option>
-                            <option value="S3">S3</option>
-                            <option value="Pesantren">Pesantren</option>
-                            <option value="PGA">PGA</option>
+                            <?php foreach($pendidikan AS $val): ?>
+                            <option value="<?=$val->title;?>"><?=$val->title;?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                 </div>
@@ -436,24 +398,9 @@
                     <div class="col-sm-9 col-md-8 col-lg-6">
                         <select name="pekerjaan_ibu" id="pekerjaanIbu" class="form-select" required="">
                             <option value="">Pilih Pekerjaan</option>
-                            <option value="TIDAK BEKERJA">TIDAK BEKERJA</option>
-                            <option value="PNS">PNS</option>
-                            <option value="GURU">GURU</option>
-                            <option value="PENGUSAHA">PENGUSAHA</option>
-                            <option value="PETANI">PETANI</option>
-                            <option value="PEKERJA PABRIK">PEKERJA PABRIK</option>
-                            <option value="TUKANG BANGUNAN">TUKANG BANGUNAN</option>
-                            <option value="PENSIUNAN">PENSIUNAN</option>
-                            <option value="TNI/POLRI">TNI/POLRI</option>
-                            <option value="WIRASWASTA">WIRASWASTA</option>
-                            <option value="PEDAGANG">PEDAGANG</option>
-                            <option value="NELAYAN">NELAYAN</option>
-                            <option value="SUPIR/KONDEKTUR">SUPIR/KONDEKTUR</option>
-                            <option value="LAINNYA">LAINNYA</option>
-                            <option value="Mubaligh">Mubaligh</option>
-                            <option value="Karyawan">Karyawan</option>
-                            <option value="Ibu Rumah Tangga" selected>Ibu Rumah Tangga</option>
-                            <option value="Penjahit">Penjahit</option>
+                            <?php foreach($pekerjaan AS $val): ?>
+                            <option value="<?=$val->title;?>"><?=$val->title;?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                 </div>
@@ -510,11 +457,11 @@
                         <label for="rt" class="form-label m-0"><small> RT RW </small></label>
                     </div>
                     <div class="col-5 col-sm-3 col-md-3 col-lg-2">
-                        <input type="number" name="rt" id="rt" class="form-control" placeholder="RT">
+                        <input type="number" name="rt" id="rt" class="form-control" placeholder="RT" required="">
                     </div>
                     <div class="col-auto">/</div>
                     <div class="col-5 col-sm-3 col-md-3 col-lg-2">
-                        <input type="number" name="rw" id="rw" class="form-control" placeholder="RW">
+                        <input type="number" name="rw" id="rw" class="form-control" placeholder="RW" required="">
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -522,7 +469,7 @@
                         <label for="dusun" class="form-label m-0"><small> Dusun </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6">
-                        <input type="text" name="dusun" id="dusun" class="form-control">
+                        <input type="text" name="dusun" id="dusun" class="form-control" >
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -554,7 +501,7 @@
                         <label for="form_kab" class="form-label m-0"><small> Kabupaten </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6">
-                        <select id="form_kab" class="form-select" name="kab" required=""></select>
+                        <select id="form_kab" class="form-select" name="kab" required="" disabled></select>
                         
                         <div class="invalid-feedback"></div>
                     </div>
@@ -830,11 +777,11 @@
         <script src="<?=base_url('assets');?>/js/function.js"></script>
         <script src="<?=base_url('assets');?>/js/formulir.js"></script>
         <script>
-           
-             
+            
+            
         </script>
         <?php 
             
         }
         
-    ?>                                                                                                                                                    
+    ?>                                                                                                                                                                
