@@ -8,7 +8,7 @@
                     <label for="noInduk">Nomor Pendaftaran</label>
                 </div>
                 <div class="col-sm-8 col-md-6 col-lg-4">
-                    <input type="number" name="kode_daftar" id="noInduk" class="form-control" value="1205175502120003" required="">
+                    <input type="number" name="kode_daftar" id="noInduk" class="form-control" value="" required="">
                 </div>
             </div>
             
@@ -17,7 +17,7 @@
                     <label for="tanggal_lahir">Tanggal Lahir</label>
                 </div>
                 <div class="col-sm-8 col-md-6 col-lg-4">
-                    <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" value="2012-02-15" required="">
+                    <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" value="" required="">
                 </div>
             </div>
             
