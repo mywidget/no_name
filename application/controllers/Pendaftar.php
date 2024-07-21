@@ -227,39 +227,140 @@
 				$index = decrypt_url($id);
 				$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
 				
-				$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('kelas_siswa','ketKelas','ketKelas','DESC')->result_array();
+				$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('rb_unit','id,nama_jurusan','id','ASC')->result_array();
 				$data['kamar'] = $this->model_app->view_ordering('rb_kamar','nama_kamar','ASC')->result_array();
 				$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
+				$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
+				$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
+				
 				$data['record'] = $this->model_app->view_where('rb_psb_daftar',['id'=>$index])->row();
 				$this->load->view('backend/pendaftar/form_edit', $data, false);
 			}
 		}
 		
-		public function tag()
+		public function load_pendidikan()
 		{
-			$res = $this->db->query("SELECT type_akses FROM `tb_users`");
-			$TampungData = array();
-			foreach($res->result_array() AS $data_tags){
-				$tags = explode(',',strtolower(trim($data_tags['type_akses'])));
-				if(empty($data_tags['type_akses'])){echo'';}else{
-					foreach($tags as $val) {
-						$TampungData[] = $val;
-					}
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$result = $this->model_app->view_where_ordering('rb_pendidikan',['aktif'=>'Ya'],'id','ASC')->result();
+				$response = [];
+				foreach($result AS $val)
+				{
+					$response[] = ['id'=>$val->id,
+					'name'=>$val->title
+					];
 				}
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
 			}
-			$totalTags = count($TampungData);
-			$jumlah_tag = array_count_values($TampungData);
-			ksort($jumlah_tag);
-			if ($totalTags > 0) {
-				$output = array();
-				foreach($jumlah_tag as $key=>$val) {
-					$output[] = array("id"=>$key,"name"=>$key);
+		}
+		
+		public function load_pekerjaan()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$result = $this->model_app->view_where_ordering('rb_pekerjaan',['aktif'=>'Ya'],'id','ASC')->result();
+				$response = [];
+				foreach($result AS $val)
+				{
+					$response[] = ['id'=>$val->id,
+					'name'=>$val->title
+					];
 				}
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
 			}
-			$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($output));
-			
+		}
+		public function unit_sekolah()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$result = $this->model_app->view_where_ordering('rb_unit',['aktif'=>'Ya'],'nama_jurusan','ASC')->result();
+				$response = [];
+				foreach($result AS $val)
+				{
+					$response[] = ['id'=>$val->id,
+					'name'=>$val->nama_jurusan
+					];
+				}
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		
+		public function load_kamar()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$result = $this->model_app->view_where_ordering('rb_kamar',['aktif'=>'Ya'],'nama_kamar','ASC')->result();
+				$response = [];
+				foreach($result AS $val)
+				{
+					$response[] = ['id'=>$val->id,
+					'name'=>$val->nama_kamar
+					];
+				}
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		
+		public function ijasah_terakhir()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id  = $this->input->post('id',TRUE);
+				$result = $this->model_app->view_where('rb_psb_daftar',['id'=>$id])->row();
+				
+				$response= ['id'=>$id,
+				'name'=>$result->ijasah_terakhir
+				];
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		public function ukuran_seragam_baju()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id  = $this->input->post('id',TRUE);
+				$result = $this->model_app->view_where('rb_psb_daftar',['id'=>$id])->row();
+				
+				$response= ['id'=>$id,
+				'name'=>$result->ukuran_seragam_baju
+				];
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		
+		public function ukuran_celana()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id  = $this->input->post('id',TRUE);
+				$result = $this->model_app->view_where('rb_psb_daftar',['id'=>$id])->row();
+				
+				$response= ['id'=>$id,
+				'name'=>$result->ukuran_celana_rok
+				];
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
 		}
 		
 		public function cari_tag(){
@@ -686,25 +787,24 @@
 				redirect('admin/');
 			}
 		}
-		function hapus_user(){
+		function hapus_pendaftar(){
 			cek_input_post('GET');
 			
-			$id = $this->db->escape_str($this->input->post('id'));
-			$where = array('id_user' => $id);
+			$id = $this->db->escape_str($this->input->post('id'),true);
+			$id = decrypt_url($id);
+			$where = array('id' => $id);
 			
-			$search = $this->model_app->edit('tb_users', $where);
+			$search = $this->model_app->edit('rb_psb_daftar', $where);
 			if($search->num_rows()>0){
 				$row = $search->row_array();
-				if($row['level']=='admin' AND $row['parent']==0){
-					$data = array('status'=>'error_hapus_admin','msg'=>'Admin tidak boleh dihapus');
+				
+				$res = $this->model_app->hapus('rb_psb_daftar',$where);
+				if($res==true){
+					$data = array('status'=>200,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
 					}else{
-					$res = $this->model_app->update('tb_users',['hapus'=>1],$where);
-					if($res==true){
-						$data = array('status'=>200,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
-						}else{
-						$data = array('status'=>400,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
-					}
+					$data = array('status'=>400,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
 				}
+				
 				}else{
 				$data = array('status'=>500,'msg'=>'Data gagal dihapus');
 			}
@@ -714,4 +814,4 @@
 			->set_output(json_encode($data));
 		}
 		
-	}																																																																																			
+	}																																																																																								

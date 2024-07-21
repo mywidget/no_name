@@ -1,12 +1,13 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	
+	use PHPUnit\Util\Json;
+	use Curl\Curl;
 	class Dashboard extends CI_Controller {
 		public function __construct()
 		{
 			parent::__construct();
-			
-			
+			$this->curl = new Curl();
+			$this->load->model('model_formulir');
 		}
 		
 		public function index()
@@ -47,7 +48,7 @@
 			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
 			$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
 			$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
-			 
+			
 			$this->thm->load('frontend/template','frontend/formulir',$data);
 		}
 		
@@ -132,11 +133,12 @@
 			if ( $this->input->is_ajax_request() ) 
 			{
 				$id = $this->input->post('id',true);
+				$id_unit = $this->input->post('id_unit',true);
 				
-				$biaya = $this->model_app->view_where('kelas_siswa',['idKelas'=>$id])->row();
+				$biaya = $this->model_app->view_where('rb_unit',['id'=>$id_unit])->row();
 				
-				$response = ['id'=>rprp($biaya->biaya_daftar_baru),
-				'name'=>rprp($biaya->biaya_daftar_baru)
+				$response = ['id'=>rprp($biaya->biaya_pendaftaran),
+				'name'=>rprp($biaya->biaya_pendaftaran)
 				];
 				
 				$this->output
@@ -245,6 +247,7 @@
 				->set_output(json_encode($response));
 			}
 		}
+		
 		public function kabupatens($id)
 		{
 			if ( $this->input->is_ajax_request() ) 
@@ -273,7 +276,7 @@
 			{
 				$id = $this->input->post('id',true);
 				
-				$result = $this->model_app->view_where_ordering('t_districts',['regency_id'=>$id],'id','ASC')->result();
+				$result = $this->model_app->view_where_ordering('t_districts',['regency_id'=>$id],'name','ASC')->result();
 				$response = [];
 				foreach($result AS $val)
 				{
@@ -295,7 +298,7 @@
 			{
 				$id = $this->input->post('id',true);
 				
-				$result = $this->model_app->view_where_ordering('t_villages',['district_id'=>$id],'id','ASC')->result();
+				$result = $this->model_app->view_where_ordering('t_villages',['district_id'=>$id],'name','ASC')->result();
 				$response = [];
 				foreach($result AS $val)
 				{
@@ -344,6 +347,9 @@
 		{
 			if ( $this->input->is_ajax_request() ) 
 			{
+				// $post = $this->input->post();
+				// $this->send_notif($post);
+				// exit;
 				// dump($_FILES);
 				$this->form_validation->set_rules(array(
 				array(
@@ -495,10 +501,10 @@
 						$response['msg'] = 'Foto KK mash kosong';
 						$this->thm->json_output($response);
 					}
-					
+					$nama_unit = $this->model_formulir->nama_unit_byid($this->input->post('unit_sekolah',true));
 					$this->upload->initialize($config);
 					$input_data = [
-					"kode_daftar"              	  => $this->input->post('nik',true),
+					"kode_daftar"              	  => 'PSB-'.$this->input->post('nik',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
 					"email"                       => $this->input->post('email',true),
 					"nama"                        => $this->input->post('nama',true),
@@ -511,7 +517,8 @@
 					"anak_ke"                     => $this->input->post('anak_ke',true),
 					"dari"                        => $this->input->post('dari',true),
 					"s_pendidikan"                => $this->input->post('s_pendidikan',true),
-					"unit_sekolah"                => $this->input->post('unit_sekolah',true),
+					"id_unit"                	  => $this->input->post('unit_sekolah',true),
+					"unit_sekolah"                => $nama_unit,
 					"kelas"                       => $this->input->post('kelas',true),
 					"biaya_daftar"                => convert_to_number($this->input->post('biaya',true)),
 					"status_sekolah"              => $this->input->post('status_sekolah',true),
@@ -556,6 +563,7 @@
 					];
 					$biaya=convert_to_number($this->input->post('biaya',true));
 					
+					$post = $this->input->post();
 					$nama = $this->input->post('nama',true);
 					$nomor = $this->input->post('nomor_hp',true);
 					$nik = $this->input->post('nik',true);
@@ -572,8 +580,9 @@
 					$input = $this->model_app->input('rb_psb_daftar',$input_data);
 					if($input['status']==true)
 					{
-						$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
-						$this->send_notif($nama,$nomor,$nik);
+				 
+						// $this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
+						$this->send_notif($post);
 						$response['status'] = true;
 						$response['amount'] = $biaya;
 						$response['nik'] = $this->input->post('nik',true);
@@ -601,54 +610,66 @@
 			$response =$kuota->kuota;
 			return $response;	
 		}
-		
-		
-		private function send_notif($nama,$nomor,$nik)
+		 
+		private function send_notif($post)
 		{
-			$content = $this->model_app->view('rb_psb_notifikasi')->row()->content;
-			$pesan=str_replace("@NAMA_PENDAFTAR",$nama,$content);
-			$pesan1=str_replace("@KODE_DAFTAR",$nik,$pesan);
-			$curl = curl_init();
+			$token = $this->model_formulir->get_token()->token;
+			$isi_pesan = $this->model_formulir->get_pesan($post);
+			$data_send = array(
+			'target' => $post['nomor_hp'],
+			'message' => $isi_pesan,
+			'countryCode' => '62'
+			);
+			// dump($token);
 			
-			curl_setopt_array($curl, array(
-			CURLOPT_URL => 'https://api.fonnte.com/send',
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => '',
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_SSL_VERIFYPEER => false,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => array(
-			'target' => $nomor,
-			'message' => $pesan1,
-			'url' => 'https://md.fonnte.com/images/wa-logo.png',
-			'filename' => 'filename',
-			'schedule' => 1,
-			'typing' => false,
-			'delay' => '2',
-			'countryCode' => '62',
-			'followup' => 0,
-			),
-			
-			//kwk5UKBV25Du6R5AsXC-
-			//yVe9otFTBSRkwRtTj3-U
-			CURLOPT_HTTPHEADER => array(
-			'Authorization: kwk5UKBV25Du6R5AsXC-'
-			),
-			));
-			
-			$response = curl_exec($curl);
-			if (curl_errno($curl)) {
-				$error_msg = curl_error($curl);
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			$this->curl->setHeader('Authorization', $token);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post('https://api.fonnte.com/send', $data_send);
+			if ($this->curl->error) {
+				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+				} else {
+				$response = $this->curl->response;
+				$result = ['status' => true, 'msg' => (object)$response];
+				$this->report_pesan($response,$isi_pesan,$post['nik']);
 			}
-			curl_close($curl);
+		}
+		
+		private function report_pesan($response,$message,$id)
+		{
+			$device = $this->model_formulir->get_token()->device;
+			foreach($response["id"] as $k=>$v){
+				$target = $response["target"][$k];
+				$process = $response["process"];
+				$status = $response["status"];
+				$data = ['id_kirim'=>$v,'nik_pendaftar'=>$id,'device'=>$device,'target'=>$target,'message'=>$message,'status'=>$process,'create_date'=>date('Y-m-d')];
+				if($status==true){
+					$this->model_app->input('rb_report_pesan',$data);
+				}
+				// dump($data);
+			}
 			
-			// if (isset($error_msg)) {
-			// echo $error_msg;
-			// }
-			// echo $response;
+		}
+		/**
+			* fonnte
+			*
+			* @param  mixed $url
+			* @return array
+		*/
+		private function fonnte($url,$token="")
+		{
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			$this->curl->setHeader('Authorization', $token);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post($url);
+			if ($this->curl->error) {
+				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+				} else {
+				$result = ['status' => true, 'msg' => (object)$this->curl->response];
+			}
+			return $result;
 		}
 		
 		function _create_foto($nik,$file_name){

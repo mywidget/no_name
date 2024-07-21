@@ -1,40 +1,40 @@
 <?php
     
-    $email          ='rangkasku@gmail.com';
-    $nama           ='Munajat';
-    $tempat_lahir   ='Lebak';
-    $tgl_lahir      ='2000-01-01';
-    $nik            ='1205175502120004';
-    $nama_sekolah   ='SMPN 5';
-    $alamat_sekolah ='Rangkasbitung';
-    $nisn           ='0127279327';
-    $no_kk           ='1402073008210003';
-    $nama_ayah      ='Julianus Manalu';
-    $nik_ayah       ='1205170407820009';
-    $nama_ibu       ='Siti Julaiha';
-    $nik_ibu        ='1205174806850008';
-    $anak_Ke        =1;
-    $dari           =2;
-    $nomor_hp       ='089611274798';
-    $alamat         ='Jln poros Penyaguan, Indragiri hulu,Riau';
-    $selected = 'selected';
-    // $email          ='';
-    // $nama           ='';
-    // $tempat_lahir   ='';
-    // $tgl_lahir      ='';
-    // $nik            ='';
-    // $nama_sekolah   ='';
-    // $alamat_sekolah ='';
-    // $nisn           ='';
-    // $no_kk          ='';
-    // $nama_ayah      ='';
-    // $nik_ayah       ='';
-    // $nama_ibu       ='';
-    // $nik_ibu        ='';
-    // $anak_Ke        ='';
-    // $dari           ='';
-    // $nomor_hp       ='';
-    // $alamat         ='';
+    // $email          ='rangkasku@gmail.com';
+    // $nama           ='Munajat';
+    // $tempat_lahir   ='Lebak';
+    // $tgl_lahir      ='2000-01-01';
+    // $nik            ='1205175502120004';
+    // $nama_sekolah   ='SMPN 5';
+    // $alamat_sekolah ='Rangkasbitung';
+    // $nisn           ='0127279327';
+    // $no_kk           ='1402073008210003';
+    // $nama_ayah      ='Julianus Manalu';
+    // $nik_ayah       ='1205170407820009';
+    // $nama_ibu       ='Siti Julaiha';
+    // $nik_ibu        ='1205174806850008';
+    // $anak_Ke        =1;
+    // $dari           =2;
+    // $nomor_hp       ='089611274798';
+    // $alamat         ='Jln poros Penyaguan, Indragiri hulu,Riau';
+    
+    $email          ='';
+    $nama           ='';
+    $tempat_lahir   ='';
+    $tgl_lahir      ='';
+    $nik            ='';
+    $nama_sekolah   ='';
+    $alamat_sekolah ='';
+    $nisn           ='';
+    $no_kk          ='';
+    $nama_ayah      ='';
+    $nik_ayah       ='';
+    $nama_ibu       ='';
+    $nik_ibu        ='';
+    $anak_Ke        ='';
+    $dari           ='';
+    $nomor_hp       ='';
+    $alamat         ='';
 ?>
 
 <main class="container" id="formulir">
@@ -74,7 +74,7 @@
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
-                        <div class="invalid-tooltip" id="gender-feedback">Janis kelamin wajib diisi</div>
+                        <div class="invalid-tooltip" id="email-feedback">Janis kelamin wajib diisi</div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -247,7 +247,7 @@
                             <option value="" selected="" disabled="">Pilih</option>
                             <option value="TK/PAUD">TK/PAUD</option>
                             <option value="SD/MI">SD/MI</option>
-                            <option value="SMP/MTs/Sederajat">SMP/MTs/Sederajat</option>
+                            <option value="SMP/MTs/Sederajat">MP/MTs/Sederajat</option>
                             <option value="SMA/MA/Sederajat">SMA/MA/Sederajat</option>
                             <option value="Diploma">Diploma</option>
                             <option value="Sarjana">Sarjana</option>
@@ -282,7 +282,6 @@
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <input type="text" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control" autocomplete="off"  value="<?=$nisn;?>" required>  
                        <div class="invalid-tooltip">NISN wajib diisi</div>
-                       <div class="invalid-feedback"></div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -432,7 +431,7 @@
                             <option value="" selected="" disabled="">Pilih</option>
                             <option value="Dibawah Rp.500.000">Dibawah Rp.500.000</option>
                             <option value="Rp.500.000 - Rp.1jt">Rp.500.000 - Rp.1jt</option>
-                            <option value="Rp.1jt - Rp.2jt" <?= $selected;?>>Rp.1jt - Rp.2jt</option>
+                            <option value="Rp.1jt - Rp.2jt" selected>Rp.1jt - Rp.2jt</option>
                             <option value="Rp.2jt - Rp.3jt">Rp.2jt - Rp.3jt</option>
                             <option value="Rp.3jt - Rp.5jt">Rp.3jt - Rp.5jt</option>
                             <option value="Diatas Rp.5jt">Diatas Rp.5jt</option>
@@ -509,7 +508,7 @@
                     <div class="col-sm-3 col-md-3 col-lg-2">
                         <label for="form_prov" class="form-label m-0"><small> Provinsi </small></label>
                     </div>
-                    <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
+                    <div class="col-sm-9 col-md-8 col-lg-6">
                         
                         <select id="form_prov" class="form-select" name="prov" required="">
                         </select>
@@ -597,7 +596,7 @@
                             <option value="" selected="" disabled="">Baju</option>
                             <option value="S">S</option>
                             <option value="M">M</option>
-                            <option value="L" <?= $selected;?>>L</option>
+                            <option value="L" selected>L</option>
                             <option value="XL">XL</option>
                             <option value="XXL">XXL</option>
                             <option value="XXXL">XXXL</option>
@@ -617,7 +616,7 @@
                             <option value="" selected="" disabled="">Celana/Rok</option>
                             <option value="S">S</option>
                             <option value="M">M</option>
-                            <option value="L" <?= $selected;?>>L</option>
+                            <option value="L" selected>L</option>
                             <option value="XL">XL</option>
                             <option value="XXL">XXL</option>
                             <option value="XXXL">XXXL</option>
@@ -635,47 +634,52 @@
                     <div class="col-sm-3 col-md-3 col-lg-2">
                         <label for="fotoSantri" class="form-label m-0"><small> Foto Calon Santri </small></label>
                     </div>
-                    <div class="col-sm-9 col-md-8 col-lg-6">
+                    <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <div id="fotoSantriPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 125px; height: 166.67px; display: none;">
                             <img id="fotoSantriPreview" class="position-absolute top-0 left-0 w-100 h-100" src="./formulir" alt="Foto Santri Preview" style="object-fit: cover;">
                         </div>
                         
                         <input class="form-control" type="file" id="fotoSantri" name="fotoSantri" accept="image/png, image/jpg, image/jpeg" required="">
-                         
+                        <div class="invalid-tooltip">Foto Calon Santri Wajib diisi</div>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-3 col-md-3 col-lg-2">
                         <label for="fotoKk" class="form-label m-0"><small> Foto Kartu Keluarga </small></label>
                     </div>
-                    <div class="col-sm-9 col-md-8 col-lg-6">
+                    <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <div id="fotoKkPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 237.5px; height: 125px; display: none;">
                             <img id="fotoKkPreview" class="position-absolute top-0 left-0 w-100 h-100" src="./formulir" alt="Foto KK Preview" style="object-fit: cover;">
                         </div>
                         
                         <input class="form-control" type="file" id="fotoKk" name="fotoKk" accept="image/png, image/jpg, image/jpeg" required="">
-                         
+                        <div class="invalid-tooltip">Foto Kartu Keluarga Wajib diisi</div>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-sm-3 col-md-3 col-lg-2">
-                        <label for="fotobukti" class="form-label m-0"><small> Bukti Transfer </small></label>
+            </ol>
+            <div class="shadow rounded-12 p-3">
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <label for="fotobukti" class="form-label m-0"><small> Bukti Transfer </small></label>
+                </div>
+                <div class="rounded-12 p-3 position-relative">
+                    <div id="fotoBuktiPreviewContainer" class="position-relative overflow-hidden mb-" style="width: 125px; display: none;">
+                        <img id="fotoBuktiPreview" class="position-absolute top-0 left-0 w-100 h-100" src="" alt="Foto Transfer Preview" style="object-fit: cover;">
                     </div>
-                    <div class="col-sm-9 col-md-8 col-lg-6">
-                        <div id="fotobuktiPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 237.5px; height: 125px; display: none;">
-                            <img id="fotobuktiPreview" class="position-absolute top-0 left-0 w-100 h-100" src="./formulir" alt="Foto KK Preview" style="object-fit: cover;">
-                        </div>
-                        
-                        <input class="form-control" type="file" id="fotobukti" name="fotobukti" accept="image/png, image/jpg, image/jpeg" required="">
-                         <div class="form-text">
+                    <input class="form-control" type="file" id="image" name="fotobukti" accept="image/png, image/jpg, image/jpeg" required="" />
+                     <div class="invalid-tooltip">Bukti Transfer Wajib diisi</div>
+                    <br>
+                    <div id="frames">
+                        <img class="img-thumbnail" style="width: 125px;" src="upload/foto_dokumen/noimage.jpg">
+                    </div>
+                    
+                    <div class="form-text">
                         <a class="link-primary" href="#PanduanBayar" data-bs-toggle="modal" data-bs-target="#PanduanBayar">
                             Panduan Pembayaran
                         </a>
                     </div>
-                    </div>
-                </div>
-            </ol>
-             
+                    
+                </div>          
+            </div>
             <div class="container mt-4 mb-5">
                 <div class="row justify-content-center">
                     <div class="col-sm-auto">
@@ -695,7 +699,7 @@
                 <hr class="my-2">
                 
                 <small class="d-block text-secondary mt-2"><strong>Nomor Pendaftaran: </strong> <span id="nomor_pendaftaran"></span></small>
-                <small class="d-block text-secondary mt-2"><strong>Jika ada perubahan lampiran Cek Status Pendaftaran dan lengkapi lampiran yang belum di upload</strong></small>
+                <small class="d-block text-secondary mt-2"><strong>Langkah selanjutnya Cek Status Pendaftaran dan lengkapi lampiran yang belum di upload</strong></small>
             </div>
         </div>
     </main>

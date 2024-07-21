@@ -131,7 +131,7 @@
 									<li><small>{selamat} : SELAMAT PAGI | SIANG | SORE | MALAM</small></li>
 									<li><small>{nama_sekolah} : NAMA SEKOLAH</small></li>
 									<li><small>{web_sekolah} : ALAMAT WEBSITE</small></li>
-									<li><small>{wa_sekolah} : NO HP ADMIN</small></li>
+									<li><small>{whatsapp} : NO. WA ADMIN</small></li>
 									<li><small>{email_sekolah} : EMAIL SEKOLAH</small></li>
 									<li><small>{alamat_sekolah} : ALAMAT SEKOLAH</small></li>
 									<li><small>{nomor_pendaftaran} : NOMOR PENDAFTARAN</small></li>

@@ -127,16 +127,6 @@
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					
 					<select id="form_unit" class="form-select" name="unit_sekolah" required="">
-						<option value="">Pilih Unit</option>
-						<?php 
-							foreach($unit_sekolah AS $row){
-								if($record->unit_sekolah == $row['ketKelas']){ ?>
-							<option value="<?php echo $row['ketKelas']; ?>"><?php echo $row['ketKelas']; ?></option>
-							<?php }else{ ?>
-							<option value="<?php echo $row['ketKelas']; ?>"><?php echo $row['ketKelas']; ?></option>
-								<?php }
-							}
-						?>
 					</select>
 					<div class="invalid-feedback"></div>
 				</div>
@@ -156,7 +146,9 @@
 					<label for="biaya" class="form-label m-0"><small> Biaya Pendaftaran</small></label>
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
-					<select name="biaya" id="form_biaya" value="<?=$record->biaya_daftar;?>"  class="form-select" required=""></select>
+					<select name="biaya" id="form_biaya" class="form-select" required="">
+						<option value="<?=$record->biaya_daftar;?>"><?=rp($record->biaya_daftar);?></option>
+					</select>
 					<div class="invalid-feedback"></div>
 				</div>
 			</div>
@@ -178,28 +170,8 @@
 				<label for="kamar" class="form-label m-0"><small> Kamar </small></label>
 			</div>
 			<div class="col-sm-9 col-md-8 col-lg-8">
-				
 				<select id="form_kamar" class="form-select" name="kamar" required="">
-					<option value="">Pilih Kamar</option>
-					<?php 
-						// $daerah = mysqli_query($konek,"SELECT nama_kamar FROM rb_kamar ORDER BY nama_kamar ASC");
-						foreach($kamar AS $row){
-						?>
-						<option value="<?php echo $row['nama_kamar']; ?>"><?php echo $row['nama_kamar']; ?></option>
-						<?php 
-						}
-					?>
 				</select>
-				<div class="invalid-feedback"></div>
-			</div>
-		</div>
-		
-		<div class="row align-items-center mt-2">
-			<div class="col-sm-3 col-md-3 col-lg-4">
-				<label for="kuota" class="form-label m-0"><small> Kuota Kamar</small></label>
-			</div>
-			<div class="col-sm-9 col-md-8 col-lg-8">
-				<select name="kuota" id="form_kuota" value="<?=$record->kamar;?>"  class="form-select" required=""></select>
 				<div class="invalid-feedback"></div>
 			</div>
 		</div>
@@ -215,10 +187,10 @@
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					<select name="ijasah_terakhir" id="ijazahTerakhir" class="form-select" required="">
 						<option value="" selected="" disabled="">Pilih</option>
-						<option value="TK-PAUD">TK-PAUD</option>
-						<option value="SD-MI">SD-MI</option>
-						<option value="SLTP">SLTP</option>
-						<option value="SLTA" selected>SLTA</option>
+						<option value="TK/PAUD">TK/PAUD</option>
+						<option value="SD/MI">SD/MI</option>
+						<option value="SMP/MTs/Sederajat">SMP/MTs/Sederajat</option>
+						<option value="SMA/MA/Sederajat">SMA/MA/Sederajat</option>
 						<option value="Diploma">Diploma</option>
 						<option value="Sarjana">Sarjana</option>
 						<option value="Pasca Sarjana">Pasca Sarjana</option>
@@ -313,21 +285,6 @@
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					<select name="pendidikan_terakhir_ayah" id="pendidikanAyah" class="form-select" required="">
-						<option value="">Pilih Pendidikan</option>
-						<option value="Tidak Sekolah">Tidak Sekolah</option>
-						<option value="PAUD/TK">PAUD/TK</option>
-						<option value="SD/MI" selected>SD/MI</option>
-						<option value="SLTP">SLTP</option>
-						<option value="SLTA">SLTA</option>
-						<option value="D1">D1</option>
-						<option value="D2">D2</option>
-						<option value="D3">D3</option>
-						<option value="D4">D4</option>
-						<option value="S1">S1</option>
-						<option value="S2">S2</option>
-						<option value="S3">S3</option>
-						<option value="Pesantren">Pesantren</option>
-						<option value="PGA">PGA</option>
 					</select>
 				</div>
 			</div>
@@ -337,26 +294,6 @@
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					<select name="pekerjaan_ayah" id="pekerjaanAyah" class="form-select" required="">
-						<option value="">Pilih Pekerjaan</option>
-						<option value="0"></option>
-						<option value="TIDAK BEKERJA">TIDAK BEKERJA</option>
-						<option value="PNS">PNS</option>
-						<option value="GURU">GURU</option>
-						<option value="PENGUSAHA">PENGUSAHA</option>
-						<option value="PETANI">PETANI</option>
-						<option value="PEKERJA PABRIK">PEKERJA PABRIK</option>
-						<option value="TUKANG BANGUNAN">TUKANG BANGUNAN</option>
-						<option value="PENSIUNAN">PENSIUNAN</option>
-						<option value="TNI/POLRI">TNI/POLRI</option>
-						<option value="WIRASWASTA">WIRASWASTA</option>
-						<option value="PEDAGANG">PEDAGANG</option>
-						<option value="NELAYAN">NELAYAN</option>
-						<option value="SUPIR/KONDEKTUR">SUPIR/KONDEKTUR</option>
-						<option value="LAINNYA" selected>LAINNYA</option>
-						<option value="Mubaligh">Mubaligh</option>
-						<option value="Karyawan">Karyawan</option>
-						<option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option>
-						<option value="Penjahit">Penjahit</option>
 					</select>
 				</div>
 			</div>
@@ -395,21 +332,6 @@
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					<select name="pendidikan_terakhir_ibu" id="pendidikanIbu" class="form-select" required="">
-						<option value="">Pilih Pendidikan</option>
-						<option value="Tidak Sekolah">Tidak Sekolah</option>
-						<option value="PAUD/TK">PAUD/TK</option>
-						<option value="SD/MI">SD/MI</option>
-						<option value="SLTP">SLTP</option>
-						<option value="SLTA" selected>SLTA</option>
-						<option value="D1">D1</option>
-						<option value="D2">D2</option>
-						<option value="D3">D3</option>
-						<option value="D4">D4</option>
-						<option value="S1">S1</option>
-						<option value="S2">S2</option>
-						<option value="S3">S3</option>
-						<option value="Pesantren">Pesantren</option>
-						<option value="PGA">PGA</option>
 					</select>
 				</div>
 			</div>
@@ -419,25 +341,6 @@
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					<select name="pekerjaan_ibu" id="pekerjaanIbu" class="form-select" required="">
-						<option value="">Pilih Pekerjaan</option>
-						<option value="TIDAK BEKERJA">TIDAK BEKERJA</option>
-						<option value="PNS">PNS</option>
-						<option value="GURU">GURU</option>
-						<option value="PENGUSAHA">PENGUSAHA</option>
-						<option value="PETANI">PETANI</option>
-						<option value="PEKERJA PABRIK">PEKERJA PABRIK</option>
-						<option value="TUKANG BANGUNAN">TUKANG BANGUNAN</option>
-						<option value="PENSIUNAN">PENSIUNAN</option>
-						<option value="TNI/POLRI">TNI/POLRI</option>
-						<option value="WIRASWASTA">WIRASWASTA</option>
-						<option value="PEDAGANG">PEDAGANG</option>
-						<option value="NELAYAN">NELAYAN</option>
-						<option value="SUPIR/KONDEKTUR">SUPIR/KONDEKTUR</option>
-						<option value="LAINNYA">LAINNYA</option>
-						<option value="Mubaligh">Mubaligh</option>
-						<option value="Karyawan">Karyawan</option>
-						<option value="Ibu Rumah Tangga" selected>Ibu Rumah Tangga</option>
-						<option value="Penjahit">Penjahit</option>
 					</select>
 				</div>
 			</div>
@@ -450,7 +353,7 @@
 						<option value="" selected="" disabled="">Pilih</option>
 						<option value="Dibawah Rp.500.000">Dibawah Rp.500.000</option>
 						<option value="Rp.500.000 - Rp.1jt">Rp.500.000 - Rp.1jt</option>
-						<option value="Rp.1jt - Rp.2jt" selected>Rp.1jt - Rp.2jt</option>
+						<option value="Rp.1jt - Rp.2jt">Rp.1jt - Rp.2jt</option>
 						<option value="Rp.2jt - Rp.3jt">Rp.2jt - Rp.3jt</option>
 						<option value="Rp.3jt - Rp.5jt">Rp.3jt - Rp.5jt</option>
 						<option value="Diatas Rp.5jt">Diatas Rp.5jt</option>
@@ -613,7 +516,7 @@
 					<select name="ukuran_seragam_baju" id="ukuranBaju" class="form-select" required="">
 						<option value="" selected="" disabled="">Baju</option>
 						<option value="S">S</option>
-						<option value="M" selected>M</option>
+						<option value="M">M</option>
 						<option value="L">L</option>
 						<option value="XL">XL</option>
 						<option value="XXL">XXL</option>
@@ -627,7 +530,7 @@
 					<select name="ukuran_celana_rok" id="ukuranCelana" class="form-select" required="">
 						<option value="" selected="" disabled="">Celana/Rok</option>
 						<option value="S">S</option>
-						<option value="M" selected>M</option>
+						<option value="M">M</option>
 						<option value="L">L</option>
 						<option value="XL">XL</option>
 						<option value="XXL">XXL</option>
@@ -641,12 +544,9 @@
 					<label for="fotoSantri" class="form-label m-0"><small> Foto Calon Santri </small></label>
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
-					<div id="fotoSantriPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 125px; height: 166.67px; display: none;">
-						<img id="fotoSantriPreview" class="position-absolute top-0 left-0 w-100 h-100" src="./formulir" alt="Foto Santri Preview" style="object-fit: cover;">
+					<div id="fotoSantriPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 125px; height: 166.67px;">
+						<img id="fotoSantriPreview" class="position-absolute top-0 left-0 w-100 h-100" src="<?=base_url();?>upload/lampiran/<?=$record->foto;?>" alt="Foto Santri Preview" style="object-fit: cover;">
 					</div>
-					
-					<input class="form-control" type="file" id="fotoSantri" name="fotoSantri" accept="image/png, image/jpg, image/jpeg" required="">
-					<div class="invalid-feedback"></div>
 				</div>
 			</div>
 			<div class="row mt-3">
@@ -654,12 +554,10 @@
 					<label for="fotoKk" class="form-label m-0"><small> Foto Kartu Keluarga </small></label>
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
-					<div id="fotoKkPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 237.5px; height: 125px; display: none;">
-						<img id="fotoKkPreview" class="position-absolute top-0 left-0 w-100 h-100" src="./formulir" alt="Foto KK Preview" style="object-fit: cover;">
+					<div id="fotoKkPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 237.5px; height: 125px;">
+						<img id="fotoKkPreview" class="position-absolute top-0 left-0 w-100 h-100" src="<?=base_url();?>upload/lampiran/<?=$record->foto_kk;?>" alt="Foto KK Preview" style="object-fit: cover;">
 					</div>
-					
-					<input class="form-control" type="file" id="fotoKk" name="fotoKk" accept="image/png, image/jpg, image/jpeg" required="">
-					<div class="invalid-feedback"></div>
+					 
 				</div>
 			</div>
 			
@@ -668,14 +566,402 @@
 					<label for="fotoKk" class="form-label m-0"><small> Bukti Transfer </small></label>
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
-					<div id="fotoBuktiPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 237.5px; height: 125px; display: none;">
-						<img id="fotoKkPreview" class="position-absolute top-0 left-0 w-100 h-100" src="./formulir" alt="Foto KK Preview" style="object-fit: cover;">
+					<div id="fotoBuktiPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 237.5px; height: 125px;">
+						<img id="fotoKkPreview" class="position-absolute top-0 left-0 w-100 h-100" src="<?=base_url();?>upload/foto_dokumen/<?=$record->fotobukti;?>" alt="Foto KK Preview" style="object-fit: cover;">
 					</div>
-					
-					<input class="form-control" type="file" id="image" name="fotobukti" accept="image/png, image/jpg, image/jpeg" required="">
-					<div class="invalid-feedback"></div>
 				</div>
 			</div>
 		</ol>
 		
 	</form>			
+	<script>
+		
+		var id_pendaftar = <?=$record->id;?>;
+		var unit_sekolah = <?=$record->id_unit;?>;
+		var form_kelas = <?=$record->kelas;?>;
+		var form_kamar = "<?=$record->kamar;?>";
+		var ijasah_terakhir = "<?=$record->ijasah_terakhir;?>";
+		var kabupaten = <?=$record->kabupaten;?>;
+		var kecamatan = <?=$record->kecamatan;?>;
+		var kelurahan = <?=$record->kelurahan;?>;
+		var pendidikan_terakhir_ayah = "<?=$record->pendidikan_terakhir_ayah;?>";
+		var pekerjaan_ayah = "<?=$record->pekerjaan_ayah;?>";
+		var pendidikan_terakhir_ibu = "<?=$record->pendidikan_terakhir_ayah;?>";
+		var pekerjaan_ibu = "<?=$record->pekerjaan_ibu;?>";
+		var penghasilan_ortu = "<?=$record->pekerjaan_ibu;?>";
+		
+		
+		$("#form_unit").filter(function () {
+			$.ajax({
+				url: base_url+ "pendaftar/unit_sekolah",
+				type: "POST",
+				dataType: 'json',
+				beforeSend: function () {
+					$("#form_unit").append("<option value='loading'>loading</option>");
+					$("#form_unit").attr("disabled", true);
+				},
+				success: function (response) {
+					if(response.status==false){
+						$("#form_unit").append("<option value='loading'>loading</option>");
+						$("#form_unit").attr("disabled", true);
+						$("#form_unit").attr("disabled", true);
+						return;
+					}
+					$("#form_unit option[value='loading']").remove();
+					$("#form_unit").attr("disabled", false);
+					$("#form_unit").append("<option value=''>Pilih Provinsi</option>");
+					var len = response.length;
+					for (var i = 0; i < len; i++) {
+						
+						var id = response[i]['id'];
+						var name = response[i]['name'];
+						if(id==unit_sekolah){
+							$("#form_unit").append("<option value='" + id + "' selected>" + name + "</option>");
+							}else{
+							$("#form_unit").append("<option value='" + id + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		
+		$("#form_kelas").filter(function () {
+			$.ajax({
+				url: base_url+ "pendaftar/load_kelas",
+				type: "POST",
+				dataType: 'json',
+				beforeSend: function () {
+					$("#form_kelas").append("<option value='loading'>loading</option>");
+					$("#form_kelas").attr("disabled", true);
+				},
+				success: function (response) {
+					if(response.status==false){
+						$("#form_kelas").append("<option value='loading'>loading</option>");
+						$("#form_kelas").attr("disabled", true);
+						$("#form_kelas").attr("disabled", true);
+						return;
+					}
+					$("#form_kelas option[value='loading']").remove();
+					$("#form_kelas").attr("disabled", false);
+					$("#form_kelas").append("<option value=''>Pilih Provinsi</option>");
+					var len = response.length;
+					for (var i = 0; i < len; i++) {
+						
+						var id = response[i]['id'];
+						var name = response[i]['name'];
+						if(id==form_kelas){
+							$("#form_kelas").append("<option value='" + id + "' selected>" + name + "</option>");
+							}else{
+							$("#form_kelas").append("<option value='" + id + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		
+		$("#form_kamar").filter(function () {
+			$.ajax({
+				url: base_url+ "pendaftar/load_kamar",
+				type: "POST",
+				dataType: 'json',
+				beforeSend: function () {
+					$("#form_kamar").append("<option value='loading'>loading</option>");
+					$("#form_kamar").attr("disabled", true);
+				},
+				success: function (response) {
+					if(response.status==false){
+						$("#form_kamar").append("<option value='loading'>loading</option>");
+						$("#form_kamar").attr("disabled", true);
+						$("#form_kamar").attr("disabled", true);
+						return;
+					}
+					$("#form_kamar option[value='loading']").remove();
+					$("#form_kamar").attr("disabled", false);
+					$("#form_kamar").append("<option value=''>Pilih Provinsi</option>");
+					var len = response.length;
+					for (var i = 0; i < len; i++) {
+						
+						var id = response[i]['id'];
+						var name = response[i]['name'];
+						if(name==form_kamar){
+							$("#form_kamar").append("<option value='" + name + "' selected>" + name + "</option>");
+							}else{
+							$("#form_kamar").append("<option value='" + name + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		
+		$("#ijazahTerakhir").filter(function () {
+			$.ajax({
+				url: base_url+ "pendaftar/ijasah_terakhir",
+				data:{id:id_pendaftar},
+				type: "POST",
+				dataType: 'json',
+				beforeSend: function () {
+					// $("#ijazahTerakhir").attr("disabled", true);
+				},
+				success: function (response) {
+				// console.log(response);
+					$("#ijazahTerakhir").val(response.name).change();
+				}
+			});
+		});
+		
+		$("#ukuranBaju").filter(function () {
+			$.ajax({
+				url: base_url+ "pendaftar/ukuran_seragam_baju",
+				data:{id:id_pendaftar},
+				type: "POST",
+				dataType: 'json',
+				beforeSend: function () {
+					// $("#ijazahTerakhir").attr("disabled", true);
+				},
+				success: function (response) {
+				// console.log(response);
+					$("#ukuranBaju").val(response.name).change();
+				}
+			});
+		});
+		$("#ukuranCelana").filter(function () {
+			$.ajax({
+				url: base_url+ "pendaftar/ukuran_celana",
+				data:{id:id_pendaftar},
+				type: "POST",
+				dataType: 'json',
+				beforeSend: function () {
+					// $("#ijazahTerakhir").attr("disabled", true);
+				},
+				success: function (response) {
+				// console.log(response);
+					$("#ukuranCelana").val(response.name).change();
+				}
+			});
+		});
+		
+		$("#form_prov").filter(function () {
+			$.ajax({
+				url: base_url+ "dashboard/provinsi",
+				type: "POST",
+				dataType: 'json',
+				beforeSend: function () {
+					$("#form_prov").append("<option value='loading'>loading</option>");
+					$("#form_prov").attr("disabled", true);
+				},
+				success: function (response) {
+					if(response.status==false){
+						$("#form_prov").append("<option value='loading'>loading</option>");
+						$("#form_prov").attr("disabled", true);
+						$("#form_prov").attr("disabled", true);
+						return;
+					}
+					$("#form_prov option[value='loading']").remove();
+					$("#form_prov").attr("disabled", false);
+					$("#form_prov").append("<option value=''>Pilih Provinsi</option>");
+					var len = response.length;
+					for (var i = 0; i < len; i++) {
+						
+						var id = response[i]['id'];
+						var name = response[i]['name'];
+						if(id==provinsi){
+							$("#form_prov").append("<option value='" + id + "' selected>" + name + "</option>");
+							}else{
+							$("#form_prov").append("<option value='" + id + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		
+		$("#form_kab").filter(function () {
+			var id = provinsi;
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "dashboard/kabupaten",
+				data: {id:id},
+				dataType : "json",
+				beforeSend: function(){
+					$("#form_kab").empty();
+					$("#form_kec").empty().attr("disabled", true);
+					$("#form_des").empty().attr("disabled", true);
+					$("#form_kab").append("<option value=''>Pilih</option>");
+				},
+				success: function(response) {
+					$("#form_kab").attr("disabled", false);
+					var msize = response.length;
+					var i = 0;
+					for (; i < msize; i++) {
+						var teg = response[i]["id"];
+						var name = response[i]["name"];
+						if(teg==kabupaten){
+							$("#form_kab").append("<option value='" + teg + "' selected>" + name + "</option>");
+							}else{
+							$("#form_kab").append("<option value='" + teg + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		
+		
+		$("#form_kec").filter(function () {
+			var id = kabupaten;
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "dashboard/kecamatan",
+				data: {id:id},
+				dataType : "json",
+				beforeSend: function(){
+					$("#form_kec").empty();
+					$("#form_des").empty().empty().attr("disabled", true);
+					$("#form_kec").append("<option value=''>Pilih</option>");
+				},
+				success: function(response) {
+					$("#form_kec").attr("disabled", false);
+					var msize = response.length;
+					var i = 0;
+					for (; i < msize; i++) {
+						var teg = response[i]["id"];
+						var name = response[i]["name"];
+						if(teg==kecamatan){
+							$("#form_kec").append("<option value='" + teg + "' selected>" + name + "</option>");
+							}else{
+							$("#form_kec").append("<option value='" + teg + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		
+		
+		$("#form_des").filter(function () {
+			var id = kecamatan;
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "dashboard/desa",
+				data: {id:id},
+				dataType : "json",
+				beforeSend: function(){
+					$("#form_des").empty();
+					$("#form_des").append("<option value=''>Pilih</option>");
+				},
+				success: function(response) {
+					$("#form_des").attr("disabled", false);
+					var msize = response.length;
+					var i = 0;
+					for (; i < msize; i++) {
+						var teg = response[i]["id"];
+						var name = response[i]["name"];
+						if(teg==kelurahan){
+							$("#form_des").append("<option value='" + teg + "' selected>" + name + "</option>");
+							}else{
+							$("#form_des").append("<option value='" + teg + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		
+		$("#pendidikanAyah").filter(function () {
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/load_pendidikan",
+				dataType : "json",
+				beforeSend: function(){
+					$("#pendidikanAyah").empty();
+					// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
+				},
+				success: function(response) {
+					$("#pendidikanAyah").attr("disabled", false);
+					var msize = response.length;
+					var i = 0;
+					for (; i < msize; i++) {
+						var teg = response[i]["id"];
+						var name = response[i]["name"];
+						if(name==pendidikan_terakhir_ayah){
+							$("#pendidikanAyah").append("<option value='" + name + "' selected>" + name + "</option>");
+							}else{
+							$("#pendidikanAyah").append("<option value='" + name + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		$("#pendidikanIbu").filter(function () {
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/load_pendidikan",
+				dataType : "json",
+				beforeSend: function(){
+					$("#pendidikanIbu").empty();
+					// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
+				},
+				success: function(response) {
+					$("#pendidikanIbu").attr("disabled", false);
+					var msize = response.length;
+					var i = 0;
+					for (; i < msize; i++) {
+						var teg = response[i]["id"];
+						var name = response[i]["name"];
+						if(name==pendidikan_terakhir_ibu){
+							$("#pendidikanIbu").append("<option value='" + name + "' selected>" + name + "</option>");
+							}else{
+							$("#pendidikanIbu").append("<option value='" + name + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		
+		$("#pekerjaanAyah").filter(function () {
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/load_pekerjaan",
+				dataType : "json",
+				beforeSend: function(){
+					$("#pekerjaanAyah").empty();
+					// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
+				},
+				success: function(response) {
+					$("#pekerjaanAyah").attr("disabled", false);
+					var msize = response.length;
+					var i = 0;
+					for (; i < msize; i++) {
+						var teg = response[i]["id"];
+						var name = response[i]["name"];
+						if(name==pekerjaan_ayah){
+							$("#pekerjaanAyah").append("<option value='" + name + "' selected>" + name + "</option>");
+							}else{
+							$("#pekerjaanAyah").append("<option value='" + name + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		$("#pekerjaanIbu").filter(function () {
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/load_pekerjaan",
+				dataType : "json",
+				beforeSend: function(){
+					$("#pekerjaanIbu").empty();
+					// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
+				},
+				success: function(response) {
+					$("#pekerjaanIbu").attr("disabled", false);
+					var msize = response.length;
+					var i = 0;
+					for (; i < msize; i++) {
+						var teg = response[i]["id"];
+						var name = response[i]["name"];
+						if(name==pekerjaan_ibu){
+							$("#pekerjaanIbu").append("<option value='" + name + "' selected>" + name + "</option>");
+							}else{
+							$("#pekerjaanIbu").append("<option value='" + name + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+	</script>											

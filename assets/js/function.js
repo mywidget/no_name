@@ -170,6 +170,18 @@ function toast(position) {
 
 const spinner = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`;
 const rulesConfirmElement = `<span class="d-block text-center">
+<strong>Selamat Pendaftaran Berhasil</strong> pendaftaran atau <strong>Periksa Data</strong>
+</span>
+<div class="text-start">
+<h5 class="text-center text-danger mt-3 mb-0">Catatan Penting:</h5>
+<ol>
+<li>Data tidak dapat di edit.</li>
+<li>Tidak di perkenankan berpindah ke unit lain setelah submit form.</li>
+<li>Apabila anda melakaukan cabut berkas maka tidak ada pengembalian uang pembayaran dalam bentuk apapun.</li>
+</ol>
+</div>`;
+
+const rulesConfirmElementx = `<span class="d-block text-center">
 Anda akan melanjutkan ke <strong>Proses Pembayaran</strong> pendaftaran atau <strong>Periksa Data</strong> anda kembali apabila masih ada data yang tidak sesuai.
 </span>
 <div class="text-start">
@@ -247,4 +259,22 @@ const rincianPembayaran = (data) => {
 		</div>`
 	);
 };
+
+/**
+    * @param {!Object} options
+    * @return {undefined}
+*/
+function formatNumber(options) {
+    /** @type {string} */
+    var url = "";
+    var parts = options.value.toString().split("|");
+    parts[0] = parts[0].replace(/[^0-9]/g, "");
+    for (; parts[0].length > 3;) {
+        /** @type {string} */
+        url = "." + parts[0].substr(parts[0].length - 3, parts[0].length) + url;
+        parts[0] = parts[0].substr(0, parts[0].length - 3);
+	}
+    options.value = parts[0] + url;
+}
+
  

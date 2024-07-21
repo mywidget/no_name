@@ -49,8 +49,8 @@
 								<div class="d-none d-sm-inline-block">Sort</div>
 								<div class="mx-2 d-inline-block">
 									<select id="sortBy" class="form-control form-select w-1" onchange="searchPengguna()" style="width:80px!important">
-										<option value="ASC" selected>ASC</option>
-										<option value="DESC">DESC</option>
+										<option value="ASC">ASC</option>
+										<option value="DESC" selected>DESC</option>
 									</select>
 								</div>
 							</div>
@@ -148,7 +148,7 @@
 	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="myModalLabelPengguna">Tambah Pengguna</h5>
+				<h5 class="modal-title" id="myModalLabelPengguna">Edit Data Pendaftar</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -266,7 +266,7 @@
 		var formData = $("#formAdd").serialize();
 		$.ajax({
 			type: "POST",
-			url: base_url+"user/simpan_pengguna",
+			url: base_url+"pendaftar/simpan_pendaftar",
 			dataType: 'json',
 			data: formData,
 			beforeSend: function () {
@@ -291,7 +291,7 @@
 	$(document).on('click','.hapus_user',function(e){
 		var id = $("#data-hapus").val();
 		$.ajax({
-			url: base_url + 'user/hapus_user',
+			url: base_url + 'pendaftar/hapus_pendaftar',
 			data: {id:id},
 			method: 'POST',
 			dataType:'json',

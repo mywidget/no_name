@@ -105,22 +105,28 @@ $('body').on("change","#statusPendidikan",function(){
 
 $('body').on("change","#form_kelas",function(){
     var id = $(this).val();
-    $.ajax({
-        type: 'POST',
-        url: base_url+ "dashboard/biaya",
-        data: {id:id},
-        dataType : "json",
-        beforeSend: function(){
-            $("#form_biaya").empty();
-        },
-        success: function(response) {
-            
-            var teg = response.id;
-            var name = response.name;
-            $("#form_biaya").append("<option value='" + teg + "'>" + name + "</option>");
-            
-        }
-    });
+    var id_unit = $("#form_unit").val();
+    var gender = $("#gender").val();
+    if(gender==''){
+        $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
+        }else{
+        $.ajax({
+            type: 'POST',
+            url: base_url+ "dashboard/biaya",
+            data: {id:id,id_unit:id_unit},
+            dataType : "json",
+            beforeSend: function(){
+                $("#form_biaya").empty();
+            },
+            success: function(response) {
+                
+                var teg = response.id;
+                var name = response.name;
+                $("#form_biaya").append("<option value='" + teg + "'>" + name + "</option>");
+                
+            }
+        });
+    }
 });
 
 function load_kamar(id)
@@ -277,7 +283,7 @@ $('body').on("change","#form_kec",function(){
     });
 });
 
-$('#fotoSantri, #fotoKk').change(function () {
+$('#fotoSantri, #fotoKk, #fotobukti').change(function () {
     const id = $(this).attr('id');
     const foto = this.files[0];
     $(this).removeClass('is-invalid');
@@ -330,75 +336,96 @@ $('#image').change(function(){
     }
 });
 
-$('#formPendaftaran').on('submit', function (e) {
-    e.preventDefault();
-    const formData = new FormData($(this)[0]);
-    $('button:submit', this).html(spinner).prop('disabled', true);
-    
-    $.ajax({
-        type: 'POST',
-        data: formData,
-        dataType: 'json',
-        processData: false,
-        contentType: false,
-        url: base_url+ "dashboard/proses",
-        success: (response) => {
-            // console.log(response)
-            if (response.status === false) {
-                // alerts()
-                swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    html: response.message,
-                    confirmButtonText: 'OK',
-                })
-                .then(() => {
-                    if (response?.errors) {
-                        const errors = response.errors;
-                        setTimeout(() => {
-                            const firstErrorKey = Object.keys(errors)[0];
-                            $(`#${firstErrorKey}`).focus();
-                        }, 500);
-                        
-                        for (const key in errors) {
-                            $(`#${key}`).addClass('is-invalid');
-                            $(`#${key}`).siblings('.invalid-feedback').text(errors[key]);
-                        }
-                    }
-                });
-                } else {
-                // const total = response.reduce((acc, { billAmount }) => acc + Number(billAmount), 0);
-                // $('#total').text(formatRupiah(response.amount));
-                // $('#rincian').html(rincianPembayaran(response));
-                swal.fire({
-                    title: 'Konfirmasi',
-                    buttonsStyling: false,
-                    showCancelButton: true,
-                    reverseButtons: true,
-                    html: rulesConfirmElement,
-                    confirmButtonText: 'Lanjutkan',
-                    cancelButtonText: 'Periksa Data',
-                    customClass: {
-                        ...sweetAlertButtonClass,
-                        confirmButton: 'btn btn-success rounded-pill flex-grow-1',
-                        cancelButton: 'btn btn-outline-success rounded-pill flex-grow-1',
-                        actions: 'w-100 px-4 gap-2',
-                        title: 'fs-4',
-                    },
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        $('input').val('') 
-                        $('select').val('') 
+var forms = document.querySelectorAll('.needs-validation')
+
+// Loop over them and prevent submission
+Array.prototype.slice.call(forms)
+.forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            }else{
+            event.preventDefault();
+            const formData = new FormData($(this)[0]);
+            $('button:submit', this).html(spinner).prop('disabled', true);
+            
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                url: base_url+ "dashboard/proses",
+                success: (response) => {
+                    // console.log(response)
+                    if (response.status === false) {
+                        // alerts()
+                        swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            html: response.message,
+                            confirmButtonText: 'OK',
+                        })
+                        .then(() => {
+                            if (response?.message) {
+                                const errors = response.message;
+                                setTimeout(() => {
+                                    const firstErrorKey = Object.keys(errors)[0];
+                                    $(`#${firstErrorKey}`).focus();
+                                }, 500);
+                                
+                                for (const key in errors) {
+                                    $(`#${key}`).addClass('is-invalid');
+                                    $(`#${key}`).siblings('.invalid-feedback').text(errors[key]);
+                                }
+                            }
+                        });
                         } else {
-                        $('#rincian').html('');
+                        // const total = response.reduce((acc, { billAmount }) => acc + Number(billAmount), 0);
+                        // $('#total').text(formatRupiah(response.amount));
+                        // $('#rincian').html(rincianPembayaran(response));
+                        swal.fire({
+                            title: 'Konfirmasi',
+                            buttonsStyling: false,
+                            showCancelButton: false,
+                            reverseButtons: true,
+                            html: rulesConfirmElement,
+                            confirmButtonText: 'Tutup',
+                            cancelButtonText: 'Periksa Data',
+                            customClass: {
+                                ...sweetAlertButtonClass,
+                                confirmButton: 'btn btn-success rounded-pill flex-grow-1',
+                                cancelButton: 'btn btn-outline-success rounded-pill flex-grow-1',
+                                actions: 'w-100 px-4 gap-2',
+                                title: 'fs-4',
+                            },
+                        })
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                $('input').val('') 
+                                $('select').val('') 
+                                $('#formulir').hide(); 
+                                $('#sukses').show(); 
+                                // location.reload(); 
+                                } else {
+                                location.reload(); 
+                            }
+                        });
                     }
-                });
-            }
-        },
-        complete: () => {
-            $('button:submit', this).text('Submit Formulir').prop('disabled', false);
-        },
-    });
-});
+                },
+                complete: () => {
+                    $('button:submit', this).text('Submit Formulir').prop('disabled', false);
+                },
+            });
+        }
+        
+        form.classList.add('was-validated')
+    }, false)
+})
+
+// $('#formPendaftaran').on('submit', function (e) {
+// e.preventDefault();
+
+// });
 

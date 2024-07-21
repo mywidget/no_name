@@ -126,7 +126,7 @@
 					$this->db->like('kode_kelas', $params['search']['keywords']); 
 					$this->db->or_like('nama_kelas', $params['search']['keywords']); 
 				} 
-				 
+				
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -267,7 +267,7 @@
 					$this->db->like('nama', $params['search']['keywords']); 
 					$this->db->or_like('nomor_wa', $params['search']['keywords']); 
 				} 
-				 
+				
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -313,7 +313,7 @@
 				if(!empty($params['search']['keywords'])){ 
 					$this->db->like('title', $params['search']['keywords']); 
 				} 
-				 
+				
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -359,7 +359,7 @@
 				if(!empty($params['search']['keywords'])){ 
 					$this->db->like('title', $params['search']['keywords']); 
 				} 
-				 
+				
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -406,7 +406,7 @@
 				if(!empty($params['search']['keywords'])){ 
 					$this->db->like('title', $params['search']['keywords']); 
 				} 
-				 
+				
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -475,7 +475,7 @@
 		public function cek_kode_kelas($id,$val)
 		{
 			$cek = $this->db->where("BINARY kode_kelas = '$val'", NULL, FALSE)->get('rb_kelas');
-			 
+			
 			if (
 			$cek->num_rows() == 1 && 
 			$cek->row_array()['id'] == $id || 
@@ -554,5 +554,6 @@
 			{
 				return FALSE;
 			}
-		}	
-	}																																																											
+		}
+
+	}
