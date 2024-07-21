@@ -107,6 +107,7 @@
         <script src="<?=base_url('assets');?>/fullscreen/assets/js/waypoints.min.js"></script>
         
         <script src="<?=base_url('assets');?>/fullscreen/assets/js/scripts.js"></script>
+        <script src="<?=base_url('assets');?>/js/function.js"></script>
         <script>
             var url = window.location;
             // untuk sidebar menu
