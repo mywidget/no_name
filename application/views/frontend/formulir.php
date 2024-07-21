@@ -54,7 +54,7 @@
                     <div class="col-sm-9 col-md-8 col-lg-6">
                         <select name="jenis_kelamin" id="gender" class="form-select" required="">
                             <option value="">Pilih</option>
-                            <option value="Laki-laki" selected>Laki-laki</option>
+                            <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
                         <div class="invalid-feedback">Janis kelamin wajib di isi</div>
@@ -234,7 +234,7 @@
                             <option value="TK/PAUD">TK/PAUD</option>
                             <option value="SD/MI">SD/MI</option>
                             <option value="SMP/MTs/Sederajat">MP/MTs/Sederajat</option>
-                            <option value="SMA/MA/Sederajat" selected>SMA/MA/Sederajat</option>
+                            <option value="SMA/MA/Sederajat">SMA/MA/Sederajat</option>
                             <option value="Diploma">Diploma</option>
                             <option value="Sarjana">Sarjana</option>
                             <option value="Pasca Sarjana">Pasca Sarjana</option>
@@ -576,7 +576,7 @@
                         <select name="ukuran_seragam_baju" id="ukuranBaju" class="form-select" required="">
                             <option value="" selected="" disabled="">Baju</option>
                             <option value="S">S</option>
-                            <option value="M" selected>M</option>
+                            <option value="M">M</option>
                             <option value="L">L</option>
                             <option value="XL">XL</option>
                             <option value="XXL">XXL</option>
@@ -596,7 +596,7 @@
                         <select name="ukuran_celana_rok" id="ukuranCelana" class="form-select" required="">
                             <option value="" selected="" disabled="">Celana/Rok</option>
                             <option value="S">S</option>
-                            <option value="M" selected>M</option>
+                            <option value="M">M</option>
                             <option value="L">L</option>
                             <option value="XL">XL</option>
                             <option value="XXL">XXL</option>
