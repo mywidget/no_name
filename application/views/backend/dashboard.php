@@ -76,7 +76,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/master/satker" class="btn">
+                                        <a href="/pendaftar" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/master/inventory" class="btn">
+                                        <a href="#" class="btn">
                                             Detail
                                         </a>
                                     </div>
