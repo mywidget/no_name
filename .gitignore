@@ -1,1 +1,13 @@
 application/config/database.php
+application/logs/*
+application/temp/*
+application/cache/*
+temp/*
+ci_sessions/*
+.vscode/*
+.htaccess
+user.ini
+php.ini
+index.php
+*.zip
+*.rar
