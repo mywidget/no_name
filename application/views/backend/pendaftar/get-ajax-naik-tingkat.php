@@ -10,7 +10,7 @@
                         <th class="w-15 text-left">Nama Lengkap</th>
                         <th class="w-15 text-left">NISN</th>
                         <th class="w-15 text-left">Unit</th>
-                        <th class="w-15 text-left">Kelas </th>
+                        <th class="w-15 text-left">Kelas</th>
                         <th class="w-12 text-end">Status | Aksi</th>
                     </tr>
                 </thead>  
@@ -19,22 +19,10 @@
                         $no = 1;
                         foreach ($record as $row){
                             $kode = encrypt_url($row['id']);
-                            if($row['status']=='Proses'){
-                                $icon = '<i class="fa fa-spinner"></i>&nbsp;Proses';
-                                $color = 'warning';
-                                }elseif($row['status']=='Diterima'){
-                                $icon = '<i class="fa fa-check"></i>&nbsp;Diterima';
-                                $color = 'success';
-                                }else{
-                                $icon = '<i class="fa fa-times"></i>&nbsp;Ditolak';
-                                $color = 'danger';
-                            }
                             
                             $hapus = '<a class="dropdown-item text-danger" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
                             
                             $edit ="<a href='javascript:void(0);' class='dropdown-item text-info' data-bs-toggle='modal' data-bs-target='#OpenModalUser' data-id='<?=$kode;?>' data-mod='edit' class='openPopup text-info'><i class='ti ti-edit'></i>&nbsp;&nbsp;Edit Data</a>";
-                            
-                            $status = '<a class="btn btn-'.$color.' btn-sm flat" data-id="'.$kode.'">'.$icon.'</a>';
                             
                             $print = '<a class="btn btn-primary btn-sm flat" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-print"></i>&nbsp;&nbsp;Print</a>';
                             
@@ -54,7 +42,6 @@
                                         <?=$row['nama'];?>
                                     </button>
                                     <ul class="dropdown-menu" style="">
-                                        <li><a class="dropdown-item" href="#">Kode Pendaftaran : <?=$row['kode_daftar'];?></a></li>
                                         <li><a class="dropdown-item" href="#">Email : <?=$row['email'];?></a></li>
                                         <li><a class="dropdown-item" href="#">Jenis Kelamin : <?=$row['jenis_kelamin'];?></a></li>
                                         <li><a class="dropdown-item" href="#">No. HP : <?=$row['nomor_hp'];?></a></li>
@@ -93,7 +80,6 @@
                             <td><?=$row['kelas'];?></td>
                             <td align="right">
                                 <div class="btn-group btn-sm flat bg-danger">
-                                    <?=$status;?>
                                     <?=$print;?>
                                     <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split bg-danger" data-bs-toggle="dropdown" aria-expanded="true">
                                         <span class="visually-hidden">Toggle Dropright</span>
@@ -105,6 +91,7 @@
                                         <li><?=$surat;?></li>
                                         <li><?=$edit;?></li>
                                         <li><?=$hapus;?></li>
+                                        
                                         <!--li><hr class="dropdown-divider"></li-->
                                     </ul>
                                 </div>

@@ -13,10 +13,22 @@
 			}
 			if(array_key_exists("search", $params)){ 
 				if(!empty($params['search']['keywords'])){ 
-					$this->db->like('kode_jurusan', $params['search']['keywords']); 
-					$this->db->or_like('nama_jurusan', $params['search']['keywords']); 
+					$this->db->like('nama', $params['search']['keywords']); 
+					$this->db->or_like('nik', $params['search']['keywords']); 
+					$this->db->or_like('nisn', $params['search']['keywords']); 
+					$this->db->or_like('nomor_hp', $params['search']['keywords']); 
 				} 
 				
+				if(!empty($params['search']['tahun'])){ 
+					$this->db->where('tahun_akademik', $params['search']['tahun']); 
+				} 
+				
+				if(!empty($params['search']['status'])){ 
+					$this->db->where('status_sekolah', $params['search']['status']); 
+				} 
+				if(!empty($params['search']['sortUnit'])){ 
+					$this->db->like('unit_sekolah', $params['search']['sortUnit']); 
+				} 
 				if(!empty($params['search']['sortKelas'])){ 
 					$this->db->where('kelas', $params['search']['sortKelas']); 
 				} 

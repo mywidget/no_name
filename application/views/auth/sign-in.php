@@ -12,7 +12,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-        <link rel="icon" type="image/x-icon" href="<?= base_url('upload/'); ?><?=info('logo_bw');?>" />
+        <link rel="icon" type="image/x-icon" href="<?= base_url('upload/'); ?><?=info('site_favicon');?>" />
         <title><?=$title;?></title>
         <!-- CSS files -->
         <link href="<?=base_url();?>assets/backend/css/tabler.min.css?1666304673" rel="stylesheet"/>
@@ -34,7 +34,7 @@
             <div class="col-12 col-lg-6 col-xl-3 border-top-wide border-primary d-flex flex-column justify-content-center">
                 <div class="container container-tight my-5 px-lg-4">
                     <div class="text-center mb-4">
-                        <a href="." class="navbar-brand navbar-brand-autodark"><img src="<?= base_url('upload/'); ?><?=info('logo_bw');?>" height="36" alt=""></a>
+                        <a href="." class="navbar-brand navbar-brand-autodark"><img src="<?= base_url('upload/'); ?><?=info('site_logo');?>" height="36" alt=""></a>
                     </div>
                     <h2 class="h3 text-center mb-3">
                         Login to Admin Panel
@@ -77,7 +77,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-xl-9 d-none d-lg-block">
-                <div class="bg-cover h-100 min-vh-100" style="background-image: url(<?= base_url('upload/'); ?><?=info('logo_bw');?>)"></div>
+                <div class="bg-cover h-100 min-vh-100" style="background-image: url(<?= base_url('upload/'); ?><?=info('site_bg');?>)"></div>
             </div>
         </div>
         <script src="<?= base_url('assets/'); ?>backend/jquery/jquery.min.js" type="text/javascript"></script>

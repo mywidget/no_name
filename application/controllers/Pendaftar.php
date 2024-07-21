@@ -21,35 +21,102 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Pendaftar | '.$this->title;
-			
-            $cekUser = cekUser($this->iduser);
+			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->result();
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
-			$data['kelas'] = $this->model_app->view_where('rb_kelas',['aktif'=>'Ya'])->result();
+			$data['kelas'] = $this->model_app->view_where('rb_kelas',['status'=>1,'aktif'=>'Ya'])->result();
 			
+			
+			$this->thm->load('backend/template','backend/pendaftar/view_index',$data);
+		}
+		
+        function ajax_list()
+        {
+            // Define offset 
+            $page = $this->input->post('page');
+            if (!$page) {
+                $offset = 0;
+                } else {
+                $offset = $page;
+			}
+            $keywords = $this->input->post('keywords');
+            if (!empty($keywords)) {
+                $conditions['search']['keywords'] = $keywords;
+			}
+			$limit = $this->input->post('limit');
+            if (!empty($limit)) {
+                $conditions['search']['limit'] = $limit;
+				}else{
+				$limit = $this->perPage;
+			}
+			
+            $tahun = $this->input->post('tahun');
+            if (!empty($tahun)) {
+                $conditions['search']['tahun'] = $tahun;
+			}
+			
+            $sortBy = $this->input->post('sortBy');
+            if (!empty($sortBy)) {
+                $conditions['search']['sortBy'] = $sortBy;
+			}
+			
+            $status = $this->input->post('status');
+            if (!empty($status)) {
+                $conditions['search']['status'] = $status;
+			}
+			
+            $sortUnit = $this->input->post('sortUnit');
+            if (!empty($sortUnit)) {
+                $conditions['search']['sortUnit'] = $sortUnit;
+			}
+			
+            $sortKelas = $this->input->post('sortKelas');
+            if (!empty($sortKelas)) {
+                $conditions['search']['sortKelas'] = $sortKelas;
+			}
+			$conditions['where'] = ['s_pendidikan'=>'Baru'
+			];
+			
+            // Get record count 
             $conditions['returnType'] = 'count';
             $totalRec = $this->model_pendaftar->getPendaftar($conditions);
             
             // Pagination configuration 
             $config['target']      = '#posts_content';
-            $config['base_url']    = base_url('pendaftar/ajaxPengguna');
+            $config['base_url']    = base_url('pendaftar/ajax_list');
             $config['total_rows']  = $totalRec;
-            $config['per_page']    = $this->perPage;
+            $config['per_page']    = $limit;
             $config['link_func']   = 'searchPengguna';
             
             // Initialize pagination library 
             $this->ajax_pagination->initialize($config);
             
             // Get records 
-            $conditions = array(
-            'limit' => $this->perPage
-            );
+            $conditions['start'] = $offset;
+            $conditions['limit'] = $limit;
 			
-			$data['kategori'] = $this->model_app->view('type_akses')->result();
+            unset($conditions['returnType']);
             $data['record'] = $this->model_pendaftar->getPendaftar($conditions);
-			$this->thm->load('backend/template','backend/pendaftar/view_index',$data);
+			
+            // Load the data list view 
+			$this->load->view('backend/pendaftar/get-ajax',$data);
+			
 		}
 		
-        function ajax_list()
+		public function naik_tingkat()
+        {
+			cek_menu_akses();
+			cek_crud_akses('READ');
+			$data['title'] = 'Data Pendaftar | '.$this->title;
+			
+            $cekUser = cekUser($this->iduser);
+			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
+			$data['kelas'] = $this->model_app->view_where('rb_kelas',['aktif'=>'Ya'])->result();
+			
+			
+			$this->thm->load('backend/template','backend/pendaftar/view_index_naik_tingkat',$data);
+		}
+		
+        function ajax_list_naik_tingkat()
         {
             // Define offset 
             $page = $this->input->post('page');
@@ -78,17 +145,17 @@
             if (!empty($sortKelas)) {
                 $conditions['search']['sortKelas'] = $sortKelas;
 			}
-			
+			$conditions['where'] = ['s_pendidikan'=>'Naik Tingkatan'];
             // Get record count 
             $conditions['returnType'] = 'count';
             $totalRec = $this->model_pendaftar->getPendaftar($conditions);
             
             // Pagination configuration 
             $config['target']      = '#posts_content';
-            $config['base_url']    = base_url('pendaftar/ajax_list');
+            $config['base_url']    = base_url('pendaftar/ajax_list_naik_tingkat');
             $config['total_rows']  = $totalRec;
             $config['per_page']    = $limit;
-            $config['link_func']   = 'searchPengguna';
+            $config['link_func']   = 'searchData';
             
             // Initialize pagination library 
             $this->ajax_pagination->initialize($config);
@@ -101,7 +168,7 @@
             $data['record'] = $this->model_pendaftar->getPendaftar($conditions);
 			
             // Load the data list view 
-			$this->load->view('backend/pendaftar/get-ajax',$data);
+			$this->load->view('backend/pendaftar/get-ajax-naik-tingkat',$data);
 			
 		}
 		
@@ -112,6 +179,31 @@
 				$id = $this->input->post('id',true);
 				
 				$kelas = $this->model_app->view_where_ordering('rb_kelas',['id_unit'=>$id],'nama_kelas','ASC')->result();
+				$response = [];
+				foreach($kelas AS $val)
+				{
+					$response[] = ['id'=>$val->id,
+					'name'=>$val->kode_kelas.' - '.$val->nama_kelas
+					];
+				}
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		
+		public function load_kelas()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id = $this->input->post('id',true);
+				if($id=='Baru'){
+					$where = ['status'=>1,'aktif'=>'Ya'];
+					}else{
+					$where = ['aktif'=>'Ya'];
+				}
+				$kelas = $this->model_app->view_where_ordering('rb_kelas',$where,'nama_kelas','ASC')->result();
 				$response = [];
 				foreach($kelas AS $val)
 				{
@@ -622,4 +714,4 @@
 			->set_output(json_encode($data));
 		}
 		
-	}																																																																															
+	}																																																																																			

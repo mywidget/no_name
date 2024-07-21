@@ -13,7 +13,9 @@ $(document).ready(function () {
         const kategori = $('#kategori-val', this).val();
         if (kategori === 'nt') {
             $('button', this).prop('disabled', true).html(spinner);
-            
+            $("#statusPendidikan").empty();
+            $("#statusPendidikan").append("<option value='Baru'>Baru</option>");
+            // console.log(1)
             const formData = {
                 nis: $('#nt-noin', this).val(),
                 namaIbu: $('#nt-namaibu', this).val(),
@@ -92,12 +94,12 @@ $('body').on("change","#form_unit",function(){
 });
 
 $('body').on("change","#gender",function(){
-   var status = $("#statusPendidikan").val();
+    var status = $("#statusPendidikan").val();
     $("#statusPendidikan").val(status).change();
 });
 
 $('body').on("change","#statusPendidikan",function(){
-   var form_unit = $("#form_unit").val();
+    var form_unit = $("#form_unit").val();
     $("#form_unit").val(form_unit).change();
 });
 
@@ -125,7 +127,7 @@ function load_kamar(id)
 {
     
     var gender = $("#gender").val();
-    console.log(gender)
+    // console.log(gender)
     $.ajax({
         type: 'POST',
         url: base_url+ "dashboard/load_kamar",

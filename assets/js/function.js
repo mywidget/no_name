@@ -203,7 +203,7 @@ const generateFormValue = ({
 	kecamatan,
 	kelurahan,
 }) => {
-console.log(provinsi)
+// console.log(provinsi)
 $('#nis').val(nis);
 $('#nama').val(nama);
 $('#gender').val(gender);
@@ -247,82 +247,4 @@ const rincianPembayaran = (data) => {
 		</div>`
 	);
 };
-
-// // prettier-ignore
-// const successPage = ({ nis, nama, unit, payment: { bank, nomorVa, nominal } }) =>
-// `<main class="container-md mb-4" style="display: none;">
-// <h4 class="my-4 text-dark text-center">Pendaftaran Berhasil</h4>
-
-// <h5>Detail Pendaftaran</h5>
-// <ul class="list-group">
-// <li class="list-group-item container">
-// <div class="row align-items-center">
-// <div class="col-md-3">
-// <small class="text-secondary">Nomor pendaftaran</small>
-// </div>
-// <div class="col-auto">
-// <span>${nis}</span>
-// </div>
-// </div>
-// </li>
-// <li class="list-group-item container">
-// <div class="row align-items-center">
-// <div class="col-md-3">
-// <small class="text-secondary">Nama Lengkap</small>
-// </div>
-// <div class="col-auto">
-// <span>${nama}</span>
-// </div>
-// </div>
-// </li>
-// <li class="list-group-item container">
-// <div class="row align-items-center">
-// <div class="col-md-3">
-// <small class="text-secondary">Unit Pendidikan</small>
-// </div>
-// <div class="col-auto">
-// <span>${unit}</span>
-// </div>
-// </div>
-// </li>
-// </ul>
-
-// <h5 class="mt-3">Detail Tagihan</h5>
-// <ul class="list-group">
-// <li class="list-group-item container">
-// <div class="row align-items-center">
-// <div class="col-md-3">
-// <small class="text-secondary">Metode pembayaran</small>
-// </div>
-// <div class="col-auto">
-// <span>${bank.toUpperCase()} Virtual Account</span>
-// </div>
-// </div>
-// </li>
-// <li class="list-group-item container">
-// <div class="row align-items-center">
-// <div class="col-md-3">
-// <small class="text-secondary">Nomor Virtual Account</small>
-// </div>
-// <div class="col-auto">
-// <span>${nomorVa}</span>
-// </div>
-// </div>
-// </li>
-// <li class="list-group-item container">
-// <div class="row align-items-center">
-// <div class="col-md-3">
-// <small class="text-secondary">Total Tagihan</small>
-// </div>
-// <div class="col-auto">
-// <span>Rp. ${formatRupiah(nominal)}</span>
-// </div>
-// </div>
-// </li>
-// </ul>
-
-// <div class="mt-3 text-secondary">
-// <p>Silahkan lakukan pembayaran sesuai dengan nominal yang tertera untuk mempercepat proses vertifikasi pembayaran. Setelah melakukan pembayaran, sistem kami akan memverifikasi pembayaran secara otomatis.</p>
-// <p>Jika anda menghadapi kendala mengenai pembayaran, silakan hubungi kami ke nomor telepon <strong>082321540000</strong></p>
-// </div>
-// </main>`;
+ 

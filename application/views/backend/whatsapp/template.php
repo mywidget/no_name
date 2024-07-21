@@ -86,7 +86,7 @@
 	</div>
 </div>
 <div class="modal fade" id="ModalTemplate" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-scrollable" role="document">
+	<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
 		<div class="modal-content flat">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalScrollableTitle">Form edit</h5>
@@ -97,31 +97,61 @@
 					<input type='hidden' name='id' id='id_template' value='0'>
 					<input type='hidden' name='type' id="type_template">
 					<div class="card-block">
-						<div class="form-group my-1">
-							<label class="form-label" for="title">Title</label>
-							<input type="text" name="title" id="title_template" class="form-control" required>
-						</div>
-						<div class="form-group my-1">
-							<label class="form-label" for="inisial">Deskripsi</label>
-							<textarea class="form-control fcs" rows="8" id="deskripsi_template" name="deskripsi" required></textarea>
-						</div>
-						<div class="form-group my-1">
-							<label class="form-label" for="publish">Aktif</label>
-							<select name="publish" id="publish" class="form-control custom-select" required>
-								<option value="Ya" selected>Ya</option>
-								<option value="Tidak">Tidak</option>
-							</select>
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group my-1">
+									<label class="form-label" for="title">Judul</label>
+									<input type="text" name="title" id="title_template" class="form-control" required>
+								</div>
+								<div class="form-group my-1">
+									<label class="form-label" for="inisial">Isi Pesan</label>
+									<textarea class="form-control fcs" rows="10" id="deskripsi_template" name="deskripsi" required></textarea>
+								</div>
+								
+								<div class="form-group my-1">
+									<label class="form-label" for="slug">Slug</label>
+									<select name="slug" id="slug" class="form-control custom-select" required>
+										<option value="" selected>PILIH</option>
+										<option value="PENDAFTARAN" selected>PENDAFTARAN</option>
+										<option value="TAGIHAN">TAGIHAN</option>
+										<option value="INFO">INFO</option>
+										<option value="LAINNYA">LAIN NYA</option>
+									</select>
+								</div>
+								<div class="form-group my-1">
+									<label class="form-label" for="publish">Aktif</label>
+									<select name="publish" id="publish" class="form-control custom-select" required>
+										<option value="Ya" selected>YA</option>
+										<option value="Tidak">TIDAK</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<ul class="pl-3">
+									<li><small>{selamat} : SELAMAT PAGI | SIANG | SORE | MALAM</small></li>
+									<li><small>{nama_sekolah} : NAMA SEKOLAH</small></li>
+									<li><small>{web_sekolah} : ALAMAT WEBSITE</small></li>
+									<li><small>{wa_sekolah} : NO HP ADMIN</small></li>
+									<li><small>{email_sekolah} : EMAIL SEKOLAH</small></li>
+									<li><small>{alamat_sekolah} : ALAMAT SEKOLAH</small></li>
+									<li><small>{nomor_pendaftaran} : NOMOR PENDAFTARAN</small></li>
+									<li><small>{tgl_pendaftaran} : TANGGAL DAFTAR</small></li>
+									<li><small>{nama_pendaftar} : NAMA PENDAFTARA</small></li>
+									<li><small>{nik} : NIK PENDAFTARA</small></li>
+									<li><small>{nisn} : NOMOR NISN PENDAFTARA</small></li>
+									<li><small>{email_pendaftar} : EMAIL PENDAFTARA</small></li>
+									<li><small>{unit} : UNIT PILIHAN</small></li>
+									<li><small>{kelas} : KELAS PILIHAN</small></li>
+									<li><small>{kamar} : KAMAR PILIHAN</small></li>
+									<li><small>{biaya} : BIAYA PENDAFTARAN</small></li>
+								</ul>
+							</div>
 						</div>
 					</div>
 					
 				</form>
 			</div>
 			<div class="modal-footer">
-				<a href="javascript:void(0);"  data-bs-toggle="modal" data-bs-target="#template-shortcut"  class="btn btn-info  me-auto flat" data-url="transaksi" data-bs-toggle="tooltip" data-original-title="Shortcut" data-placement="top">
-					<span class="icon text-white-50">
-						<i class="fa fa-info-circle fa-fw"></i>
-					</span>	
-				</a>
 				<button type="button" name="submit" class="btn btn-info save_data">Simpan</button>
 				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 			</div>
@@ -129,42 +159,6 @@
 	</div>
 </div>
 
-<div class="modal fade" id="template-shortcut" tabindex="-1"
-aria-labelledby="modal-shortcut" aria-hidden="true">
-    <div class="modal-dialog">
-		<div class="modal-content flat">
-			<div class="modal-header">
-				<h5 class="modal-title">SHORT TAG</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<ul class="pl-3">
-					<li><small>{web} : ALAMAT WEBSITE</small></li>
-					<li><small>{link_mobile} : LINK E-INVOICE MOBILE</small></li>
-					<li><small>{link_desktop} : LINK E-INVOICE DESKTOP</small></li>
-					<li><small>{selamat} : SELAMAT PAGI | SIANG | SORE | MALAM</small></li>
-					<li><small>{invoice} : NOMOR ORDER</small></li>
-					<li><small>{tgl} : TANGGAL ORDER</small></li>
-					<li><small>{perusahaan} : NAMA PERUSAHAAN</small></li>
-					<li><small>{fo} : KASIR PENERIMA ORDER</small></li>
-					<li><small>{hp} : NO HP KANTOR</small></li>
-					<li><small>{email} : EMAIL KANTOR</small></li>
-					<li><small>{alamat} : ALAMAT KANTOR</small></li>
-					<li><small>{detail} : DETAIL ORDER</small></li>
-					<li><small>{total} : TOTAL ORDER</small></li>
-					<li><small>{diskon} : TOTAL DISKON</small></li>
-					<li><small>{cashback} : TOTAL CASHBACK</small></li>
-					<li><small>{bayar} : TOTAL BAYAR</small></li>
-					<li><small>{piutang} : TOTAL PIUTANG</small></li>
-					<li><small>{status} : STATUS ORDER</small></li>
-					<li><small>{panggilan} : NAMA PANGGILAN Bpk/Ibu/Mas/Mba</small></li>
-					<li><small>{nama} : NAMA PELANGGAN</small></li>
-				</ul>
-			</div>
-			
-		</div>
-	</div>
-</div>
 
 <style>
 	.select2-container {
@@ -233,6 +227,7 @@ aria-labelledby="modal-shortcut" aria-hidden="true">
 				success: function(data) {
 					$("#id_template").val(data.id);
 					$("#title_template").val(data.title);
+					$("#slug").val(data.slug);
 					$("#publish").val(data.publish);
 					$("#deskripsi_template").val(decodeURI(data.deskripsi));
 					$('body').loading('stop');

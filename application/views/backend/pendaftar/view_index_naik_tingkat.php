@@ -6,7 +6,7 @@
 					PSB Online
 				</div>
                 <h2 class="page-title">
-					Data Pendaftar Baru
+					Data Pendaftar Naik Tingkat
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
@@ -37,50 +37,31 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
-									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchPengguna()">
+									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchData()">
 										<option value="10">10</option>
 										<option value="20">20</option>
 										<option value="50">50</option>
 										<option value="100">100</option>
 									</select>
 								</div>
+								
 							</div>
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Sort</div>
 								<div class="mx-2 d-inline-block">
-									<select id="sortBy" class="form-control form-select w-1" onchange="searchPengguna()" style="width:80px!important">
+									<select id="sortBy" class="form-control form-select w-1" onchange="searchData()" style="width:80px!important">
 										<option value="ASC" selected>ASC</option>
 										<option value="DESC">DESC</option>
 									</select>
 								</div>
 							</div>
 							<div class="text-muted">
-								<div class="mx-2 d-inline-block">
-									<select id="sort_tahun" class="form-control form-select w-2" onchange="searchPengguna()" style="width:150px!important">
-										<option value="">Tahun Akademik</option>
-										<?php foreach($tahun AS $val) : ?>
-										<option value="<?=$val->id_tahun_akademik;?>"><?=$val->id_tahun_akademik;?></option>
-										<?php endforeach; ?>
-									</select>
-								</div>
-							</div>
-							<div class="text-muted">
-								<div class="d-none d-sm-inline-block">Status</div>
-								<div class="mx-2 d-inline-block">
-									<select id="status" name="status" class="form-control form-select" style="width:100px!important" onchange="searchPengguna()">
-										<option value="Baru">Baru</option>
-										<option value="Pindahan">Pindahan</option>
-									</select>
-								</div>
-							</div>
-							
-							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Unit</div>
 								<div class="mx-2 d-inline-block">
-									<select id="sortUnit" class="form-control form-select w-2" onchange="searchPengguna()" style="width:130px!important">
-										<option value="">Pilih Unit</option>
+									<select id="sortUnit" class="form-control form-select w-2" onchange="searchData()" style="width:130px!important">
+										<option value="">Semua Unit</option>
 										<?php foreach($unit AS $val) : ?>
-										<option value="<?=$val->nama_jurusan;?>"><?=$val->nama_jurusan;?></option>
+										<option value="<?=$val->id;?>"><?=$val->nama_jurusan;?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -88,8 +69,8 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Kelas</div>
 								<div class="mx-2 d-inline-block">
-									<select id="sortKelas" class="form-control form-select w-2" onchange="searchPengguna()" style="width:130px!important">
-										<option value="">Pilih Kelas</option>
+									<select id="sortKelas" class="form-control form-select w-2" onchange="searchData()" style="width:130px!important">
+										<option value="">Semua Kelas</option>
 										<?php foreach($kelas AS $val) : ?>
 										<option value="<?=$val->id;?>"><?=$val->kode_kelas;?> - <?=$val->nama_kelas;?></option>
 										<?php endforeach; ?>
@@ -97,12 +78,13 @@
 								</div>
 							</div>
 							<div class="ms-auto text-muted">
+								<div class="d-none d-sm-inline-block">Search:</div>
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
-										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari data" onkeyup="searchPengguna();" style="width:150px!important" />
+										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari data" onkeyup="searchData();"/>
 										<span class="input-group-text">
 											
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari pengguna" title="Cari pengguna" onclick="searchPengguna();"><i class="ti ti-search fa-lg"></i>&nbsp;
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari pengguna" title="Cari pengguna" onclick="searchData();"><i class="ti ti-search fa-lg"></i>&nbsp;
 											</a>
 											<a href="#" class="link-secondary">&nbsp;|&nbsp;</a>
 											<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear search" title="Clear search">
@@ -172,25 +154,21 @@
 </style>
 
 <script>
-	searchPengguna();
-    function searchPengguna(page_num){
+	searchData();
+    function searchData(page_num){
         page_num = page_num?page_num:0;
 		var limit = $('#limits').val();
         var keywords = $('#keywords').val();
         var sortBy = $('#sortBy').val();
-        var sort_tahun = $('#sort_tahun').val();
-        var status = $('#status').val();
         var sortUnit = $('#sortUnit').val();
         var sortKelas = $('#sortKelas').val();
         $.ajax({
             type: 'POST',
-            url: base_url+'pendaftar/ajax_list/'+page_num,
+            url: base_url+'pendaftar/ajax_list_naik_tingkat/'+page_num,
             data:{page:page_num,
 				limit:limit,
 				keywords:keywords,
-				tahun:sort_tahun,
 				sortBy:sortBy,
-				status:status,
 				sortUnit:sortUnit,
 				sortKelas:sortKelas
 			},
@@ -207,7 +185,7 @@
 	$('#OpenModalUser').on('show.bs.modal', function(e) {
 		var id = $(e.relatedTarget).data('id');
 		var mod = $(e.relatedTarget).data('mod');
-		
+		 
 		$.ajax({
 			type: 'POST',
 			url: base_url + "pendaftar/edit_data",
@@ -281,7 +259,7 @@
 					showNotif('bottom-right',data.title,data.msg,'error');
 				}
 				
-				searchPengguna();
+				searchData();
 				} ,error: function(xhr, status, error) {
 				showNotif('bottom-right','Peringatan',error,'error');
 				$('body').loading('stop');
@@ -305,7 +283,7 @@
 					}else{
 					sweet('Peringatan!!!',data.msg,'warning','warning');
 				}
-				searchPengguna();
+				searchData();
 				
 				$('body').loading('stop');　
 				},error: function(xhr, status, error) {
@@ -316,7 +294,7 @@
 	});
 	$(document).on('click','.clear',function(e){
 		$("#keywords").val('');
-		searchPengguna();
+		searchData();
 	});
 	$('#confirm-delete').on('show.bs.modal', function(e) {
 		$('#data-hapus').val($(e.relatedTarget).data('id'));
@@ -335,35 +313,6 @@
 			beforeSend: function(){
 				$("#sortKelas").empty();
 				$("#sortKelas").append("<option value='0'>Pilih</option>");
-			},
-			success: function(response) {
-				var msize = response.length;
-				if(msize > 0)
-				{
-					// $("#sortKelas").attr('disabled',false);
-					var i = 0;
-					for (; i < msize; i++) {
-						var teg = response[i]["id"];
-						var name = response[i]["name"];
-						$("#sortKelas").append("<option value='" + teg + "'>" + name + "</option>");
-					}
-				}
-			}
-		});
-	});
-	// ambil data kelas ketika data memilih unit
-	$('body').on("change","#status",function(){
-		var id = $(this).val();
-		var data = {id:id};
-		// $("#sortKelas").attr('disabled',true);
-		$.ajax({
-			type: 'POST',
-			url: base_url+ "pendaftar/load_kelas",
-			data: data,
-			dataType : "json",
-			beforeSend: function(){
-				$("#sortKelas").empty();
-				$("#sortKelas").append("<option value='0'>Pilih Kelas</option>");
 			},
 			success: function(response) {
 				var msize = response.length;

@@ -206,6 +206,7 @@
 					'id' => $id,
 					'title' => $row->title,
 					'deskripsi' => $row->deskripsi,
+					'slug' => $row->slug,
 					'publish' => $row->aktif
 					];
 					} else {
@@ -224,7 +225,7 @@
 		}
 		
 		/**
-			* get_template
+			* get_detail
 			*
 			* @return void
 		*/
@@ -269,6 +270,7 @@
 				$title     = xss_filter($this->input->post('title'), 'xss');
 				$deskripsi = xss_filter($this->input->post('deskripsi'));
 				$deskripsi = ($deskripsi);
+				$slug    = $this->input->post('slug');
 				$aktif    = $this->input->post('publish');
 				
 				$this->form_validation->set_rules(array(array(
@@ -291,7 +293,7 @@
 				
 				if ($this->form_validation->run()) {
 					if ($type == 'add') {
-						$param = ['title' => $title, 'deskripsi' => $deskripsi, 'status' => 5, 'aktif' => $aktif, 'create_date' => today()];
+						$param = ['title' => $title, 'deskripsi' => $deskripsi, 'slug' => $slug, 'aktif' => $aktif, 'create_date' => today()];
 						$input =  $this->model_app->input('rb_template_pesan', $param);
 						if ($input['status'] == 'ok') {
 							$result = array('status' => true, 'msg' => 'Data berhasil diinput');
@@ -303,7 +305,7 @@
 						
 						$id = xss_filter($this->input->post('id'), 'xss');
 						$id = decrypt_url($id);
-						$param = ['title' => $title, 'deskripsi' => $deskripsi, 'aktif' => $aktif];
+						$param = ['title' => $title, 'deskripsi' => $deskripsi,'slug'=>$slug, 'aktif' => $aktif];
 						$update = $this->model_app->update('rb_template_pesan', $param, ['id' => $id]);
 						if ($update['status'] == 'ok') {
 							$result = ['status' => true, 'msg' => 'Berhasil'];

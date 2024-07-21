@@ -5,7 +5,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th style="width:1% !important;">No</th>
-                        <th>Title</th>
+                        <th>Judul</th>
+                        <th>Slug</th>
                         <th style="width:20%;text-align:center">Status | Aksi</th>
                     </tr>
                 </thead>  
@@ -29,6 +30,7 @@
                         <tr>
                             <td><?=$no;?></td>
                             <td><?=$row->title;?></td>
+                            <td><?=$row->slug;?></td>
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
                                     <?=$status;?>

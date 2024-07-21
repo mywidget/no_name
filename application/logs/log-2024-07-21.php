@@ -5519,3 +5519,76 @@ ERROR - 2024-07-21 02:23:48 --> Severity: Notice --> Trying to get property 'tit
 ERROR - 2024-07-21 02:23:48 --> Severity: Notice --> Trying to get property 'title' of non-object E:\laragon\www\ppdb\application\views\frontend\formulir.php 402
 ERROR - 2024-07-21 02:29:34 --> Severity: Warning --> explode() expects parameter 2 to be string, array given E:\laragon\www\ppdb\system\database\DB_query_builder.php 1233
 ERROR - 2024-07-21 02:29:34 --> Severity: Warning --> Invalid argument supplied for foreach() E:\laragon\www\ppdb\system\database\DB_query_builder.php 1233
+ERROR - 2024-07-21 14:58:57 --> Severity: error --> Exception: syntax error, unexpected ''aktif'' (T_CONSTANT_ENCAPSED_STRING), expecting ']' E:\laragon\www\ppdb\application\controllers\Whatsapp.php 308
+ERROR - 2024-07-21 14:59:01 --> Severity: error --> Exception: syntax error, unexpected ''aktif'' (T_CONSTANT_ENCAPSED_STRING), expecting ']' E:\laragon\www\ppdb\application\controllers\Whatsapp.php 308
+ERROR - 2024-07-21 15:52:44 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%m%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%m%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:44 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%mu%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%mu%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:44 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%mun%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%mun%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:46 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%muna%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%muna%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:47 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%munaj%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%munaj%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:47 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%munaja%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%munaja%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:47 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%munajat%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%munajat%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:54 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%m%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%m%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:54 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%mu%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%mu%' ESCAPE '!'
+ERROR - 2024-07-21 15:52:55 --> Query error: Unknown column 'kode_jurusan' in 'where clause' - Invalid query: SELECT COUNT(*) AS `numrows`
+FROM `rb_psb_daftar`
+WHERE `s_pendidikan` = 'Baru'
+AND  `kode_jurusan` LIKE '%mun%' ESCAPE '!'
+OR  `nama_jurusan` LIKE '%mun%' ESCAPE '!'
+ERROR - 2024-07-21 16:26:16 --> Severity: error --> Exception: syntax error, unexpected '}' E:\laragon\www\ppdb\application\controllers\Pendaftar.php 194
+ERROR - 2024-07-21 18:29:24 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 54
+ERROR - 2024-07-21 18:29:24 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 54
+ERROR - 2024-07-21 18:30:12 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 62
+ERROR - 2024-07-21 18:30:12 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 62
+ERROR - 2024-07-21 18:30:51 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 62
+ERROR - 2024-07-21 18:30:51 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 62
+ERROR - 2024-07-21 18:31:06 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 62
+ERROR - 2024-07-21 18:31:06 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 62
+ERROR - 2024-07-21 18:31:35 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 62
+ERROR - 2024-07-21 18:31:35 --> Severity: Notice --> Trying to get property 'id_tahun_akademik' of non-object E:\laragon\www\ppdb\application\views\backend\pendaftar\view_index.php 62
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
+ERROR - 2024-07-21 18:42:06 --> Severity: Notice --> Undefined index: kode_pendaftaran E:\laragon\www\ppdb\application\views\backend\pendaftar\get-ajax.php 57
