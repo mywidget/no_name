@@ -818,13 +818,14 @@
 			// $search = $this->model_app->view('rb_psb_daftar')->result();
 			// foreach($search AS $val){
 				// $kabupaten = explode('.',$val->kelurahan);
-				// $count = count($kabupaten);
-				// // if($count > 1){
-					// $data[] = $kabupaten[3];
-					// $res = $this->model_app->update('rb_psb_daftar',['kelurahan'=>$kabupaten[3]],['id'=>$val->id,'dibaca'=>0]);
-				// // }
+				// $str1 = substr($kabupaten[3], 1);
+				// $kecamatan = clean($val->kecamatan);
+				
+				// $data = $kecamatan.$str1;
+				// $res = $this->model_app->update('rb_psb_daftar',['kelurahan'=>$data],['id'=>$val->id,'dibaca'=>0]);
+				
 			// }
-			// dump($data);
+			// // dump($data);
 		// }
 		
-	}																																																																																											
+	}																																																																																													
