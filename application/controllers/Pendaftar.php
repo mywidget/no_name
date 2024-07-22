@@ -775,18 +775,30 @@
 			->set_output(json_encode($data));
 		}
 		
-		// function update_kabupaten(){
-		// $search = $this->model_app->view('rb_psb_daftar')->result();
-		// foreach($search AS $val){
-		// $kabupaten = explode('.',$val->kelurahan);
-		// $str1 = substr($kabupaten[3], 1);
-		// $kecamatan = clean($val->kecamatan);
+		function download($file=""){
+			$this->load->helper('download');
+			$opathFile = FCPATH.'upload/foto_dokumen/'.$file;
+			
+			$size = @filesize($opathFile);
+			if($size !== false){
+				force_download($opathFile, NULL);
+				}else{
+				$data['title'] = 'File tidak ditemukan | '.$this->title;
+				$this->thm->load('backend/template','backend/blank_file',$data);
+			}
+		}
+		function print_dokumen($id=""){
+			
+			$data['title'] = 'Print Formulir | '.$this->title;
+			$query = $this->model_app->view_where('rb_psb_daftar',['id'=>decrypt_url($id)]);
+			if($query->num_rows() > 0){
+				$data['s'] = $query->row_array();
+				$this->load->view('backend/pendaftar/print',$data);
+				// $this->thm->load('backend/template','backend/pendaftar/print',$data);
+				}else{
+				$this->thm->load('backend/template','backend/blank',$data);
+			}
+			
+		}
 		
-		// $data = $kecamatan.$str1;
-		// $res = $this->model_app->update('rb_psb_daftar',['kelurahan'=>$data],['id'=>$val->id,'dibaca'=>0]);
-		
-		// }
-		// // dump($data);
-		// }
-		
-	}																																																																																																					
+	}																																																																																																														

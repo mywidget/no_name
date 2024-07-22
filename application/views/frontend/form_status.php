@@ -55,11 +55,11 @@
         <br>
         <div id="frames1">
             <?php
-                $opathFile = FCPATH.'upload/lampiran/'.$row['foto'];
+                $opathFile = FCPATH.'upload/foto_dokumen/'.$row['foto'];
                 
                 $size = @getimagesize($opathFile);
                 if($size !== false){
-                    $foto = base_url().'upload/lampiran/'.$row['foto'];
+                    $foto = base_url().'upload/foto_dokumen/'.$row['foto'];
                     }else{
                     $foto = base_url()."upload/foto_dokumen/noimage.jpg";
                 }
@@ -82,11 +82,11 @@
         <br>
         <div id="frames2">
             <?php
-                $opathFile = FCPATH.'upload/lampiran/'.$row['foto_kk'];
+                $opathFile = FCPATH.'upload/foto_dokumen/'.$row['foto_kk'];
                 
                 $size = @getimagesize($opathFile);
                 if($size !== false){
-                    $foto_kk = base_url().'upload/lampiran/'.$row['foto_kk'];
+                    $foto_kk = base_url().'upload/foto_dokumen/'.$row['foto_kk'];
                     }else{
                     $foto_kk = base_url()."upload/foto_dokumen/noimage.jpg";
                 }
@@ -110,11 +110,11 @@
         <br>
         <div id="frames2">
             <?php
-                $opathFile = FCPATH.'upload/lampiran/'.$row['surat'];
+                $opathFile = FCPATH.'upload/foto_dokumen/'.$row['surat'];
                 
                 $size = @getimagesize($opathFile);
                 if($size !== false){
-                    $surat = base_url().'upload/lampiran/'.$row['surat'];
+                    $surat = base_url().'upload/foto_dokumen/'.$row['surat'];
                     }else{
                     $surat = base_url()."upload/nodok.jpg";
                 }

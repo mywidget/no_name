@@ -293,32 +293,7 @@
 			echo $register_footer;
 		}
 	}
-	
-	function shortcode_login($priv=0, $header=""){
-		global $CI;
-		$log = $CI->cms->cek_login();
-		if($log){
-			//pengaturan priviledge
-			#0 : Semua priviledge boleh masuk
-			if($priv == 0)
-			return $log;
-			else{
-				#priviledge yang lebih besar dari yg seharusnya dianggap tidak memiliki akses
-				if($log['priviledge'] > $priv){
-					create_alert("Access Denied","Anda tidak memiliki hak untuk mengakses halaman tersebut",$header);
-					exit();
-				}
-				else{
-					return $log;
-				}
-			}
-		}
-		else{
-			create_alert("Access Denied","Silakan log in terlebih dahulu sebelum mengakses halaman Admin","");
-			exit();
-		}
-	}
-	
+	 
 	function cut_text($txt, $length=20){
 		$x = explode(" ",$txt);
 		if(count($x) <= $length)

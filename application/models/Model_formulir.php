@@ -58,9 +58,11 @@
 				"{unit}",
 				"{kelas}",
 				"{kamar}",
-				"{biaya}"
+				"{biaya}",
+				"{cetak_formulir}"
 				);
 				
+				$link = tag_key('site_url').'/cetak-formulir/'.encrypt_url($post['nik']);
 				// Array containing replace string from  search string
 				$replaceVal = array(
 				ucapan(),
@@ -79,6 +81,7 @@
 				$post['kelas'],
 				$post['kamar'],
 				rp($biaya),
+				$link
 				);
 				
 				// Function to replace string

@@ -8,6 +8,7 @@
 			parent::__construct();
 			$this->curl = new Curl();
 			$this->load->model('model_formulir');
+			$this->title = tag_key('site_title');
 		}
 		
 		public function index()
@@ -208,7 +209,7 @@
 						];
 					}
 				}
-				 
+				
 				if($type=='foto_kk'){
 					if(!empty($_FILES['file']['name']))
 					{
@@ -924,4 +925,17 @@
 			}
 		}
 		
+		function print_dokumen($id=""){
+			 
+			$data['title'] = 'Print Formulir | '.$this->title;
+			$query = $this->model_app->view_where('rb_psb_daftar',['nik'=>decrypt_url($id)]);
+			if($query->num_rows() > 0){
+				$data['s'] = $query->row_array();
+				$this->load->view('backend/pendaftar/print',$data);
+				// $this->thm->load('backend/template','backend/pendaftar/print',$data);
+				}else{
+				$this->load->view('errors/404');
+			}
+			
+		}
 	}

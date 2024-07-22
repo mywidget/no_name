@@ -692,3 +692,84 @@
 			}
 		}
 	}		
+	
+	if ( ! function_exists('getProvinsi'))
+	{
+		/**
+			* Code getProvinsi 
+			* 
+			@param int 
+			@return string
+		*/
+		function getProvinsi($id)
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih_where('name','t_provinces',['id'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row()->name; 	
+				}else{
+				return '-'; 
+			}
+		}
+	}		
+	if ( ! function_exists('getKabupaten'))
+	{
+		/**
+			* Code getProvinsi 
+			* 
+			@param int 
+			@return string
+		*/
+		function getKabupaten($id)
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih_where('name','t_regencies',['id'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row()->name; 	
+				}else{
+				return '-'; 
+			}
+		}
+	}		
+	if ( ! function_exists('getKecamatan'))
+	{
+		/**
+			* Code getProvinsi 
+			* 
+			@param int 
+			@return string
+		*/
+		function getKecamatan($id)
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih_where('name','t_villages',['id'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row()->name; 	
+				}else{
+				return '-'; 
+			}
+		}
+	}		
+	if ( ! function_exists('getKelurahan'))
+	{
+		/**
+			* Code getProvinsi 
+			* 
+			@param int 
+			@return string
+		*/
+		function getKelurahan($id)
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih_where('name','t_districts',['id'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row()->name; 	
+				}else{
+				return '-'; 
+			}
+		}
+	}		

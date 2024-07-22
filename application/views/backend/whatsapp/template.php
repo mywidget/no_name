@@ -144,6 +144,7 @@
 									<li><small>{kelas} : KELAS PILIHAN</small></li>
 									<li><small>{kamar} : KAMAR PILIHAN</small></li>
 									<li><small>{biaya} : BIAYA PENDAFTARAN</small></li>
+									<li><small>{cetak_formulir} : LINK CETAK FORMULIR PENDAFTARAN</small></li>
 								</ul>
 							</div>
 						</div>
