@@ -61,6 +61,7 @@ $route['brosur']                   = 'dashboard/brosur';
 $route['contact']                  = 'dashboard/contact';
 $route['santri']                   = 'dashboard/santri';
 $route['cetak-formulir/(:any)']    = 'dashboard/print_dokumen/$1';
+$route['download-lampiran/(:any)'] = 'pendaftar/download/$1';
 $route['error/(:any)']             = 'Errorakses/$1';
  
  
