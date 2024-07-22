@@ -1,0 +1,464 @@
+.wp-1{width:1%!important}
+.wp-2{width:2%!important}
+.wp-3{width:3%!important}
+.wp-4{width:4%!important}
+.wp-5{width:5%!important}
+.wp-6{width:6%!important}
+.wp-7{width:7%!important}
+.wp-8{width:8%!important}
+.wp-9{width:9%!important}
+.wp-10{width:10%!important}
+.wp-11{width:11%!important}
+.wp-12{width:12%!important}
+.wp-13{width:13%!important}
+.wp-14{width:14%!important}
+.wp-15{width:15%!important}
+.wp-16{width:16%!important}
+.wp-17{width:17%!important}
+.wp-18{width:18%!important}
+.wp-19{width:19%!important}
+.wp-20{width:20%!important}
+.wp-21{width:21%!important}
+.wp-22{width:22%!important}
+.wp-23{width:23%!important}
+.wp-24{width:24%!important}
+.wp-25{width:25%!important}
+.wp-26{width:26%!important}
+.wp-27{width:27%!important}
+.wp-28{width:28%!important}
+.wp-29{width:29%!important}
+.wp-30{width:30%!important}
+.wpi-10{width:10px!important}
+.wpi-20{width:20px!important}
+.wpi-30{width:30px!important}
+.wpi-40{width:40px!important}
+.wpi-50{width:50px!important}
+.wpi-60{width:60px!important}
+.wpi-70{width:70px!important}
+.wpi-80{width:80px!important}
+.wpi-90{width:90px!important}
+.wpi-100{width:100px!important}
+.wpi-200{width:200px!important}
+.wpi-300{width:300px!important}
+.wpi-400{width:400px!important}
+.wpi-500{width:500px!important}
+
+.modal.modal-fullscreen .modal-dialog {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  max-width: none; }
+
+.modal.modal-fullscreen .modal-content {
+  height: auto;
+  height: 100vh;
+  border-radius: 0;
+  border: none; }
+
+.modal.modal-fullscreen .modal-body {
+  overflow-y: auto; }
+.modal-dialog-scrollable .modal-content {
+  max-height: 100vh!important;
+}
+.custom-file-uploader {
+  position: relative;
+}
+.custom-file-uploader input[type=file] {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: default;
+}
+/* /******************************* */
+    /* * MODAL AS LEFT/RIGHT SIDEBAR */
+    /* * Add "left" or "right" in modal parent div, after class="modal". */
+    /* * Get free snippets on bootpen.com */
+/* *******************************/ */
+/* .modal.left .modal-dialog, */
+/* .modal.right .modal-dialog { */
+    /* position: fixed; */
+    /* margin: auto; */
+    /* width: 320px; */
+    /* height: 100%; */
+    /* -webkit-transform: translate3d(0%, 0, 0); */
+    /* -ms-transform: translate3d(0%, 0, 0); */
+    /* -o-transform: translate3d(0%, 0, 0); */
+    /* transform: translate3d(0%, 0, 0); */
+/* } */
+
+/* .modal.left .modal-content, */
+/* .modal.right .modal-content { */
+    /* height: 100%; */
+    /* overflow-y: auto; */
+/* } */
+
+/* .modal.left .modal-body, */
+/* .modal.right .modal-body { */
+    /* padding: 15px 15px 80px; */
+/* } */
+
+/* /*Left*/ */
+/* .modal.left.fade .modal-dialog{ */
+    /* left: -320px; */
+    /* -webkit-transition: opacity 0.3s linear, left 0.3s ease-out; */
+    /* -moz-transition: opacity 0.3s linear, left 0.3s ease-out; */
+    /* -o-transition: opacity 0.3s linear, left 0.3s ease-out; */
+    /* transition: opacity 0.3s linear, left 0.3s ease-out; */
+/* } */
+
+/* .modal.left.fade.in .modal-dialog{ */
+    /* left: 0; */
+/* } */
+
+/* /*Right*/ */
+/* .modal.right .modal-dialog { */
+    /* right: -320px; */
+    /* -webkit-transition: opacity 0.3s linear, right 0.3s ease-out; */
+    /* -moz-transition: opacity 0.3s linear, right 0.3s ease-out; */
+    /* -o-transition: opacity 0.3s linear, right 0.3s ease-out; */
+    /* transition: opacity 0.3s linear, right 0.3s ease-out; */
+/* } */
+
+/* .modal.right .modal-dialog { */
+    /* right: 0; */
+/* } */
+
+ .table-responsive {
+    margin: 30px 0;
+}
+.table-wrapper {
+    min-width: 1000px;
+	background: #fff;
+	padding: 20px 25px;
+	border-radius: 3px;
+	box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.table-wrapper .btns {
+	float: right;
+	color: #333;
+	background-color: #fff;
+	border-radius: 3px;
+	border: none;
+	outline: none !important;
+	margin-left: 10px;
+}
+.table-wrapper .btns:hover {
+	color: #333;
+	background: #f2f2f2;
+}
+.table-wrapper .btns.btn-primary {
+	color: #fff;
+	background: #03A9F4;
+}
+.table-wrapper .btns.btn-primary:hover {
+	background: #03a3e7;
+}
+.table-title .btns {		
+	font-size: 13px;
+	border: none;
+}
+.table-title .btns i {
+	float: left;
+	font-size: 21px;
+	margin-right: 5px;
+}
+.table-title .btns span {
+	float: left;
+	margin-top: 2px;
+}
+.table-title {
+	color: #222222;
+	padding: 16px 25px;
+	margin: -20px -25px 10px;
+	border-radius: 3px 3px 0 0;
+}
+.table-title h2 {
+	margin: 5px 0 0;
+	font-size: 24px;
+}
+.show-entries select.form-control {        
+	width: 60px;
+	margin: 0 5px;
+}
+.table-filter .filter-group {
+	float: right;
+	margin-left: 15px;
+}
+.table-filter input, .table-filter select {
+	height: 34px;
+	border-radius: 3px;
+	border-color: #ddd;
+	box-shadow: none;
+}
+.table-filter {
+	padding: 5px 0 15px;
+	border-bottom: 1px solid #e9e9e9;
+	margin-bottom: 5px;
+}
+.table-filter .btns {
+	width: 34px;
+	height: 34px;
+}
+.table-filter label {
+	font-weight: normal;
+	margin-left: 10px;
+}
+.table-filter select, .table-filter input {
+	display: inline-block;
+	margin-left: 5px;
+}
+.table-filter input {
+	width: 200px;
+	display: inline-block;
+}
+.filter-group select.form-control {
+	width: 110px;
+}
+.filter-icon {
+	float: right;
+	margin-top: 7px;
+}
+.filter-icon i {
+	font-size: 18px;
+	opacity: 0.7;
+}	
+.table .is_stuck {
+  width: 100% !important;
+  z-index:100;
+}
+table.table tr th, table.table tr td {
+	border-color: #e9e9e9;
+	padding: 5px 15px;
+	vertical-align: middle;
+}
+table.table tr th:first-child {
+	width: 60px;
+}
+table.table tr th:last-child {
+	width: 80px;
+}
+table.table-striped tbody tr:nth-of-type(odd) {
+	background-color: #fcfcfc;
+}
+table.table-striped.table-hover tbody tr:hover {
+	background: #f5f5f5;
+}
+table.table th i {
+	font-size: 13px;
+	margin: 0 5px;
+	cursor: pointer;
+}	
+table.table td a {
+	font-weight: bold;
+	color: #566787;
+	display: inline-block;
+	text-decoration: none;
+}
+table.table td a:hover {
+	color: #2196F3;
+}
+table.table td a.view {        
+	width: 30px;
+	height: 30px;
+	color: #2196F3;
+	border: 2px solid;
+	border-radius: 30px;
+	text-align: center;
+}
+table.table td a.view i {
+	font-size: 22px;
+	margin: 2px 0 0 1px;
+}   
+table.table .avatar {
+	border-radius: 50%;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+.status {
+	font-size: 30px;
+	margin: 2px 2px 0 0;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 10px;
+}
+ 
+.pagination {
+	float: right;
+	margin: 0 0 5px;
+}
+.pagination li a {
+	border: none;
+	font-size: 13px;
+	min-width: 30px;
+	min-height: 30px;
+	color: #999;
+	margin: 0 2px;
+	line-height: 30px;
+	border-radius: 2px !important;
+	text-align: center;
+	padding: 0 6px;
+}
+.pagination li a:hover {
+	color: #666;
+}	
+.pagination li.active a {
+	background: #03A9F4;
+}
+.pagination li.active a:hover {        
+	background: #0397d6;
+}
+.pagination li.disabled i {
+	color: #ccc;
+}
+.pagination li i {
+	font-size: 16px;
+	padding-top: 6px
+}
+.hint-text {
+	float: left;
+	margin-top: 10px;
+	font-size: 13px;
+}    
+.help{
+  position:relative;
+  box-sizing:border-box;
+  width:30px;
+  height:30px;
+  border:0;
+  padding:0;
+  border-radius:50%;
+  font-size:16px;
+  color:#fff;
+  cursor:pointer;
+}
+.help:hover:before,
+.help:focus:before{
+  content:'';
+  position:absolute;
+  width:0;
+  height:0;
+  border:4px solid transparent;
+  border-right-color:#808080;
+  border-right-color:rgba(0,0,0,.5);
+  border-left:0;
+  top:0;
+  bottom:0;
+  margin:auto 0;
+  left:20px;
+}
+.help:hover:after,
+.help:focus:after{
+  content:attr(aria-label);
+  position:absolute;
+  top:-1px;
+  left: 24px;
+  height:32px;
+  line-height:32px;
+  padding:0 10px;
+  font-weight:400;
+  text-align:left;
+  background:#808080;
+  background:rgba(0,0,0,.5);
+  border-radius:3px;
+  white-space:nowrap;
+  color:#fff;
+}
+
+.tooltip-top, .tooltip-right, .tooltip-bottom, .tooltip-left {
+  position: relative;
+  outline: none;
+}
+.tooltip-top:before, .tooltip-right:before, .tooltip-bottom:before, .tooltip-left:before {
+  content: attr(data-tooltip);
+  padding: 8px 16px;
+  color: #555;
+  white-space: pre;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-weight: normal;
+  font-size: 12px;
+  z-index: 1998;
+}
+.tooltip-top:after, .tooltip-right:after, .tooltip-bottom:after, .tooltip-left:after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 1px solid transparent;
+  border-left-color: rgba(0, 0, 0, 0.2);
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  z-index: 1999;
+}
+.tooltip-top:before, .tooltip-top:after, .tooltip-right:before, .tooltip-right:after, .tooltip-bottom:before, .tooltip-bottom:after, .tooltip-left:before, .tooltip-left:after {
+  position: absolute;
+  cursor: default;
+  opacity: 0;
+  background-color: #fff;
+  pointer-events: none;
+  transition: all ease-out 0.15s;
+  box-shadow: none;
+}
+.tooltip-top:hover:before, .tooltip-top:hover:after, .tooltip-right:hover:before, .tooltip-right:hover:after, .tooltip-bottom:hover:before, .tooltip-bottom:hover:after, .tooltip-left:hover:before, .tooltip-left:hover:after {
+  opacity: 1;
+  margin: 0;
+}
+
+.tooltip-top:before {
+  bottom: calc(100% + 8px + 4px);
+  transform: translateX(-50%);
+}
+.tooltip-top:after {
+  bottom: calc(100% + 3px + 4px);
+  transform: translateX(-50%) rotate(-45deg);
+}
+.tooltip-top:before, .tooltip-top:after {
+  left: 50%;
+  margin-bottom: -4px;
+}
+
+.tooltip-right:before {
+  left: calc(100% + 8px + 4px);
+  transform: translateY(-50%);
+}
+.tooltip-right:after {
+  left: calc(100% + 3px + 4px);
+  transform: translateY(-50%) rotate(-315deg);
+}
+.tooltip-right:before, .tooltip-right:after {
+  top: 50%;
+  margin-left: -4px;
+}
+
+.tooltip-bottom:before {
+  top: calc(100% + 8px + 4px);
+  transform: translateX(-50%);
+}
+.tooltip-bottom:after {
+  top: calc(100% + 3px + 4px);
+  transform: translateX(-50%) rotate(-225deg);
+}
+.tooltip-bottom:before, .tooltip-bottom:after {
+  left: 50%;
+  margin-top: -4px;
+}
+
+.tooltip-left:before {
+  right: calc(100% + 8px + 4px);
+  transform: translateY(-50%);
+}
+.tooltip-left:after {
+  right: calc(100% + 3px + 4px);
+  transform: translateY(-50%) rotate(-135deg);
+}
+.tooltip-left:before, .tooltip-left:after {
+  top: 50%;
+  margin-right: -4px;
+}

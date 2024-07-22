@@ -1,0 +1,189 @@
+ * {
+  font-family: 'Roboto', sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+:root {
+  --primary-color: #009900;
+  --primary-color-rgb: 0, 153, 0;
+}
+
+.container {
+  max-width: 1200px !important;
+}
+
+.container-md {
+  max-width: 768px !important;
+}
+
+.container-sm {
+  max-width: 576px !important;
+}
+
+.dbg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.dbg-secondary {
+  background-color: rgba(var(--primary-color-rgb), 15%) !important;
+}
+
+.db-primary {
+  color: var(--primary-color) !important;
+}
+
+.db-secondary {
+  color: rgba(var(--primary-color-rgb), 15%) !important;
+}
+
+.navbar-brand img:nth-child(2) {
+  height: 60px;
+}
+
+@media screen and (max-width: 576px) {
+  .navbar-brand img:nth-child(2) {
+    width: 75%;
+    height: auto;
+  }
+
+  a.navbar-brand {
+    width: 75%;
+  }
+}
+
+.nav-pills .nav-link {
+  border-radius: 25px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .nav-link:hover {
+  color: #fff;
+  background-color: var(--primary-color);
+  /* transition: all 0.75s ease; */
+}
+
+.nav-link {
+  color: #4c4c4c;
+}
+
+.nav-link:hover {
+  color: #4c4c4c;
+}
+
+.rounded-12 {
+  border-radius: 12px !important;
+}
+
+.rounded-25 {
+  border-radius: 25px !important;
+}
+
+.w-768 {
+  max-width: 800px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-success,
+.btn-success:focus {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-success:hover {
+  background-color: rgba(var(--primary-color-rgb), 90%);
+  border-color: rgba(var(--primary-color-rgb), 90%);
+}
+
+.btn-outline-success {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-control,
+.form-select {
+  border-radius: 7.5px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.25rem rgb(0 153 0 / 25%);
+  border-color: var(--primary-color);
+}
+
+header picture {
+  height: 500px;
+  overflow: hidden;
+}
+
+.step-item {
+  box-shadow: 0 0 6px 0 rgb(0 0 0 / 8%) !important;
+  transition: all 0.5s ease;
+}
+
+.step-item:hover {
+  cursor: pointer;
+  box-shadow: 0 0 18px 0 rgb(0 0 0 / 20%) !important;
+}
+
+.step-item i {
+  width: 64px;
+  height: 64px;
+  color: #fff;
+  padding: 15px;
+  border-radius: 50px;
+  background-color: var(--primary-color);
+}
+
+#paymentModal .shadow {
+  box-shadow: 0 0 8px 0 rgb(0 0 0 / 15%) !important;
+}
+
+.bank-image-logo {
+  width: 65px;
+}
+
+#uploadPreview {
+  width: auto;
+  height: 400px;
+  padding-bottom: 25px;
+}
+
+figure .photo-preview {
+  max-width: 150px;
+}
+
+figure .kk-preview {
+  width: 300px;
+  height: 200px;
+}
+
+.sewali-autocomplete {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  margin-top: 10px;
+  max-height: 350px;
+  overflow-y: auto;
+}
