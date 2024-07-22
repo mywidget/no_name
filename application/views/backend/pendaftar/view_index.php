@@ -262,12 +262,12 @@
 			// return;
 			if(lampiran=='jpg' || lampiran =='jpeg' || lampiran =='png'){
 				var gambar = base_url + 'upload/foto_dokumen/'+file;
-				var link_download = base_url + 'pendaftar/download/'+file;
+				var link_download = base_url + 'download-lampiran/'+file;
 				$('#OpenModalImage').modal('show')
 				$('#img-lampiran').attr("src", gambar);
 				$("#img-download"). prop('href', link_download);
 				}else{
-				var link_download = base_url + 'pendaftar/download/'+file;
+				var link_download = base_url + 'download-lampiran/'+file;
 				window.open(link_download, '_blank');
 			}
 			
