@@ -9,7 +9,7 @@
 			if(array_key_exists("where", $params)){ 
 				foreach($params['where'] as $key => $val){ 
 					$this->db->where($key, $val); 
-				} 
+					} 
 			}
 			if(array_key_exists("search", $params)){ 
 				if(!empty($params['search']['keywords'])){ 
@@ -673,7 +673,7 @@
 		{
 			$this->db->select('deskripsi');
 			$this->db->from('rb_template_pesan');
-			$this->db->where('id',$post['template_pesan']);
+			$this->db->where('slug','PENDAFTARAN');
 			$this->db->where('aktif','Ya');
 			$query = $this->db->get(); 
 			

@@ -652,7 +652,8 @@
 		<script>
 			
 			var id_pendaftar = <?=$record->id;?>;
-			var unit_sekolah = "<?=$record->id_unit;?>";
+			var id_unit = "<?=$record->id_unit;?>";
+			var unit_sekolah = "<?=$record->unit_sekolah;?>";
 			var form_kelas = "<?=$record->kelas;?>";
 			var form_kamar = "<?=$record->kamar;?>";
 			var ijasah_terakhir = "<?=$record->ijasah_terakhir;?>";
@@ -664,7 +665,7 @@
 			var pekerjaan_ayah = "<?=$record->pekerjaan_ayah;?>";
 			var pendidikan_terakhir_ibu = "<?=$record->pendidikan_terakhir_ayah;?>";
 			var pekerjaan_ibu = "<?=$record->pekerjaan_ibu;?>";
-			var penghasilan_ortu = "<?=$record->pekerjaan_ibu;?>";
+			var penghasilan_ortu = "<?=$record->penghasilan_ortu;?>";
 			
 			
 			$("#form_unit").filter(function () {
@@ -816,6 +817,22 @@
 				});
 			});
 			
+			$("#penghasilan").filter(function () {
+				$.ajax({
+					url: base_url+ "pendaftar/penghasilan_orang_tua",
+					data:{id:penghasilan_ortu},
+					type: "POST",
+					dataType: 'json',
+					beforeSend: function () {
+						// $("#ijazahTerakhir").attr("disabled", true);
+					},
+					success: function (response) {
+						// console.log(response);
+						$("#penghasilan").val(response.name).change();
+					}
+				});
+			});
+			
 			$("#form_prov").filter(function () {
 				$.ajax({
 					url: base_url+ "dashboard/provinsi",
@@ -914,7 +931,7 @@
 			
 			$("#form_des").filter(function () {
 				var id = kecamatan;
-				console.log(kelurahan)
+				// console.log(kelurahan)
 				$.ajax({
 					type: 'POST',
 					url: base_url+ "dashboard/desa",

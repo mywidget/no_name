@@ -1,6 +1,7 @@
 <?php
 	defined('BASEPATH') or exit('No direct script access allowed');
-	
+	use PHPUnit\Util\Json;
+	use Curl\Curl;
 	class Pendaftar extends CI_Controller
 	{
 		public function __construct()
@@ -13,6 +14,8 @@
             $this->level = $this->session->level; 
             $this->idlevel = $this->session->idlevel; 
 			$this->load->model('model_pendaftar');
+			$this->load->model('model_formulir');
+			$this->curl = new Curl();
 			$this->perPage = 10;
 		}
 		
@@ -373,6 +376,23 @@
 				
 				$response= ['id'=>$id,
 				'name'=>$result->ukuran_celana_rok
+				];
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		
+		public function penghasilan_orang_tua()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id  = $this->input->post('id',TRUE);
+				$result = $this->model_app->view_where('rb_psb_daftar',['penghasilan_ortu'=>$id])->row();
+				
+				$response= ['id'=>$id,
+				'name'=>$result->penghasilan_ortu
 				];
 				
 				$this->output

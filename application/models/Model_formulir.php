@@ -34,7 +34,7 @@
 		{
 			$this->db->select('deskripsi');
 			$this->db->from('rb_template_pesan');
-			$this->db->where('slug','PENDAFTARAN');
+			$this->db->where('id',$post['template_pesan']);
 			$this->db->where('aktif','Ya');
 			$this->db->limit(1);
 			$query = $this->db->get(); 
