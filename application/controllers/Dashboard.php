@@ -98,12 +98,213 @@
 			
 			$query = $this->model_app->view_where('rb_psb_daftar',$where);
 			if($query->num_rows() > 0){
-			$data['row'] = $query->row_array();
+				$data['row'] = $query->row_array();
 				$this->load->view('frontend/form_status',$data);
 				}else{
 				$this->load->view('frontend/form_status_error');
 			}
 			
+		}
+		
+		public function update_lampiran()
+		{
+			// dump($_FILES);
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$postid = decrypt_url($this->input->post('id',TRUE));
+				$type = $this->input->post('type',TRUE);
+				$data = [];
+				if($type=='slip'){
+					if(!empty($_FILES['file']['name']))
+					{
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
+						$config['max_size']		 = 2048;
+						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
+						$config['encrypt_name']  = TRUE; //enkripsi nama file
+						$this->upload->initialize($config);
+						if ($this->upload->do_upload('file'))
+						{
+							$gbr = $this->upload->data();
+							$gambar = $gbr['file_name'];
+							$data = array(
+							'foto'     => $gambar
+							);
+							}else{
+							$response['status'] = false;
+							$response['title'] = 'Upload Error';
+							$response['msg'] = $this->upload->display_errors();
+							$this->thm->json_output($response);
+						}
+						}else{
+						$response['status'] = false;
+						$response['msg'] = 'Foto masih kosong';
+						$this->thm->json_output($response);
+					}
+					$data_post 	= ["fotobukti"	=> $gambar];
+					$update = $this->model_app->update('rb_psb_daftar',$data_post, ['id'=>$postid]);
+					if($update['status']=='ok')
+					{
+						$response = [
+						'status'=>true,
+						'title' =>'Update Bukti Transfer',
+						'msg'   =>'Data berhasil diupdate',
+						'data'   =>$data,
+						'image'   =>base_url().'upload/foto_dokumen/'.$gambar.'?v='.time()
+						];
+					}
+					else
+					{
+						$response = [
+						'status'=>false,
+						'title' =>'Update data',
+						'msg'   =>'Data gagal diupdate'
+						];
+					}
+				}
+				if($type=='santri'){
+					if(!empty($_FILES['file']['name']))
+					{
+						$config['upload_path']   = './upload/lampiran'; //path folder
+						$config['max_size']		 = 2048;
+						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
+						$config['encrypt_name']  = TRUE; //enkripsi nama file
+						$this->upload->initialize($config);
+						if ($this->upload->do_upload('file'))
+						{
+							$gbr = $this->upload->data();
+							$gambar = $gbr['file_name'];
+							$data = array(
+							'foto'     => $gambar
+							);
+							}else{
+							$response['status'] = false;
+							$response['title'] = 'Upload Error';
+							$response['msg'] = $this->upload->display_errors();
+							$this->thm->json_output($response);
+						}
+						}else{
+						$response['status'] = false;
+						$response['msg'] = 'Foto masih kosong';
+						$this->thm->json_output($response);
+					}
+					$data_post 	= ["foto"	=> $gambar];
+					$update = $this->model_app->update('rb_psb_daftar',$data_post, ['id'=>$postid]);
+					if($update['status']=='ok')
+					{
+						$response = [
+						'status'=>true,
+						'title' =>'Update Foto Santri',
+						'msg'   =>'Data berhasil diupdate',
+						'data'   =>$data,
+						'image'   =>base_url().'upload/lampiran/'.$gambar.'?v='.time()
+						];
+					}
+					else
+					{
+						$response = [
+						'status'=>false,
+						'title' =>'Update data',
+						'msg'   =>'Data gagal diupdate'
+						];
+					}
+				}
+				 
+				if($type=='foto_kk'){
+					if(!empty($_FILES['file']['name']))
+					{
+						$config['upload_path']   = './upload/lampiran'; //path folder
+						$config['max_size']		 = 2048;
+						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
+						$config['encrypt_name']  = TRUE; //enkripsi nama file
+						$this->upload->initialize($config);
+						if ($this->upload->do_upload('file'))
+						{
+							$gbr = $this->upload->data();
+							$gambar = $gbr['file_name'];
+							$data = array(
+							'foto'     => $gambar
+							);
+							}else{
+							$response['status'] = false;
+							$response['title'] = 'Upload Error';
+							$response['msg'] = $this->upload->display_errors();
+							$this->thm->json_output($response);
+						}
+						}else{
+						$response['status'] = false;
+						$response['msg'] = 'Foto masih kosong';
+						$this->thm->json_output($response);
+					}
+					$data_post 	= ["foto_kk"	=> $gambar];
+					$update = $this->model_app->update('rb_psb_daftar',$data_post, ['id'=>$postid]);
+					if($update['status']=='ok')
+					{
+						$response = [
+						'status'=>true,
+						'title' =>'Update Foto KK',
+						'msg'   =>'Data berhasil diupdate',
+						'data'   =>$data,
+						'image'   =>base_url().'upload/lampiran/'.$gambar.'?v='.time()
+						];
+					}
+					else
+					{
+						$response = [
+						'status'=>false,
+						'title' =>'Update data',
+						'msg'   =>'Data gagal diupdate'
+						];
+					}
+				}
+				if($type=='surat'){
+					if(!empty($_FILES['file']['name']))
+					{
+						$config['upload_path']   = './upload/lampiran'; //path folder
+						$config['max_size']		 = 2048;
+						$config['allowed_types'] = 'jpg|png|jpeg|pdf|doc|docx'; //type yang image yang dizinkan
+						$config['encrypt_name']  = TRUE; //enkripsi nama file
+						$this->upload->initialize($config);
+						if ($this->upload->do_upload('file'))
+						{
+							$gbr = $this->upload->data();
+							$gambar = $gbr['file_name'];
+							$data = array(
+							'foto'     => $gambar
+							);
+							}else{
+							$response['status'] = false;
+							$response['title'] = 'Upload Error';
+							$response['msg'] = $this->upload->display_errors();
+							$this->thm->json_output($response);
+						}
+						}else{
+						$response['status'] = false;
+						$response['msg'] = 'Foto masih kosong';
+						$this->thm->json_output($response);
+					}
+					$data_post 	= ["surat"	=> $gambar];
+					$update = $this->model_app->update('rb_psb_daftar',$data_post, ['id'=>$postid]);
+					if($update['status']=='ok')
+					{
+						$response = [
+						'status'=>true,
+						'title' =>'Update Lampiran Surat',
+						'msg'   =>'Data berhasil diupdate',
+						'data'   =>$data,
+						'image'   =>base_url().'upload/nodok.jpg?v='.time()
+						];
+					}
+					else
+					{
+						$response = [
+						'status'=>false,
+						'title' =>'Update data',
+						'msg'   =>'Data gagal diupdate'
+						];
+					}
+				}
+				$this->thm->json_output($response);
+			}
 		}
 		
 		public function kelas()
@@ -352,10 +553,7 @@
 		{
 			if ( $this->input->is_ajax_request() ) 
 			{
-				// $post = $this->input->post();
-				// $this->send_notif($post);
-				// exit;
-				// dump($_FILES);
+				
 				$this->form_validation->set_rules(array(
 				array(
 				'field' => 'email',
