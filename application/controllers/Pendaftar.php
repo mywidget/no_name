@@ -557,6 +557,7 @@
 				{
 					
 					$nama_unit = $this->model_pendaftar->nama_unit_byid($this->input->post('unit_sekolah',true));
+					
 					$input_data = [
 					"kode_daftar"              	  => 'PSB-'.$this->input->post('nik',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
@@ -612,6 +613,7 @@
 					"ukuran_seragam_baju"         => $this->input->post('ukuran_seragam_baju',true),
 					"ukuran_celana_rok"           => $this->input->post('ukuran_celana_rok',true),
 					];
+					// dump($input_data);
 					$biaya=convert_to_number($this->input->post('biaya',true));
 					
 					$post = $this->input->post();

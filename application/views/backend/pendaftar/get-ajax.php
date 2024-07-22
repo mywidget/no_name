@@ -16,6 +16,7 @@
                 </thead>  
                 <tbody> 
                     <?php 
+                        $i = 0;
                         $no = 1;
                         foreach ($record as $row){
                             $kode = encrypt_url($row['id']);
@@ -54,7 +55,7 @@
                                         <?=$row['nama'];?>
                                     </button>
                                     <ul class="dropdown-menu" style="">
-                                        <li><a class="dropdown-item" href="#">Kode Pendaftaran : <?=$row['kode_daftar'];?></a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery(<?=$i;?>);" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">Kode Pendaftaran : <span id="copyText<?=$i;?>"><?=$row['kode_daftar'];?></span></a></li>
                                         <li><a class="dropdown-item" href="#">Email : <?=$row['email'];?></a></li>
                                         <li><a class="dropdown-item" href="#">Jenis Kelamin : <?=$row['jenis_kelamin'];?></a></li>
                                         <li><a class="dropdown-item" href="#">No. HP : <?=$row['nomor_hp'];?></a></li>
@@ -86,18 +87,20 @@
                                         <?=$row['unit_sekolah'];?>
                                     </button>
                                     <ul class="dropdown-menu" style="">
-                                        <li><a class="dropdown-item" href="#">Kelas : <?=getKelas($row['kelas']);?></a></li>
+                                        <li><a class="dropdown-item" href="#">Kelas : <?=getKelas($row['kelas'])->kode_kelas;?></a></li>
+                                        <li><a class="dropdown-item" href="#">Nama Kelas : <?=getKelas($row['kelas'])->nama_kelas;?></a></li>
                                         <li><a class="dropdown-item" href="#">Biaya Pendaftaran : <?=$row['biaya_daftar'];?></a></li>
                                     </ul>
                                 </div>
                             </td>
-                            <td><?=getKelas($row['kelas']);?></td>
+                            <td><?=getKelas($row['kelas'])->kode_kelas;?></td>
                             <td align="right">
                                 <div class="btn-group btn-sm flat bg-danger">
                                     <?=$status;?>
                                     <?=$print;?>
-                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split bg-danger" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <span class="visually-hidden">Toggle Dropright</span>
+                                    
+                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Aksi
                                     </button>
                                     <ul class="dropdown-menu"  data-popper-placement="right-start">
                                         <li><?=$foto;?></li>
@@ -111,7 +114,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <?php $no++;
+                        <?php $no++;$i++;
                         }
                     ?>
                 </tbody>  
@@ -137,4 +140,23 @@
             });
         }); 
     });    
+    function withoutJquery(i){
+        console.time('time2');
+        var temp=document.createElement('input');
+        var texttoCopy=document.getElementById('copyText'+i).innerHTML;
+        temp.type='input';
+        temp.setAttribute('value',texttoCopy);
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        temp.remove();
+        console.timeEnd('time2');
+    }
+    
+    $(document).ready(function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    })
 </script>    

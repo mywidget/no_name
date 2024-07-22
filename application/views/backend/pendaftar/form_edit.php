@@ -30,8 +30,8 @@
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					<select name="jenis_kelamin" id="gender" class="form-select" required="">
-						<option value="1" <?=($record->jenis_kelamin == 'Laki-laki') ? 'selected' : ''; ?>>Laki-laki</option>
-						<option value="2" <?=($record->jenis_kelamin == 'Perempuan') ? 'selected' : ''; ?>>Perempuan</option>
+						<option value="Laki-laki" <?=($record->jenis_kelamin == 'Laki-laki') ? 'selected' : ''; ?>>Laki-laki</option>
+						<option value="Perempuan" <?=($record->jenis_kelamin == 'Perempuan') ? 'selected' : ''; ?>>Perempuan</option>
 					</select>
 					<div class="invalid-feedback">Janis kelamin wajib di isi</div>
 				</div>

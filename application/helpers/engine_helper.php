@@ -672,7 +672,7 @@
 			}
 		}
 	}		
-	if ( ! function_exists('get_kelas'))
+	if ( ! function_exists('getKelas'))
 	{
 		/**
 			* Code device 
@@ -680,13 +680,13 @@
 			@param int 
 			@return string
 		*/
-		function getKelas()
+		function getKelas($id)
 		{
 			$ci = & get_instance();
-			$cek = $ci->model_app->pilih('kode_kelas','rb_kelas');
+			$cek = $ci->model_app->pilih_where('kode_kelas,nama_kelas','rb_kelas',['id'=>$id]);
 			if($cek->num_rows() > 0)
 			{
-				return $cek->row()->kode_kelas; 	
+				return $cek->row(); 	
 				}else{
 				return '-'; 
 			}

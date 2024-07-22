@@ -170,242 +170,246 @@
 	}
 	
 </style>
-
-<script>
-	searchPengguna();
-    function searchPengguna(page_num){
-        page_num = page_num?page_num:0;
-		var limit = $('#limits').val();
-        var keywords = $('#keywords').val();
-        var sortBy = $('#sortBy').val();
-        var sort_tahun = $('#sort_tahun').val();
-        var status = $('#status').val();
-        var sortUnit = $('#sortUnit').val();
-        var sortKelas = $('#sortKelas').val();
-        $.ajax({
-            type: 'POST',
-            url: base_url+'pendaftar/ajax_list/'+page_num,
-            data:{page:page_num,
-				limit:limit,
-				keywords:keywords,
-				tahun:sort_tahun,
-				sortBy:sortBy,
-				status:status,
-				sortUnit:sortUnit,
-				sortKelas:sortKelas
-			},
-            beforeSend: function(){
-                $('body').loading();
-			},
-            success: function(html){
-                $('#posts_content').html(html);
-                $('body').loading('stop');
-			}
-		});
-	}
-	
-	$('#OpenModalUser').on('show.bs.modal', function(e) {
-		var id = $(e.relatedTarget).data('id');
-		var mod = $(e.relatedTarget).data('mod');
+<?php
+	$this->RenderScript[] = function() {
+	?>
+	<script>
+		searchPengguna();
+		function searchPengguna(page_num){
+			page_num = page_num?page_num:0;
+			var limit = $('#limits').val();
+			var keywords = $('#keywords').val();
+			var sortBy = $('#sortBy').val();
+			var sort_tahun = $('#sort_tahun').val();
+			var status = $('#status').val();
+			var sortUnit = $('#sortUnit').val();
+			var sortKelas = $('#sortKelas').val();
+			$.ajax({
+				type: 'POST',
+				url: base_url+'pendaftar/ajax_list/'+page_num,
+				data:{page:page_num,
+					limit:limit,
+					keywords:keywords,
+					tahun:sort_tahun,
+					sortBy:sortBy,
+					status:status,
+					sortUnit:sortUnit,
+					sortKelas:sortKelas
+				},
+				beforeSend: function(){
+					$('body').loading();
+				},
+				success: function(html){
+					$('#posts_content').html(html);
+					$('body').loading('stop');
+				}
+			});
+		}
 		
-		$.ajax({
-			type: 'POST',
-			url: base_url + "pendaftar/edit_data",
-			data: {id:id,mod:mod},
-			dataType: "html",
-			beforeSend: function () {
-				$("body").loading({zIndex:1060});
-			},
-			success: function(data) {
-				$('.load-pengguna').html(data);
-				$('body').loading('stop');
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				sweet('Peringatan!!!',thrownError,'warning','warning');
-				$('body').loading('stop');
-			}
+		$('#OpenModalUser').on('show.bs.modal', function(e) {
+			var id = $(e.relatedTarget).data('id');
+			var mod = $(e.relatedTarget).data('mod');
+			
+			$.ajax({
+				type: 'POST',
+				url: base_url + "pendaftar/edit_data",
+				data: {id:id,mod:mod},
+				dataType: "html",
+				beforeSend: function () {
+					$("body").loading({zIndex:1060});
+				},
+				success: function(data) {
+					$('.load-pengguna').html(data);
+					$('body').loading('stop');
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					sweet('Peringatan!!!',thrownError,'warning','warning');
+					$('body').loading('stop');
+				}
+			});
 		});
-	});
-	
-	
-	function simpanMember()
-	{
-		// console.log('submit');
-		// if($("#mail").val()==''){
+		
+		
+		function simpanMember()
+		{
+			// console.log('submit');
+			// if($("#mail").val()==''){
 			// $("#mail").addClass('form-control-warning');
 			// showNotif('top-center','Input Data','Harus diisi','warning');
 			// $("#mail").focus();
 			// return;
-		// }
-		// if($("#title").val()==''){
+			// }
+			// if($("#title").val()==''){
 			// $("#title").addClass('form-control-warning');
 			// showNotif('top-center','Input Data','Harus diisi','warning');
 			// $("#title").focus();
 			// return;
-		// }
-		
-		// if($("#daftar").val()==''){
+			// }
+			
+			// if($("#daftar").val()==''){
 			// $("#daftar").addClass('form-control-warning');
 			// showNotif('top-center','Input Data','Harus diisi','warning');
 			// $("#daftar").focus();
 			// return;
-		// }
-		// if($("#phone").val()==''){
+			// }
+			// if($("#phone").val()==''){
 			// $("#phone").addClass('form-control-warning');
 			// showNotif('top-center','Input Data','Harus diisi','warning');
 			// $("#phone").focus();
 			// return;
-		// }
-		// if($("#alamat").val()==''){
+			// }
+			// if($("#alamat").val()==''){
 			// $("#alamat").addClass('form-control-warning');
 			// showNotif('top-center','Input Data','Harus diisi','warning');
 			// $("#alamat").focus();
 			// return;
-		// }
-		
-		var formData = $("#formPendaftaran").serialize();
-		$.ajax({
-			type: "POST",
-			url: base_url+"pendaftar/simpan_pendaftar",
-			dataType: 'json',
-			data: formData,
-			beforeSend: function () {
-				$("body").loading({zIndex:1060});　
-			},
-			success: function(data) {
-				$('body').loading('stop');
-				if(data.status==true){
-					showNotif('bottom-right',data.title,data.message,'success');
-					$("#OpenModalUser").modal('hide');
-					}else{
-					showNotif('bottom-right',data.title,data.message,'error');
-				}
-				
-				searchPengguna();
-				} ,error: function(xhr, status, error) {
-				showNotif('bottom-right','Peringatan',error,'error');
-				$('body').loading('stop');
-			}
-		});
-	}
-	$(document).on('click','.hapus_user',function(e){
-		var id = $("#data-hapus").val();
-		$.ajax({
-			url: base_url + 'pendaftar/hapus_pendaftar',
-			data: {id:id},
-			method: 'POST',
-			dataType:'json',
-			beforeSend: function () {
-				$('body').loading();　
-			},
-			success: function(data) {
-				$('#confirm-delete').modal('hide');
-				if(data.status==200){
-					showNotif('bottom-right',data.title,data.msg,'success');
-					}else{
-					sweet('Peringatan!!!',data.msg,'warning','warning');
-				}
-				searchPengguna();
-				
-				$('body').loading('stop');　
-				},error: function(xhr, status, error) {
-				showNotif('bottom-right','Update',error,'error');
-				$('body').loading('stop');　
-			}
-		});
-	});
-	$(document).on('click','.clear',function(e){
-		$("#keywords").val('');
-		searchPengguna();
-	});
-	$('#confirm-delete').on('show.bs.modal', function(e) {
-		$('#data-hapus').val($(e.relatedTarget).data('id'));
-	});
-	
-	// ambil data kelas ketika data memilih unit
-	$('body').on("change","#sortUnit",function(){
-		var id = $(this).val();
-		var data = {id:id};
-		// $("#sortKelas").attr('disabled',true);
-		$.ajax({
-			type: 'POST',
-			url: base_url+ "pendaftar/kelas",
-			data: data,
-			dataType : "json",
-			beforeSend: function(){
-				$("#sortKelas").empty();
-				$("#sortKelas").append("<option value='0'>Pilih</option>");
-			},
-			success: function(response) {
-				var msize = response.length;
-				if(msize > 0)
-				{
-					// $("#sortKelas").attr('disabled',false);
-					var i = 0;
-					for (; i < msize; i++) {
-						var teg = response[i]["id"];
-						var name = response[i]["name"];
-						$("#sortKelas").append("<option value='" + teg + "'>" + name + "</option>");
+			// }
+			
+			var formData = $("#formPendaftaran").serialize();
+			$.ajax({
+				type: "POST",
+				url: base_url+"pendaftar/simpan_pendaftar",
+				dataType: 'json',
+				data: formData,
+				beforeSend: function () {
+					$("body").loading({zIndex:1060});　
+				},
+				success: function(data) {
+					$('body').loading('stop');
+					if(data.status==true){
+						showNotif('bottom-right',data.title,data.message,'success');
+						$("#OpenModalUser").modal('hide');
+						}else{
+						showNotif('bottom-right',data.title,data.message,'error');
 					}
-				}
-			}
-		});
-	});
-	// ambil data kelas ketika data memilih unit
-	$('body').on("change","#status",function(){
-		var id = $(this).val();
-		var data = {id:id};
-		// $("#sortKelas").attr('disabled',true);
-		$.ajax({
-			type: 'POST',
-			url: base_url+ "pendaftar/load_kelas",
-			data: data,
-			dataType : "json",
-			beforeSend: function(){
-				$("#sortKelas").empty();
-				$("#sortKelas").append("<option value='0'>Pilih Kelas</option>");
-			},
-			success: function(response) {
-				var msize = response.length;
-				if(msize > 0)
-				{
-					// $("#sortKelas").attr('disabled',false);
-					var i = 0;
-					for (; i < msize; i++) {
-						var teg = response[i]["id"];
-						var name = response[i]["name"];
-						$("#sortKelas").append("<option value='" + teg + "'>" + name + "</option>");
-					}
-				}
-			}
-		});
-	});
-	$('body').on("change","#kirim_pesan",function(){
-				var aktif = $(this).val();
-				if(aktif=='Ya'){
-					$.ajax({
-						type: 'POST',
-						url: base_url+ "pendaftar/load_pesan",
-						dataType : "json",
-						beforeSend: function(){
-							$("#template_pesan").empty();
-							$("#template_pesan").append("<option value=''>Pilih</option>");
-						},
-						success: function(response) {
-							$("#template_pesan").attr("disabled", false);
-							var msize = response.length;
-							var i = 0;
-							for (; i < msize; i++) {
-								var teg = response[i]["id"];
-								var name = response[i]["name"];
-								$("#template_pesan").append("<option value='" + teg + "'>" + name + "</option>");
-							}
-						}
-					});
-					}else{
-					$("#template_pesan").empty();
-					$("#template_pesan").attr("disabled", true);
+					
+					searchPengguna();
+					} ,error: function(xhr, status, error) {
+					showNotif('bottom-right','Peringatan',error,'error');
+					$('body').loading('stop');
 				}
 			});
-			
-</script>        
+		}
+		$(document).on('click','.hapus_user',function(e){
+			var id = $("#data-hapus").val();
+			$.ajax({
+				url: base_url + 'pendaftar/hapus_pendaftar',
+				data: {id:id},
+				method: 'POST',
+				dataType:'json',
+				beforeSend: function () {
+					$('body').loading();　
+				},
+				success: function(data) {
+					$('#confirm-delete').modal('hide');
+					if(data.status==200){
+						showNotif('bottom-right',data.title,data.msg,'success');
+						}else{
+						sweet('Peringatan!!!',data.msg,'warning','warning');
+					}
+					searchPengguna();
+					
+					$('body').loading('stop');　
+					},error: function(xhr, status, error) {
+					showNotif('bottom-right','Update',error,'error');
+					$('body').loading('stop');　
+				}
+			});
+		});
+		$(document).on('click','.clear',function(e){
+			$("#keywords").val('');
+			searchPengguna();
+		});
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+			$('#data-hapus').val($(e.relatedTarget).data('id'));
+		});
+		
+		// ambil data kelas ketika data memilih unit
+		$('body').on("change","#sortUnit",function(){
+			var id = $(this).val();
+			var data = {id:id};
+			// $("#sortKelas").attr('disabled',true);
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/kelas",
+				data: data,
+				dataType : "json",
+				beforeSend: function(){
+					$("#sortKelas").empty();
+					$("#sortKelas").append("<option value='0'>Pilih</option>");
+				},
+				success: function(response) {
+					var msize = response.length;
+					if(msize > 0)
+					{
+						// $("#sortKelas").attr('disabled',false);
+						var i = 0;
+						for (; i < msize; i++) {
+							var teg = response[i]["id"];
+							var name = response[i]["name"];
+							$("#sortKelas").append("<option value='" + teg + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		// ambil data kelas ketika data memilih unit
+		$('body').on("change","#status",function(){
+			var id = $(this).val();
+			var data = {id:id};
+			// $("#sortKelas").attr('disabled',true);
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/load_kelas",
+				data: data,
+				dataType : "json",
+				beforeSend: function(){
+					$("#sortKelas").empty();
+					$("#sortKelas").append("<option value='0'>Pilih Kelas</option>");
+				},
+				success: function(response) {
+					var msize = response.length;
+					if(msize > 0)
+					{
+						// $("#sortKelas").attr('disabled',false);
+						var i = 0;
+						for (; i < msize; i++) {
+							var teg = response[i]["id"];
+							var name = response[i]["name"];
+							$("#sortKelas").append("<option value='" + teg + "'>" + name + "</option>");
+						}
+					}
+				}
+			});
+		});
+		$('body').on("change","#kirim_pesan",function(){
+			var aktif = $(this).val();
+			if(aktif=='Ya'){
+				$.ajax({
+					type: 'POST',
+					url: base_url+ "pendaftar/load_pesan",
+					dataType : "json",
+					beforeSend: function(){
+						$("#template_pesan").empty();
+						$("#template_pesan").append("<option value=''>Pilih</option>");
+					},
+					success: function(response) {
+						$("#template_pesan").attr("disabled", false);
+						var msize = response.length;
+						var i = 0;
+						for (; i < msize; i++) {
+							var teg = response[i]["id"];
+							var name = response[i]["name"];
+							$("#template_pesan").append("<option value='" + teg + "'>" + name + "</option>");
+						}
+					}
+				});
+				}else{
+				$("#template_pesan").empty();
+				$("#template_pesan").attr("disabled", true);
+			}
+		});
+		
+		
+	</script>        
+<?php } ?>
