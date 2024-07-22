@@ -581,9 +581,10 @@
 		var form_kelas = <?=$record->kelas;?>;
 		var form_kamar = "<?=$record->kamar;?>";
 		var ijasah_terakhir = "<?=$record->ijasah_terakhir;?>";
-		var kabupaten = <?=$record->kabupaten;?>;
-		var kecamatan = <?=$record->kecamatan;?>;
-		var kelurahan = <?=$record->kelurahan;?>;
+		var provinsi = "<?=$record->provinsi;?>";
+		var kabupaten = "<?=$record->kabupaten;?>";
+		var kecamatan = "<?=$record->kecamatan;?>";
+		var kelurahan = "<?=$record->kelurahan;?>";
 		var pendidikan_terakhir_ayah = "<?=$record->pendidikan_terakhir_ayah;?>";
 		var pekerjaan_ayah = "<?=$record->pekerjaan_ayah;?>";
 		var pendidikan_terakhir_ibu = "<?=$record->pendidikan_terakhir_ayah;?>";
