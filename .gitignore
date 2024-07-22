@@ -4,6 +4,7 @@ application/temp/*
 application/cache/*
 temp/*
 ci_sessions/*
+upload/*
 .vscode/*
 .htaccess
 user.ini
