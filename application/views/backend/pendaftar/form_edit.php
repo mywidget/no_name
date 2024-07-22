@@ -3,7 +3,8 @@
 		<h5>
 			<li>Identitas calon santri</li>
 		</h5>
-		<input type="hidden" name="thnakademik" id="thnakademik" class="form-control" value="<?php echo $tahun['id_tahun_akademik'];?>">
+		<input type="hidden" name="thnakademik" id="thnakademik" class="form-control" value="<?=$record->tahun_akademik;?>">
+		<input type="hidden" name="id_pendaftar" id="id_pendaftar" class="form-control" value="<?=encrypt_url($record->id);?>">
 		<div class="container p-0">
 			<div class="row align-items-center">
 				<div class="col-sm-3 col-md-3 col-lg-4">
@@ -557,7 +558,7 @@
 					<div id="fotoKkPreviewContainer" class="position-relative overflow-hidden mb-2" style="width: 237.5px; height: 125px;">
 						<img id="fotoKkPreview" class="position-absolute top-0 left-0 w-100 h-100" src="<?=base_url();?>upload/lampiran/<?=$record->foto_kk;?>" alt="Foto KK Preview" style="object-fit: cover;">
 					</div>
-					 
+					
 				</div>
 			</div>
 			
@@ -616,7 +617,7 @@
 						
 						var id = response[i]['id'];
 						var name = response[i]['name'];
-						if(id==unit_sekolah){
+						if(name==unit_sekolah){
 							$("#form_unit").append("<option value='" + id + "' selected>" + name + "</option>");
 							}else{
 							$("#form_unit").append("<option value='" + id + "'>" + name + "</option>");
@@ -704,7 +705,7 @@
 					// $("#ijazahTerakhir").attr("disabled", true);
 				},
 				success: function (response) {
-				// console.log(response);
+					// console.log(response);
 					$("#ijazahTerakhir").val(response.name).change();
 				}
 			});
@@ -720,7 +721,7 @@
 					// $("#ijazahTerakhir").attr("disabled", true);
 				},
 				success: function (response) {
-				// console.log(response);
+					// console.log(response);
 					$("#ukuranBaju").val(response.name).change();
 				}
 			});
@@ -735,7 +736,7 @@
 					// $("#ijazahTerakhir").attr("disabled", true);
 				},
 				success: function (response) {
-				// console.log(response);
+					// console.log(response);
 					$("#ukuranCelana").val(response.name).change();
 				}
 			});
@@ -967,4 +968,6 @@
 				}
 			});
 		});
-	</script>											
+		
+		 
+	</script>												

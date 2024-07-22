@@ -17,7 +17,7 @@
     // $dari           =2;
     // $nomor_hp       ='089611274798';
     // $alamat         ='Jln poros Penyaguan, Indragiri hulu,Riau';
-    // $selected = 'selected';
+    $selected = 'selected';
     $email          ='';
     $nama           ='';
     $tempat_lahir   ='';

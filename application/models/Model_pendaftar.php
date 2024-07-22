@@ -472,6 +472,109 @@
 			}
 		}	
 		
+		public function cek_email($id,$val)
+		{
+			$cek = $this->db->where("BINARY email = '$val'", NULL, FALSE)->get('rb_psb_daftar');
+			
+			if (
+			$cek->num_rows() == 1 && 
+			$cek->row_array()['id'] == $id || 
+			$cek->num_rows() != 1
+			) 
+			{
+				return TRUE;
+			}
+			else 
+			{
+				return FALSE;
+			}
+		}	
+		
+		public function cek_edit_nik($id,$val)
+		{
+			$cek = $this->db->where("BINARY nik = '$val'", NULL, FALSE)->get('rb_psb_daftar');
+			
+			if (
+			$cek->num_rows() == 1 && 
+			$cek->row_array()['id'] == $id || 
+			$cek->num_rows() != 1
+			) 
+			{
+				return TRUE;
+			}
+			else 
+			{
+				return FALSE;
+			}
+		}	
+		public function cek_edit_nisn($id,$val)
+		{
+			$cek = $this->db->where("BINARY nisn = '$val'", NULL, FALSE)->get('rb_psb_daftar');
+			
+			if (
+			$cek->num_rows() == 1 && 
+			$cek->row_array()['id'] == $id || 
+			$cek->num_rows() != 1
+			) 
+			{
+				return TRUE;
+			}
+			else 
+			{
+				return FALSE;
+			}
+		}	
+		public function cek_edit_nokk($id,$val)
+		{
+			$cek = $this->db->where("BINARY no_kk = '$val'", NULL, FALSE)->get('rb_psb_daftar');
+			
+			if (
+			$cek->num_rows() == 1 && 
+			$cek->row_array()['id'] == $id || 
+			$cek->num_rows() != 1
+			) 
+			{
+				return TRUE;
+			}
+			else 
+			{
+				return FALSE;
+			}
+		}	
+		public function cek_edit_nik_ayah($id,$val)
+		{
+			$cek = $this->db->where("BINARY nik_ayah = '$val'", NULL, FALSE)->get('rb_psb_daftar');
+			
+			if (
+			$cek->num_rows() == 1 && 
+			$cek->row_array()['id'] == $id || 
+			$cek->num_rows() != 1
+			) 
+			{
+				return TRUE;
+			}
+			else 
+			{
+				return FALSE;
+			}
+		}	
+		public function cek_edit_nik_ibu($id,$val)
+		{
+			$cek = $this->db->where("BINARY nik_ibu= '$val'", NULL, FALSE)->get('rb_psb_daftar');
+			
+			if (
+			$cek->num_rows() == 1 && 
+			$cek->row_array()['id'] == $id || 
+			$cek->num_rows() != 1
+			) 
+			{
+				return TRUE;
+			}
+			else 
+			{
+				return FALSE;
+			}
+		}	
 		public function cek_kode_kelas($id,$val)
 		{
 			$cek = $this->db->where("BINARY kode_kelas = '$val'", NULL, FALSE)->get('rb_kelas');
@@ -555,5 +658,14 @@
 				return FALSE;
 			}
 		}
-
-	}
+		public function nama_unit_byid($id)
+		{
+			
+			$this->db->select('nama_jurusan');
+			$this->db->from('rb_unit');
+			$this->db->where('id',$id);
+			$query = $this->db->get(); 
+			$result = ($query->num_rows() > 0)?$query->row()->nama_jurusan:NULL; 
+			return $result; 
+		}
+	}	

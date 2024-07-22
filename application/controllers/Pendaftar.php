@@ -363,430 +363,287 @@
 			}
 		}
 		
-		public function cari_tag(){
-			$id  = $this->input->post('id',TRUE);
-			$tag = $this->input->post('tag',TRUE);
-			$exp = explode(",",$tag);
-			foreach ($exp as  $row)
-			{
-				$data[] = array("id"=>$row,"name"=>$row);
-			}
+		public function _cek_edit_email($val = '') 
+		{
+			$id_post = ($this->input->post('id_pendaftar') ? decrypt_url($this->input->post('id_pendaftar')) : 0);
 			
-			$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($data));
+			$cek = $this->model_pendaftar->cek_email($id_post, $val);
+			// dump($cek);
+			if ( $cek === FALSE ) 
+			{
+				$this->form_validation->set_message('_cek_edit_email', 'Email sudah ada');
+			} 
+			
+			return $cek;
 		}
 		
-		function simpan_pengguna(){
-			cek_input_post('GET');
-			cek_crud_akses('UPDATE');
-			$type = $this->input->post('type',TRUE);
-			$id_level = $this->input->post('id_level',TRUE);
-			$query = $this->db->get_where('hak_akses',['id_level'=>$id_level]);
-			$row = $query->row_array();
-			if($type=='new'){
-				$akses ='';
-				if(!empty($this->input->post('cat',TRUE))){
-					$akses	= $this->input->post('cat',TRUE);
-					$akses	= implode(',',$akses);
-				}
-				$data ='';
-				if(!empty($this->input->post('data',TRUE))){
-					$data_cat	= $this->input->post('data',TRUE);
-					$data		= implode(',',$data_cat);
-				}
-				$query = $this->model_app->view_where('tb_users',['email'=>$this->input->post('mail',TRUE)]);
-				if($query->num_rows() > 0){
-					$arr = [
-					'status'=>201,
-					'title' =>'Input data',
-					'msg'   =>'Data sudah ada'
-					];
-					}else{
-					if($this->level=='admin'){
-						$idlevel = '1,2,3,4,5';
-						}elseif($this->level=='panitia'){
-						$idlevel = '1,2,3';
-						}elseif($this->level=='user'){
-						$idlevel = '1,2,3';
-						}elseif($this->level=='editor'){
-						$idlevel = '1,2,3';
-						}else{
-						$idlevel = '1,2';
-					}
-					$data_divisi = '';
+		public function _cek_edit_nik($val = '') 
+		{
+			$id_post = ($this->input->post('id_pendaftar') ? decrypt_url($this->input->post('id_pendaftar')) : 0);
+			
+			$cek = $this->model_pendaftar->cek_edit_nik($id_post, $val);
+			// dump($cek);
+			if ( $cek === FALSE ) 
+			{
+				$this->form_validation->set_message('_cek_edit_nik', 'NIK sudah ada');
+			} 
+			
+			return $cek;
+		}
+		
+		public function _cek_edit_nisn($val = '') 
+		{
+			$id_post = ($this->input->post('id_pendaftar') ? decrypt_url($this->input->post('id_pendaftar')) : 0);
+			
+			$cek = $this->model_pendaftar->cek_edit_nisn($id_post, $val);
+			// dump($cek);
+			if ( $cek === FALSE ) 
+			{
+				$this->form_validation->set_message('_cek_edit_nisn', 'NISN sudah ada');
+			} 
+			
+			return $cek;
+		}
+		
+		public function _cek_edit_nokk($val = '') 
+		{
+			$id_post = ($this->input->post('id_pendaftar') ? decrypt_url($this->input->post('id_pendaftar')) : 0);
+			
+			$cek = $this->model_pendaftar->cek_edit_nokk($id_post, $val);
+			// dump($cek);
+			if ( $cek === FALSE ) 
+			{
+				$this->form_validation->set_message('_cek_edit_nokk', 'No. KK sudah ada');
+			} 
+			
+			return $cek;
+		}
+		
+		public function _cek_edit_nik_ayah($val = '') 
+		{
+			$id_post = ($this->input->post('id_pendaftar') ? decrypt_url($this->input->post('id_pendaftar')) : 0);
+			
+			$cek = $this->model_pendaftar->cek_edit_nik_ayah($id_post, $val);
+			// dump($cek);
+			if ( $cek === FALSE ) 
+			{
+				$this->form_validation->set_message('_cek_edit_nik_ayah', 'NIK Ayah sudah ada');
+			} 
+			
+			return $cek;
+		}
+		
+		public function _cek_edit_nik_ibu($val = '') 
+		{
+			$id_post = ($this->input->post('id_pendaftar') ? decrypt_url($this->input->post('id_pendaftar')) : 0);
+			
+			$cek = $this->model_pendaftar->cek_edit_nik_ibu($id_post, $val);
+			// dump($cek);
+			if ( $cek === FALSE ) 
+			{
+				$this->form_validation->set_message('_cek_edit_nik_ibu', 'NIK Ayah sudah ada');
+			} 
+			
+			return $cek;
+		}
+		
+		function simpan_pendaftar(){
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id_pendaftar = decrypt_url($this->input->post('id_pendaftar',true));
+				$email = $this->input->post('email',true);
+				$nik = $this->input->post('nik',true);
+				$nisn = $this->input->post('nisn',true);
+				$no_kk = $this->input->post('no_kk',true);
+				$nik_ayah = $this->input->post('nik_ayah',true);
+				$nik_ibu = $this->input->post('nik_ibu',true);
+				// $this->send_notif($post);
+				// exit;
+				// dump($_FILES);
+				$this->form_validation->set_rules(array(
+				array(
+				'field' => 'email',
+				'label' => 'Email',
+				'rules' => 'required|trim|min_length[10]|callback__cek_edit_email['.$email.']',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'min_length' => '%s minimal 10 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				array(
+				'field' => 'nik',
+				'label' => 'NIK',
+				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik['.$nik.']',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				
+				array(
+				'field' => 'nisn',
+				'label' => 'NISN',
+				'rules' => 'required|trim|numeric|min_length[10]|max_length[10]|callback__cek_edit_nisn['.$nisn.']',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'min_length' => '%s minimal 10 digit.',
+				'numeric' => '%s Harus angka.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				array(
+				'field' => 'no_kk',
+				'label' => ' Nomor Kartu Keluarga ',
+				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nokk['.$no_kk.']',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				
+				array(
+				'field' => 'nik_ayah',
+				'label' => ' NIK Ayah',
+				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik_ayah['.$nik_ayah.']',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				
+				array(
+				'field' => 'nik_ibu',
+				'label' => ' NIK Ibu',
+				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik_ibu['.$nik_ibu.']',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				
+				));
+				
+				if ( $this->form_validation->run() ) 
+				{
 					
-					if(!empty($this->input->post('iddivisi',TRUE))){
-						$iddivisi	= $this->input->post('iddivisi',TRUE);
-						if($id_level > 1){
-							$data_divisi = implode(',',$iddivisi);
-							}else{
-							$data_divisi = implode(',',$iddivisi);
-						}
+					$nama_unit = $this->model_pendaftar->nama_unit_byid($this->input->post('unit_sekolah',true));
+					$input_data = [
+					"kode_daftar"              	  => 'PSB-'.$this->input->post('nik',true),
+					"tahun_akademik"              => $this->input->post('thnakademik',true),
+					"email"                       => $this->input->post('email',true),
+					"nama"                        => $this->input->post('nama',true),
+					"jenis_kelamin"               => $this->input->post('jenis_kelamin',true),
+					"tempat_lahir"                => $this->input->post('tempat_lahir',true),
+					"tanggal_lahir"               => $this->input->post('tanggal_lahir',true),
+					"nik"                         => $this->input->post('nik',true),
+					"saudara_pp"                  => $this->input->post('saudara_pp',true),
+					"status_keluarga"             => $this->input->post('status_keluarga',true),
+					"anak_ke"                     => $this->input->post('anak_ke',true),
+					"dari"                        => $this->input->post('dari',true),
+					"s_pendidikan"                => $this->input->post('s_pendidikan',true),
+					"id_unit"                	  => $this->input->post('unit_sekolah',true),
+					"unit_sekolah"                => $nama_unit,
+					"kelas"                       => $this->input->post('kelas',true),
+					"biaya_daftar"                => convert_to_number($this->input->post('biaya',true)),
+					"status_sekolah"              => $this->input->post('status_sekolah',true),
+					"kamar"                       => $this->input->post('kamar',true),
+					"ijasah_terakhir"             => $this->input->post('ijasah_terakhir',true),
+					"nama_sekolah_asal"           => $this->input->post('nama_sekolah_asal',true),
+					"alamat_sekolah"              => $this->input->post('alamat_sekolah',true),
+					"nisn"                        => $this->input->post('nisn',true),
+					"no_kip"                      => $this->input->post('no_kip',true),
+					"no_kk"                       => $this->input->post('no_kk',true),
+					"nama_ayah"                   => $this->input->post('nama_ayah',true),
+					"nik_ayah"                    => $this->input->post('nik_ayah',true),
+					"kondisi_ayah"                => $this->input->post('kondisi_ayah',true),
+					"pendidikan_terakhir_ayah"    => $this->input->post('pendidikan_terakhir_ayah',true),
+					"pekerjaan_ayah"              => $this->input->post('pekerjaan_ayah',true),
+					"nama_ibu"                    => $this->input->post('nama_ibu',true),
+					"nik_ibu"                     => $this->input->post('nik_ibu',true),
+					"kondisi_ibu"                 => $this->input->post('kondisi_ibu',true),
+					"pendidikan_terakhir_ibu"     => $this->input->post('pendidikan_terakhir_ibu',true),
+					"pekerjaan_ibu"               => $this->input->post('pekerjaan_ibu',true),
+					"penghasilan_ortu"            => $this->input->post('penghasilan_ortu',true),
+					"nomor_hp"                    => $this->input->post('nomor_hp',true),
+					"no_hp_alternatif"            => $this->input->post('thnakademik',true),
+					"alamat"                      => $this->input->post('alamat',true),
+					"rt"                          => $this->input->post('rt',true),
+					"rw"                          => $this->input->post('rw',true),
+					"dusun"                       => $this->input->post('dusun',true),
+					"kode_pos"                    => $this->input->post('kode_pos',true),
+					"provinsi"                    => $this->input->post('prov',true),
+					"kabupaten"                   => $this->input->post('kab',true),
+					"kecamatan"				      => $this->input->post('kec',true),
+					"kelurahan"                   => $this->input->post('kel',true),
+					"jenis_penyakit"              => $this->input->post('jenis_penyakit',true),
+					"sejak"                       => $this->input->post('sejak',true),
+					"tindakan_pengobatan"         => $this->input->post('tindakan_pengobatan',true),
+					"kondisi_sekarang"            => $this->input->post('kondisi_sekarang',true),
+					"ukuran_seragam_baju"         => $this->input->post('ukuran_seragam_baju',true),
+					"ukuran_celana_rok"           => $this->input->post('ukuran_celana_rok',true),
+					];
+					$biaya=convert_to_number($this->input->post('biaya',true));
+					
+					$post = $this->input->post();
+					$nama = $this->input->post('nama',true);
+					$nomor = $this->input->post('nomor_hp',true);
+					$nik = $this->input->post('nik',true);
+					
+					$nama_kamar = $this->input->post('kamar',true);
+					$kuota = $this->kuota_kamar($nama_kamar);
+					
+					$kuota = $kuota-1;
+					
+					$update_kuota = ['kuota'=>$kuota]; 
+					
+					
+					
+					$input = $this->model_app->update('rb_psb_daftar',$input_data,['id'=>$id_pendaftar]);
+					if($input['status']==true)
+					{
 						
-					}
-					if($this->input->post('password',TRUE))
-					{
-						$password = password_hash($this->input->post('password',TRUE), PASSWORD_DEFAULT);
-						$data_post 	= [
-						"nama_lengkap"	=> $this->input->post('title',TRUE),
-						"nama_lembaga"	=> $this->input->post('nama_lembaga',TRUE),
-						"password"	    => $password,
-						"alamat"	    => $this->input->post('alamat',TRUE),
-						"email"	        => $this->input->post('mail',TRUE),
-						"no_hp"	        => $this->input->post('phone',TRUE),
-						"tgl_daftar"	=> $this->input->post('daftar',TRUE),
-						"aktif"	        => $this->input->post('aktif',TRUE),
-						"level"	    	=> $row['level'],
-						"parent"	    => $this->iduser,
-						"idlevel"	    => $this->input->post('id_level',TRUE),
-						"id_level"	    => $this->input->post('id_level',TRUE),
-						"id_divisi"	    => $data_divisi,
-						"idmenu"	    => $data,
-						"pangkat"	    => $this->input->post('pangkat',TRUE),
-						"jabatan"	    => $this->input->post('jabatan',TRUE),
-						"nrp"	    	=> $this->input->post('nrp',TRUE),
-						"lock_menu"	    => $this->input->post('lock',TRUE),
-						"type_akses"	=> $akses
-						];
-					}
-					else
-					{
-						$data_post 	= [
-						"nama_lengkap"	=> $this->input->post('title',TRUE),
-						"nama_lembaga"	=> $this->input->post('nama_lembaga',TRUE),
-						"alamat"	    => $this->input->post('alamat',TRUE),
-						"email"	        => $this->input->post('mail',TRUE),
-						"no_hp"	        => $this->input->post('phone',TRUE),
-						"tgl_daftar"	=> $this->input->post('daftar',TRUE),
-						"aktif"	        => $this->input->post('aktif',TRUE),
-						"level"	    	=> $row['level'],
-						"idlevel"	    => $this->input->post('id_level',TRUE),
-						"id_divisi"	    => $data_divisi,
-						"parent"	    => $this->iduser,
-						"id_level"	    => $this->input->post('id_level',TRUE),
-						"idmenu"	    => $data,
-						"pangkat"	    => $this->input->post('pangkat',TRUE),
-						"jabatan"	    => $this->input->post('jabatan',TRUE),
-						"nrp"	    	=> $this->input->post('nrp',TRUE),
-						"lock_menu"	    => $this->input->post('lock',TRUE),
-						"type_akses"	=> $akses
-						];
-					}
-					$insert = $this->model_app->input('tb_users',$data_post);
-					if($insert['status']==true)
-					{
-						$arr = [
-						'status'=>200,
-						'title' =>'Input data',
-						'msg'   =>'Data berhasil Input'
-						];
-					}
-					else
-					{
-						$arr = [
-						'status'=>201,
-						'title' =>'Input data',
-						'msg'   =>'Data gagal Input'
-						];
-					}
-				}
-			}
-			
-			if($type=='edit'){
-				$postid 	= decrypt_url($this->input->post('id',TRUE));
-				$mail 	= $this->input->post('mail',TRUE);
-				$data ='';
-				$data_divisi ='';
-				$query = $this->db->get_where('hak_akses',['id_level'=>$this->input->post('id_level',TRUE)]);
-				$row = $query->row_array();
-				$akses ='';
-				if(!empty($this->input->post('cat',TRUE))){
-					$akses	= $this->input->post('cat',TRUE);
-					$akses	= implode(',',$akses);
-				}
-				if(!empty($this->input->post('data',TRUE))){
-					$data_cat	= $this->input->post('data',TRUE);
-					$data		= implode(',',$data_cat);
-				}
-				
-				if(!empty($this->input->post('iddivisi',TRUE))){
-					$iddivisi	= $this->input->post('iddivisi',TRUE);
-					if($id_level > 1){
-						$data_divisi = implode(',',$iddivisi);
+						// $this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
+						// $this->send_notif($post);
+						$response['status'] = true;
+						$response['title'] = 'Update Data';
+						$response['message'] = 'Data berhasil diupdate';
+						// $response['amount'] = $biaya;
+						// $response['nik'] = $this->input->post('nik',true);
 						}else{
-						$data_divisi = implode(',',$iddivisi);
+						$response['status'] = false;
+						$response['title'] = 'Update Data';
+						$response['message'] = 'Gagal';
 					}
-					
-				}
-				
-				// dump($data_divisi,'print_r','exit');
-				$this->cek_user($type,$mail,$postid);
-				if($this->input->post('password',TRUE))
-				{
-					$password = password_hash($this->input->post('password',TRUE), PASSWORD_DEFAULT);
-					$data_post 	= [
-					"nama_lengkap"	=> $this->input->post('title',TRUE),
-					"nama_lembaga"	=> $this->input->post('nama_lembaga',TRUE),
-					"password"	    => $password,
-					"alamat"	    => $this->input->post('alamat',TRUE),
-					"email"	        => $this->input->post('mail',TRUE),
-					"no_hp"	        => $this->input->post('phone',TRUE),
-					"tgl_daftar"	=> $this->input->post('daftar',TRUE),
-					"aktif"	        => $this->input->post('aktif',TRUE),
-					"level"	    	=> $row['level'],
-					"idlevel"	    => $this->input->post('id_level',TRUE),
-					"id_level"	    => $this->input->post('id_level',TRUE),
-					"idmenu"	    => $data,
-					"id_divisi"	    => $data_divisi,
-					"pangkat"	    => $this->input->post('pangkat',TRUE),
-					"jabatan"	    => $this->input->post('jabatan',TRUE),
-					"nrp"	    	=> $this->input->post('nrp',TRUE),
-					"lock_menu"	    => $this->input->post('lock',TRUE),
-					"type_akses"	=> $akses
-					];
+					// dump($input_data);
+					$this->thm->json_output($response);
 				}
 				else
 				{
-					$data_post 	= [
-					"nama_lengkap"	=> $this->input->post('title',TRUE),
-					"nama_lembaga"	=> $this->input->post('nama_lembaga',TRUE),
-					"alamat"	    => $this->input->post('alamat',TRUE),
-					"email"	        => $this->input->post('mail',TRUE),
-					"no_hp"	        => $this->input->post('phone',TRUE),
-					"tgl_daftar"	=> $this->input->post('daftar',TRUE),
-					"aktif"	        => $this->input->post('aktif',TRUE),
-					"level"	    	=> $row['level'],
-					"idlevel"	    => $this->input->post('id_level',TRUE),
-					"id_level"	    => $this->input->post('id_level',TRUE),
-					"idmenu"	    => $data,
-					"id_divisi"	    => $data_divisi,
-					"pangkat"	    => $this->input->post('pangkat',TRUE),
-					"jabatan"	    => $this->input->post('jabatan',TRUE),
-					"nrp"	    	=> $this->input->post('nrp',TRUE),
-					"lock_menu"	    => $this->input->post('lock',TRUE),
-					"type_akses"	=> $akses
-					];
+					$response['status'] = false;
+					$response['title'] = 'Update Data';
+					$response['message']= validation_errors();
+					$this->thm->json_output($response);
 				}
-				
-				$update = $this->model_app->update('tb_users',$data_post, ['id_user'=>$postid]);
-				if($update['status']=='ok')
-				{
-					$arr = [
-					'status'=>200,
-					'title' =>'Update data',
-					'msg'   =>'Data berhasil diupdate'
-					];
-				}
-				else
-				{
-					$arr = [
-					'status'=>201,
-					'title' =>'Update data',
-					'msg'   =>'Data gagal diupdate'
-					];
-				}
-			}
-			if($type==''){
-				$arr = [
-				'status'=>201,
-				'title' =>'Input data',
-				'msg'   =>'Data gagal'
-				];
-			}
-			$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($arr));
-		}
-		
-		private function cek_user($type,$email,$id){
-			if($type=='add'){
-				$where = array('email'=>$email);
-				$search = $this->model_app->edit('tb_users', $where);
-				}elseif($type=='edit'){
-				$where = array('email'=>$email,'id_user !='=> $id);
-				$search = $this->model_app->edit('tb_users', $where);
-			}
-			
-			if($search->num_rows()>0){
-				$data = array('status'=>500,'title' =>'Alert !!!','msg'=>'Username sudah ada');
-				$this->output
-				->set_status_header(200)
-				->set_content_type('application/json', 'utf-8')
-				->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
-				->_display();
-				exit;
 			}
 		}
 		
-		public function delete_user()
+		private function kuota_kamar($id)
 		{
-			cek_input_post('GET');
-			cek_crud_akses('DELETE');
-			$id = decrypt_url($this->input->post('id',TRUE));
-			$cek_posting = cek_posting($id);
-			if($cek_posting===false){
-				$cek = $this->model_app->view_where('tb_users', ['id_user'=>$id]);
-				if($cek->num_rows() > 0)
-				{
-					$row = $cek->row();
-					if($row->level!='admin'){
-						$delete = $this->model_app->hapus('tb_users', ['id_user'=>$id]);
-						if($delete['status']=='ok')
-						{
-							$arr = ['status'=>'ok','id'=>$cek_posting];
-							}else{
-							$arr = ['status'=>'error'];
-						}
-						}else{
-						$arr = ['status'=>'error_delete','id'=>$cek_posting];
-					}
-					}else{
-					$arr = ['status'=>'error'];
-				}
-				
-				}else{
-				$arr = ['status'=>'error_delete','id'=>$cek_posting];
-			}
-			$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($arr));
+			
+			$kuota = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
+			$response =$kuota->kuota;
+			return $response;	
 		}
 		
-		public function profil()
-		{
-			cek_crud_akses('EDIT');
-			
-			$id = $this->uri->segment(3);
-			
-			$data['title'] = 'Edit Data | ' .$this->title;
-			$data['judul'] = 'Edit profile pengguna';
-			
-			$data['kategori'] = $this->model_app->view_where('type_akses',['pub'=>0])->result();
-			if(!empty($id)){
-				$cek = $this->model_app->edit('tb_users', array('sesi_login' => decrypt_url($id)));
-				if($cek->num_rows() > 0){
-					$data['rows'] = $cek->row_array();
-					
-					if($data['rows']['lock_menu']==1 AND $this->level!='admin'){
-						$this->thm->load('backend/template','backend/user/edit_profil_lock',$data);
-						}else{
-						$this->thm->load('backend/template','backend/user/edit_profil',$data);
-					}
-					}else{
-					redirect('user/');
-				}
-				}else{
-				cek_menu_akses();
-				$id = $this->session->iduser;
-				$cek = $this->model_app->edit('tb_users', array('id_user' => $id));
-				if($cek->num_rows() > 0){
-					$data['rows'] = $cek->row_array();
-					if($data['rows']['lock_menu']==1 AND $this->level!='admin'){
-						$this->thm->load('backend/template','backend/user/edit_profil_lock',$data);
-						}else{
-						$this->thm->load('backend/template','backend/user/edit_profil',$data);
-					}
-					}else{
-					redirect('user/');
-				}
-			}
-			
-		}
-		
-		function save_profil($name = NULL, $value = NULL){
-			cek_crud_akses('UPDATE');
-			
-			foreach ($this->input->post() as $key => $val)
-			{
-				if($key !='data' AND $key!='akses'){
-					$name .= $key.',';
-					$value .= $val.',';
-				}
-			}
-			
-			$lock = $this->input->post('lock');
-			$input_name = explode(',', $name);
-			$input_value = explode(',', $value);
-			
-			if(decrypt_url($input_name[0])=='id' AND $lock==0)
-			{
-				if(!empty($this->input->post('akses',TRUE))){
-					$akses	= $this->input->post('akses',TRUE);
-					$akses	= implode(',',$akses);
-				}
-				
-				$encrypt_id = $input_value[0];
-				$decrypt_id = decrypt_url($encrypt_id);
-				$data_cat = $this->input->post('data');
-				$input_data=implode(',',$data_cat);
-				
-				$level = $this->input->post('level');
-				$level=explode(',',$level);
-				if($this->input->post('password') ==''){
-					$_data = array('idmenu'=>$input_data,
-					'nama_lengkap'=>$this->db->escape_str($this->input->post('nama')),
-					'nama_lembaga'=>$this->db->escape_str($this->input->post('nama_lembaga')),
-					'id_level'=>$level[0],
-					'level'=>$level[1],
-					'type_akses'=>$akses,
-					"pangkat"	    => $this->input->post('pangkat',TRUE),
-					"jabatan"	    => $this->input->post('jabatan',TRUE),
-					"nrp"	    	=> $this->input->post('nrp',TRUE),
-					'aktif'=>$this->input->post('aktif'));
-					}else{
-					$_data = array('idmenu'=>$input_data,
-					'nama_lengkap'=>$this->db->escape_str($this->input->post('nama')),
-					'nama_lembaga'=>$this->db->escape_str($this->input->post('nama_lembaga')),
-					'password'=>password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-					'id_level'=>$level[0],
-					'level'=>$level[1],
-					'type_akses'=>$akses,
-					"pangkat"	    => $this->input->post('pangkat',TRUE),
-					"jabatan"	    => $this->input->post('jabatan',TRUE),
-					"nrp"	    	=> $this->input->post('nrp',TRUE),
-					'aktif'=>$this->input->post('aktif'));
-				}
-				$where = array('sesi_login' => $decrypt_id);
-				$res= $this->model_app->update('tb_users', $_data, $where);
-				if($res['status']=='ok'){
-					$this->session->set_flashdata('message', "<script>showNotif('bottom-right','Simpan Data','Berhasil','success')</script>");
-					redirect('user/profil/'.$encrypt_id);
-					}else{
-					$this->session->set_flashdata('message', "<script>showNotif('bottom-right','Simpan Data',Gagal','warning')</script>");
-					redirect('user/profil/'.$encrypt_id);
-				}
-				exit;
-				}elseif(decrypt_url($input_name[0])=='id' AND $lock==1){
-				if($this->input->post('password') ==''){
-					$data = array( 
-					'nama_lengkap'=>$this->db->escape_str($this->input->post('nama')),
-					'nama_lembaga'=>$this->db->escape_str($this->input->post('nama_lembaga')),
-					"pangkat"	    => $this->input->post('pangkat',TRUE),
-					"jabatan"	    => $this->input->post('jabatan',TRUE),
-					"nrp"	    	=> $this->input->post('nrp',TRUE));
-					}else{
-					$data = array(
-					'nama_lengkap'=>$this->db->escape_str($this->input->post('nama')),
-					'nama_lembaga'=>$this->db->escape_str($this->input->post('nama_lembaga')),
-					'password'=>password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-					"pangkat"	    => $this->input->post('pangkat',TRUE),
-					"jabatan"	    => $this->input->post('jabatan',TRUE),
-					"nrp"	    	=> $this->input->post('nrp',TRUE));
-				}
-				$where = array('sesi_login' => $decrypt_id);
-				$res= $this->model_app->update('tb_users', $data, $where);
-				if($res['status']=='ok'){
-					$this->session->set_flashdata('message', "<script>showNotif('bottom-right','Simpan Data','Berhasil','success')</script>");
-					redirect('user/profil/'.$encrypt_id);
-					}else{
-					$this->session->set_flashdata('message', "<script>showNotif('bottom-right','Simpan Data',Gagal','warning')</script>");
-					redirect('user/profil/'.$encrypt_id);
-				}
-				}else{
-				redirect('admin/');
-			}
-		}
 		function hapus_pendaftar(){
 			cek_input_post('GET');
 			
@@ -815,17 +672,17 @@
 		}
 		
 		// function update_kabupaten(){
-			// $search = $this->model_app->view('rb_psb_daftar')->result();
-			// foreach($search AS $val){
-				// $kabupaten = explode('.',$val->kelurahan);
-				// $str1 = substr($kabupaten[3], 1);
-				// $kecamatan = clean($val->kecamatan);
-				
-				// $data = $kecamatan.$str1;
-				// $res = $this->model_app->update('rb_psb_daftar',['kelurahan'=>$data],['id'=>$val->id,'dibaca'=>0]);
-				
-			// }
-			// // dump($data);
+		// $search = $this->model_app->view('rb_psb_daftar')->result();
+		// foreach($search AS $val){
+		// $kabupaten = explode('.',$val->kelurahan);
+		// $str1 = substr($kabupaten[3], 1);
+		// $kecamatan = clean($val->kecamatan);
+		
+		// $data = $kecamatan.$str1;
+		// $res = $this->model_app->update('rb_psb_daftar',['kelurahan'=>$data],['id'=>$val->id,'dibaca'=>0]);
+		
+		// }
+		// // dump($data);
 		// }
 		
-	}																																																																																													
+	}																																																																																																	

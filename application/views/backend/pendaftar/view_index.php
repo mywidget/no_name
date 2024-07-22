@@ -231,39 +231,39 @@
 	function simpanMember()
 	{
 		// console.log('submit');
-		if($("#mail").val()==''){
-			$("#mail").addClass('form-control-warning');
-			showNotif('top-center','Input Data','Harus diisi','warning');
-			$("#mail").focus();
-			return;
-		}
-		if($("#title").val()==''){
-			$("#title").addClass('form-control-warning');
-			showNotif('top-center','Input Data','Harus diisi','warning');
-			$("#title").focus();
-			return;
-		}
+		// if($("#mail").val()==''){
+			// $("#mail").addClass('form-control-warning');
+			// showNotif('top-center','Input Data','Harus diisi','warning');
+			// $("#mail").focus();
+			// return;
+		// }
+		// if($("#title").val()==''){
+			// $("#title").addClass('form-control-warning');
+			// showNotif('top-center','Input Data','Harus diisi','warning');
+			// $("#title").focus();
+			// return;
+		// }
 		
-		if($("#daftar").val()==''){
-			$("#daftar").addClass('form-control-warning');
-			showNotif('top-center','Input Data','Harus diisi','warning');
-			$("#daftar").focus();
-			return;
-		}
-		if($("#phone").val()==''){
-			$("#phone").addClass('form-control-warning');
-			showNotif('top-center','Input Data','Harus diisi','warning');
-			$("#phone").focus();
-			return;
-		}
-		if($("#alamat").val()==''){
-			$("#alamat").addClass('form-control-warning');
-			showNotif('top-center','Input Data','Harus diisi','warning');
-			$("#alamat").focus();
-			return;
-		}
+		// if($("#daftar").val()==''){
+			// $("#daftar").addClass('form-control-warning');
+			// showNotif('top-center','Input Data','Harus diisi','warning');
+			// $("#daftar").focus();
+			// return;
+		// }
+		// if($("#phone").val()==''){
+			// $("#phone").addClass('form-control-warning');
+			// showNotif('top-center','Input Data','Harus diisi','warning');
+			// $("#phone").focus();
+			// return;
+		// }
+		// if($("#alamat").val()==''){
+			// $("#alamat").addClass('form-control-warning');
+			// showNotif('top-center','Input Data','Harus diisi','warning');
+			// $("#alamat").focus();
+			// return;
+		// }
 		
-		var formData = $("#formAdd").serialize();
+		var formData = $("#formPendaftaran").serialize();
 		$.ajax({
 			type: "POST",
 			url: base_url+"pendaftar/simpan_pendaftar",
@@ -274,11 +274,11 @@
 			},
 			success: function(data) {
 				$('body').loading('stop');
-				if(data.status==200){
-					showNotif('bottom-right',data.title,data.msg,'success');
+				if(data.status==true){
+					showNotif('bottom-right',data.title,data.message,'success');
 					$("#OpenModalUser").modal('hide');
 					}else{
-					showNotif('bottom-right',data.title,data.msg,'error');
+					showNotif('bottom-right',data.title,data.message,'error');
 				}
 				
 				searchPengguna();
