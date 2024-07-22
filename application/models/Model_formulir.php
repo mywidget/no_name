@@ -69,7 +69,7 @@
 				info('whatsapp'),
 				info('site_mail'),
 				info('site_addr'),
-				'PSB-'.$post['nik'],
+				$post['nik'],
 				date('Y-m-d'),
 				$post['nama'],
 				$post['nik'],

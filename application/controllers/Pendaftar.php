@@ -257,6 +257,24 @@
 			}
 		}
 		
+		public function load_pesan()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$result = $this->model_app->view_where_ordering('rb_template_pesan',['aktif'=>'Ya'],'id','ASC')->result();
+				$response = [];
+				foreach($result AS $val)
+				{
+					$response[] = ['id'=>$val->id,
+					'name'=>$val->title
+					];
+				}
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
 		public function load_pekerjaan()
 		{
 			if ( $this->input->is_ajax_request() ) 
@@ -457,6 +475,9 @@
 				$no_kk = $this->input->post('no_kk',true);
 				$nik_ayah = $this->input->post('nik_ayah',true);
 				$nik_ibu = $this->input->post('nik_ibu',true);
+				$kirim_pesan = $this->input->post('kirim_pesan',true);
+				
+				
 				// $this->send_notif($post);
 				// exit;
 				// dump($_FILES);
@@ -610,7 +631,9 @@
 					$input = $this->model_app->update('rb_psb_daftar',$input_data,['id'=>$id_pendaftar]);
 					if($input['status']==true)
 					{
-						
+						if($kirim_pesan=='Ya'){
+							$this->send_notif($post);
+						}
 						// $this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
 						// $this->send_notif($post);
 						$response['status'] = true;
@@ -634,6 +657,47 @@
 					$this->thm->json_output($response);
 				}
 			}
+		}
+		
+		private function send_notif($post)
+		{
+			$token = $this->model_formulir->get_token()->token;
+			$isi_pesan = $this->model_formulir->get_pesan($post);
+			$data_send = array(
+			'target' => $post['nomor_hp'],
+			'message' => $isi_pesan,
+			'countryCode' => '62'
+			);
+			// dump($token);
+			
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			$this->curl->setHeader('Authorization', $token);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post('https://api.fonnte.com/send', $data_send);
+			if ($this->curl->error) {
+				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+				} else {
+				$response = $this->curl->response;
+				$result = ['status' => true, 'msg' => (object)$response];
+				$this->report_pesan($response,$isi_pesan,$post['nik']);
+			}
+		}
+		
+		private function report_pesan($response,$message,$id)
+		{
+			$device = $this->model_formulir->get_token()->device;
+			foreach($response["id"] as $k=>$v){
+				$target = $response["target"][$k];
+				$process = $response["process"];
+				$status = $response["status"];
+				$data = ['id_kirim'=>$v,'nik_pendaftar'=>$id,'device'=>$device,'target'=>$target,'message'=>$message,'status'=>$process,'create_date'=>date('Y-m-d')];
+				if($status==true){
+					$this->model_app->input('rb_report_pesan',$data);
+				}
+				// dump($data);
+			}
+			
 		}
 		
 		private function kuota_kamar($id)
@@ -685,4 +749,4 @@
 		// // dump($data);
 		// }
 		
-	}																																																																																																	
+	}																																																																																																					

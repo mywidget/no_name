@@ -623,65 +623,7 @@
         
         return $agent;
 	}				
-	
-	if ( ! function_exists('cek_demo_promo'))
-	{
-		
-		/**
-			* Code Cek demo 
-			* 
-			@return array
-		*/
-		function cek_demo_promo($var,$token="")
-		{
-			$ci = & get_instance();
-			
-			$device_status = cek_device_status($token);
-			$data = array();
-			
-			if($var=='get'){
-				if($query->row()->demo=='Y' AND $ci->session->level!='admin'){
-					$data = ['status'=>false,'msg'=>'Akses ditolak','disabled'=>true,'readonly'=>true];
-					}else{
-					$data = ['status'=>true,'msg'=>'Akses diterima','disabled'=>false,'readonly'=>false];
-				}
-			}
-			
-			if($var=='connect'){
-				if($query->row()->demo=='Y' AND $ci->session->level!='admin' AND $device_status==true){
-					$data = ['status'=>false,'reason'=>'device already connect'];
-				}
-			}
-			
-			if($var=='disconnect'){
-				if($query->row()->demo=='Y' AND $ci->session->level!='admin' AND $device_status==true){
-					$msg = array('detail'=>'device disconnected','status'=> true);
-					$data =array ('status'=> true,'detail'=>'Device Disconnected (Demo Only)','msg'=>(object)$msg);
-					// $data = ['status'=>true,'detail'=>'device disconnected','msg'=>'Device Disconnected (Demo Only)'];
-					}else{
-					$msg = array('detail'=>'device disconnected','status'=> true);
-					$data =array ('status'=> false,'detail'=>'Device Disconnected','msg'=>(object)$msg);
-					// $data = ['status'=>false,'detail'=>'device disconnected'];
-				}
-				
-			}
-			
-			if($query->row()->demo=='Y' AND $ci->session->level!='admin' AND $device_status==false){
-				$data = ['status'=>true,'url'=>img_qrcode()];
-			}
-			
-			if($query->row()->demo=='Y' AND $ci->session->level=='admin' AND $ci->session->idparent!=0 AND $device_status==true){
-				$data = ['status'=>false];
-			}
-			if($query->row()->demo=='Y' AND $ci->session->level=='admin' AND $ci->session->idparent!=0 AND $device_status==false){
-				$data = ['status'=>true];
-			}
-			
-			
-			return $data;
-		}
-	}	
-	
+	 
 	
 	if ( ! function_exists('cek_device_status'))
 	{
@@ -727,6 +669,26 @@
 				return $cek->row()->device; 	
 				}else{
 				return false; 
+			}
+		}
+	}		
+	if ( ! function_exists('get_kelas'))
+	{
+		/**
+			* Code device 
+			* 
+			@param int 
+			@return string
+		*/
+		function getKelas()
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih('kode_kelas','rb_kelas');
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row()->kode_kelas; 	
+				}else{
+				return '-'; 
 			}
 		}
 	}		

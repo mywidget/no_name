@@ -86,11 +86,12 @@
                                         <?=$row['unit_sekolah'];?>
                                     </button>
                                     <ul class="dropdown-menu" style="">
+                                        <li><a class="dropdown-item" href="#">Kelas : <?=getKelas($row['kelas']);?></a></li>
                                         <li><a class="dropdown-item" href="#">Biaya Pendaftaran : <?=$row['biaya_daftar'];?></a></li>
                                     </ul>
                                 </div>
                             </td>
-                            <td><?=$row['kelas'];?></td>
+                            <td><?=getKelas($row['kelas']);?></td>
                             <td align="right">
                                 <div class="btn-group btn-sm flat bg-danger">
                                     <?=$status;?>

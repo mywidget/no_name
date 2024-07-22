@@ -195,11 +195,11 @@
 				sortKelas:sortKelas
 			},
             beforeSend: function(){
-                // $('body').loading();
+                $('body').loading();
 			},
             success: function(html){
                 $('#posts_content').html(html);
-                // $('body').loading('stop');
+                $('body').loading('stop');
 			}
 		});
 	}
@@ -380,5 +380,32 @@
 			}
 		});
 	});
-	
+	$('body').on("change","#kirim_pesan",function(){
+				var aktif = $(this).val();
+				if(aktif=='Ya'){
+					$.ajax({
+						type: 'POST',
+						url: base_url+ "pendaftar/load_pesan",
+						dataType : "json",
+						beforeSend: function(){
+							$("#template_pesan").empty();
+							$("#template_pesan").append("<option value=''>Pilih</option>");
+						},
+						success: function(response) {
+							$("#template_pesan").attr("disabled", false);
+							var msize = response.length;
+							var i = 0;
+							for (; i < msize; i++) {
+								var teg = response[i]["id"];
+								var name = response[i]["name"];
+								$("#template_pesan").append("<option value='" + teg + "'>" + name + "</option>");
+							}
+						}
+					});
+					}else{
+					$("#template_pesan").empty();
+					$("#template_pesan").attr("disabled", true);
+				}
+			});
+			
 </script>        

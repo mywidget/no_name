@@ -50,7 +50,7 @@
         <script src="<?=base_url('assets/');?>backend/libs/alertify/alertify.js" type="text/javascript"></script>
         <script src="<?= base_url('assets/'); ?>backend/libs/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
         <script src="<?= base_url('assets/'); ?>backend/libs/daterangepicker/daterangepicker.js"></script>
-        
+         <script src="<?= base_url('assets/'); ?>backend/libs/jquery.loading/jquery.loading.js"></script>
         <script>
             var my_ip = "<?=$_SERVER['SERVER_NAME']; ?>";
             var base_url = '<?=base_url(); ?>';
@@ -211,7 +211,7 @@
         
         <!-- Libs JS -->
         
-        <script src="<?= base_url('assets/'); ?>backend/libs/jquery.loading/jquery.loading.js"></script>
+       
         <script src="<?= base_url('assets/'); ?>backend/libs/sweetalert2/sweetalert2.min.js"></script>
         
         <script src="//cdn.jsdelivr.net/npm/litepicker-polyfills-ie11/dist/index.js" defer></script>

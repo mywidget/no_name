@@ -504,7 +504,7 @@
 					$nama_unit = $this->model_formulir->nama_unit_byid($this->input->post('unit_sekolah',true));
 					$this->upload->initialize($config);
 					$input_data = [
-					"kode_daftar"              	  => 'PSB-'.$this->input->post('nik',true),
+					"kode_daftar"              	  => $this->input->post('nik',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
 					"email"                       => $this->input->post('email',true),
 					"nama"                        => $this->input->post('nama',true),
@@ -581,7 +581,7 @@
 					if($input['status']==true)
 					{
 				 
-						// $this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
+						$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
 						$this->send_notif($post);
 						$response['status'] = true;
 						$response['amount'] = $biaya;
