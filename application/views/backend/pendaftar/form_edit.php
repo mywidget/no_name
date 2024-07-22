@@ -577,8 +577,8 @@
 	<script>
 		
 		var id_pendaftar = <?=$record->id;?>;
-		var unit_sekolah = <?=$record->id_unit;?>;
-		var form_kelas = <?=$record->kelas;?>;
+		var unit_sekolah = "<?=$record->id_unit;?>";
+		var form_kelas = "<?=$record->kelas;?>";
 		var form_kamar = "<?=$record->kamar;?>";
 		var ijasah_terakhir = "<?=$record->ijasah_terakhir;?>";
 		var provinsi = "<?=$record->provinsi;?>";
@@ -610,7 +610,7 @@
 					}
 					$("#form_unit option[value='loading']").remove();
 					$("#form_unit").attr("disabled", false);
-					$("#form_unit").append("<option value=''>Pilih Provinsi</option>");
+					$("#form_unit").append("<option value=''>Pilih</option>");
 					var len = response.length;
 					for (var i = 0; i < len; i++) {
 						
@@ -644,7 +644,7 @@
 					}
 					$("#form_kelas option[value='loading']").remove();
 					$("#form_kelas").attr("disabled", false);
-					$("#form_kelas").append("<option value=''>Pilih Provinsi</option>");
+					$("#form_kelas").append("<option value=''>Pilih</option>");
 					var len = response.length;
 					for (var i = 0; i < len; i++) {
 						
@@ -678,7 +678,7 @@
 					}
 					$("#form_kamar option[value='loading']").remove();
 					$("#form_kamar").attr("disabled", false);
-					$("#form_kamar").append("<option value=''>Pilih Provinsi</option>");
+					$("#form_kamar").append("<option value=''>Pilih</option>");
 					var len = response.length;
 					for (var i = 0; i < len; i++) {
 						
@@ -777,6 +777,7 @@
 		
 		$("#form_kab").filter(function () {
 			var id = provinsi;
+			
 			$.ajax({
 				type: 'POST',
 				url: base_url+ "dashboard/kabupaten",
@@ -838,6 +839,7 @@
 		
 		$("#form_des").filter(function () {
 			var id = kecamatan;
+			console.log(kelurahan)
 			$.ajax({
 				type: 'POST',
 				url: base_url+ "dashboard/desa",
