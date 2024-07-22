@@ -401,6 +401,23 @@
 			}
 		}
 		
+		public function status_pendaftar()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id  = $this->input->post('id',TRUE);
+				$result = $this->model_app->view_where('rb_psb_daftar',['status'=>$id])->row();
+				
+				$response= ['id'=>$id,
+				'name'=>$result->status
+				];
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		
 		public function _cek_edit_email($val = '') 
 		{
 			$id_post = ($this->input->post('id_pendaftar') ? decrypt_url($this->input->post('id_pendaftar')) : 0);
@@ -632,6 +649,7 @@
 					"kondisi_sekarang"            => $this->input->post('kondisi_sekarang',true),
 					"ukuran_seragam_baju"         => $this->input->post('ukuran_seragam_baju',true),
 					"ukuran_celana_rok"           => $this->input->post('ukuran_celana_rok',true),
+					"status"           => $this->input->post('status_pendaftar',true),
 					];
 					// dump($input_data);
 					$biaya=convert_to_number($this->input->post('biaya',true));

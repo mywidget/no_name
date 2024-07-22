@@ -169,6 +169,11 @@
 	z-index:1050;
 	}
 	
+	select[readonly] {
+	pointer-events: none;
+	cursor: not-allowed;
+	}
+	
 </style>
 <?php
 	$this->RenderScript[] = function() {

@@ -648,9 +648,12 @@
 				</div>
 			</div>
 			
-		</form>			
+		</form>		
+		
 		<script>
-			
+			$('select[readonly]').focus(function(){
+				this.blur();
+			});
 			var id_pendaftar = <?=$record->id;?>;
 			var id_unit = "<?=$record->id_unit;?>";
 			var unit_sekolah = "<?=$record->unit_sekolah;?>";
@@ -666,6 +669,7 @@
 			var pendidikan_terakhir_ibu = "<?=$record->pendidikan_terakhir_ayah;?>";
 			var pekerjaan_ibu = "<?=$record->pekerjaan_ibu;?>";
 			var penghasilan_ortu = "<?=$record->penghasilan_ortu;?>";
+			var status_pendaftar = "<?=$record->status;?>";
 			
 			
 			$("#form_unit").filter(function () {
@@ -813,6 +817,27 @@
 					success: function (response) {
 						// console.log(response);
 						$("#ukuranCelana").val(response.name).change();
+					}
+				});
+			});
+			
+			$("#status_pendaftar").filter(function () {
+				$.ajax({
+					url: base_url+ "pendaftar/status_pendaftar",
+					data:{id:status_pendaftar},
+					type: "POST",
+					dataType: 'json',
+					beforeSend: function () {
+						// $("#ijazahTerakhir").attr("disabled", true);
+					},
+					success: function (response) {
+						// console.log(response);
+						if(response.name=='Diterima'){
+							$("#status_pendaftar").attr('readonly',true);
+							}else{
+							$("#status_pendaftar").attr('readonly',false);
+						}
+						$("#status_pendaftar").val(response.name).change();
 					}
 				});
 			});
@@ -1062,4 +1087,4 @@
 			
 			
 			
-		</script>																																			
+		</script>																																											

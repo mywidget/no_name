@@ -108,7 +108,9 @@
                                         <li><?=$transfer;?></li>
                                         <li><?=$surat;?></li>
                                         <li><?=$edit;?></li>
+                                        <?php if($row['status']=='Tidak Diterima'){ ?>
                                         <li><?=$hapus;?></li>
+                                        <?php } ?>
                                         <!--li><hr class="dropdown-divider"></li-->
                                     </ul>
                                 </div>
