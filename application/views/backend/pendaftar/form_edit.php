@@ -594,7 +594,7 @@
 				$size_bukti = @getimagesize($fotobukti);
 				if($size_bukti !== false){
 					$gambar_bukti=base_url()."upload/foto_dokumen/" . $record->fotobukti;
-					$hide_bukti = 'd-none';
+					$show_bukti = 'd-none';
 					$hide_bukti = '';
 					}else{
 					$hide_bukti = 'd-none';
