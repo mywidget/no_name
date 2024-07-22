@@ -164,7 +164,7 @@
 				if($type=='santri'){
 					if(!empty($_FILES['file']['name']))
 					{
-						$config['upload_path']   = './upload/lampiran'; //path folder
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
 						$config['max_size']		 = 2048;
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = TRUE; //enkripsi nama file
@@ -196,7 +196,7 @@
 						'title' =>'Update Foto Santri',
 						'msg'   =>'Data berhasil diupdate',
 						'data'   =>$data,
-						'image'   =>base_url().'upload/lampiran/'.$gambar.'?v='.time()
+						'image'   =>base_url().'upload/foto_dokumen/'.$gambar.'?v='.time()
 						];
 					}
 					else
@@ -212,7 +212,7 @@
 				if($type=='foto_kk'){
 					if(!empty($_FILES['file']['name']))
 					{
-						$config['upload_path']   = './upload/lampiran'; //path folder
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
 						$config['max_size']		 = 2048;
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = TRUE; //enkripsi nama file
@@ -244,7 +244,7 @@
 						'title' =>'Update Foto KK',
 						'msg'   =>'Data berhasil diupdate',
 						'data'   =>$data,
-						'image'   =>base_url().'upload/lampiran/'.$gambar.'?v='.time()
+						'image'   =>base_url().'upload/foto_dokumen/'.$gambar.'?v='.time()
 						];
 					}
 					else
@@ -259,7 +259,7 @@
 				if($type=='surat'){
 					if(!empty($_FILES['file']['name']))
 					{
-						$config['upload_path']   = './upload/lampiran'; //path folder
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
 						$config['max_size']		 = 2048;
 						$config['allowed_types'] = 'jpg|png|jpeg|pdf|doc|docx'; //type yang image yang dizinkan
 						$config['encrypt_name']  = TRUE; //enkripsi nama file
@@ -633,7 +633,7 @@
 					{
 						$new_name = $nik.'_'.$_FILES["fotoSantri"]['name'];
 						$config['file_name']        = $new_name;
-						$config['upload_path']   = './upload/lampiran'; //path folder
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
 						$config['max_size']		 = 2048;
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = FALSE; //enkripsi nama file
@@ -658,7 +658,7 @@
 					{
 						$new_name = $nik.'_'.$_FILES["fotoKk"]['name'];
 						$config['file_name']        = $new_name;
-						$config['upload_path']   = './upload/lampiran'; //path folder
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
 						$config['max_size']		 = 2048;
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = FALSE; //enkripsi nama file
@@ -882,11 +882,11 @@
 			// Image Small
 			array(
 			'image_library' => 'GD2',
-			'source_image'  => './upload/lampiran/'.$file_name,
+			'source_image'  => './upload/foto_dokumen/'.$file_name,
 			'maintain_ratio'=> FALSE,
 			'width'         => 300,
 			'height'        => 400,
-			'new_image'     => './upload/lampiran/foto_300x400_'.$nik.'_'.$file_name
+			'new_image'     => './upload/foto_dokumen/foto_300x400_'.$nik.'_'.$file_name
 			));
 			
 			$this->load->library('image_lib', $config[0]);
@@ -905,11 +905,11 @@
 			$config = array(
 			array(
 			'image_library' => 'GD2',
-			'source_image'  => './upload/lampiran/'.$file_name,
+			'source_image'  => './upload/foto_dokumen/'.$file_name,
 			'maintain_ratio'=> FALSE,
 			'width'         => 1024,
 			'height'        => 576,
-			'new_image'     => './upload/lampiran/kk_1024x576_'.$nik.'_'.$file_name
+			'new_image'     => './upload/foto_dokumen/kk_1024x576_'.$nik.'_'.$file_name
 			)
 			);
 			
