@@ -778,27 +778,34 @@
 		function download($file=""){
 			$this->load->helper('download');
 			$opathFile = FCPATH.'upload/foto_dokumen/'.$file;
-			
-			$size = @filesize($opathFile);
-			if($size !== false){
-				force_download($opathFile, NULL);
+			if(!empty($id)){
+				$size = @filesize($opathFile);
+				if($size !== false){
+					force_download($opathFile, NULL);
+					}else{
+					$data['title'] = 'File tidak ditemukan | '.$this->title;
+					$this->thm->load('backend/template','backend/blank_file',$data);
+				}
 				}else{
 				$data['title'] = 'File tidak ditemukan | '.$this->title;
-				$this->thm->load('backend/template','backend/blank_file',$data);
+				$this->thm->load('backend/template','backend/blank',$data);
 			}
 		}
 		function print_dokumen($id=""){
-			
-			$data['title'] = 'Print Formulir | '.$this->title;
-			$query = $this->model_app->view_where('rb_psb_daftar',['id'=>decrypt_url($id)]);
-			if($query->num_rows() > 0){
-				$data['s'] = $query->row_array();
-				$this->load->view('backend/pendaftar/print',$data);
-				// $this->thm->load('backend/template','backend/pendaftar/print',$data);
+			if(!empty($id)){
+				$data['title'] = 'Print Formulir | '.$this->title;
+				$query = $this->model_app->view_where('rb_psb_daftar',['id'=>decrypt_url($id)]);
+				if($query->num_rows() > 0){
+					$data['s'] = $query->row_array();
+					$this->load->view('backend/pendaftar/print',$data);
+					// $this->thm->load('backend/template','backend/pendaftar/print',$data);
+					}else{
+					$this->thm->load('backend/template','backend/blank',$data);
+				}
 				}else{
 				$this->thm->load('backend/template','backend/blank',$data);
 			}
 			
 		}
 		
-	}																																																																																																														
+	}																																																																																																																		
