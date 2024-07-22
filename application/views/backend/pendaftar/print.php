@@ -3,7 +3,7 @@
 	<head>
 		<title><?=$title;?></title>
 		<link href="<?=base_url();?>assets/print_style/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-		<link href="<?=base_url();?>assets/print_style/printer.css" rel="stylesheet"/>
+		<!--link href="<?=base_url();?>assets/print_style/printer.css" rel="stylesheet"/-->
 	</head>
 	<body onload="window.print()">
 	<div class="container">
