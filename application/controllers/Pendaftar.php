@@ -814,4 +814,17 @@
 			->set_output(json_encode($data));
 		}
 		
-	}																																																																																								
+		// function update_kabupaten(){
+			// $search = $this->model_app->view('rb_psb_daftar')->result();
+			// foreach($search AS $val){
+				// $kabupaten = explode('.',$val->kelurahan);
+				// $count = count($kabupaten);
+				// // if($count > 1){
+					// $data[] = $kabupaten[3];
+					// $res = $this->model_app->update('rb_psb_daftar',['kelurahan'=>$kabupaten[3]],['id'=>$val->id,'dibaca'=>0]);
+				// // }
+			// }
+			// dump($data);
+		// }
+		
+	}																																																																																											
