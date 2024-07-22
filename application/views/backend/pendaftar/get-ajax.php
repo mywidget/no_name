@@ -1,6 +1,5 @@
-<div id="posts_content">
     <?php if(!empty($record)){ ?>
-        <div class="table-responsive">
+        <div class="table-responsive" style="min-height: 300px;">
             <table class="table card-table table-vcenter table-striped text-nowrap datatable">
                 <thead class="thead-dark">
                   	<tr>
@@ -132,7 +131,7 @@
             </tr>
         </table>
     <?php } ?>
-</div>
+
 <script>
     $(document).ready(function(){
         $('.openPopup').on('click',function(){
