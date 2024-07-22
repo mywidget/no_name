@@ -96,8 +96,13 @@
 			
 			$where = ['kode_daftar'=>$kode_daftar,'tanggal_lahir'=>$tanggal_lahir];
 			
-			$data['row'] = $this->model_app->view_where('rb_psb_daftar',$where)->row_array();
-			$this->load->view('frontend/form_status',$data);
+			$query = $this->model_app->view_where('rb_psb_daftar',$where);
+			if($query->num_rows() > 0){
+			$data['row'] = $query->row_array();
+				$this->load->view('frontend/form_status',$data);
+				}else{
+				$this->load->view('frontend/form_status_error');
+			}
 			
 		}
 		
@@ -580,7 +585,7 @@
 					$input = $this->model_app->input('rb_psb_daftar',$input_data);
 					if($input['status']==true)
 					{
-				 
+						
 						$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
 						$this->send_notif($post);
 						$response['status'] = true;
@@ -610,7 +615,7 @@
 			$response =$kuota->kuota;
 			return $response;	
 		}
-		 
+		
 		private function send_notif($post)
 		{
 			$token = $this->model_formulir->get_token()->token;
