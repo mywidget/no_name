@@ -11,14 +11,7 @@
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
                 <div class="btn-list">
-					
-					<a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#OpenModalUser" data-id="0" data-mod="add">
-						<i class="ti ti-plus fa-lg"></i>
-						Tambah
-					</a>
-					<a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#OpenModalUser" aria-label="Tambah pengguna" data-id="0" data-mod="add">
-						<i class="ti ti-plus fa-lg"></i>
-					</a>
+					 
 				</div>
 			</div>
 		</div>
