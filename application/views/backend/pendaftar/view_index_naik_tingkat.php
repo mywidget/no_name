@@ -161,6 +161,26 @@
 		</div>
 	</div>
 </div>
+
+<div class="modal modal-blur fade" id="OpenModalImage" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myModalLabel">Lampiran</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="load-lampiran">
+					<img src="" id="img-lampiran" alt="" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+				<a href="#" id="img-download" target="_blank" class="btn btn-success">Download</a>
+			</div>
+		</div>
+	</div>
+</div>
 <style>
     .select2-container {
     width: 100% !important;
@@ -233,7 +253,23 @@
 			});
 		});
 		
-		
+		function load_lampiran(id,file)
+		{
+			var lampiran =  file.split('.').pop();
+			// console.log(lampiran)
+			// return;
+			if(lampiran=='jpg' || lampiran =='jpeg' || lampiran =='png'){
+				var gambar = base_url + 'upload/foto_dokumen/'+file;
+				var link_download = base_url + 'download-lampiran/'+file;
+				$('#OpenModalImage').modal('show')
+				$('#img-lampiran').attr("src", gambar);
+				$("#img-download"). prop('href', link_download);
+				}else{
+				var link_download = base_url + 'download-lampiran/'+file;
+				window.open(link_download, '_blank');
+			}
+			
+		}
 		function simpanMember()
 		{
 			// console.log('submit');
