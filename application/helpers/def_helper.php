@@ -155,11 +155,13 @@
 	
 	function cek_nik($anak,$ayah,$ibu){
 		if($anak===$ayah AND $anak===$ibu){
-			$msg = ['status'=>true,'msg'=>'NIK Anah tidak boleh sama dengan ayah/ibu'];
+			$msg = ['status'=>true,'msg'=>'NIK Anak tidak boleh sama dengan ayah/ibu'];
 			}elseif($anak===$ayah){
-			$msg = ['status'=>true,'msg'=>'NIK Anah tidak boleh sama dengan ayah'];
+			$msg = ['status'=>true,'msg'=>'NIK Anak tidak boleh sama dengan ayah'];
 			}elseif($anak===$ibu){
-			$msg = ['status'=>true,'msg'=>'NIK Anah tidak boleh sama dengan ibu'];
+			$msg = ['status'=>true,'msg'=>'NIK Anak tidak boleh sama dengan ibu'];
+			}elseif($ayah===$ibu){
+			$msg = ['status'=>true,'msg'=>'NIK ayah tidak boleh sama dengan ibu'];
 			}else{
 			$msg = ['status'=>false,'msg'=>'ok'];
 		}
@@ -723,4 +725,4 @@
 		}
 		
 		return $ucapan;
-	}		
+	}			
