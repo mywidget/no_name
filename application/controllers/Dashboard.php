@@ -524,24 +524,48 @@
 		{
 			if ( $this->input->is_ajax_request() ) 
 			{
-				$id = $this->input->post('id',true);
-				
-				$response['status'] ='success';
-				$response['data'] = ['nis'=>123,
-				'nisn'=>323,
-				'nama'=>'nama',
-				'gender'=>'Laki-laki',
-				'tempatLahir'=>'tempatLahir',
-				'tanggalLahir'=>'tanggalLahir',
-				'pondok'=>'pondok',
-				'namaAyah'=>'namaAyah',
-				'namaIbu'=>'namaIbu',
-				'dusun'=>'dusun',
-				'provinsi'=>36,
-				'kabupaten'=>3673,
-				'kecamatan'=>3673010,
-				'kelurahan'=>3673010001,
+				$nis = $this->input->post('nis',true);
+				$namaIbu = $this->input->post('namaIbu',true);
+				$tanggalLahir = $this->input->post('tanggalLahir',true);
+				$post = $this->input->post();
+				$where = [
+				'nisSiswa'=>$nis,
+				'nmOrtu'=>$namaIbu,
 				];
+				
+				$query = $this->model_app->view_where('siswa',$where);
+				if($query->num_rows()> 0){
+					$row = $query->row();
+					
+					
+					if($row->jkSiswa=='L'){
+						$gender = 'Laki-laki';
+						}else{
+						$gender = 'Perempuan';
+					}
+					
+					$response['status'] ='success';
+					$response['data'] = [
+					'nis'         =>$nis,
+					'nisn'        =>$row->nisnSiswa,
+					'nama'        =>$row->nmSiswa,
+					'gender'      =>$gender,
+					'tempatLahir' =>'tempatLahir',
+					'tanggalLahir'=>$tanggalLahir,
+					'pondok'      =>'pondok',
+					'namaAyah'    =>$row->nmOrtu,
+					'namaIbu'     =>'namaIbu',
+					'dusun'       =>'dusun',
+					'provinsi'    =>36,
+					'kabupaten'   =>3673,
+					'kecamatan'   =>3673010,
+					'kelurahan'   =>3673010001,
+					];
+					
+					}else{
+					$response['status'] ='error';
+					$response['message'] ='Data tidak ditemukan';
+				}
 				
 				
 				$this->output
@@ -630,6 +654,12 @@
 				if ( $this->form_validation->run() ) 
 				{
 					$nik = $this->input->post('nik',true);
+					$nik_ayah = $this->input->post('nik_ayah',true);
+					$nik_ibu = $this->input->post('nik_ibu',true);
+					$cek_nik = cek_nik($nik,$nik_ayah,$nik_ibu);
+					if($cek_nik['status']===true){
+						$this->thm->json_output($cek_nik['msg']);
+					}
 					if(!empty($_FILES['fotoSantri']['name']))
 					{
 						$new_name = $nik.'_'.$_FILES["fotoSantri"]['name'];
@@ -818,7 +848,7 @@
 		private function send_notif($post)
 		{
 			$token = $this->model_formulir->get_token()->token;
-			$isi_pesan = $this->model_formulir->get_pesan($post);
+			$isi_pesan = $this->model_formulir->get_pesan_pendaftaran($post);
 			$data_send = array(
 			'target' => $post['nomor_hp'],
 			'message' => $isi_pesan,
@@ -926,7 +956,7 @@
 		}
 		
 		function print_dokumen($id=""){
-			 
+			
 			$data['title'] = 'Print Formulir | '.$this->title;
 			$query = $this->model_app->view_where('rb_psb_daftar',['nik'=>decrypt_url($id)]);
 			if($query->num_rows() > 0){
