@@ -6,7 +6,7 @@
 					PSB Online
 				</div>
                 <h2 class="page-title">
-					Data Pendaftar Baru
+					Data Pendaftar Naik Tingkat
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
