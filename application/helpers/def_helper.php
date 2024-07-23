@@ -625,6 +625,29 @@
 		return $out;
 	}
 	
+	function usia_daftar($tgl_a, $tgl_b){
+		$a = date_create($tgl_a);
+		$b = date_create($tgl_b);
+		
+		$selisih = date_diff($a, $b);
+		$hari = $selisih->format("%a");
+		
+		if(($hari / 365) >= 1){
+			$tahun = floor($hari / 365);
+			$hari -= ($tahun * 365);
+		}
+		if(($hari / 30) >= 1){
+			$bulan = floor($hari / 30);
+			$hari -= ($bulan * 30);
+		}
+		
+		$out = "";
+		if(isset($tahun))
+		$out = $tahun;
+ 
+		return $out;
+	}
+	
 	function clean($text){
 		$text = preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags(html_entity_decode($text)));
 		return $text;
