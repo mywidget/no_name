@@ -41,14 +41,14 @@
 								<div class="d-none d-sm-inline-block">Search:</div>
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
-										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari unit" onkeyup="searchPendidikan();"/>
+										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari Data" onkeyup="searchPendidikan();"/>
 										<span class="input-group-text">
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Unit" title="Cari Unit" onclick="searchPendidikan();"><i class="ti ti-search fa-lg"></i>&nbsp;
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Cari Data" onclick="searchPendidikan();"><i class="ti ti-search fa-lg"></i>&nbsp;
 											</a>
 											<a href="#" class="link-secondary clear_unit" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear search">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
 											</a>
-											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModalPendidikan" aria-label="Tambah Unit" data-id="0" data-mod="add">
-												&nbsp;<i class="ti ti-plus fa-lg"></i>
+											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModalPendidikan" aria-label="Tambah Data" data-id="0" data-mod="add">
+												&nbsp;<i class="ti ti-plus fa-lg" data-bs-toggle="tooltip" title="Tambah Data"></i>
 											</a>
 										</span>
 									</div>
@@ -84,14 +84,14 @@
 								<div class="d-none d-sm-inline-block">Search:</div>
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
-										<input type="text" id="keywords_pekerjaan" class="form-control w-20" placeholder="Cari pekerjaan" onkeyup="searchPekerjaan();" />
+										<input type="text" id="keywords_pekerjaan" class="form-control w-20" placeholder="Cari Data" onkeyup="searchPekerjaan();" />
 										<span class="input-group-text">
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari pekerjaan" title="Cari pekerjaan" onclick="searchPekerjaan();"><i class="ti ti-search fa-lg"></i>&nbsp;
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Cari Data" onclick="searchPekerjaan();"><i class="ti ti-search fa-lg"></i>&nbsp;
 											</a>
 											<a href="#" class="link-secondary clear_pekerjaan" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear Pencarian">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
 											</a>
-											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModalPekerjaan" aria-label="Tambah pekerjaan" data-id="0" data-mod="add">
-												&nbsp;<i class="ti ti-plus fa-lg"></i>
+											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModalPekerjaan" aria-label="Tambah Data" data-id="0" data-mod="add" >
+												&nbsp;<i class="ti ti-plus fa-lg" data-bs-toggle="tooltip" title="Tambah Data"></i>
 											</a>
 										</span>
 									</div>
