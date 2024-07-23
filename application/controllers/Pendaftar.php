@@ -171,7 +171,7 @@
             $data['record'] = $this->model_pendaftar->getPendaftar($conditions);
 			
             // Load the data list view 
-			$this->load->view('backend/pendaftar/get-ajax-naik-tingkat',$data);
+			$this->load->view('backend/pendaftar/get-ajax',$data);
 			
 		}
 		
