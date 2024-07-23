@@ -47,7 +47,7 @@
 									<div class="input-group">
 										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari unit" onkeyup="searchTahun();"/>
 										<span class="input-group-text">
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Unit" title="Cari Data" onclick="searchTahun();"><i class="ti ti-search fa-lg"></i>&nbsp;
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Cari Data" onclick="searchTahun();"><i class="ti ti-search fa-lg"></i>&nbsp;
 											</a>
 											<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear search">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
 											</a>
