@@ -153,6 +153,20 @@
         return $konversi;
 	}
 	
+	function cek_nik($anak,$ayah,$ibu){
+		if($anak===$ayah AND $anak===$ibu){
+			$msg = ['status'=>true,'msg'=>'NIK Anah tidak boleh sama dengan ayah/ibu'];
+			}elseif($anak===$ayah){
+			$msg = ['status'=>true,'msg'=>'NIK Anah tidak boleh sama dengan ayah'];
+			}elseif($anak===$ibu){
+			$msg = ['status'=>true,'msg'=>'NIK Anah tidak boleh sama dengan ibu'];
+			}else{
+			$msg = ['status'=>false,'msg'=>'ok'];
+		}
+        
+        return $msg;
+	}
+	
 	function sum_jml($angka){
 		if($angka > 0){
 			$konversi = number_format($angka, 0, ',', ',');
@@ -293,7 +307,7 @@
 			echo $register_footer;
 		}
 	}
-	 
+	
 	function cut_text($txt, $length=20){
 		$x = explode(" ",$txt);
 		if(count($x) <= $length)
@@ -627,7 +641,7 @@
 		return intval(preg_replace('/,.*|[^0-9]/', '', $rupiah));
 	} 			
 	
- 
+	
 	function cleans($s) {
 		$c = array (' ');
 		$d = array ('-','/','\\',',','.','#',':',';','\'','"','[',']','{','}',')','(','|','`','~','!','@','%','$','^','&','*','=','?','+','"');
@@ -709,4 +723,4 @@
 		}
 		
 		return $ucapan;
-	}	
+	}		
