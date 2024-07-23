@@ -20,12 +20,15 @@
 			
 			$this->thm->set('title', 'Dashboard');
 			
+			$_where['where'] = array(
+			's_pendidikan' => 'Baru'
+			);
 			$where['where'] = array(
-			'surat' => ''
+			's_pendidikan' => 'Naik Tingkatan'
 			);
 			$data['pengguna'] = $this->model_app->counter('tb_users',[]);
-			$data['pendaftar'] = $this->model_app->counter('rb_psb_daftar',[]);
-			$data['diterima'] = $this->model_app->counter('rb_psb_daftar',$where);
+			$data['pendaftar'] = $this->model_app->counter('rb_psb_daftar',$_where);
+			$data['naik_tingkat'] = $this->model_app->counter('rb_psb_daftar',$where);
 			
 			// echo $data['pengguna'];
 			$data['tanggal'] = tgl_dari_slash() . ' - ' .tgl_sampai_slash();
