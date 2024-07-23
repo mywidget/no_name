@@ -658,7 +658,9 @@
 					$nik_ibu = $this->input->post('nik_ibu',true);
 					$cek_nik = cek_nik($nik,$nik_ayah,$nik_ibu);
 					if($cek_nik['status']===true){
-						$this->thm->json_output($cek_nik['msg']);
+						$response['status'] = false;
+						$response['message'] = $cek_nik['msg'];
+						$this->thm->json_output($response);
 					}
 					if(!empty($_FILES['fotoSantri']['name']))
 					{
@@ -676,12 +678,12 @@
 							$this->_create_foto($nik,$gbr['file_name']);
 							}else{
 							$response['status'] = false;
-							$response['msg'] = $this->upload->display_errors();
+							$response['message'] = $this->upload->display_errors();
 							$this->thm->json_output($response);
 						}
 						}else{
 						$response['status'] = false;
-						$response['msg'] = 'Foto santri mash kosong';
+						$response['message'] = 'Foto santri mash kosong';
 						$this->thm->json_output($response);
 					}
 					//foto KK
@@ -701,12 +703,12 @@
 							$this->_create_kk($nik,$gbr['file_name']);
 							}else{
 							$response['status'] = false;
-							$response['msg'] = $this->upload->display_errors();
+							$response['message'] = $this->upload->display_errors();
 							$this->thm->json_output($response);
 						}
 						}else{
 						$response['status'] = false;
-						$response['msg'] = 'Foto KK mash kosong';
+						$response['message'] = 'Foto KK mash kosong';
 						$this->thm->json_output($response);
 					}
 					
@@ -727,12 +729,12 @@
 							$lampiran = $gbr['file_name'];
 							}else{
 							$response['status'] = false;
-							$response['msg'] = $this->upload->display_errors();
+							$response['message'] = $this->upload->display_errors();
 							$this->thm->json_output($response);
 						}
 						}else{
 						$response['status'] = false;
-						$response['msg'] = 'Foto KK mash kosong';
+						$response['message'] = 'Foto KK mash kosong';
 						$this->thm->json_output($response);
 					}
 					$nama_unit = $this->model_formulir->nama_unit_byid($this->input->post('unit_sekolah',true));
