@@ -406,6 +406,7 @@ Array.prototype.slice.call(forms)
                                 $('input').val('') 
                                 $('select').val('') 
                                 $('#formulir').hide(); 
+                                $('#sukses').removeClass('d-none'); 
                                 $('#sukses').show(); 
                                 // location.reload(); 
                                 } else {
