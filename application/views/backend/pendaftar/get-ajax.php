@@ -10,7 +10,7 @@
                     <th class="w-15 text-left">NISN</th>
                     <th class="w-15 text-left">Unit</th>
                     <th class="w-15 text-left">Kelas </th>
-                    <th class="w-12 text-end">Status | Aksi</th>
+                    <th class="w-12 text-end">Status | Print | Aksi</th>
                 </tr>
             </thead>  
             <tbody> 
