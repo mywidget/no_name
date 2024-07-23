@@ -541,10 +541,10 @@
 				</div>
 			</div>
 			<?php
-				$opathfoto = FCPATH."upload/lampiran/" . $record->foto;
+				$opathfoto = FCPATH."upload/foto_dokumen/" . $record->foto;
 				$size_foto = @getimagesize($opathfoto);
 				if($size_foto !== false){
-					$gambar_foto=base_url()."upload/lampiran/" . $record->foto;
+					$gambar_foto=base_url()."upload/foto_dokumen/" . $record->foto;
 					$show_foto = 'd-none';
 					$hide_foto = '';
 					}else{
@@ -566,10 +566,10 @@
 			</div>
 			
 			<?php
-				$opathFile = FCPATH."upload/lampiran/" . $record->foto_kk;
+				$opathFile = FCPATH."upload/foto_dokumen/" . $record->foto_kk;
 				$size = @getimagesize($opathFile);
 				if($size !== false){
-					$gambar=base_url()."upload/lampiran/" . $record->foto_kk;
+					$gambar=base_url()."upload/foto_dokumen/" . $record->foto_kk;
 					$show = 'd-none';
 					$hide = '';
 					}else{
