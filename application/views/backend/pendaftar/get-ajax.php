@@ -39,7 +39,7 @@
                         
                         $print = '<a class="btn btn-primary btn-sm flat" data-id="'.$kode.'" href="'.$link.'" target="_blank"><i class="fa fa-print"></i>&nbsp;&nbsp;Print</a>';
                         
-                         
+                        
                     ?>
                     <tr>
                         <td><?=$no;?></td>
@@ -102,7 +102,11 @@
                                     <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Foto Pendaftar</a></li>
                                     <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto_kk'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran KK</a></li>
                                     <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['fotobukti'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Bukti Transfer</a></li>
-                                    <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['surat'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran Surat</a></li>
+                                    <?php if(!empty($row['surat'])){ ?>
+                                        <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['surat'];?>')" data-bs-toggle="tooltip" aria-label="Clear search" data-bs-placement="left" title="Lampiran surat"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran Surat</a></li>
+                                        <?php }else{ ?>
+                                        <li><a class="dropdown-item"  href="javascript:void(0)" data-bs-toggle="tooltip" aria-label="Clear search" data-bs-placement="left" title="Belum ada lampiran"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran Surat</a></li>
+                                    <?php } ?>
                                     <li><?=$edit;?></li>
                                     <?php if($row['status']=='Tidak Diterima'){ ?>
                                         <li><?=$hapus;?></li>
