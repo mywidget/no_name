@@ -16,6 +16,7 @@
 			$this->load->model('model_whatsapp');
 			$this->load->model('model_formulir');
 			$this->perPage = 10;
+			$this->menu = $this->uri->segment(1); 
 			$this->curl = new Curl();
 		}
 		
@@ -24,7 +25,7 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Device | '.$this->title;
-			
+			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/whatsapp/view_index',$data);
 		}
 		
@@ -33,7 +34,7 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Template Pesan | '.$this->title;
-			
+			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/whatsapp/template',$data);
 		}
 		public function broadcast()
@@ -42,6 +43,7 @@
 			cek_crud_akses('READ');
 			$data['title'] = 'Broadcast Pesan | '.$this->title;
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
+			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/whatsapp/broadcast',$data);
 		}
 		
@@ -50,7 +52,7 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Report Pesan | '.$this->title;
-			
+			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/whatsapp/report',$data);
 		}
 		
@@ -58,6 +60,7 @@
 		function ajax_list()
         {
             // Define offset 
+			cek_crud_akses('CONTENT');
             $page = $this->input->post('page');
             if (!$page) {
                 $offset = 0;
@@ -104,6 +107,7 @@
 		
 		function ajax_list_report()
         {
+			cek_crud_akses('CONTENT');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
@@ -152,6 +156,7 @@
 		
 		function ajax_list_broadcast()
         {
+			cek_crud_akses('CONTENT');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
@@ -200,6 +205,7 @@
 		
 		function ajax_list_template()
         {
+			cek_crud_akses('CONTENT');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
@@ -252,7 +258,7 @@
 		*/
 		public function get_template()
 		{
-			
+			cek_crud_akses('EDIT');
 			if ($this->input->is_ajax_request()) {
 				$id = xss_filter($this->input->post('id'), 'xss');
 				$idedit = decrypt_url($id);
@@ -935,13 +941,13 @@
 			$this->curl->setHeader('Content-Type', 'application/json');
 			$this->curl->post('https://api.fonnte.com/send', $data_send);
 			if ($this->curl->error) {
-			$result = ['status' => false, 'msg' => $this->curl->errorMessage];
-			} else {
-			$response = $this->curl->response;
-			$result = ['status' => true, 'msg' => (object)$response];
+				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+				} else {
+				$response = $this->curl->response;
+				$result = ['status' => true, 'msg' => (object)$response];
 			}
 			$this->thm->json_output($response);
-			 
+			
 		}
 		
 		/**
@@ -1020,4 +1026,4 @@
 			return $kirim;
 		}
 		
-	}																																																											
+	}																																																													

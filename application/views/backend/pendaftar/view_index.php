@@ -3,7 +3,7 @@
 		<div class="row g-2 align-items-center">
 			<div class="col">
 				<div class="page-pretitle">
-					PSB Online
+					<?=$menu;?>
 				</div>
                 <h2 class="page-title">
 					Data Pendaftar Baru
@@ -11,7 +11,7 @@
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
                 <div class="btn-list">
-					 
+					
 				</div>
 			</div>
 		</div>
@@ -112,7 +112,7 @@
 					</div>
 				</div><!-- /.card -->
 			</div>
-		</div>
+			</div>
 	</div>
 </div>
 
@@ -217,10 +217,15 @@
 				beforeSend: function(){
 					$('body').loading();
 				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					sweet('Peringatan!!!',thrownError,'warning','warning');
+					$('body').loading('stop');
+				},
 				success: function(html){
 					$('#posts_content').html(html);
 					$('body').loading('stop');
 				}
+			
 			});
 		}
 		

@@ -80,6 +80,29 @@ $(".dropdown").on("shown.bs.dropdown", function(canCreateDiscussions) {
 // }
 // }, cb);
 // cb(start, end);
+function sweet_alert(p, color, icon, buttons,modal) {
+    Swal.fire({
+		icon : icon,
+		title: p,
+		text : color,
+		showDenyButton: false,
+		showCancelButton: false,
+		confirmButtonText: "Close",
+		denyButtonText: `Don't save`,
+		customClass : {
+            confirmButton : "btn btn-" + buttons
+		},
+        buttonsStyling : false
+		}).then((result) => {
+		/* Read more about isConfirmed, isDenied below */
+		if (result.isConfirmed) {
+			$("#"+modal).modal('hide');
+			} else if (result.isDenied) {
+			$("#"+modal).modal('hide');
+		}
+	});
+}
+
 function sweet(p, color, icon, buttons) {
     const $ = Swal.mixin({
         customClass : {
@@ -93,6 +116,7 @@ function sweet(p, color, icon, buttons) {
         text : color
 	});
 }
+
 showToastPosition = function(i, heading, message, iconType) {
 	resetToastPosition();
 	$.toast({
@@ -189,7 +213,7 @@ function replaceAll(substr, replacement, str) {
 /**
 	* @return {undefined}
 */
- 
+
 function cek_notifikasi(){
 	$.ajax({
 		type: 'POST',
@@ -210,4 +234,3 @@ function cek_notifikasi(){
 	});
 }
 
- 

@@ -19,7 +19,10 @@
                     $no = 1;
                     foreach ($record as $row){
                         $kode = encrypt_url($row['id']);
-                        if($row['status']=='Proses'){
+                        if($row['status']=='Baru'){
+                            $icon = '<i class="fa fa-file-text"></i>&nbsp;Baru';
+                            $color = 'secondary';
+                            }elseif($row['status']=='Proses'){
                             $icon = '<i class="fa fa-spinner"></i>&nbsp;Proses';
                             $color = 'warning';
                             }elseif($row['status']=='Diterima'){
@@ -159,4 +162,4 @@
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     })
-</script>    
+</script>        

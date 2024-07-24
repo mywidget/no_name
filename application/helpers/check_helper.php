@@ -206,15 +206,20 @@
 		function cek_crud_akses($str,$tipe=''){
 			$ci = & get_instance();
 			$query = $ci->model_app->cek_crud($str);
-			 
+			
 			if ($query == FALSE){
 				
 				if($tipe=='json'){
-					
-					$data = ['status'=>401,'msg'=>'akses ditolak'];
+					$data = ['status'=>false,'msg'=>'akses ditolak'];
 					$ci->output
-					->set_content_type('application/json')
-					->set_output(json_encode($data));
+					->set_content_type('application/json', 'utf-8')
+					->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+					->_display();
+					exit;
+					}elseif($tipe=='html'){
+					echo '<div class="card-body"><div class="alert alert-danger" role="alert">
+					Akses dibatasi, Hubungi Admin
+					</div></div>';
 					exit;
 					}else{
 					redirect('error/cruds');
@@ -253,7 +258,7 @@
 			$ci = & get_instance();
 			$session = $ci->session->iduser;
 			$link_menu = $ci->uri->uri_string();
-			 
+			
 			// echo  $session;
 			if(isset($session)){
 				$menu = $ci->db->query("SELECT * FROM menuadmin WHERE link='$link_menu' AND aktif='Y'")->row_array();

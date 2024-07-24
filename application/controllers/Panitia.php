@@ -13,6 +13,7 @@
             $this->level = $this->session->level; 
             $this->idlevel = $this->session->idlevel; 
 			$this->load->model('model_pendaftar');
+			$this->menu = $this->uri->segment(1); 
 			$this->perPage = 10;
 		}
 		
@@ -21,7 +22,7 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Panitia PPDB | '.$this->title;
-			
+			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/panitia/view_index',$data);
 		}
 		
@@ -30,7 +31,7 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Brosur PPDB | '.$this->title;
-			
+			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/brosur/view_index',$data);
 		}
 		
@@ -564,4 +565,4 @@
 			
 			return $cek;
 		}
-	}																															
+	}																																

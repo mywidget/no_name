@@ -3,7 +3,7 @@
 		<div class="row g-2 align-items-center">
 			<div class="col">
 				<div class="page-pretitle">
-					Master Data
+					<?=$menu;?>
 				</div>
                 <h2 class="page-title">
 					Data Kuota Kamar
@@ -13,7 +13,7 @@
 				<a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#OpenModal" data-id="0" data-mod="add">
 					<i class="ti ti-plus fa-lg"></i>
 					Tambah
-				</a>
+					</a>
 			</div>
 		</div>
 	</div>

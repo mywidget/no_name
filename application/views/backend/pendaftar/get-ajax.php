@@ -20,7 +20,10 @@
                     foreach ($record as $row){
                         $kode = encrypt_url($row['id']);
                         $link = base_url('pendaftar').'/print_dokumen/'.$kode;
-                        if($row['status']=='Proses'){
+                        if($row['status']=='Baru'){
+                            $icon = '<i class="fa fa-file-text"></i>&nbsp;Baru';
+                            $color = 'secondary';
+                            }elseif($row['status']=='Proses'){
                             $icon = '<i class="fa fa-spinner"></i>&nbsp;Proses';
                             $color = 'warning';
                             }elseif($row['status']=='Diterima'){

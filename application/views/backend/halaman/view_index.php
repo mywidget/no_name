@@ -6,14 +6,16 @@
 					<?=$menu;?>
 				</div>
                 <h2 class="page-title">
-					Data Brosur
+					Halaman
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
-				<a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#OpenModal" data-id="0" data-mod="add">
-					<i class="ti ti-plus fa-lg"></i>
-					Tambah
-				</a>
+                <div class="btn-list">
+					<a href="#" class="btn btn-primary d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#OpenModal" data-id="0" data-mod="add">
+						<i class="ti ti-plus fa-lg"></i>
+						Tambah
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -32,27 +34,34 @@
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
 									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchData()">
-										<option value="5">5</option>
 										<option value="10">10</option>
 										<option value="20">20</option>
 										<option value="50">50</option>
 										<option value="100">100</option>
 									</select>
 								</div>
-								
-							</div> 
+							</div>
+							<div class="text-muted">
+								<div class="d-none d-sm-inline-block">Sort</div>
+								<div class="mx-2 d-inline-block">
+									<select id="sortBy" class="form-control form-select w-1" onchange="searchData()" style="width:80px!important">
+										<option value="ASC">ASC</option>
+										<option value="DESC" selected>DESC</option>
+									</select>
+								</div>
+							</div>
+							
 							<div class="ms-auto text-muted">
-								<div class="d-none d-sm-inline-block">Search:</div>
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
-										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari Data" onkeyup="searchData();"/>
+										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari data" onkeyup="searchData();" style="width:150px!important" />
 										<span class="input-group-text">
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Cari Data" onclick="searchData();"><i class="ti ti-search fa-lg"></i>&nbsp;
+											
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari data" title="Cari data" onclick="searchData();"><i class="ti ti-search fa-lg"></i>&nbsp;
 											</a>
-											<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear Pencarian">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
-											</a>
-											<a href="#" class="link-secondary" data-bs-toggle="modal" data-bs-target="#OpenModal" aria-label="Tambah Data" data-id="0" data-mod="add">
-												&nbsp;<i class="ti ti-plus fa-lg"></i>
+											<a href="#" class="link-secondary">&nbsp;|&nbsp;</a>
+											<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear search" title="Clear search">
+												<i class="ti ti-x fa-lg"></i>
 											</a>
 										</span>
 									</div>
@@ -77,90 +86,122 @@
 			<div class="modal-body text-center py-4">
 				<!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
 				<svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" /></svg>
-				<h3>Apa kamu yakin?</h3>
-				<div class="text-muted">Apakah Anda benar-benar ingin menghapus data? Apa yang telah Anda lakukan tidak dapat dibatalkan.</div>
+				<h3>Are you sure?</h3>
+				<div class="text-muted">Do you really want to remove data? What you've done cannot be undone.</div>
 				<p class="debug-url"></p>
 				<input type="hidden" id="data-hapus">
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
-				<button class="btn btn-danger hapus_data" type="button">YA</button> 
+				<button class="btn btn-danger hapus_user" type="button">YA</button> 
 			</div>
 		</div>
 	</div>
 </div>
 
 <div class="modal modal-blur fade" id="OpenModal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="myModalLabel">Tambah Kuota</h5>
+				<h5 class="modal-title" id="myModalLabelPengguna">Edit Data Pendaftar</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form id="formAdd">
+				<form id="formHalaman">
 					<input type="hidden" class="form-control" id="id" name="id">
-					<input type="hidden" class="form-control" id="type" name="type">
-					<div class="card-block">
-						<div class="form-group mb-1">
-							<label class="form-label" for="title">Title</label>
-							<input type="text" name="title" class="form-control" id="title" placeholder="Title" value="" required="" autocomplete="off">
+					<input type="hidden" class="form-control" id="type" name="type" value="add">
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card-block">
+								<div class="form-group mb-1">
+									<label class="form-label" for="Title">Title</label>
+									<input type="text" name="title" value="" class="form-control" id="title" placeholder="Title" required="">
+								</div>
+								<div class="form-group mb-1">
+									<label class="form-label" for="seo">seo</label>
+									<input type="text" name="seo" value="" class="form-control" id="seo" placeholder="seo" required="">
+								</div>
+								
+								<div class="form-group mb-1">
+									<label class="form-label" for="deskripsi">Deskripsi</label>
+									<textarea  name="deskripsi" value="" class="form-control" id="deskripsi" required=""></textarea>
+								</div>
+								<div class="form-group mb-1">
+									<label>Status Aktif</label>
+									<select name="aktif" id="aktif" class="form-select" required="">
+										<option value="Ya" selected>Ya</option>
+										<option value="Tidak">Tidak</option>
+									</select>
+								</div>
+							</div>
 						</div>
-						<div class="form-group mb-1">
-							<label class="form-label" for="gambar">Gambar</label>
-							<input type="file" name="gambar" class="form-control" id="gambar" required="">
-							<input type="hidden" name="gambar_lama" class="form-control" id="gambar_lama" required="">
-						</div>
-						
-						<div class="form-group mb-1">
-							<label class="form-label" for="aktif">Aktif</label>
-							<select name="aktif" id="aktif" class="form-control form-select">
-								<option value="Ya">Ya</option>
-								<option value="Tidak">Tidak</option>
-							</select>
-						</div>
-						
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-				<button type="button" id="btn-data" class="btn btn-success simpan_brosur">Submit</button>
+				<button type="button"  id="simpan_data" class="btn btn-success">Submit</button>
 			</div>
 		</div>
 	</div>
 </div>
 
 <style>
-	.select2-container {
-	width: 100% !important;
+    .select2-container {
+    width: 100% !important;
 	padding: 0;
 	z-index:1050;
 	}
 	
+	select[readonly] {
+	pointer-events: none;
+	cursor: not-allowed;
+	}
+	
 </style>
-
-<?php $this->RenderScript[] = function() { ?>
+<?php
+	$this->RenderScript[] = function() {
+	?>
 	
 	<script>
-		
+		$(document).ready(function () {
+			tinymce.init({
+				selector: '#deskripsi',
+				height: 300,
+				menubar: false,
+				plugins: [
+				'advlist', 'autolink','lists', 'link', 'image', 'charmap',  'preview', 'anchor',
+				// 'searchreplace visualblocks code fullscreen',
+				'insertdatetime', 'media', 'table', 'code', 'wordcount'
+				],
+				mobile: { 
+					theme: 'mobile' 
+				},
+				toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+				content_css: [
+				'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+				'//www.tiny.cloud/css/codepen.min.css'
+				],
+			});
+		});
 		searchData();
-		function searchData(page_num)
-		{
-			
+		function searchData(page_num){
 			page_num = page_num?page_num:0;
 			var limit = $('#limits').val();
 			var keywords = $('#keywords').val();
+			var sortBy = $('#sortBy').val();
+			var sort_tahun = $('#sort_tahun').val();
+			var status = $('#status').val();
+			var sortUnit = $('#sortUnit').val();
+			var sortKelas = $('#sortKelas').val();
 			$.ajax({
 				type: 'POST',
-				url: base_url+'panitia/ajax_list_brosur/'+page_num,
+				url: base_url+'halaman/ajax_list/'+page_num,
 				data:{page:page_num,
 					limit:limit,
 					keywords:keywords,
-				},
-				error: function (xhr, ajaxOptions, thrownError) {
-					sweet('Peringatan!!!',thrownError,'warning','warning');
-					$('body').loading('stop');
+					sortBy:sortBy,
 				},
 				beforeSend: function(){
 					$('body').loading();
@@ -175,45 +216,41 @@
 		$('#OpenModal').on('show.bs.modal', function(e) {
 			var id = $(e.relatedTarget).data('id');
 			var mod = $(e.relatedTarget).data('mod');
-			$('input').val('');
-			if(id != 0){
-				$('#type').val('edit');
-				$("#myModalLabel").html("Edit Brosur")
-				$.ajax({
-					type: 'POST',
-					url: base_url + "panitia/edit_brosur",
-					data: {id:id,mod:mod},
-					dataType: "json",
-					beforeSend: function () {
-						$("body").loading({zIndex:1060});
-					},
-					success: function(data) {
-						$('#id').val(data.id);
-						$('#title').val(data.title);
-						$('#gambar_lama').val(data.gambar);
-						$('#aktif').val(data.aktif);
-						$('body').loading('stop');
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						sweet('Peringatan!!!',thrownError,'warning','warning');
-						$('body').loading('stop');
-					}
-				});
+			if(mod=='add'){
+				$("#type").val('add');
+				return;
 				}else{
-				
-				$("#myModalLabel").html("Tambah Brosur")
-				$('#type').val('new');
+				$("#type").val('edit');
 			}
-			
+			$.ajax({
+				type: 'POST',
+				url: base_url + "halaman/edit_data",
+				data: {id:id,mod:mod},
+				dataType: "json",
+				beforeSend: function () {
+					$("body").loading({zIndex:1060});
+				},
+				success: function(data) {
+					$('#id').val(data.id);
+					$('#title').val(data.title);
+					$('#seo').val(data.seo);
+					// $('#deskripsi').val(data.deskripsi);
+					tinymce.get('deskripsi').setContent(data.deskripsi); 
+					$('#aktif').val(data.aktif);
+					
+					$('body').loading('stop');
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					sweet('Peringatan!!!',thrownError,'warning','warning');
+					$('body').loading('stop');
+				}
+			});
 		});
 		
-		
-		$(document).on('click','.simpan_brosur',function(){
-			$("#formAdd").submit();
-		});
-		$('#formAdd').on('submit', function (e) {
-			e.preventDefault();
-			const formData = new FormData($(this)[0]);
+		$(document).on('click','#simpan_data',function(e){
+			$('#formHalaman').submit();
+		})
+		$('#formHalaman').on('submit', function(ed) {
 			if($("#title").val()==''){
 				$("#title").addClass('form-control-warning');
 				showNotif('top-center','Input Data','Harus diisi','warning');
@@ -221,22 +258,22 @@
 				return;
 			}
 			
+			tinymce.triggerSave();
+			ed.preventDefault();
+			var formData = $("#formHalaman").serialize();
 			$.ajax({
 				type: "POST",
-				url: base_url+"panitia/simpan_brosur",
-				data: formData,
+				url: base_url+"halaman/simpan_data",
 				dataType: 'json',
-				processData: false,
-				contentType: false,
+				data: formData,
 				beforeSend: function () {
 					$("body").loading({zIndex:1060});　
 				},
 				success: function(data) {
 					$('body').loading('stop');
-					if(data.status==200){
+					if(data.status==true){
 						showNotif('bottom-right',data.title,data.msg,'success');
 						$("#OpenModal").modal('hide');
-						$('input').val('');
 						}else{
 						showNotif('bottom-right',data.title,data.msg,'error');
 					}
@@ -248,12 +285,10 @@
 				}
 			});
 		});
-		
-		
-		$(document).on('click','.hapus_data',function(e){
+		$(document).on('click','.hapus_user',function(e){
 			var id = $("#data-hapus").val();
 			$.ajax({
-				url: base_url + 'panitia/hapus_brosur',
+				url: base_url + 'pendaftar/hapus_pendaftar',
 				data: {id:id},
 				method: 'POST',
 				dataType:'json',
@@ -262,7 +297,7 @@
 				},
 				success: function(data) {
 					$('#confirm-delete').modal('hide');
-					if(data.status==true){
+					if(data.status==200){
 						showNotif('bottom-right',data.title,data.msg,'success');
 						}else{
 						sweet('Peringatan!!!',data.msg,'warning','warning');
@@ -276,17 +311,13 @@
 				}
 			});
 		});
-		
 		$(document).on('click','.clear',function(e){
 			$("#keywords").val('');
 			searchData();
 		});
-		
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$('#data-hapus').val($(e.relatedTarget).data('id'));
 		});
 		
 	</script>        
-	
-	
 <?php } ?>	

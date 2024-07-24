@@ -619,6 +619,7 @@
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					<select name="status_pendaftar" id="status_pendaftar" class="form-select" required="">
+						<option value="Baru">Baru</option>
 						<option value="Proses">Proses</option>
 						<option value="Diterima">Diterima</option>
 						<option value="Tidak Diterima">Ditolak</option>

@@ -219,6 +219,7 @@
         <script src="<?=base_url();?>assets/backend/libs/apexcharts/dist/apexcharts.js" defer></script>
         <script src="<?=base_url();?>assets/backend/js/tabler.min.js" defer></script>
         <script src="<?=base_url();?>assets/backend/js/demo.min.js" defer></script>
+        <script src="<?=base_url();?>assets/backend/libs/tinymce/tinymce.js" defer></script>
         <?php if($this->session->level=='admin'){ ?>
             <!--script src="<?=base_url();?>assets/backend/js/chart.js" defer></script-->
             <?php }else{ ?>

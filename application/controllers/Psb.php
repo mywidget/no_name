@@ -13,6 +13,7 @@
             $this->level = $this->session->level; 
             $this->idlevel = $this->session->idlevel; 
 			$this->load->model('model_pendaftar');
+			$this->menu = $this->uri->segment(1); 
 			$this->perPage = 10;
 		}
 		
@@ -21,8 +22,8 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Unit & Kelas | '.$this->title;
+			$data['menu'] = getMenu($this->menu);
 			
-            $cekUser = cekUser($this->iduser);
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['aktif'=>'Ya'])->result();
 			
@@ -34,8 +35,8 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Kuota Kamar | '.$this->title;
+			$data['menu'] = getMenu($this->menu);
 			
-            $cekUser = cekUser($this->iduser);
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['aktif'=>'Ya'])->result();
 			
@@ -47,7 +48,7 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Tahun Akademik | '.$this->title;
-			
+			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/tahun_akademik/view_index',$data);
 		}
 		
@@ -56,12 +57,13 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Pendidikan & Pekerjaan | '.$this->title;
-			
+			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/pendidikan/view_index',$data);
 		}
 		
         function ajax_list_unit()
         {
+			cek_crud_akses('READ','html');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
@@ -111,7 +113,7 @@
 			
 			if ($this->input->is_ajax_request()) 
 			{
-				cek_crud_akses('CONTENT');
+				cek_crud_akses('CONTENT','json');
 				$id = $this->db->escape_str($this->input->post('id'));
 				$index = decrypt_url($id);
 				
@@ -324,6 +326,7 @@
 		
 		function ajax_list_kelas()
         {
+			cek_crud_akses('READ','html');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
@@ -381,7 +384,7 @@
 			
 			if ($this->input->is_ajax_request()) 
 			{
-				cek_crud_akses('CONTENT');
+				cek_crud_akses('CONTENT','json');
 				$id = $this->db->escape_str($this->input->post('id'));
 				$index = decrypt_url($id);
 				
@@ -575,6 +578,7 @@
 		
         function ajax_list_ajaran()
         {
+			cek_crud_akses('READ','html');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
@@ -625,7 +629,7 @@
 			
 			if ($this->input->is_ajax_request()) 
 			{
-				cek_crud_akses('CONTENT');
+				cek_crud_akses('EDIT','json');
 				$id = $this->db->escape_str($this->input->post('id'));
 				$index = decrypt_url($id);
 				
@@ -655,7 +659,7 @@
 		
 		function simpan_tahun(){
 			cek_input_post('GET');
-			cek_crud_akses('UPDATE');
+			cek_crud_akses('UPDATE','json');
 			$type = $this->input->post('type',TRUE);
 			
 			if($type=='new'){
@@ -663,7 +667,7 @@
 				array(
 				'field'             => 'kode_tahun',
 				'label'             => 'Kode Tahun',
-				'rules'             => 'required|trim|min_length[8]|is_unique[rb_unit.id_tahun_akademik]',
+				'rules'             => 'required|trim|min_length[8]|is_unique[rb_tahun_akademik.id_tahun_akademik]',
 				'errors'            => array(
 				'required'          => '%s. Harus di isi',
 				'min_length'        => '%s minimal 8 digit.',
@@ -673,7 +677,7 @@
 				array(
 				'field'             => 'nama_tahun',
 				'label'             => 'Nama Tahun',
-				'rules'             => 'required|trim|min_length[2]|is_unique[rb_unit.nama_tahun]',
+				'rules'             => 'required|trim|min_length[2]|is_unique[rb_tahun_akademik.nama_tahun]',
 				'errors'            => array(
 				'required'          => '%s. Harus di isi',
 				'min_length'        => '%s minimal 2 digit.',
@@ -701,6 +705,7 @@
 					$insert = $this->model_app->input('rb_tahun_akademik',$data_post);
 					if($insert['status']==true)
 					{
+						$this->model_app->update('rb_tahun_akademik',['aktif'=>'Tidak'], ['id !='=>$insert['id']]);
 						$arr = [
 						'status'=>200,
 						'title' =>'Input data',
@@ -717,7 +722,7 @@
 					}
 					}else{
 					$response['status'] = false;
-					$response['type'] = 'error';
+					$response['title'] = 'Input error';
 					$response['msg']= validation_errors();
 					$this->thm->json_output($response);
 				}
@@ -799,7 +804,7 @@
 		
 		function hapus_tahun(){
 			cek_input_post('GET');
-			cek_crud_akses('DELETE');
+			cek_crud_akses('DELETE','json');
 			$id 	= decrypt_url($this->input->post('id',TRUE));
 			
 			$cek = $this->model_app->view_where('rb_psb_daftar', ['id_unit'=>$id]);
@@ -810,7 +815,12 @@
 				$where = array('id' => $id);
 				$search = $this->model_app->edit('rb_tahun_akademik', $where);
 				if($search->num_rows()>0){
-					$row = $search->row_array();
+					$row = $search->row();
+				 
+					if($row->aktif=='Ya'){
+						$last = $this->model_app->last_id('rb_tahun_akademik')->id;
+						$this->model_app->update('rb_tahun_akademik',['aktif'=>'Tidak'], ['id'=>$last]);
+					}
 					$res = $this->model_app->hapus('rb_tahun_akademik',$where);
 					if($res==true){
 						$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
@@ -829,48 +839,49 @@
 		
 		function ajax_list_kuota()
         {
+			cek_crud_akses('CONTENT','html');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
-                $offset = 0;
-                } else {
-                $offset = $page;
+				$offset = 0;
+				} else {
+				$offset = $page;
 			}
-            $keywords = $this->input->post('keywords');
-            if (!empty($keywords)) {
-                $conditions['search']['keywords'] = $keywords;
+			$keywords = $this->input->post('keywords');
+			if (!empty($keywords)) {
+				$conditions['search']['keywords'] = $keywords;
 			}
 			$limit = $this->input->post('limit');
-            if (!empty($limit)) {
-                $conditions['search']['limit'] = $limit;
+			if (!empty($limit)) {
+				$conditions['search']['limit'] = $limit;
 				}else{
 				$limit = 5;
 			}
 			
 			
-            // Get record count 
-            $conditions['returnType'] = 'count';
-            $totalRec = $this->model_pendaftar->getKuota($conditions);
-            
-            // Pagination configuration 
-            $config['target']      = '#posts_content';
-            $config['base_url']    = base_url('psb/ajax_list_kuota');
-            $config['total_rows']  = $totalRec;
-            $config['per_page']    = $limit;
-            $config['link_func']   = 'searchData';
-            
-            // Initialize pagination library 
-            $this->ajax_pagination->initialize($config);
-            
-            // Get records 
-            $conditions['start'] = $offset;
-            $conditions['limit'] = $limit;
+			// Get record count 
+			$conditions['returnType'] = 'count';
+			$totalRec = $this->model_pendaftar->getKuota($conditions);
 			
-            unset($conditions['returnType']);
-            $data['start'] = $offset;
-            $data['record'] = $this->model_pendaftar->getKuota($conditions);
+			// Pagination configuration 
+			$config['target']      = '#posts_content';
+			$config['base_url']    = base_url('psb/ajax_list_kuota');
+			$config['total_rows']  = $totalRec;
+			$config['per_page']    = $limit;
+			$config['link_func']   = 'searchData';
 			
-            // Load the data list view 
+			// Initialize pagination library 
+			$this->ajax_pagination->initialize($config);
+			
+			// Get records 
+			$conditions['start'] = $offset;
+			$conditions['limit'] = $limit;
+			
+			unset($conditions['returnType']);
+			$data['start'] = $offset;
+			$data['record'] = $this->model_pendaftar->getKuota($conditions);
+			
+			// Load the data list view 
 			$this->load->view('backend/kuota/get-ajax',$data);
 			
 		}
@@ -1515,4 +1526,4 @@
 			return $cek;
 		}
 		
-	}																						
+	}																														

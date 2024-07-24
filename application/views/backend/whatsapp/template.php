@@ -3,7 +3,7 @@
 		<div class="row g-2 align-items-center">
 			<div class="col">
 				<div class="page-pretitle">
-					Whatsapp
+					<?=$menu;?>
 				</div>
                 <h2 class="page-title">
 					Template Pesan

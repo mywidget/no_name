@@ -3,7 +3,7 @@
 		<div class="row g-2 align-items-center">
 			<div class="col">
 				<div class="page-pretitle">
-					PSB Online
+					<?=$menu;?>
 				</div>
                 <h2 class="page-title">
 					Data Pendaftar Naik Tingkatan

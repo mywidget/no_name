@@ -16,6 +16,7 @@
 			$this->load->model('model_pendaftar');
 			$this->load->model('model_formulir');
 			$this->curl = new Curl();
+			$this->menu = $this->uri->segment(1); 
 			$this->perPage = 10;
 		}
 		
@@ -27,13 +28,14 @@
 			$data['tahun'] = $this->model_app->view('rb_tahun_akademik')->result();
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['status'=>1,'aktif'=>'Ya'])->result();
-			
+			$data['menu'] = getMenu($this->menu);
 			
 			$this->thm->load('backend/template','backend/pendaftar/view_index',$data);
 		}
 		
         function ajax_list()
         {
+			cek_crud_akses('READ','html');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
@@ -111,7 +113,7 @@
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Pendaftar | '.$this->title;
 			
-            $cekUser = cekUser($this->iduser);
+			$data['menu'] = getMenu($this->menu);
 			$data['tahun'] = $this->model_app->view('rb_tahun_akademik')->result();
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['aktif'=>'Ya'])->result();
@@ -122,6 +124,7 @@
 		
         function ajax_list_naik_tingkat()
         {
+			cek_crud_akses('CONTENT','html');
             // Define offset 
             $page = $this->input->post('page');
             if (!$page) {
@@ -181,6 +184,7 @@
 		
 		public function kelas()
 		{
+		
 			if ( $this->input->is_ajax_request() ) 
 			{
 				$id = $this->input->post('id',true);
@@ -229,7 +233,7 @@
 			
 			if ($this->input->is_ajax_request()) 
 			{
-				cek_crud_akses('CONTENT');
+				cek_crud_akses('CONTENT','json');
 				$id = $this->db->escape_str($this->input->post('id'));
 				$index = decrypt_url($id);
 				$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
@@ -812,4 +816,4 @@
 			
 		}
 		
-	}																																																																																																																		
+	}																																																																																																																					

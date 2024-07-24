@@ -306,6 +306,7 @@
 		}
 		function cek_crud($type=''){
 			$id_type = $this->cek_type($type);
+			
 			$this->db->where("FIND_IN_SET('$id_type', CONCAT(type_akses, ',')) AND id_user=".$this->session->iduser);
 			$query = $this->db->get('tb_users'); 
 			$result = ($query->num_rows() > 0)?TRUE:FALSE; 
@@ -314,10 +315,17 @@
 		
 		public function cek_type($type){
 			$this->db->select('id');
-			$this->db->where('pub',0);
+			$this->db->where('title',$type);
 			$query = $this->db->get('type_akses');  
-			$result = ($query->num_rows() > 0)?$query->row():FALSE; 
-			return $result->id;
+			$result = ($query->num_rows() > 0)?$query->row()->id:FALSE; 
+			return $result;
+		}
+		public function last_id($table){
+			$last = $this->db->order_by('id',"asc")
+			->limit(1)
+			->get($table)
+			->row();
+			return $last;
 		}
 		
-	}																														
+	}																															

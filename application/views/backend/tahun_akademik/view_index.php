@@ -3,7 +3,7 @@
 		<div class="row g-2 align-items-center">
 			<div class="col">
 				<div class="page-pretitle">
-					Master Data
+					<?=$menu;?>
 				</div>
                 <h2 class="page-title">
 					Data Tahun Akademik
@@ -84,7 +84,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
-				<button class="btn btn-danger hapus_unit" type="button">YA</button> 
+				<button class="btn btn-danger hapus_data" type="button">YA</button> 
 			</div>
 		</div>
 	</div>
@@ -114,7 +114,7 @@
 							<label class="form-label" for="keterangan">Keterangan</label>
 							<input type="text" name="keterangan" class="form-control" id="keterangan" placeholder="Keterangan" value="" required="">
 						</div>
-						 
+						
 						<div class="form-group mb-1">
 							<label class="form-label" for="aktif">Aktif</label>
 							<select name="aktif" id="aktif" class="form-control form-select">
@@ -189,11 +189,15 @@
 						$("body").loading({zIndex:1060});
 					},
 					success: function(data) {
-						$('#id_tahun').val(data.id);
-						$('#kode_tahun').val(data.kode);
-						$('#nama_tahun').val(data.nama);
-						$('#keterangan').val(data.keterangan);
-						$('#aktif').val(data.aktif);
+						if(data.status==true){
+							$('#id_tahun').val(data.id);
+							$('#kode_tahun').val(data.kode);
+							$('#nama_tahun').val(data.nama);
+							$('#keterangan').val(data.keterangan);
+							$('#aktif').val(data.aktif);
+							}else{
+							sweet_alert('Peringatan!!!',data.msg,'warning','warning','OpenModalTahun');
+						}
 						$('body').loading('stop');
 					},
 					error: function (xhr, ajaxOptions, thrownError) {

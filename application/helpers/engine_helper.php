@@ -20,7 +20,7 @@
 			return $CI->db->query($val);
 		}
 	} 
-	           
+	
 	if ( ! function_exists('select_box'))
 	{
 		/**
@@ -623,7 +623,7 @@
         
         return $agent;
 	}				
-	 
+	
 	
 	if ( ! function_exists('cek_device_status'))
 	{
@@ -667,6 +667,34 @@
 			if($cek->num_rows() > 0)
 			{
 				return $cek->row()->device; 	
+				}else{
+				return false; 
+			}
+		}
+	}		
+	if ( ! function_exists('getMenu'))
+	{
+		/**
+			* Code device 
+			* 
+			@param int 
+			@return string
+		*/
+		function getMenu($val)
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih_where('idmenu,idparent','menuadmin',['link'=>$val]);
+			if($cek->num_rows() > 0)
+			{
+				$idparent = $cek->row()->idparent;
+				 
+				if($idparent==0){
+					$parent = $cek->row()->idmenu;
+					}else{
+					$parent = $idparent;
+				}
+				$row = $ci->model_app->pilih_where('nama_menu','menuadmin',['idmenu'=>$parent])->row();
+				return $row->nama_menu; 	
 				}else{
 				return false; 
 			}
@@ -772,4 +800,4 @@
 				return '-'; 
 			}
 		}
-	}		
+	}						
