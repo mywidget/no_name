@@ -656,12 +656,15 @@
 					$nik = $this->input->post('nik',true);
 					$nik_ayah = $this->input->post('nik_ayah',true);
 					$nik_ibu = $this->input->post('nik_ibu',true);
+					$tanggal_lahir = $this->input->post('tanggal_lahir',true);
 					$cek_nik = cek_nik($nik,$nik_ayah,$nik_ibu);
 					if($cek_nik['status']===true){
 						$response['status'] = false;
 						$response['message'] = $cek_nik['msg'];
 						$this->thm->json_output($response);
 					}
+					$selisih_tgl = usia_daftar($tanggal_lahir,tanggal());
+					// dump($selisih_tgl);
 					if(!empty($_FILES['fotoSantri']['name']))
 					{
 						$new_name = $nik.'_'.$_FILES["fotoSantri"]['name'];

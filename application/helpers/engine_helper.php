@@ -688,7 +688,7 @@
 			{
 				return $cek->row(); 	
 				}else{
-				return '-'; 
+				return false; 
 			}
 		}
 	}		

@@ -57,15 +57,6 @@
 									</select>
 								</div>
 							</div>
-							<div class="text-muted">
-								<div class="d-none d-sm-inline-block">Status</div>
-								<div class="mx-2 d-inline-block">
-									<select id="status" name="status" class="form-control form-select" style="width:100px!important" onchange="searchPengguna()">
-										<option value="Baru">Baru</option>
-										<option value="Pindahan">Pindahan</option>
-									</select>
-								</div>
-							</div>
 							
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Unit</div>
@@ -198,7 +189,6 @@
 			var keywords = $('#keywords').val();
 			var sortBy = $('#sortBy').val();
 			var sort_tahun = $('#sort_tahun').val();
-			var status = $('#status').val();
 			var sortUnit = $('#sortUnit').val();
 			var sortKelas = $('#sortKelas').val();
 			$.ajax({

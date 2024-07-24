@@ -24,7 +24,7 @@
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Pendaftar | '.$this->title;
-			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->result();
+			$data['tahun'] = $this->model_app->view('rb_tahun_akademik')->result();
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['status'=>1,'aktif'=>'Ya'])->result();
 			
@@ -112,6 +112,7 @@
 			$data['title'] = 'Data Pendaftar | '.$this->title;
 			
             $cekUser = cekUser($this->iduser);
+			$data['tahun'] = $this->model_app->view('rb_tahun_akademik')->result();
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['aktif'=>'Ya'])->result();
 			
@@ -138,7 +139,10 @@
 				}else{
 				$limit = $this->perPage;
 			}
-			
+			$tahun = $this->input->post('tahun');
+            if (!empty($tahun)) {
+                $conditions['search']['tahun'] = $tahun;
+			}
             $sortBy = $this->input->post('sortBy');
             if (!empty($sortBy)) {
                 $conditions['search']['sortBy'] = $sortBy;

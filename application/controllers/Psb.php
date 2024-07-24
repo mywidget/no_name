@@ -317,8 +317,8 @@
 					$data = array('status'=>false,'msg'=>'Data gagal dihapus');
 				}
 				
-				$this->thm->json_output($data);
 			}
+			$this->thm->json_output($data);
 			
 		}
 		
@@ -349,7 +349,7 @@
             if (!empty($unit)) {
                 $conditions['where'] = ['id_unit'=>$unit];
 			}
-			 
+			
             // Get record count 
             $conditions['returnType'] = 'count';
             $totalRec = $this->model_pendaftar->getKelas($conditions);
@@ -1515,4 +1515,4 @@
 			return $cek;
 		}
 		
-	}																					
+	}																						

@@ -39,7 +39,12 @@
                         
                         $print = '<a class="btn btn-primary btn-sm flat" data-id="'.$kode.'" href="'.$link.'" target="_blank"><i class="fa fa-print"></i>&nbsp;&nbsp;Print</a>';
                         
-                        
+                        if(getKelas($row['kelas']) != false){
+                            $kode_kelas = getKelas($row['kelas'])->kode_kelas;
+                            }else{
+                            $kode_kelas = $row['kelas'];
+                            
+                        }
                     ?>
                     <tr>
                         <td><?=$no;?></td>
@@ -89,7 +94,7 @@
                                 </ul>
                             </div>
                         </td>
-                        <td><?=getKelas($row['kelas'])->kode_kelas;?></td>
+                        <td><?=$kode_kelas;?></td>
                         <td align="right">
                             <div class="btn-group btn-sm flat bg-danger">
                                 <?=$status;?>
