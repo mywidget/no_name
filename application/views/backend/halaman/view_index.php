@@ -165,6 +165,8 @@
 	?>
 	
 	<script>
+		
+		
 		$(document).ready(function () {
 			tinymce.init({
 				selector: '#deskripsi',
@@ -219,6 +221,8 @@
 			if(mod=='add'){
 				$("#type").val('add');
 				$("#myModalLabel").html('Tambah halaman');
+				$("#title").val('');
+				tinymce.get('deskripsi').setContent(''); 
 				return;
 				}else{
 				$("#type").val('edit');
@@ -290,7 +294,7 @@
 		$(document).on('click','.hapus_user',function(e){
 			var id = $("#data-hapus").val();
 			$.ajax({
-				url: base_url + 'pendaftar/hapus_pendaftar',
+				url: base_url + 'halaman/hapus_data',
 				data: {id:id},
 				method: 'POST',
 				dataType:'json',
@@ -313,6 +317,33 @@
 				}
 			});
 		});
+		
+		$(document).on('click','.aktifkan, .nonaktifkan',function(e){
+			var id = $(this).attr('data-id');
+			var aktif = $(this).attr('data-aktif');
+			
+			$.ajax({
+				url: base_url + 'halaman/aktifkan',
+				data: {id:id,aktif:aktif},
+				method: 'POST',
+				dataType:'json',
+				beforeSend: function () {
+					$('body').loading();　
+				},
+				success: function(data) {
+					if(data.status==true){
+						showNotif('bottom-right',data.title,data.msg,'success');
+						}else{
+						sweet('Peringatan!!!',data.msg,'warning','warning');
+					}
+					searchData();
+					$('body').loading('stop');　
+					},error: function(xhr, status, error) {
+					showNotif('bottom-right','Update',error,'error');
+					$('body').loading('stop');　
+				}
+			});
+		});
 		$(document).on('click','.clear',function(e){
 			$("#keywords").val('');
 			searchData();
@@ -320,6 +351,7 @@
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$('#data-hapus').val($(e.relatedTarget).data('id'));
 		});
+		
 		
 	</script>        
 <?php } ?>	
