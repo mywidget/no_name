@@ -120,7 +120,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                        <a href="/pendaftar" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -146,7 +146,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                        <a href="/pendaftar" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -172,7 +172,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                        <a href="/pendaftar" class="btn">
                                             Detail
                                         </a>
                                     </div>
