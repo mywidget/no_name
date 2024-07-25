@@ -57,12 +57,13 @@
 									</select>
 								</div>
 							</div>
+							
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Status</div>
 								<div class="mx-2 d-inline-block">
 									<select id="status" name="status" class="form-control form-select" style="width:100px!important" onchange="searchPengguna()">
-										<option value="Baru">Baru</option>
-										<option value="Pindahan">Pindahan</option>
+										<option value="Baru" <?php echo ($status == 'Baru') ? 'selected' : ''; ?>>Baru</option>
+										<option value="Pindahan" <?php echo ($status == 'Pindahan') ? 'selected' : ''; ?>>Pindahan</option>
 									</select>
 								</div>
 							</div>
@@ -112,7 +113,7 @@
 					</div>
 				</div><!-- /.card -->
 			</div>
-			</div>
+		</div>
 	</div>
 </div>
 
@@ -202,6 +203,7 @@
 			var status = $('#status').val();
 			var sortUnit = $('#sortUnit').val();
 			var sortKelas = $('#sortKelas').val();
+			var diterima = "<?=$baru;?>";
 			$.ajax({
 				type: 'POST',
 				url: base_url+'pendaftar/ajax_list/'+page_num,
@@ -212,7 +214,8 @@
 					sortBy:sortBy,
 					status:status,
 					sortUnit:sortUnit,
-					sortKelas:sortKelas
+					sortKelas:sortKelas,
+					diterima:diterima
 				},
 				beforeSend: function(){
 					$('body').loading();
@@ -225,7 +228,7 @@
 					$('#posts_content').html(html);
 					$('body').loading('stop');
 				}
-			
+				
 			});
 		}
 		
