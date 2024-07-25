@@ -813,7 +813,9 @@
 					
 					$kuota = $kuota-1;
 					
-					$update_kuota = ['kuota'=>$kuota]; 
+					$kuota_terpakai = $this->kuota_terpakai($nama_kamar);
+					$kuota_terpakai = $kuota_terpakai + 1;
+					$update_kuota = ['kuota'=>$kuota,'terpakai'=>$kuota_terpakai]; 
 					
 					
 					
@@ -848,6 +850,13 @@
 			
 			$kuota = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
 			$response =$kuota->kuota;
+			return $response;	
+		}
+		private function kuota_terpakai($id)
+		{
+			
+			$kuota = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
+			$response =$kuota->terpakai;
 			return $response;	
 		}
 		
