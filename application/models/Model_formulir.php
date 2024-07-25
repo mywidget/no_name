@@ -77,8 +77,8 @@
 				$post['nik'],
 				$post['nisn'],
 				$post['email'],
-				$post['unit_sekolah'],
-				$post['kelas'],
+				get_unit($post['unit_sekolah']),
+				getNamaKelas($post['kelas']),
 				$post['kamar'],
 				rp($biaya),
 				$link
