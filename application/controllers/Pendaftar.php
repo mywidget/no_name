@@ -30,19 +30,26 @@
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['status'=>1,'aktif'=>'Ya'])->result();
 			$data['menu'] = getMenu($this->menu);
 			$status = $this->input->get();
-			if(isset($status)){
-				if($status['baru']){
+			// if(isset($status)){
+				// if(!empty($status['baru'])){
 					$data['status'] = 'Baru';
-					$data['baru'] = $status['baru'];
-					}else{
-					$data['pindahan'] = $status['baru'];
-					$data['status'] = 'Pindahan';
-				}
-				}else{
-				$data['baru'] = '';
-				$data['pindahan'] = '';
-				$data['status'] = '';
-			}
+					// $data['baru'] = $status['baru'];
+					// }else{
+					$data['baru'] = '';
+					// $data['status'] = '';
+				// }
+				// if(!empty($status['pindahan'])){
+					// $data['pindahan'] = $status['baru'];
+					// $data['status'] = 'Pindahan';
+				// }else{
+				// $data['pindahan'] = '';
+				// $data['status'] = '';
+				// }
+				// }else{
+				// $data['baru'] = '';
+				// $data['pindahan'] = '';
+				// $data['status'] = '';
+			// }
 			
 			$this->thm->load('backend/template','backend/pendaftar/view_index',$data);
 		}
@@ -57,79 +64,79 @@
                 } else {
                 $offset = $page;
 			}
-            $keywords = $this->input->post('keywords');
-            if (!empty($keywords)) {
-                $conditions['search']['keywords'] = $keywords;
+			$keywords = $this->input->post('keywords');
+			if (!empty($keywords)) {
+				$conditions['search']['keywords'] = $keywords;
 			}
 			$limit = $this->input->post('limit');
-            if (!empty($limit)) {
-                $conditions['search']['limit'] = $limit;
+			if (!empty($limit)) {
+				$conditions['search']['limit'] = $limit;
 				}else{
 				$limit = $this->perPage;
 			}
 			
-            $tahun = $this->input->post('tahun');
-            if (!empty($tahun)) {
-                $conditions['search']['tahun'] = $tahun;
+			$tahun = $this->input->post('tahun');
+			if (!empty($tahun)) {
+				$conditions['search']['tahun'] = $tahun;
 			}
 			
-            $sortBy = $this->input->post('sortBy');
-            if (!empty($sortBy)) {
-                $conditions['search']['sortBy'] = $sortBy;
+			$sortBy = $this->input->post('sortBy');
+			if (!empty($sortBy)) {
+				$conditions['search']['sortBy'] = $sortBy;
 			}
 			
-            $status = $this->input->post('status');
-            if (!empty($status)) {
-                $conditions['search']['status'] = $status;
+			$status = $this->input->post('status');
+			if (!empty($status)) {
+				$conditions['search']['status'] = $status;
 			}
 			
 			
-            $sortUnit = $this->input->post('sortUnit');
-            if (!empty($sortUnit)) {
-                $conditions['search']['sortUnit'] = $sortUnit;
+			$sortUnit = $this->input->post('sortUnit');
+			if (!empty($sortUnit)) {
+				$conditions['search']['sortUnit'] = $sortUnit;
 			}
 			
-            $sortKelas = $this->input->post('sortKelas');
-            if (!empty($sortKelas)) {
-                $conditions['search']['sortKelas'] = $sortKelas;
+			$sortKelas = $this->input->post('sortKelas');
+			if (!empty($sortKelas)) {
+				$conditions['search']['sortKelas'] = $sortKelas;
 			}
 			
-            $diterima = $this->input->post('diterima');
-            if (!empty($diterima)) {
-                $conditions['search']['sortKelas'] = $sortKelas;
+			$diterima = $this->input->post('diterima');
+			if (!empty($diterima)) {
+				$conditions['search']['sortKelas'] = $sortKelas;
 			}
 			
 			$conditions['where'] = ['s_pendidikan'=>'Baru'
 			];
 			
-            // Get record count 
-            $conditions['returnType'] = 'count';
-            $totalRec = $this->model_pendaftar->getPendaftar($conditions);
-            
-            // Pagination configuration 
-            $config['target']      = '#posts_content';
-            $config['base_url']    = base_url('pendaftar/ajax_list');
-            $config['total_rows']  = $totalRec;
-            $config['per_page']    = $limit;
-            $config['link_func']   = 'searchPengguna';
-            
-            // Initialize pagination library 
-            $this->ajax_pagination->initialize($config);
-            
-            // Get records 
-            $conditions['start'] = $offset;
-            $conditions['limit'] = $limit;
+			// Get record count 
+			$conditions['returnType'] = 'count';
+			$totalRec = $this->model_pendaftar->getPendaftar($conditions);
 			
-            unset($conditions['returnType']);
-            $data['record'] = $this->model_pendaftar->getPendaftar($conditions);
+			// Pagination configuration 
+			$config['target']      = '#posts_content';
+			$config['base_url']    = base_url('pendaftar/ajax_list');
+			$config['total_rows']  = $totalRec;
+			$config['per_page']    = $limit;
+			$config['link_func']   = 'searchPengguna';
 			
-            // Load the data list view 
+			// Initialize pagination library 
+			$this->ajax_pagination->initialize($config);
+			
+			// Get records 
+			$conditions['start'] = $offset;
+			$conditions['limit'] = $limit;
+			
+			unset($conditions['returnType']);
+			$data['record'] = $this->model_pendaftar->getPendaftar($conditions);
+			
+			// Load the data list view 
 			$this->load->view('backend/pendaftar/get-ajax',$data);
 			
 		}
 		
 		public function naik_tingkat()
-        {
+		{
 			cek_menu_akses();
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Pendaftar | '.$this->title;
@@ -143,62 +150,62 @@
 			$this->thm->load('backend/template','backend/pendaftar/view_index_naik_tingkat',$data);
 		}
 		
-        function ajax_list_naik_tingkat()
-        {
+		function ajax_list_naik_tingkat()
+		{
 			cek_crud_akses('CONTENT','html');
-            // Define offset 
-            $page = $this->input->post('page');
-            if (!$page) {
-                $offset = 0;
-                } else {
-                $offset = $page;
+			// Define offset 
+			$page = $this->input->post('page');
+			if (!$page) {
+				$offset = 0;
+				} else {
+				$offset = $page;
 			}
-            $keywords = $this->input->post('keywords');
-            if (!empty($keywords)) {
-                $conditions['search']['keywords'] = $keywords;
+			$keywords = $this->input->post('keywords');
+			if (!empty($keywords)) {
+				$conditions['search']['keywords'] = $keywords;
 			}
 			$limit = $this->input->post('limit');
-            if (!empty($limit)) {
-                $conditions['search']['limit'] = $limit;
+			if (!empty($limit)) {
+				$conditions['search']['limit'] = $limit;
 				}else{
 				$limit = $this->perPage;
 			}
 			$tahun = $this->input->post('tahun');
-            if (!empty($tahun)) {
-                $conditions['search']['tahun'] = $tahun;
+			if (!empty($tahun)) {
+				$conditions['search']['tahun'] = $tahun;
 			}
-            $sortBy = $this->input->post('sortBy');
-            if (!empty($sortBy)) {
-                $conditions['search']['sortBy'] = $sortBy;
+			$sortBy = $this->input->post('sortBy');
+			if (!empty($sortBy)) {
+				$conditions['search']['sortBy'] = $sortBy;
 			}
 			
-            $sortKelas = $this->input->post('sortKelas');
-            if (!empty($sortKelas)) {
-                $conditions['search']['sortKelas'] = $sortKelas;
+			$sortKelas = $this->input->post('sortKelas');
+			if (!empty($sortKelas)) {
+				$conditions['search']['sortKelas'] = $sortKelas;
 			}
 			$conditions['where'] = ['s_pendidikan'=>'Naik Tingkatan'];
-            // Get record count 
-            $conditions['returnType'] = 'count';
-            $totalRec = $this->model_pendaftar->getPendaftar($conditions);
-            
-            // Pagination configuration 
-            $config['target']      = '#posts_content';
-            $config['base_url']    = base_url('pendaftar/ajax_list_naik_tingkat');
-            $config['total_rows']  = $totalRec;
-            $config['per_page']    = $limit;
-            $config['link_func']   = 'searchData';
-            
-            // Initialize pagination library 
-            $this->ajax_pagination->initialize($config);
-            
-            // Get records 
-            $conditions['start'] = $offset;
-            $conditions['limit'] = $limit;
+			// Get record count 
+			$conditions['returnType'] = 'count';
+			$totalRec = $this->model_pendaftar->getPendaftar($conditions);
 			
-            unset($conditions['returnType']);
-            $data['record'] = $this->model_pendaftar->getPendaftar($conditions);
+			// Pagination configuration 
+			$config['target']      = '#posts_content';
+			$config['base_url']    = base_url('pendaftar/ajax_list_naik_tingkat');
+			$config['total_rows']  = $totalRec;
+			$config['per_page']    = $limit;
+			$config['link_func']   = 'searchData';
 			
-            // Load the data list view 
+			// Initialize pagination library 
+			$this->ajax_pagination->initialize($config);
+			
+			// Get records 
+			$conditions['start'] = $offset;
+			$conditions['limit'] = $limit;
+			
+			unset($conditions['returnType']);
+			$data['record'] = $this->model_pendaftar->getPendaftar($conditions);
+			
+			// Load the data list view 
 			$this->load->view('backend/pendaftar/get-ajax',$data);
 			
 		}
@@ -837,4 +844,4 @@
 			
 		}
 		
-	}																																																																																																																									
+	}																																																																																																																											
