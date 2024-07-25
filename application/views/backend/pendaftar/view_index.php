@@ -203,7 +203,7 @@
 			var status = $('#status').val();
 			var sortUnit = $('#sortUnit').val();
 			var sortKelas = $('#sortKelas').val();
-			var diterima = "<?=$baru;?>";
+			var diterima = "";
 			$.ajax({
 				type: 'POST',
 				url: base_url+'pendaftar/ajax_list/'+page_num,
