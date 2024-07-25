@@ -20,7 +20,7 @@
         {
 			cek_menu_akses();
 			cek_crud_akses('READ');
-			 
+			
 			$data['title'] = 'Data Halaman PPDB | '.$this->title;
 			$data['menu'] = getMenu($this->menu);
 			
@@ -238,34 +238,62 @@
 				$this->image_lib->clear();
 			}
 		}
+		
 		function hapus_data(){
 			cek_input_post('GET');
 			cek_crud_akses('DELETE');
 			$id 	= decrypt_url($this->input->post('id',TRUE));
 			
-			$cek = $this->model_app->view_where('rb_psb_daftar', ['id_unit'=>$id]);
-			if($cek->num_rows() > 0)
-			{
-				$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data tidak bisa dihapus');
-				}else{
-				$where = array('id' => $id);
-				$search = $this->model_app->edit('rb_panitia', $where);
-				if($search->num_rows()>0){
-					$row = $search->row_array();
-					$res = $this->model_app->hapus('rb_panitia',$where);
-					if($res==true){
-						$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
-						}else{
-						$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
-					}
-					
+			$where = array('id' => $id);
+			$search = $this->model_app->edit('rb_pages', $where);
+			if($search->num_rows()>0){
+				$row = $search->row_array();
+				$res = $this->model_app->hapus('rb_pages',$where);
+				if($res==true){
+					$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
 					}else{
-					$data = array('status'=>false,'msg'=>'Data gagal dihapus');
+					$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
 				}
 				
-				$this->thm->json_output($data);
+				}else{
+				$data = array('status'=>false,'msg'=>'Data gagal dihapus');
 			}
+			
+			$this->thm->json_output($data);
 			
 		}
 		
-	}																																					
+		function aktifkan(){
+			cek_input_post('GET');
+			cek_crud_akses('DELETE');
+			$id = decrypt_url($this->input->post('id',TRUE));
+			$aktif = $this->input->post('aktif',TRUE);
+			
+			$where = array('id' => $id);
+			if($aktif=='Ya'){
+				$array = array('aktif'=>'Ya');
+				$title = 'diaktifkan';
+				}else{
+				$array = array('aktif'=>'Tidak');
+				$title = 'dinonaktifkan';
+			}
+			 
+			$search = $this->model_app->edit('rb_pages', ['id' => $id]);
+			if($search->num_rows()>0){
+				$row = $search->row_array();
+				$res = $this->model_app->update('rb_pages',$array,$where);
+				if($res==true){
+					$data = array('status'=>true,'title'=>'Aktifkan data','msg'=>'Data berhasil '.$title);
+					}else{
+					$data = array('status'=>false,'title'=>'Aktifkan data','msg'=>'Data gagal '.$title);
+				}
+				
+				}else{
+				$data = array('status'=>false,'msg'=>'Data gagal muat');
+			}
+			
+			$this->thm->json_output($data);
+			
+		}
+		
+	}																																									
