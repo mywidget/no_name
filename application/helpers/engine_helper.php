@@ -720,6 +720,27 @@
 			}
 		}
 	}		
+		
+	if ( ! function_exists('getNamaKelas'))
+	{
+		/**
+			* Code device 
+			* 
+			@param int 
+			@return string
+		*/
+		function getNamaKelas($id)
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih_where('nama_kelas','rb_kelas',['id'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row()->nama_kelas; 	
+				}else{
+				return false; 
+			}
+		}
+	}		
 	
 	if ( ! function_exists('getProvinsi'))
 	{
