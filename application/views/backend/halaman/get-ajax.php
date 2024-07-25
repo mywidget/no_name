@@ -17,11 +17,11 @@
                         $kode = encrypt_url($row['id']);
                         if ($row['aktif'] == 'Ya')
                         { 
-                            $aktif ='<i class="fa fa-check-circle" data-bs-toggle="tooltip" title="Aktif"></i>';
-                            $status = '<a href="#" class="btn btn-success btn-sm active" aria-current="page">'.$aktif.'</a>';
+                            $aktif ='<i class="fa fa-check-circle"></i>';
+                            $status = '<a href="javascript:void(0)" class="btn btn-success btn-sm nonaktifkan" aria-current="page" data-id="'.$kode.'" data-aktif="Tidak" data-bs-toggle="tooltip" data-trigger="hover" title="Aktif">'.$aktif.'</a>';
                             }else{ 
-                            $aktif = '<i class="fa fa-check-circle-o" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
-                            $status = '<a href="#" class="btn btn-secondary btn-sm active" aria-current="page">'.$aktif.'</a>';
+                            $aktif = '<i class="fa fa-check-circle-o"></i>';
+                            $status = '<a href="javascript:void(0)" class="btn btn-secondary btn-sm aktifkan" aria-current="page" data-id="'.$kode.'" data-aktif="Ya" data-bs-toggle="tooltip" data-trigger="hover" title="Tidak Aktif">'.$aktif.'</a>';
                         }
                         $hapus = '<a class="btn btn-danger" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
                         
@@ -56,31 +56,48 @@
 <?php } ?>
 
 <script>
-    $(document).ready(function(){
-        $('.openPopup').on('click',function(){
-            var dataURL = $(this).attr('data-href');
-            $('.modal-body1').load(dataURL,function(){
-                $('#myModalEdit').modal({show:true});
-            });
-        }); 
-    });    
-    function withoutJquery(i){
-        console.time('time2');
-        var temp=document.createElement('input');
-        var texttoCopy=document.getElementById('copyText'+i).innerHTML;
-        temp.type='input';
-        temp.setAttribute('value',texttoCopy);
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        temp.remove();
-        console.timeEnd('time2');
-    }
     
-    $(document).ready(function () {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+    $(document).ready(function(){
+        $('.aktifkan').tooltip({
+            template: '<div class="tooltip svg__icon_c_tooltip_right" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+            title: 'Aktifkan',
+            html: true,
+            placement: 'left',
+            delay: 250
+        });
+        
+        $('.nonaktifkan').tooltip({
+            template: '<div class="tooltip svg__icon_c_tooltip_right" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+            title: 'Nonaktifkan',
+            html: true,
+            placement: 'left',
+            delay: 250
+        });
     });
+    
+    $('.aktifkan, .nonaktifkan').on('shown.bs.tooltip', function() {
+        $(this).attr('data-tooltip', 'loaded');
+    });
+    
+    $('.aktifkan, .nonaktifkan').on('hide.bs.tooltip', function() {
+        $(this).attr('data-tooltip', 'hidden');
+    });
+    
+    $('.aktifkan, .nonaktifkan').on('click', function() {
+        var _tooltip = $(this).attr('data-tooltip');
+        
+        switch(_tooltip) {
+            case 'loaded':
+            if ($(this).next().hasClass('tooltip')) {
+                $(this).tooltip('hide');
+                } else {
+                $(this).tooltip('show');
+            }
+            break;
+            case 'hidden':
+            $(this).tooltip('show');
+            break;
+        }
+    });
+    
 </script>    
