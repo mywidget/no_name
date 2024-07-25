@@ -19,18 +19,72 @@
 		{
 			
 			$this->thm->set('title', 'Dashboard');
-			
+			//PENDAFTAR BARU
 			$_where['where'] = array(
 			's_pendidikan' => 'Baru'
 			);
-			$where['where'] = array(
-			's_pendidikan' => 'Naik Tingkatan'
+			//PENDAFTAR BARU DITERIMA
+			$diterima['where'] = array(
+			's_pendidikan' => 'Baru',
+			'status' => 'Diterima'
 			);
-			$data['pengguna'] = $this->model_app->counter('tb_users',[]);
-			$data['pendaftar'] = $this->model_app->counter('rb_psb_daftar',$_where);
-			$data['naik_tingkat'] = $this->model_app->counter('rb_psb_daftar',$where);
+			//PENDAFTAR BARU DITERIMA
+			$ditolak['where'] = array(
+			's_pendidikan' => 'Baru',
+			'status' => 'Tidak Diterima'
+			);
 			
-			// echo $data['pengguna'];
+			//PENDAFTAR PINDAHAN
+			$pindahan['where'] = array(
+			's_pendidikan' => 'Pindahan'
+			);
+			//PENDAFTAR PINDAHAN DITERIMA
+			$pindahan_diterima['where'] = array(
+			's_pendidikan' => 'Pindahan',
+			'status' => 'Diterima'
+			);
+			//PENDAFTAR PINDAHAN DITOLAK
+			$pindahan_ditolak['where'] = array(
+			's_pendidikan' => 'Pindahan',
+			'status' => 'Tidak Diterima'
+			);
+			 
+			//PENDAFTAR NAIK TINGKAT
+			$where['where'] = array(
+			's_pendidikan' => 'Naik Tingkatan',
+			);
+			
+			//PENDAFTAR NAIK DITERIMA
+			$naik_diterima['where'] = array(
+			's_pendidikan' => 'Naik Tingkatan',
+			'status' => 'Diterima'
+			);
+			
+			//PENDAFTAR NAIK DITOLAK
+			$naik_ditolak['where'] = array(
+			's_pendidikan' => 'Naik Tingkatan',
+			'status' => 'Tidak Diterima'
+			);
+			
+			$where_user['where'] = array(
+			'level !=' => 'admin'
+			);
+			
+			$data['pengguna'] = $this->model_app->counter('tb_users',$where_user);
+			
+			//baru
+			$data['pendaftar_baru'] = $this->model_app->counter('rb_psb_daftar',$_where);
+			$data['pendaftar_diterima'] = $this->model_app->counter('rb_psb_daftar',$diterima);
+			$data['pendaftar_ditolak'] = $this->model_app->counter('rb_psb_daftar',$ditolak);
+			//pindahan
+			$data['pendaftar_pindahan_baru'] = $this->model_app->counter('rb_psb_daftar',$pindahan);
+			$data['pendaftar_pindahan_diterima'] = $this->model_app->counter('rb_psb_daftar',$pindahan_diterima);
+			$data['pendaftar_pindahan_ditolak'] = $this->model_app->counter('rb_psb_daftar',$pindahan_ditolak);
+			//NAIK TINGKAT
+			$data['naik_tingkat'] = $this->model_app->counter('rb_psb_daftar',$where);
+			$data['naik_tingkat_diterima'] = $this->model_app->counter('rb_psb_daftar',$naik_diterima);
+			$data['naik_tingkat_ditolak'] = $this->model_app->counter('rb_psb_daftar',$naik_ditolak);
+			 
 			$data['tanggal'] = tgl_dari_slash() . ' - ' .tgl_sampai_slash();
 			$data['dari'] = month();
 			$data['sampai'] = year();
