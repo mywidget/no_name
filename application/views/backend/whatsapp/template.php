@@ -308,6 +308,7 @@
 			});
 		});
 		
+		
 		$(document).on('click','.clear',function(e){
 			$("#keywords").val('');
 			searchData();

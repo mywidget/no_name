@@ -30,7 +30,7 @@
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
                                     <a href='javascript:void(0);' class="btn btn-info detail"  data-id='<?=$kode;?>'  class='openPopup text-primary'><i class="ti ti-search"></i>&nbsp;&nbsp;Detail</a>
-                                    <a href='javascript:void(0);' class="btn btn-primary kirim"  data-id='<?=$kode;?>'  class='openPopup text-info'><i class="ti ti-reload"></i>&nbsp;&nbsp;Kirim Ulang</a>
+                                    <a href='javascript:void(0);' class="btn btn-primary kirim_ulang"  data-id='<?=$kode;?>'  class='openPopup text-info'><i class="ti ti-reload"></i>&nbsp;&nbsp;Kirim Ulang</a>
                                     <?=$hapus;?>
                                 </div>
                             </td>

@@ -582,6 +582,53 @@
 			
 			
 		}
+		function kirim_ulang(){
+			cek_input_post('GET');
+			cek_crud_akses('CONTENT');
+			$id 	= decrypt_url($this->input->post('id',TRUE));
+			
+			$where = array('id' => $id);
+			$search = $this->model_app->edit('rb_report_pesan', $where);
+			if($search->num_rows()>0){
+				$row = $search->row();
+				$target = $row->target;
+				$message = $row->message;
+				$this->send_message($target,$message);
+				 
+				$data = array('status'=>true,'title'=>'Kirim ulang','msg'=>'Data berhasil dikirim');
+				}else{
+				$data = array('status'=>false,'title'=>'Kirim ulang','msg'=>'Data gagal dikirim');
+			}
+			
+			$this->thm->json_output($data);
+			
+			
+		}
+		private function send_message($target,$message)
+		{
+			$token = $this->model_formulir->get_token()->token;
+			 
+			$data_send = array(
+			'target' => $target,
+			'message' => $message,
+			'countryCode' => '62'
+			);
+			// dump($token);
+			
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			$this->curl->setHeader('Authorization', $token);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post('https://api.fonnte.com/send', $data_send);
+			if ($this->curl->error) {
+				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+				} else {
+				$response = $this->curl->response;
+				$result = ['status' => true, 'msg' => (object)$response];
+			}
+			return $result;
+		}
+		 
 		/**
 			* cek_status
 			*
