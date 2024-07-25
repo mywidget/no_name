@@ -29,6 +29,20 @@
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['status'=>1,'aktif'=>'Ya'])->result();
 			$data['menu'] = getMenu($this->menu);
+			$status = $this->input->get();
+			if(isset($status)){
+				if($status['baru']){
+					$data['status'] = 'Baru';
+					$data['baru'] = $status['baru'];
+					}else{
+					$data['pindahan'] = $status['baru'];
+					$data['status'] = 'Pindahan';
+				}
+				}else{
+				$data['baru'] = '';
+				$data['pindahan'] = '';
+				$data['status'] = '';
+			}
 			
 			$this->thm->load('backend/template','backend/pendaftar/view_index',$data);
 		}
@@ -69,6 +83,7 @@
                 $conditions['search']['status'] = $status;
 			}
 			
+			
             $sortUnit = $this->input->post('sortUnit');
             if (!empty($sortUnit)) {
                 $conditions['search']['sortUnit'] = $sortUnit;
@@ -78,6 +93,12 @@
             if (!empty($sortKelas)) {
                 $conditions['search']['sortKelas'] = $sortKelas;
 			}
+			
+            $diterima = $this->input->post('diterima');
+            if (!empty($diterima)) {
+                $conditions['search']['sortKelas'] = $sortKelas;
+			}
+			
 			$conditions['where'] = ['s_pendidikan'=>'Baru'
 			];
 			
@@ -184,7 +205,7 @@
 		
 		public function kelas()
 		{
-		
+			
 			if ( $this->input->is_ajax_request() ) 
 			{
 				$id = $this->input->post('id',true);
@@ -816,4 +837,4 @@
 			
 		}
 		
-	}																																																																																																																					
+	}																																																																																																																									
