@@ -2,6 +2,11 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	use PHPUnit\Util\Json;
 	use Curl\Curl;
+	
+	use Brick\PhoneNumber\PhoneNumber;
+	use Brick\PhoneNumber\PhoneNumberParseException;
+	use Brick\PhoneNumber\PhoneNumberFormat;
+	
 	class Dashboard extends CI_Controller {
 		public function __construct()
 		{
@@ -742,7 +747,12 @@
 						$this->thm->json_output($response);
 					}
 					$nama_unit = $this->model_formulir->nama_unit_byid($this->input->post('unit_sekolah',true));
-					$this->upload->initialize($config);
+					$full_phone = $this->input->post('full_phone');
+					$full_phone_country = $this->input->post('full_phone_country');
+					$number = PhoneNumber::parse($full_phone);
+					$nomor_personal = $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+					
+					
 					$input_data = [
 					"kode_daftar"              	  => $this->input->post('nik',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
@@ -780,7 +790,7 @@
 					"pendidikan_terakhir_ibu"     => $this->input->post('pendidikan_terakhir_ibu',true),
 					"pekerjaan_ibu"               => $this->input->post('pekerjaan_ibu',true),
 					"penghasilan_ortu"            => $this->input->post('penghasilan_ortu',true),
-					"nomor_hp"                    => clean($this->input->post('nomor_hp',true)),
+					"nomor_hp"                    => clean($nomor_personal),
 					"no_hp_alternatif"            => clean($this->input->post('thnakademik',true)),
 					"alamat"                      => $this->input->post('alamat',true),
 					"rt"                          => $this->input->post('rt',true),

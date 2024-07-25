@@ -6,17 +6,53 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitaae660883e39aeff027ae47b9fca34a7
 {
+    public static $files = array (
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'l' => 
+        array (
+            'libphonenumber\\' => 15,
+        ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+        ),
+        'G' => 
+        array (
+            'Giggsey\\Locale\\' => 15,
+        ),
         'C' => 
         array (
             'Curl\\' => 5,
         ),
+        'B' => 
+        array (
+            'Brick\\PhoneNumber\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'libphonenumber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Giggsey\\Locale\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/locale/src',
+        ),
         'Curl\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl',
+        ),
+        'Brick\\PhoneNumber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/brick/phonenumber/src',
         ),
     );
 

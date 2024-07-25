@@ -1,4 +1,39 @@
 $(document).ready(function () {
+    
+    const countryData = window.intlTelInputGlobals.getCountryData();
+    const input = document.querySelector("#telp");
+    
+    const iti = window.intlTelInput(input, {
+        initialCountry: "id",
+        hiddenInput: () => "full_phone",
+        utilsScript: base_url_assets + "/build/js/utils.js"
+    });
+    input.addEventListener('keyup', function() {
+        $('input[name="full_phone"]').val(iti.getNumber());
+        $('input[name="full_phone_country"]').val(iti.getSelectedCountryData()['iso2']);
+        // console.log(iti.getSelectedCountryData())
+        
+    });
+    input.addEventListener('blur', function() {
+        if (!iti.isValidNumber()) {
+            $("#feedback-telp").html('Invalid nomor');
+            $("#feedback-telp").addClass("text-danger");
+            $("#telp").addClass("is-invalid text-danger");
+            $("#form_simpan").prop("disabled", true);
+            // console.log(1)
+            } else {
+            // console.log(2)
+            $("#form_simpan").prop("disabled", false);
+            $("#feedback-telp-edit").html('');
+            $("#feedback-telp-edit").removeClass("text-danger").addClass('text-success');
+            $("#telp").removeClass('is-invalid text-danger').addClass("is-valid text-success");
+        }
+    });
+    // listen to the telephone input for changes
+    input.addEventListener('countrychange', () => {
+        $("#telp").change();
+    });
+    
     new bootstrap.Modal('#kategori').show();
     
     $('#kategori #kategori-val').on('change', function (e) {
@@ -368,16 +403,18 @@ Array.prototype.slice.call(forms)
                             confirmButtonText: 'OK',
                         })
                         .then(() => {
-                            if (response?.message) {
+                            if (response.message) {
                                 const errors = response.message;
                                 setTimeout(() => {
                                     const firstErrorKey = Object.keys(errors)[0];
+                                    konsole.log(firstErrorKey)
                                     $(`#${firstErrorKey}`).focus();
                                 }, 500);
                                 
                                 for (const key in errors) {
                                     $(`#${key}`).addClass('is-invalid');
                                     $(`#${key}`).siblings('.invalid-feedback').text(errors[key]);
+                                    $(`#${key}`).siblings('.invalid-tooltip').text(errors[key]);
                                 }
                             }
                         });

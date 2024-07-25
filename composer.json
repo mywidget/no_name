@@ -1,5 +1,6 @@
 {
     "require": {
-        "php-curl-class/php-curl-class": "^9.19"
+        "php-curl-class/php-curl-class": "^9.19",
+        "brick/phonenumber": "^0.5.0"
     }
 }

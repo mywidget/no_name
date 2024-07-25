@@ -1,40 +1,42 @@
 <?php
     
-    // $email          ='rangkasku@gmail.com';
-    // $nama           ='Munajat';
-    // $tempat_lahir   ='Lebak';
-    // $tgl_lahir      ='2000-01-01';
-    // $nik            ='1205175502120004';
-    // $nama_sekolah   ='SMPN 5';
-    // $alamat_sekolah ='Rangkasbitung';
-    // $nisn           ='0127279327';
-    // $no_kk           ='1402073008210003';
-    // $nama_ayah      ='Julianus Manalu';
-    // $nik_ayah       ='1205170407820009';
-    // $nama_ibu       ='Siti Julaiha';
-    // $nik_ibu        ='1205174806850008';
-    // $anak_Ke        =1;
-    // $dari           =2;
-    // $nomor_hp       ='089611274798';
-    // $alamat         ='Jln poros Penyaguan, Indragiri hulu,Riau';
+    $email          ='rangkasku@gmail.com';
+    $nama           ='Munajat';
+    $tempat_lahir   ='Lebak';
+    $tgl_lahir      ='2000-01-01';
+    $nik            ='1205175502120004';
+    $nama_sekolah   ='SMPN 5';
+    $alamat_sekolah ='Rangkasbitung';
+    $nisn           ='0127279327';
+    $no_kk           ='1402073008210003';
+    $nama_ayah      ='Julianus Manalu';
+    $nik_ayah       ='1205170407820009';
+    $nama_ibu       ='Siti Julaiha';
+    $nik_ibu        ='1205174806850008';
+    $anak_Ke        =1;
+    $dari           =2;
+    $nomor_hp       ='089611274798';
+    $alamat         ='Jln poros Penyaguan, Indragiri hulu,Riau';
+    
     $selected = 'selected';
-    $email          ='';
-    $nama           ='';
-    $tempat_lahir   ='';
-    $tgl_lahir      ='';
-    $nik            ='';
-    $nama_sekolah   ='';
-    $alamat_sekolah ='';
-    $nisn           ='';
-    $no_kk          ='';
-    $nama_ayah      ='';
-    $nik_ayah       ='';
-    $nama_ibu       ='';
-    $nik_ibu        ='';
-    $anak_Ke        ='';
-    $dari           ='';
-    $nomor_hp       ='';
-    $alamat         ='';
+    
+    // $email          ='';
+    // $nama           ='';
+    // $tempat_lahir   ='';
+    // $tgl_lahir      ='';
+    // $nik            ='';
+    // $nama_sekolah   ='';
+    // $alamat_sekolah ='';
+    // $nisn           ='';
+    // $no_kk          ='';
+    // $nama_ayah      ='';
+    // $nik_ayah       ='';
+    // $nama_ibu       ='';
+    // $nik_ibu        ='';
+    // $anak_Ke        ='';
+    // $dari           ='';
+    // $nomor_hp       ='';
+    // $alamat         ='';
 ?>
 
 <main class="container" id="formulir">
@@ -83,7 +85,7 @@
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <input type="text" name="tempat_lahir" id="birthPlace" class="form-control" value="<?=$tempat_lahir;?>" required="">
-                       <div class="invalid-tooltip">Tempat lahir wajib diisi</div>
+                        <div class="invalid-tooltip">Tempat lahir wajib diisi</div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -92,7 +94,7 @@
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <input type="date" name="tanggal_lahir" id="birthday" class="form-control" placeholder="Masukkan tanggal lahir" value="<?=$tgl_lahir;?>" required="">
-                       <div class="invalid-tooltip">Tanggal lahir wajib diisi</div>
+                        <div class="invalid-tooltip">Tanggal lahir wajib diisi</div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -198,7 +200,7 @@
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <select name="kelas" id="form_kelas" class="form-select" required=""></select>
-                       <div class="invalid-tooltip" id="form_kelas-feedback">Kelas wajib diisi</div>
+                        <div class="invalid-tooltip" id="form_kelas-feedback">Kelas wajib diisi</div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -220,7 +222,7 @@
                 <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                     <select id="form_kamar" class="form-select" name="kamar" required="">
                     </select>
-                   <div class="invalid-tooltip" id="form_kamar-feedback">Kamar wajib diisi</div>
+                    <div class="invalid-tooltip" id="form_kamar-feedback">Kamar wajib diisi</div>
                 </div>
             </div>
             
@@ -281,8 +283,8 @@
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <input type="text" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control" autocomplete="off"  value="<?=$nisn;?>" required>  
-                       <div class="invalid-tooltip">NISN wajib diisi</div>
-                       <div class="invalid-feedback"></div>
+                        <div class="invalid-tooltip">NISN wajib diisi</div>
+                        <div class="invalid-feedback"></div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -315,7 +317,7 @@
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <input type="text" name="nama_ayah" id="namaAyah" class="form-control" value="<?=$nama_ayah;?>" required="">
-                       <div class="invalid-tooltip">Nama Ayah wajib diisi</div>
+                        <div class="invalid-tooltip">Nama Ayah wajib diisi</div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -442,11 +444,11 @@
                 </div>
                 <div class="row align-items-center mt-2">
                     <div class="col-sm-3 col-md-3 col-lg-2">
-                        <label for="telp" class="form-label m-0"><small> Nomor Telphone </small></label>
+                        <label for="telp" class="form-label m-0"><small> Nomor Handphone </small></label>
                     </div>
-                    <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="tel" name="nomor_hp" id="telp" onkeyup="formatNumber(this)" class="form-control" value="<?=$nomor_hp;?>" required="">
-                        <div class="invalid-tooltip" id="telp-feedback">Format Harus angka Contoh : 08123456789 </div>
+                    <div class="col-sm-9 col-md-8 col-lg-6">
+                        <input type="tel" name="nomor_hp" id="telp" class="form-control" value="<?=$nomor_hp;?>" required="" style="width:100%!important">
+                        <div class="invalid-tooltip" id="feedback-telp">Format Harus angka</div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -532,7 +534,7 @@
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
                         <select name="kec" id="form_kec" class="form-select" required="" disabled></select>
-                       <div class="invalid-tooltip">Kecamatan Wajib diisi</div>
+                        <div class="invalid-tooltip">Kecamatan Wajib diisi</div>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -603,7 +605,7 @@
                             <option value="XXXL">XXXL</option>
                             <option value="XXXXL">XXXXL</option>
                         </select>
-                       <div class="invalid-tooltip">Ukuran Seragam Wajib diisi</div>
+                        <div class="invalid-tooltip">Ukuran Seragam Wajib diisi</div>
                         
                         <div class="form-text">
                             <a class="link-primary" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ukuranBajuModal">
@@ -641,7 +643,7 @@
                         </div>
                         
                         <input class="form-control" type="file" id="fotoSantri" name="fotoSantri" accept="image/png, image/jpg, image/jpeg" required="">
-                         
+                        
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -654,7 +656,7 @@
                         </div>
                         
                         <input class="form-control" type="file" id="fotoKk" name="fotoKk" accept="image/png, image/jpg, image/jpeg" required="">
-                         
+                        
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -667,15 +669,15 @@
                         </div>
                         
                         <input class="form-control" type="file" id="fotobukti" name="fotobukti" accept="image/png, image/jpg, image/jpeg" required="">
-                         <div class="form-text">
-                        <a class="link-primary" href="#PanduanBayar" data-bs-toggle="modal" data-bs-target="#PanduanBayar">
-                            Panduan Pembayaran
-                        </a>
-                    </div>
+                        <div class="form-text">
+                            <a class="link-primary" href="#PanduanBayar" data-bs-toggle="modal" data-bs-target="#PanduanBayar">
+                                Panduan Pembayaran
+                            </a>
+                        </div>
                     </div>
                 </div>
             </ol>
-             
+            
             <div class="container mt-4 mb-5">
                 <div class="row justify-content-center">
                     <div class="col-sm-auto">
@@ -783,7 +785,9 @@
             </div>
         </div>
     </div>
-    
+    <style>
+      .iti.iti--allow-dropdown { width: 100% }
+    </style>
     <!--modal end-->
     <?php
         $this->RenderScript[] = function() {
@@ -794,4 +798,4 @@
             
         }
         
-    ?>                                                                                                                                                                        
+    ?>                                                                                                                                                                                
