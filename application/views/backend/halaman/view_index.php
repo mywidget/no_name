@@ -103,7 +103,7 @@
 	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="myModalLabelPengguna">Edit Data Pendaftar</h5>
+				<h5 class="modal-title" id="myModalLabel">Tambah halaman</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -218,9 +218,11 @@
 			var mod = $(e.relatedTarget).data('mod');
 			if(mod=='add'){
 				$("#type").val('add');
+				$("#myModalLabel").html('Tambah halaman');
 				return;
 				}else{
 				$("#type").val('edit');
+				$("#myModalLabel").html('Edit halaman');
 			}
 			$.ajax({
 				type: 'POST',
