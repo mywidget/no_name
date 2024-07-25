@@ -26,32 +26,6 @@
                     <div class="col-sm-6 col-lg-4">
                         <div class="card card-sm">
                             <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="bg-primary text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                            <i class="ti ti-users fa-lg"></i>
-                                        </span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="font-weight-medium">
-                                            <?=$pengguna;?>
-                                        </div>
-                                        <div class="text-muted">
-                                            PENGGUNA
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="/user/index" class="btn">
-                                            Detail
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card card-sm">
-                            <div class="card-body">
                                 <div class="row g-2 align-items-center">
                                     <div class="col-auto">
                                         <span class="bg-green text-white avatar">
@@ -60,7 +34,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="font-weight-medium">
-                                            <?=$pendaftar;?>
+                                            <?=$pendaftar_baru;?>
                                         </div>
                                         <div class="text-muted">
                                             PENDAFTAR BARU
@@ -80,7 +54,138 @@
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
+                                        <span class="bg-green text-white avatar"> 
+                                            <i class="ti ti-users fa-lg"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-medium">
+                                            <?=$pendaftar_diterima;?>
+                                        </div>
+                                        <div class="text-muted">
+                                            PENDAFTAR BARU DITERIMA
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="/pendaftar" class="btn">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm bg">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="bg-danger text-white avatar"> 
+                                            <i class="ti ti-users fa-lg"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-medium">
+                                            <?=$pendaftar_ditolak;?>
+                                        </div>
+                                        <div class="text-muted">
+                                            PENDAFTAR BARU DITOLAK
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="/pendaftar" class="btn">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm bg">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
                                         <span class="bg-twitter text-white avatar"> 
+                                            <i class="ti ti-users fa-lg"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-medium">
+                                            <?=$pendaftar_pindahan_baru;?>
+                                        </div>
+                                        <div class="text-muted">
+                                            PENDAFTAR PINDAHAN
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm bg">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="bg-twitter text-white avatar"> 
+                                            <i class="ti ti-users fa-lg"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-medium">
+                                            <?=$pendaftar_pindahan_ditolak;?>
+                                        </div>
+                                        <div class="text-muted">
+                                            PENDAFTAR PINDAHAN DITERIMA
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm bg">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="bg-danger text-white avatar"> 
+                                            <i class="ti ti-users fa-lg"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-medium">
+                                            <?=$pendaftar_pindahan_ditolak;?>
+                                        </div>
+                                        <div class="text-muted">
+                                            PENDAFTAR PINDAHAN DITOLAK
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm bg">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="bg-primary text-white avatar"> 
                                             <i class="ti ti-users fa-lg"></i>
                                         </span>
                                     </div>
@@ -101,6 +206,61 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm bg">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="bg-primary text-white avatar"> 
+                                            <i class="ti ti-users fa-lg"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-medium">
+                                            <?=$naik_tingkat_diterima;?>
+                                        </div>
+                                        <div class="text-muted">
+                                            NAIK TINGKAT DITERIMA
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm bg">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="bg-danger text-white avatar"> 
+                                            <i class="ti ti-users fa-lg"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-medium">
+                                            <?=$naik_tingkat_ditolak;?>
+                                        </div>
+                                        <div class="text-muted">
+                                            NAIK TINGKAT DITOLAK
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="col d-flex flex-column">
                         
                         <div class="card-body">
@@ -112,22 +272,22 @@
                     
                     <!--div class="col-sm-12 col-lg-12">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="subheader">GRAFIK</div>
-                                    <div class="ms-auto lh-1">
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <a href="#" class="link-secondary">
-                                                    <i class="ti ti-calendar fa-lg"></i>
-                                                </a>
-                                            </span>
-                                            <input type="text" id="tanggal_satker" class="form-control w-30 tanggal" value="<?=$tanggal;?>" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="chart_satker" class="p-3"></div>
+                        <div class="card-body">
+                        <div class="d-flex align-items-center">
+                        <div class="subheader">GRAFIK</div>
+                        <div class="ms-auto lh-1">
+                        <div class="input-group">
+                        <span class="input-group-text">
+                        <a href="#" class="link-secondary">
+                        <i class="ti ti-calendar fa-lg"></i>
+                        </a>
+                        </span>
+                        <input type="text" id="tanggal_satker" class="form-control w-30 tanggal" value="<?=$tanggal;?>" />
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div id="chart_satker" class="p-3"></div>
                         </div>
                     </div-->
                 </div>
