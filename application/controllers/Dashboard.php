@@ -836,8 +836,8 @@
 						$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
 						$this->send_notif($post);
 						$response['status'] = true;
-						$response['amount'] = $biaya;
 						$response['nik'] = $this->input->post('nik',true);
+						$response['message'] = 'Berhasil';
 						}else{
 						$response['status'] = false;
 						$response['message'] = 'Gagal';
