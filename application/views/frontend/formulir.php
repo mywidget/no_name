@@ -282,7 +282,7 @@
                         <label for="nisn" class="form-label m-0"><small> NISN </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control" autocomplete="off"  value="<?=$nisn;?>" required>  
+                        <input type="number" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control" autocomplete="off"  value="<?=$nisn;?>" required>  
                         <div class="invalid-tooltip">NISN wajib diisi</div>
                         <div class="invalid-feedback"></div>
                     </div>
@@ -325,7 +325,7 @@
                         <label for="nikAyah" class="form-label m-0"><small> NIK Ayah </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="nik_ayah" id="nikAyah" minlength="16" maxlength="16" class="form-control" autocomplete="off" value="<?=$nik_ayah;?>" required>  
+                        <input type="number" name="nik_ayah" id="nikAyah" minlength="16" maxlength="16" class="form-control" autocomplete="off" value="<?=$nik_ayah;?>" required>  
                         <div class="invalid-tooltip" id="nikAyah-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -382,7 +382,7 @@
                         <label for="nikIbu" class="form-label m-0"><small> NIK Ibu </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="nik_ibu" id="nikIbu" minlength="16" maxlength="16" class="form-control" autocomplete="off"  value="<?=$nik_ibu;?>" required>  
+                        <input type="number" name="nik_ibu" id="nikIbu" minlength="16" maxlength="16" class="form-control" autocomplete="off"  value="<?=$nik_ibu;?>" required>  
                         <div class="invalid-tooltip" id="nikIbu-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
