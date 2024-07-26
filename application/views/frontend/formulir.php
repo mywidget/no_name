@@ -794,13 +794,13 @@
         ?>
         <script src="<?=base_url('assets');?>/js/formulir.js?v=<?=time();?>"></script>
         <script>
-            $("input").on("keyup",function() {
+            $("input").on("keypress",function() {
+                $(this).prop("type", "number");
                 var maxLength = $(this).attr("maxlength");
                 if(maxLength){
-                    $(this).prop("type", "number");
                     if($(this).val().length >= maxLength) {
                         $(this).prop("type", "text");
-                        $(this).attr('maxlength',maxLength)
+                        // $(this).attr('maxlength',maxLength)
                         // alert("You can't write more than " + maxLength +" chacters")
                     }
                 }
@@ -810,4 +810,4 @@
             
         }
         
-    ?>                                                                                                                                                                                                        
+    ?>                                                                                                                                                                                                                    
