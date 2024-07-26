@@ -102,7 +102,7 @@
                         <label for="nik" class="form-label m-0"><small> NIK </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" id="nik" name="nik" minlength="16" maxlength="16" class="form-control" autocomplete="off"   value="<?=$nik;?>" required>
+                        <input type="number" id="nik" name="nik" minlength="16" maxlength="16" class="form-control" autocomplete="off"   value="<?=$nik;?>" required>
                         <div class="invalid-tooltip" id="nik-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
