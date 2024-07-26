@@ -271,7 +271,7 @@ function formatNumber(options) {
     parts[0] = parts[0].replace(/[^0-9]/g, "");
     for (; parts[0].length > 3;) {
         /** @type {string} */
-        url = "." + parts[0].substr(parts[0].length - 3, parts[0].length) + url;
+        url = "" + parts[0].substr(parts[0].length - 3, parts[0].length) + url;
         parts[0] = parts[0].substr(0, parts[0].length - 3);
 	}
     options.value = parts[0] + url;
