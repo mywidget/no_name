@@ -102,7 +102,7 @@
                         <label for="nik" class="form-label m-0"><small> NIK </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" id="nik" name="nik" minlength="16" maxlength="16" class="form-control" autocomplete="off"   value="<?=$nik;?>" required>
+                        <input type="number" id="nik" name="nik" minlength="16" maxlength="16" class="form-control" autocomplete="off"   value="<?=$nik;?>" onkeyup="formatNumber(this)" required>
                         <div class="invalid-tooltip" id="nik-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -282,7 +282,7 @@
                         <label for="nisn" class="form-label m-0"><small> NISN </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control" autocomplete="off"  value="<?=$nisn;?>" required>  
+                        <input type="number" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control" autocomplete="off"  value="<?=$nisn;?>" onkeyup="formatNumber(this)" required>  
                         <div class="invalid-tooltip">NISN wajib diisi</div>
                         <div class="invalid-feedback"></div>
                     </div>
@@ -306,7 +306,7 @@
                         <label for="nokk" class="form-label m-0"><small> Nomor Kartu Keluarga </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="no_kk" id="nokk" minlength="16" maxlength="16" class="form-control" autocomplete="off"  value="<?=$no_kk;?>" required>  
+                        <input type="text" name="no_kk" id="nokk" minlength="16" maxlength="16" class="form-control" autocomplete="off"  value="<?=$no_kk;?>" onkeyup="formatNumber(this)" required>  
                         <div class="invalid-tooltip">Nomor KK wajib diisi</div>
                     </div>
                 </div>
@@ -325,7 +325,7 @@
                         <label for="nikAyah" class="form-label m-0"><small> NIK Ayah </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nik_ayah" id="nikAyah" minlength="16" maxlength="16" class="form-control" autocomplete="off" value="<?=$nik_ayah;?>" required>  
+                        <input type="number" name="nik_ayah" id="nikAyah" minlength="16" maxlength="16" class="form-control" autocomplete="off" value="<?=$nik_ayah;?>" onkeyup="formatNumber(this)" required>  
                         <div class="invalid-tooltip" id="nikAyah-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -382,7 +382,7 @@
                         <label for="nikIbu" class="form-label m-0"><small> NIK Ibu </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nik_ibu" id="nikIbu" minlength="16" maxlength="16" class="form-control" autocomplete="off"  value="<?=$nik_ibu;?>" required>  
+                        <input type="number" name="nik_ibu" id="nikIbu" minlength="16" maxlength="16" class="form-control" autocomplete="off"  value="<?=$nik_ibu;?>" onkeyup="formatNumber(this)" required>  
                         <div class="invalid-tooltip" id="nikIbu-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -786,16 +786,28 @@
         </div>
     </div>
     <style>
-      .iti.iti--allow-dropdown { width: 100% }
+        .iti.iti--allow-dropdown { width: 100% }
     </style>
     <!--modal end-->
     <?php
         $this->RenderScript[] = function() {
         ?>
         <script src="<?=base_url('assets');?>/js/formulir.js?v=<?=time();?>"></script>
-        
+        <script>
+            $("input").on("keyup",function() {
+                var maxLength = $(this).attr("maxlength");
+                if(maxLength){
+                    $(this).prop("type", "number");
+                    if($(this).val().length >= maxLength) {
+                        $(this).prop("type", "text");
+                        $(this).attr('maxlength',maxLength)
+                        // alert("You can't write more than " + maxLength +" chacters")
+                    }
+                }
+            })
+        </script>
         <?php 
             
         }
         
-    ?>                                                                                                                                                                                
+    ?>                                                                                                                                                                                                        
