@@ -407,7 +407,7 @@ Array.prototype.slice.call(forms)
                                 const errors = response.message;
                                 setTimeout(() => {
                                     const firstErrorKey = Object.keys(errors)[0];
-                                    konsole.log(firstErrorKey)
+                                    console.log(firstErrorKey)
                                     $(`#${firstErrorKey}`).focus();
                                 }, 500);
                                 
