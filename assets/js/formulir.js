@@ -348,8 +348,7 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
                 $(this)
                 .addClass('is-invalid')
                 .siblings('.invalid-feedback')
-                .text(
-                    `Ukuran foto akan di crop dengan ukuran ${
+                .text(`Ukuran foto akan di crop dengan ukuran ${
                         id == 'fotoKk' ? '16:9' : '3:4'
                     } silahkan ubah jika tidak sesuai`
                 );

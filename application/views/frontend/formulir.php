@@ -643,7 +643,7 @@
                         </div>
                         
                         <input class="form-control" type="file" id="fotoSantri" name="fotoSantri" accept="image/png, image/jpg, image/jpeg" required="">
-                        
+                        <div class="invalid-feedback"></div>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -656,7 +656,7 @@
                         </div>
                         
                         <input class="form-control" type="file" id="fotoKk" name="fotoKk" accept="image/png, image/jpg, image/jpeg" required="">
-                        
+                        <div class="invalid-feedback"></div>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -669,6 +669,7 @@
                         </div>
                         
                         <input class="form-control" type="file" id="fotobukti" name="fotobukti" accept="image/png, image/jpg, image/jpeg" required="">
+                        <div class="invalid-feedback"></div>
                         <div class="form-text">
                             <a class="link-primary" href="#PanduanBayar" data-bs-toggle="modal" data-bs-target="#PanduanBayar">
                                 Panduan Pembayaran
@@ -752,7 +753,7 @@
                         <div class="mb-3">
                             <select id="kategori-val" class="form-select">
                                 <option value="baru" selected="">Baru</option>
-                                <option value="nt">Naik Tingkatan (Naik Jenjang Selanjutnya)</option>
+                                <!--option value="nt">Naik Tingkatan (Naik Jenjang Selanjutnya)</option-->
                             </select>
                         </div>
                         <div id="nt-form" style="display: none;">

@@ -125,7 +125,7 @@
 					if(!empty($_FILES['file']['name']))
 					{
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = 2048;
+						$config['max_size']		 = tag_key('file_size');
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = TRUE; //enkripsi nama file
 						$this->upload->initialize($config);
@@ -172,7 +172,7 @@
 					if(!empty($_FILES['file']['name']))
 					{
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = 2048;
+						$config['max_size']		 = tag_key('file_size');
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = TRUE; //enkripsi nama file
 						$this->upload->initialize($config);
@@ -220,7 +220,7 @@
 					if(!empty($_FILES['file']['name']))
 					{
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = 2048;
+						$config['max_size']		 = tag_key('file_size');
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = TRUE; //enkripsi nama file
 						$this->upload->initialize($config);
@@ -267,7 +267,7 @@
 					if(!empty($_FILES['file']['name']))
 					{
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = 2048;
+						$config['max_size']		 = tag_key('file_size');
 						$config['allowed_types'] = 'jpg|png|jpeg|pdf|doc|docx'; //type yang image yang dizinkan
 						$config['encrypt_name']  = TRUE; //enkripsi nama file
 						$this->upload->initialize($config);
@@ -676,7 +676,7 @@
 						$new_name = $nik.'_'.$_FILES["fotoSantri"]['name'];
 						$config['file_name']        = $new_name;
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = 2048;
+						$config['max_size']		 = tag_key('file_size');
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = FALSE; //enkripsi nama file
 						$this->upload->initialize($config);
@@ -701,7 +701,7 @@
 						$new_name = $nik.'_'.$_FILES["fotoKk"]['name'];
 						$config['file_name']        = $new_name;
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = 2048;
+						$config['max_size']		 = tag_key('file_size');
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['encrypt_name']  = FALSE; //enkripsi nama file
 						$this->upload->initialize($config);
@@ -727,7 +727,7 @@
 						$new_name = $nik.'_'.time().'_'.$_FILES["fotobukti"]['name'];
 						$config['file_name']        = $new_name;
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = 2048;
+						$config['max_size']		 = tag_key('file_size');
 						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
 						$config['file_ext_tolower'] = TRUE;
 						$config['encrypt_name']  = FALSE;
