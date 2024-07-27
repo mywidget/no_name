@@ -18,7 +18,7 @@
 <div class="page-body">
 	<div class="container-xl">
 		<div class="row row-cards">
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data Pendidikan</h3>
@@ -61,7 +61,7 @@
 					</div>
 				</div><!-- /.card -->
 			</div>
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data pekerjaan</h3>
