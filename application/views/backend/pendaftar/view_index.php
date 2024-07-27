@@ -41,8 +41,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-body">
-						<div class="d-flex table-responsive">
+					<div class="card-body table-responsive">
+						<div class="d-flex ">
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
