@@ -1,5 +1,10 @@
 <?php
 	defined('BASEPATH') or exit('No direct script access allowed');
+	
+	use PhpOffice\PhpSpreadsheet\IOFactory;
+	use PhpOffice\PhpSpreadsheet\Spreadsheet;
+	use PhpOffice\PhpSpreadsheet\Reader\Csv;
+	use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 	use PHPUnit\Util\Json;
 	use Curl\Curl;
 	class Pendaftar extends CI_Controller
@@ -31,24 +36,24 @@
 			$data['menu'] = getMenu($this->menu);
 			$status = $this->input->get();
 			// if(isset($status)){
-				// if(!empty($status['baru'])){
-					$data['status'] = 'Baru';
-					// $data['baru'] = $status['baru'];
-					// }else{
-					$data['baru'] = '';
-					// $data['status'] = '';
-				// }
-				// if(!empty($status['pindahan'])){
-					// $data['pindahan'] = $status['baru'];
-					// $data['status'] = 'Pindahan';
-				// }else{
-				// $data['pindahan'] = '';
-				// $data['status'] = '';
-				// }
-				// }else{
-				// $data['baru'] = '';
-				// $data['pindahan'] = '';
-				// $data['status'] = '';
+			// if(!empty($status['baru'])){
+			$data['status'] = 'Baru';
+			// $data['baru'] = $status['baru'];
+			// }else{
+			$data['baru'] = '';
+			// $data['status'] = '';
+			// }
+			// if(!empty($status['pindahan'])){
+			// $data['pindahan'] = $status['baru'];
+			// $data['status'] = 'Pindahan';
+			// }else{
+			// $data['pindahan'] = '';
+			// $data['status'] = '';
+			// }
+			// }else{
+			// $data['baru'] = '';
+			// $data['pindahan'] = '';
+			// $data['status'] = '';
 			// }
 			
 			$this->thm->load('backend/template','backend/pendaftar/view_index',$data);
@@ -844,4 +849,164 @@
 			
 		}
 		
-	}																																																																																																																											
+		function export_excel()
+		{
+			// dumps();
+			/* Data */
+			$filter = $this->input->post('export');
+			$data = $this->model_pendaftar->fetch_transactions();
+			
+			/* Spreadsheet Init */
+			$spreadsheet = new Spreadsheet();
+			$sheet = $spreadsheet->getActiveSheet();
+			$style_title = [
+            // Set font bold
+            'font' => ['bold' => true]
+		    ];
+			/* Excel Header */
+			$sheet->setCellValue('A1', 'DATA PENERIMAAN SANTRI BARU');
+			$sheet->mergeCells('A1:G1');
+			$sheet->setCellValue('A2', 'PONDOK PESANTREN TEBUIRENG 4 AL ISHLAH');
+			$sheet->mergeCells('A2:G2');
+			$sheet->setCellValue('A3', 'TAHUN AJARAN '.$filter);
+			$sheet->mergeCells('A3:G3');
+			$sheet->setCellValue('A4', 'BATANG CENAKU INDRAGIRI HULU RIAU');
+			$sheet->mergeCells('A4:G4');
+			
+			$sheet->getStyle('A1:G1')->applyFromArray($style_title);
+			$sheet->getStyle('A2:G2')->applyFromArray($style_title);
+			$sheet->getStyle('A3:G3')->applyFromArray($style_title);
+			$sheet->getStyle('A4:G4')->applyFromArray($style_title);
+			$sheet->getStyle('A6:AY6')->applyFromArray($style_title);
+			
+			$sheet->setCellValue('A6','No.');
+			$sheet->setCellValue('B6','Kode Daftar');
+			$sheet->setCellValue('C6','Nama');
+			$sheet->setCellValue('D6','NIK');
+			$sheet->setCellValue('E6','No KK');
+			$sheet->setCellValue('F6','Jenis Kelamin');
+			$sheet->setCellValue('G6','Tempat / Tgl Lahir');
+			$sheet->setCellValue('H6','Email');
+			$sheet->setCellValue('I6','Anak Ke');
+			$sheet->setCellValue('J6','Jumlah Saudara');
+			$sheet->setCellValue('K6','Status dalam keluarga');
+			$sheet->setCellValue('L6','Saudara sekandung di PP Tebuireng4');
+			$sheet->setCellValue('M6','Status');
+			$sheet->setCellValue('N6','Unit Sekolah');
+			$sheet->setCellValue('O6','Kelas/Semester');
+			$sheet->setCellValue('P6','Status di Sekolah/Kuliah');
+			$sheet->setCellValue('Q6','Kamar');
+			$sheet->setCellValue('R6','Ijazah Terakhir');
+			$sheet->setCellValue('S6','Nama sekolah asal');
+			$sheet->setCellValue('T6','Alamat sekolah asal');
+			$sheet->setCellValue('U6','NISN');
+			$sheet->setCellValue('V6','No KIP');
+			$sheet->setCellValue('W6','Nomor Kartu Keluarga');
+			$sheet->setCellValue('X6','Nama Ayah');
+			$sheet->setCellValue('Y6','NIK Ayah');
+			$sheet->setCellValue('Z6','Kondisi');
+			$sheet->setCellValue('AA6','Pendidikan Terakhir');
+			$sheet->setCellValue('AB6','Pekerjaan');
+			$sheet->setCellValue('AC6','Nama Ibu');
+			$sheet->setCellValue('AD6','NIK Ibu');
+			$sheet->setCellValue('AE6','Kondisi');
+			$sheet->setCellValue('AF6','Pendidikan Terakhir');
+			$sheet->setCellValue('AG6','Pekerjaan');
+			$sheet->setCellValue('AH6','Penghasilan orang tua');
+			$sheet->setCellValue('AI6','Nomor Telphone');
+			$sheet->setCellValue('AJ6','Nomor telfon alternatif');
+			$sheet->setCellValue('AK6','RT RW');
+			$sheet->setCellValue('AL6','Dusun');
+			$sheet->setCellValue('AM6','Kode pos');
+			$sheet->setCellValue('AN6','Alamat');
+			$sheet->setCellValue('AO6','Provinsi');
+			$sheet->setCellValue('AP6','Kabupaten');
+			$sheet->setCellValue('AQ6','Kecamatan');
+			$sheet->setCellValue('AR6','Kelurahan');
+			$sheet->setCellValue('AS6','Jenis penyakit');
+			$sheet->setCellValue('AT6','Sejak');
+			$sheet->setCellValue('AU6','Tindakan pengobatan');
+			$sheet->setCellValue('AV6','Kondisi sekarang');
+			$sheet->setCellValue('AW6','Baju');
+			$sheet->setCellValue('AX6','Celana/Rok');
+			$sheet->setCellValue('AY6','Biaya Daftar');
+			
+			/* Excel Data */
+			$row_number = 7;
+			foreach($data as $key => $row)
+			{
+				
+				if(getKelas($row['kelas']) != false){
+					$kode_kelas = getKelas($row['kelas'])->kode_kelas;
+					}else{
+					$kode_kelas = $row['kelas'];
+					
+				}
+				$sheet->setCellValue('A'.$row_number, $key+1);
+				$sheet->setCellValueExplicit('B'.$row_number, $row['kode_daftar'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('C'.$row_number, $row['nama']);
+				$sheet->setCellValueExplicit('D'.$row_number, $row['nik'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValueExplicit('E'.$row_number, $row['no_kk'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('F'.$row_number, $row['jenis_kelamin']);
+				$sheet->setCellValue('G'.$row_number, $row['tempat_lahir'].', '.$row['tanggal_lahir']);
+				$sheet->setCellValue('H'.$row_number, $row['email']);
+				$sheet->setCellValue('I'.$row_number, $row['anak_ke']);
+				$sheet->setCellValue('J'.$row_number, $row['dari']);
+				$sheet->setCellValue('K'.$row_number, $row['status_keluarga']);
+				$sheet->setCellValue('L'.$row_number, $row['saudara_pp']);
+				$sheet->setCellValue('M'.$row_number, $row['s_pendidikan']);
+				$sheet->setCellValue('N'.$row_number, $row['unit_sekolah']);
+				$sheet->setCellValue('O'.$row_number, $kode_kelas);
+				$sheet->setCellValue('P'.$row_number, $row['status_sekolah']);
+				$sheet->setCellValue('Q'.$row_number, $row['kamar']);
+				$sheet->setCellValue('R'.$row_number, $row['ijasah_terakhir']);
+				$sheet->setCellValue('S'.$row_number, $row['nama_sekolah_asal']);
+				$sheet->setCellValue('T'.$row_number, $row['alamat_sekolah']);
+				$sheet->setCellValueExplicit('U'.$row_number, $row['nisn'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('V'.$row_number, $row['no_kip']);
+				$sheet->setCellValueExplicit('W'.$row_number, $row['no_kk'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('X'.$row_number, $row['nama_ayah']);
+				$sheet->setCellValueExplicit('Y'.$row_number, $row['nik_ayah'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('Z'.$row_number, $row['kondisi_ayah']);
+				$sheet->setCellValue('AA'.$row_number, $row['pendidikan_terakhir_ayah']);
+				$sheet->setCellValue('AB'.$row_number, $row['pekerjaan_ayah']);
+				$sheet->setCellValue('AC'.$row_number, $row['nama_ibu']);
+				$sheet->setCellValueExplicit('AD'.$row_number, $row['nik_ibu'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('AE'.$row_number, $row['kondisi_ibu']);
+				$sheet->setCellValue('AF'.$row_number, $row['pendidikan_terakhir_ibu']);
+				$sheet->setCellValue('AG'.$row_number, $row['pekerjaan_ibu']);
+				$sheet->setCellValue('AH'.$row_number, $row['penghasilan_ortu']);
+				$sheet->setCellValueExplicit('AI'.$row_number, $row['nomor_hp'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValueExplicit('AJ'.$row_number, $row['no_hp_alternatif'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('AK'.$row_number, $row['rt'].'/'.$row['rw']);
+				$sheet->setCellValue('AL'.$row_number, $row['dusun']);
+				$sheet->setCellValue('AM'.$row_number, $row['kode_pos']);
+				$sheet->setCellValue('AN'.$row_number, $row['alamat']);
+				$sheet->setCellValue('AO'.$row_number, getProvinsi($row['provinsi']));
+				$sheet->setCellValue('AP'.$row_number, getKabupaten($row['kabupaten']));
+				$sheet->setCellValue('AQ'.$row_number, getKecamatan($row['kecamatan']));
+				$sheet->setCellValue('AR'.$row_number, getKelurahan($row['kelurahan']));
+				$sheet->setCellValue('AS'.$row_number, $row['jenis_penyakit']);
+				$sheet->setCellValue('AT'.$row_number, $row['sejak']);
+				$sheet->setCellValue('AU'.$row_number, $row['tindakan_pengobatan']);
+				$sheet->setCellValue('AV'.$row_number, $row['kondisi_sekarang']);
+				$sheet->setCellValue('AW'.$row_number, $row['ukuran_seragam_baju']);
+				$sheet->setCellValue('AX'.$row_number, $row['ukuran_celana_rok']);
+				$sheet->setCellValue('AY'.$row_number, $row['biaya_daftar']);
+				
+				$row_number++;
+			}
+			$sheet->setTitle("Penerimaan Santri Baru Pesantren");
+			/* Excel File Format */
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'penerimaan-santri-baru-pesantren';
+			
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+			header('Cache-Control: max-age=0');
+			
+			$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+			$writer->save('php://output');
+		}
+		
+	}																																																																																																																																

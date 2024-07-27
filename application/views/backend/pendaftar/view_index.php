@@ -11,7 +11,10 @@
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
                 <div class="btn-list">
-					
+					<button class="btn btn-secondary export" id="export" data-bs-toggle="tooltip" data-bs-placement="left" title="" data-id="0" data-mod="export" disabled>
+						<i class="ti ti-file-spreadsheet fa-lg"></i>
+						Export
+					</button>
 				</div>
 			</div>
 		</div>
@@ -176,6 +179,29 @@
 		</div>
 	</div>
 </div>
+
+<!-- Modal Export Excel -->
+<div id="modalExport" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" action="<?= site_url('pendaftar/export_excel') ?>" target="_blank">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Export to Excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+                <div class="modal-body">
+                    <!-- Date -->
+                    <input id="filter-tahun" name="export" class="form-control mt-3" type="text" readonly>
+					
+				</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <style>
     .select2-container {
     width: 100% !important;
@@ -225,6 +251,11 @@
 					$('body').loading('stop');
 				},
 				success: function(html){
+					if(html=='Belum ada data'){
+						$('#export').removeClass('btn-success').addClass('btn-secondary');
+						$('#export').attr('disabled',true);
+						html = "<table class='table table-bordered'><tr><td>"+html+"</td></tr></table>";
+					}
 					$('#posts_content').html(html);
 					$('body').loading('stop');
 				}
@@ -333,6 +364,15 @@
 				}
 			});
 		}
+		
+		$(document).on('click','.export',function(e){
+			$("#modalExport").modal('show');
+			var tahun = $("#sort_tahun").val();
+			$("#filter-tahun").val(tahun);
+			
+		});
+		
+		
 		$(document).on('click','.hapus_user',function(e){
 			var id = $("#data-hapus").val();
 			$.ajax({
@@ -425,6 +465,7 @@
 				}
 			});
 		});
+		
 		$('body').on("change","#kirim_pesan",function(){
 			var aktif = $(this).val();
 			if(aktif=='Ya'){
@@ -453,6 +494,16 @@
 			}
 		});
 		
+		$('body').on("change","#sort_tahun",function(){
+			var tahun = $(this).val();
+			if(tahun!=''){
+				$("#export").removeClass("btn-secondary").addClass('btn-success');
+				$("#export").attr("disabled", false);
+				}else{
+				$("#export").attr("disabled", true);
+				$("#export").removeClass("btn-success").addClass('btn-secondary');
+			}
+		});
 		
 	</script>        
 <?php } ?>

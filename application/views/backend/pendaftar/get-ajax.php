@@ -59,7 +59,7 @@
                                     <?=$row['nama'];?>
                                 </button>
                                 <ul class="dropdown-menu" style="">
-                                    <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery(<?=$i;?>);" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">Kode Pendaftaran : <span id="copyText<?=$i;?>"><?=$row['kode_daftar'];?></span></a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery(<?=$i;?>);" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">Kode Pendaftaran : <span id="copyText<?=$i;?>"><?=$row['kode_daftar'];?></span></a></li>
                                     <li><a class="dropdown-item" href="#">Email : <?=$row['email'];?></a></li>
                                     <li><a class="dropdown-item" href="#">Jenis Kelamin : <?=$row['jenis_kelamin'];?></a></li>
                                     <li><a class="dropdown-item" href="#">No. HP : <?=$row['nomor_hp'];?></a></li>
@@ -91,7 +91,7 @@
                                     <?=$row['unit_sekolah'];?>
                                 </button>
                                 <ul class="dropdown-menu" style="">
-                                    <li><a class="dropdown-item" href="#">Kelas : <?=getKelas($row['kelas'])->kode_kelas;?></a></li>
+                                    <li><a class="dropdown-item" href="#">Kelas : <?=$kode_kelas;?></a></li>
                                     <li><a class="dropdown-item" href="#">Nama Kelas : <?=getKelas($row['kelas'])->nama_kelas;?></a></li>
                                     <li><a class="dropdown-item" href="#">Biaya Pendaftaran : <?=$row['biaya_daftar'];?></a></li>
                                 </ul>
@@ -111,9 +111,9 @@
                                     <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto_kk'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran KK</a></li>
                                     <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['fotobukti'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Bukti Transfer</a></li>
                                     <?php if(!empty($row['surat'])){ ?>
-                                        <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['surat'];?>')" data-bs-toggle="tooltip" aria-label="Clear search" data-bs-placement="left" title="Lampiran surat"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran Surat</a></li>
+                                        <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['surat'];?>')" data-bs-toggle="tooltips" aria-label="Clear search" data-bs-placement="left" title="Lampiran surat"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran Surat</a></li>
                                         <?php }else{ ?>
-                                        <li><a class="dropdown-item"  href="javascript:void(0)" data-bs-toggle="tooltip" aria-label="Clear search" data-bs-placement="left" title="Belum ada lampiran"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran Surat</a></li>
+                                        <li><a class="dropdown-item"  href="javascript:void(0)" data-bs-toggle="tooltips" aria-label="Clear search" data-bs-placement="left" title="Belum ada lampiran"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran Surat</a></li>
                                     <?php } ?>
                                     <li><?=$edit;?></li>
                                     <?php if($row['status']=='Tidak Diterima'){ ?>
@@ -133,40 +133,36 @@
     <div class="p-2">
         <?php echo $this->ajax_pagination->create_links(); ?>
     </div>
-    <?php }else{ ?>
-    <table class='table table-bordered'>
-        <tr>
-            <td>Belum ada data</td>
-        </tr>
-    </table>
-<?php } ?>
-
-<script>
-    $(document).ready(function(){
-        $('.openPopup').on('click',function(){
-            var dataURL = $(this).attr('data-href');
-            $('.modal-body1').load(dataURL,function(){
-                $('#myModalEdit').modal({show:true});
-            });
-        }); 
-    });    
-    function withoutJquery(i){
-        console.time('time2');
-        var temp=document.createElement('input');
-        var texttoCopy=document.getElementById('copyText'+i).innerHTML;
-        temp.type='input';
-        temp.setAttribute('value',texttoCopy);
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        temp.remove();
-        console.timeEnd('time2');
-    }
     
-    $(document).ready(function () {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-    });
-</script>    
+    <script>
+        $(document).ready(function(){
+            $('.openPopup').on('click',function(){
+                var dataURL = $(this).attr('data-href');
+                $('.modal-body1').load(dataURL,function(){
+                    $('#myModalEdit').modal({show:true});
+                });
+            }); 
+        });    
+        function withoutJquery(i){
+            console.time('time2');
+            var temp=document.createElement('input');
+            var texttoCopy=document.getElementById('copyText'+i).innerHTML;
+            temp.type='input';
+            temp.setAttribute('value',texttoCopy);
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            temp.remove();
+            console.timeEnd('time2');
+        }
+        
+        $(document).ready(function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltips"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        });
+    </script>    
+    <?php }else{
+echo "Belum ada data";
+} ?>

@@ -9,7 +9,7 @@
 			if(array_key_exists("where", $params)){ 
 				foreach($params['where'] as $key => $val){ 
 					$this->db->where($key, $val); 
-					} 
+				} 
 			}
 			if(array_key_exists("search", $params)){ 
 				if(!empty($params['search']['keywords'])){ 
@@ -727,4 +727,16 @@
 				return $pesan;
 			}
 		}	
-	}		
+		
+		function fetch_transactions()
+		{
+			/* Filter */
+			$filter = $this->input->post('export');
+			/* Query */
+			$this->db->select("*");
+			$this->db->where('tahun_akademik', $filter);
+			$this->db->order_by('nama', 'ASC'); 
+			$query = $this->db->get('rb_psb_daftar');
+			return $query->result_array();
+		}
+	}				
