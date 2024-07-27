@@ -931,6 +931,7 @@
 			$sheet->setCellValue('AX6','Celana/Rok');
 			$sheet->setCellValue('AY6','Biaya Daftar');
 			
+			
 			/* Excel Data */
 			$row_number = 7;
 			foreach($data as $key => $row)
@@ -996,6 +997,13 @@
 				
 				$row_number++;
 			}
+			
+			for ($i = 'A'; $i !=  $spreadsheet->getActiveSheet()->getHighestColumn(); $i++) {
+				$spreadsheet->getActiveSheet()->getColumnDimension($i)->setAutoSize(TRUE);
+			}
+			// $sheet->getColumnDimension('A')->setWidth(4); // Set width kolom A
+			// $sheet->getColumnDimension('B')->setWidth(17); // Set width kolom B
+			// $sheet->getColumnDimension('C')->setWidth(28); // Set width kolom C
 			$sheet->setTitle("Penerimaan Santri Baru");
 			/* Excel File Format */
 			$writer = new Xlsx($spreadsheet);
@@ -1009,4 +1017,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																
+	}																																																																																																																																		
