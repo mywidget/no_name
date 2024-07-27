@@ -996,7 +996,7 @@
 				
 				$row_number++;
 			}
-			$sheet->setTitle("Penerimaan Santri Baru Pesantren");
+			$sheet->setTitle("Penerimaan Santri Baru");
 			/* Excel File Format */
 			$writer = new Xlsx($spreadsheet);
 			$filename = 'penerimaan-santri-baru-pesantren';
