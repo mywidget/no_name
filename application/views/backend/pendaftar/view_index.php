@@ -28,8 +28,8 @@
 					<div class="card-header">
 						<h3 class="card-title">List Data Pendaftar</h3>
 					</div>
-					<div class="card-body table-responsive">
-						<div class="d-flex">
+					<div class="card-body">
+						<div class="d-flex table-responsive">
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
@@ -94,19 +94,17 @@
 								</div>
 							</div>
 							<div class="ms-auto text-muted">
-								<div class="ms-2 d-inline-block">
-									<div class="input-group">
-										<input type="text" id="keywords" class="form-control w-40" placeholder="Cari data" onkeyup="searchPengguna();" style="width:150px!important" />
-										<span class="input-group-text">
-											
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari pengguna" title="Cari pengguna" onclick="searchPengguna();"><i class="ti ti-search fa-lg"></i>&nbsp;
-											</a>
-											<a href="#" class="link-secondary">&nbsp;|&nbsp;</a>
-											<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear search" title="Clear search">
-												<i class="ti ti-x fa-lg"></i>
-											</a>
-										</span>
-									</div>
+								<div class="input-group">
+									<input type="text" id="keywords" class="form-control w-40" placeholder="Cari data" onkeyup="searchPengguna();" style="width:150px!important" />
+									<span class="input-group-text ms-2 d-none d-sm-inline-block">
+										
+										<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari pengguna" title="Cari pengguna" onclick="searchPengguna();"><i class="ti ti-search fa-lg"></i>&nbsp;
+										</a>
+										<a href="#" class="link-secondary">&nbsp;|&nbsp;</a>
+										<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear search" title="Clear search">
+											<i class="ti ti-x fa-lg"></i>
+										</a>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -506,4 +504,4 @@
 		});
 		
 	</script>        
-<?php } ?>
+<?php } ?>	
