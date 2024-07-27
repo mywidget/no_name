@@ -318,7 +318,7 @@ $('body').on("change","#form_kec",function(){
     });
 });
 
-$('#fotoSantri, #fotoKk, #fotobukti').change(function () {
+$('#fotoSantri, #fotoKk').change(function () {
     const id = $(this).attr('id');
     const foto = this.files[0];
     $(this).removeClass('is-invalid');
@@ -329,8 +329,7 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
             $(this).val('')
             .addClass('is-invalid')
             .siblings('.invalid-feedback')
-            .text(
-                `Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : file_size + ' KB'}`
+            .text(`Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : file_size + ' KB'}`
             );
             $(`#${id}Preview`).attr('src', '#');
             $(`#${id}PreviewContainer`).hide();
@@ -348,8 +347,8 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
                 .addClass('is-invalid')
                 .siblings('.invalid-feedback')
                 .text(`Ukuran foto akan di crop dengan ukuran ${
-                        id == 'fotoKk' ? '16:9' : '3:4'
-                    } silahkan ubah jika tidak sesuai`
+                    id == 'fotoKk' ? '16:9' : '3:4'
+                } silahkan ubah jika tidak sesuai`
                 );
             }
         };
@@ -361,7 +360,7 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
         $(`#${id}PreviewContainer`).hide();
     }
 });
-
+ 
 $('#image').change(function(){
     $("#frames").html('');
     for (var i = 0; i < $(this)[0].files.length; i++) {
@@ -380,6 +379,51 @@ Array.prototype.slice.call(forms)
             event.stopPropagation()
             }else{
             event.preventDefault();
+            var nik = $("#nik").val().length;
+            var nisn = $("#nisn").val().length;
+            var nikAyah = $("#nikAyah").val().length;
+            var nikIbu = $("#nikIbu").val().length;
+            
+            if(nik != 16){
+                $("#nik").addClass('is-invalid');
+                $("#nik").siblings('.invalid-tooltip').text('NIK harus 16 digit');
+                $("#nik").focus();
+                return;
+            }else{
+                $("#nik").removeClass('is-invalid').addClass('is-valid');
+                $("#nik").siblings('.invalid-tooltip').hide();
+            }
+            
+            if(nisn != 10){
+                $("#nisn").addClass('is-invalid');
+                $("#nisn").siblings('.invalid-tooltip').text('NISN harus 10 digit');
+                $("#nisn").focus();
+                return;
+            }else{
+                $("#nisn").removeClass('is-invalid').addClass('is-valid');
+                $("#nisn").siblings('.invalid-tooltip').hide();
+            }
+            
+            if(nikAyah != 16){
+                $("#nikAyah").addClass('is-invalid');
+                $("#nikAyah").siblings('.invalid-tooltip').text('NISN harus 10 digit');
+                $("#nikAyah").focus();
+                return;
+            }else{
+                $("#nikAyah").removeClass('is-invalid').addClass('is-valid');
+                $("#nikAyah").siblings('.invalid-tooltip').hide();
+            }
+            
+            if(nikIbu != 16){
+                $("#nikIbu").addClass('is-invalid');
+                $("#nikIbu").siblings('.invalid-tooltip').text('NISN harus 10 digit');
+                $("#nikIbu").focus();
+                return;
+            }else{
+                $("#nikIbu").removeClass('is-invalid').addClass('is-valid');
+                $("#nikIbu").siblings('.invalid-tooltip').hide();
+            }
+            
             const formData = new FormData($(this)[0]);
             $('button:submit', this).html(spinner).prop('disabled', true);
             
