@@ -27,6 +27,19 @@
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data Pendaftar</h3>
+						<div class="card-actions" id="update_status" style="display:none">
+							<div class="text-muted">
+								<div class="d-none d-sm-inline-block">Update status</div>
+								<div class="mx-2 d-inline-block">
+									<select name="status_pendaftar" id="status_pendaftar" class="form-select" required="">
+										<option value="">Pilih status</option>
+										<option value="Proses">Proses</option>
+										<option value="Diterima">Diterima</option>
+										<option value="Tidak Diterima">Ditolak</option>
+									</select>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="d-flex table-responsive">
@@ -193,7 +206,7 @@
 					
 				</div>
                 <div class="modal-footer">
-                   <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
                     <button class="btn btn-primary">Submit</button>
 				</div>
 			</form>
@@ -217,6 +230,7 @@
 	$this->RenderScript[] = function() {
 	?>
 	<script>
+		
 		searchPengguna();
 		function searchPengguna(page_num){
 			page_num = page_num?page_num:0;
@@ -503,5 +517,39 @@
 			}
 		});
 		
+		$('body').on("change","#update_status",function(){
+			// do what you like with the input
+			$input = $("#status_pendaftar").val();
+			var $form = $('#update_form');
+			
+			var data = {
+				'status' : $input
+			};
+			
+			data = $form.serialize() + '&' + $.param(data);
+			$.ajax({
+				type: "POST",
+				url: base_url+"pendaftar/update_status",
+				dataType: 'json',
+				data: data,
+				beforeSend: function () {
+					$("body").loading({zIndex:1060});　
+				},
+				success: function(data) {
+					$('body').loading('stop');
+					if(data.status==true){
+						showNotif('bottom-right',data.title,data.message,'success');
+						}else{
+						showNotif('bottom-right',data.title,data.message,'error');
+					}
+					
+					searchPengguna();
+					} ,error: function(xhr, status, error) {
+					showNotif('bottom-right','Peringatan',error,'error');
+					$('body').loading('stop');
+				}
+			});
+		});
+		
 	</script>        
-<?php } ?>	
+<?php } ?>		

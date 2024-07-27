@@ -849,6 +849,31 @@
 			
 		}
 		
+		function update_status()
+		{
+		
+			$pilih = $this->input->post('pilih',true);
+			$status = $this->input->post('status',true);
+			$id = $this->input->post('id',true);
+			$update_data = [];
+			foreach($pilih AS $val){
+				$update_data[] = [
+				'id'    => decrypt_url($id[$val]),
+				'status' => $status
+				];
+				
+			}    
+			 
+			if ($this->model_pendaftar->batch_data('rb_psb_daftar', $update_data) == true) {
+				$data = array('status'=>true,'title'=>'Update status','message'=>'Data berhasil diupdate');
+				} else {
+				$data = array('status'=>false,'title'=>'Update status','message'=>'Data gagal diupdate');
+			}
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($data));
+		}
+		
 		function export_excel()
 		{
 			// dumps();
@@ -1019,4 +1044,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																			
+	}																																																																																																																																											

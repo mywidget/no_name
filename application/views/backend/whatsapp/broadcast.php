@@ -10,10 +10,7 @@
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
-				<button class="btn btn-primary d-none d-sm-inline-block add_template" data-id="0">
-					<i class="ti ti-plus fa-lg"></i>
-					Buat Broadcast
-				</button>
+				
 			</div>
 		</div>
 	</div>
@@ -25,6 +22,12 @@
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data</h3>
+						<div class="card-actions">
+							<button class="btn btn-primary add_template" data-id="0">
+								<i class="ti ti-plus fa-lg"></i>
+								Tambah
+							</button>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
@@ -85,89 +88,12 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="ModalTemplate" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+
+<div class="modal fade" id="ModalFormat" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+	<div class="modal-dialog  modal-dialog-scrollable" role="document">
 		<div class="modal-content flat">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalScrollableTitle">Form edit</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<form id="form-broadcast" method="post">
-					<input type='hidden' name='id' id='id_broadcast' value='0'>
-					<input type='hidden' name='type' id="type_broadcast">
-					<div class="card-block">
-						<div class="row">
-							<div class="col-md-8">
-								<div class="form-group my-1">
-									<label class="form-label" for="title">Judul</label>
-									<input type="text" name="title" id="title_template" class="form-control" required>
-								</div>
-								<div class="form-group my-1">
-									<label class="form-label" for="inisial">Isi Pesan</label>
-									<textarea class="form-control fcs" rows="8" id="deskripsi" name="deskripsi" required></textarea>
-								</div>
-								
-								<div class="form-group my-1">
-									<label class="form-label" for="unit_kelas">Kirim Ke</label>
-									<select id="unit_kelas" name="unit" class="form-control custom-select">
-										<option value="SEMUA">Semua Unit</option>
-										<?php foreach($unit AS $val): ?>
-										<option value="<?=$val->id;?>"><?=$val->nama_jurusan;?></option>
-										<?php endforeach; ?>
-										<option value="Baru">PENDAFTAR BARU</option>
-										<option value="Kenaikan Tingkatan">KENAIKAN TINGKAT</option>
-									</select>
-								</div>
-								<div class="form-group my-1">
-									<label for="schedule">Schedule</label>
-									<div class="input-group input-group-sm">
-										<div class="input-group-prepend"  data-bs-toggle="tooltip" data-bs-placement="top" title="Format AM/PM ke 24 Jam">
-											<button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#ModalFormat">Format AM/PM</button>
-										</div>
-										<input type="datetime-local" class="form-control" id="schedule" name="schedule">
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<ul class="pl-3">
-									<li><small>{selamat} : SELAMAT PAGI | SIANG | SORE | MALAM</small></li>
-									<li><small>{nama_sekolah} : NAMA SEKOLAH</small></li>
-									<li><small>{web_sekolah} : ALAMAT WEBSITE</small></li>
-									<li><small>{whatsapp} : NO. WA ADMIN</small></li>
-									<li><small>{email_sekolah} : EMAIL SEKOLAH</small></li>
-									<li><small>{alamat_sekolah} : ALAMAT SEKOLAH</small></li>
-									<li><small>{nomor_pendaftaran} : NOMOR PENDAFTARAN</small></li>
-									<li><small>{tgl_pendaftaran} : TANGGAL DAFTAR</small></li>
-									<li><small>{nama_pendaftar} : NAMA PENDAFTARA</small></li>
-									<li><small>{nik} : NIK PENDAFTARA</small></li>
-									<li><small>{nisn} : NOMOR NISN PENDAFTARA</small></li>
-									<li><small>{email_pendaftar} : EMAIL PENDAFTARA</small></li>
-									<li><small>{unit} : UNIT PILIHAN</small></li>
-									<li><small>{kelas} : KELAS PILIHAN</small></li>
-									<li><small>{kamar} : KAMAR PILIHAN</small></li>
-									<li><small>{biaya} : BIAYA PENDAFTARAN</small></li>
-									<li><small>{cetak_formulir} : LINK CETAK FORMULIR PENDAFTARAN</small></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" name="submit" class="btn btn-info save_data">Simpan</button>
-				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="ModalFormat" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
-	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">24-Hour Clock Time Conversion Table</h5>
+				<h5 class="modal-title" id="exampleModalScrollableTitle">24-Hour Clock Time Conversion Table</h5>
 				<button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#ModalTemplate"></button>
 			</div>
 			<div class="modal-body">
@@ -268,23 +194,105 @@
 						<td class="boxcontent">12 AM</td>
 						<td class="boxcontent">00:00</td>
 					</tr>
-				</tbody></table>
+					
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#ModalTemplate">Close</button> 
+			</div>
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="ModalTemplate" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+		<div class="modal-content flat">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalScrollableTitle">Form edit</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="form-broadcast" method="post">
+					<input type='hidden' name='id' id='id_broadcast' value='0'>
+					<input type='hidden' name='type' id="type_broadcast">
+					<div class="card-block">
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group my-1">
+									<label class="form-label" for="title">Judul</label>
+									<input type="text" name="title" id="title_template" class="form-control" required>
+								</div>
+								<div class="form-group my-1">
+									<label class="form-label" for="inisial">Isi Pesan</label>
+									<textarea class="form-control fcs" rows="8" id="deskripsi" name="deskripsi" required></textarea>
+								</div>
+								
+								<div class="form-group my-1">
+									<label class="form-label" for="unit_kelas">Kirim Ke</label>
+									<select id="unit_kelas" name="unit" class="form-control custom-select">
+										<option value="SEMUA">Semua Unit</option>
+										<?php foreach($unit AS $val): ?>
+										<option value="<?=$val->id;?>"><?=$val->nama_jurusan;?></option>
+										<?php endforeach; ?>
+										<option value="Baru">PENDAFTAR BARU</option>
+										<option value="Kenaikan Tingkatan">KENAIKAN TINGKAT</option>
+									</select>
+								</div>
+								<div class="form-group my-1">
+									<label for="schedule">Schedule</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-prepend"  data-bs-toggle="tooltip" data-bs-placement="top" title="Format AM/PM ke 24 Jam">
+											<button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#ModalFormat">Format AM/PM</button>
+										</div>
+										<input type="datetime-local" class="form-control" id="schedule" name="schedule">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group my-1">
+									<label for="schedule">Short TAG</label>
+								</div>
+								<ul class="pl-3">
+									<li><small>{selamat} : SELAMAT PAGI | SIANG | SORE | MALAM</small></li>
+									<li><small>{nama_sekolah} : NAMA SEKOLAH</small></li>
+									<li><small>{web_sekolah} : ALAMAT WEBSITE</small></li>
+									<li><small>{whatsapp} : NO. WA ADMIN</small></li>
+									<li><small>{email_sekolah} : EMAIL SEKOLAH</small></li>
+									<li><small>{alamat_sekolah} : ALAMAT SEKOLAH</small></li>
+									<li><small>{nomor_pendaftaran} : NOMOR PENDAFTARAN</small></li>
+									<li><small>{tgl_pendaftaran} : TANGGAL DAFTAR</small></li>
+									<li><small>{nama_pendaftar} : NAMA PENDAFTARA</small></li>
+									<li><small>{nik} : NIK PENDAFTARA</small></li>
+									<li><small>{nisn} : NOMOR NISN PENDAFTARA</small></li>
+									<li><small>{email_pendaftar} : EMAIL PENDAFTARA</small></li>
+									<li><small>{unit} : UNIT PILIHAN</small></li>
+									<li><small>{kelas} : KELAS PILIHAN</small></li>
+									<li><small>{kamar} : KAMAR PILIHAN</small></li>
+									<li><small>{biaya} : BIAYA PENDAFTARAN</small></li>
+									<li><small>{cetak_formulir} : LINK CETAK FORMULIR PENDAFTARAN</small></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">Close</button>
+				<button type="button" name="submit" class="btn btn-info btn save_data">Simpan</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <style>
-	.select2-container {
-	width: 100% !important;
-	padding: 0;
-	z-index:1050;
-	}
+	
 	td.pesan{
-    max-width: 400px !important;
+    max-width: 300px !important;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+	}
 </style>
 
 <?php $this->RenderScript[] = function() { ?>
@@ -327,11 +335,11 @@
 			new bootstrap.Modal($('#ModalTemplate')).show();
 			if(id==0){
 				$("#type_broadcast").val('add');
-				$("#exampleModalScrollableTitle").html('Tambah Data');
+				$("#exampleModalScrollableTitle").html('Tambah Broadcast');
 				return;
 				}else{
 				$("#type_broadcast").val('edit');
-				$("#exampleModalScrollableTitle").html('Edit Data');
+				$("#exampleModalScrollableTitle").html('Edit Broadcast');
 			}
 			
 			$.ajax({
@@ -463,4 +471,4 @@
 	</script>        
 	
 	
-<?php } ?>	
+<?php } ?>					

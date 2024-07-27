@@ -10,16 +10,7 @@
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
-                <div class="btn-list">
-					
-					<a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#OpenModalUser" data-id="0" data-mod="add">
-						<i class="ti ti-plus fa-lg"></i>
-						Tambah
-					</a>
-					<a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#OpenModalUser" aria-label="Tambah pengguna" data-id="0" data-mod="add">
-						<i class="ti ti-plus fa-lg"></i>
-					</a>
-				</div>
+                
 			</div>
 		</div>
 	</div>
@@ -31,6 +22,13 @@
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data Pengguna</h3>
+						<div class="card-actions">
+							<a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#OpenModalUser" aria-label="Tambah Unit" data-id="0" data-mod="add">
+								<!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+								Tambah
+							</a>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
@@ -67,8 +65,7 @@
 											
 											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari pengguna" title="Cari pengguna" onclick="searchPengguna();"><i class="ti ti-search fa-lg"></i>
 											</a>
-											<a href="#" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#OpenModalUser" data-id="0" data-mod="add"><i class="ti ti-plus fa-lg" data-bs-toggle="tooltip" aria-label="Tambah pengguna" title="Tambah pengguna"></i>
-											</a>
+											 
 										</span>
 									</div>
 								</div>

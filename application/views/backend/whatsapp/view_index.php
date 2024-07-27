@@ -10,10 +10,7 @@
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
-				<button class="btn btn-primary d-none d-sm-inline-block add_device">
-					<i class="ti ti-plus fa-lg"></i>
-					Tambah
-				</button>
+				
 			</div>
 		</div>
 	</div>
@@ -25,6 +22,12 @@
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data</h3>
+						<div class="card-actions">
+							<button class="btn btn-primary add_device">
+								<i class="ti ti-plus fa-lg"></i>
+								Tambah
+							</button>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
@@ -144,8 +147,8 @@
 				</form>
 			</div>
 			<div class="modal-footer">
+				<button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">Close</button>
 				<button type="button" name="submit" class="btn btn-info save_data">Simpan</button>
-				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -164,7 +167,7 @@
 				<input type="hidden" id="data-hapusid">
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
+				<button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">Close</button>
 				<button class="btn btn-danger hapus" type="button">YA</button> 
 			</div>
 		</div>

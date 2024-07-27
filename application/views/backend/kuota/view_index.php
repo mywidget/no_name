@@ -10,10 +10,7 @@
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
-				<a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#OpenModal" data-id="0" data-mod="add">
-					<i class="ti ti-plus fa-lg"></i>
-					Tambah
-					</a>
+				 
 			</div>
 		</div>
 	</div>
@@ -25,6 +22,13 @@
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data</h3>
+						<div class="card-actions">
+							<a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#OpenModal" aria-label="Tambah Unit" data-id="0" data-mod="add">
+								<!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+								Tambah
+							</a>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
@@ -160,160 +164,160 @@
 
 <?php $this->RenderScript[] = function() { ?>
 	
-<script>
-	
-   searchData();
-	function searchData(page_num)
-	{
+	<script>
 		
-		page_num = page_num?page_num:0;
-		var limit = $('#limits').val();
-		var keywords = $('#keywords').val();
-		$.ajax({
-			type: 'POST',
-			url: base_url+'psb/ajax_list_kuota/'+page_num,
-			data:{page:page_num,
-				limit:limit,
-				keywords:keywords,
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				sweet('Peringatan!!!',thrownError,'warning','warning');
-				$('body').loading('stop');
-			},
-			beforeSend: function(){
-				$('body').loading();
-			},
-			success: function(html){
-				$('#posts_content').html(html);
-				$('body').loading('stop');
-			}
-		});
-	}
-	
-	$('#OpenModal').on('show.bs.modal', function(e) {
-		var id = $(e.relatedTarget).data('id');
-		var mod = $(e.relatedTarget).data('mod');
-		$('#id_unit').val('');
-		$('input').val('');
-		if(id != 0){
-			$('#type').val('edit');
-			$("#myModalLabel").html("Edit Kuota")
+		searchData();
+		function searchData(page_num)
+		{
+			
+			page_num = page_num?page_num:0;
+			var limit = $('#limits').val();
+			var keywords = $('#keywords').val();
 			$.ajax({
 				type: 'POST',
-				url: base_url + "psb/edit_kuota",
-				data: {id:id,mod:mod},
-				dataType: "json",
-				beforeSend: function () {
-					$("body").loading({zIndex:1060});
-				},
-				success: function(data) {
-					$('#id').val(data.id);
-					$('#id_unit').val(data.id_unit);
-					$('#nama_kamar').val(data.nama);
-					$('#kuota').val(data.kuota);
-					$('#aktif').val(data.aktif);
-					$('body').loading('stop');
+				url: base_url+'psb/ajax_list_kuota/'+page_num,
+				data:{page:page_num,
+					limit:limit,
+					keywords:keywords,
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					sweet('Peringatan!!!',thrownError,'warning','warning');
 					$('body').loading('stop');
+				},
+				beforeSend: function(){
+					$('body').loading();
+				},
+				success: function(html){
+					$('#posts_content').html(html);
+					$('body').loading('stop');
 				}
 			});
-			}else{
+		}
+		
+		$('#OpenModal').on('show.bs.modal', function(e) {
+			var id = $(e.relatedTarget).data('id');
+			var mod = $(e.relatedTarget).data('mod');
+			$('#id_unit').val('');
+			$('input').val('');
+			if(id != 0){
+				$('#type').val('edit');
+				$("#myModalLabel").html("Edit Kuota")
+				$.ajax({
+					type: 'POST',
+					url: base_url + "psb/edit_kuota",
+					data: {id:id,mod:mod},
+					dataType: "json",
+					beforeSend: function () {
+						$("body").loading({zIndex:1060});
+					},
+					success: function(data) {
+						$('#id').val(data.id);
+						$('#id_unit').val(data.id_unit);
+						$('#nama_kamar').val(data.nama);
+						$('#kuota').val(data.kuota);
+						$('#aktif').val(data.aktif);
+						$('body').loading('stop');
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						sweet('Peringatan!!!',thrownError,'warning','warning');
+						$('body').loading('stop');
+					}
+				});
+				}else{
+				
+				$("#myModalLabel").html("Tambah Kuota")
+				$('#type').val('new');
+			}
 			
-			$("#myModalLabel").html("Tambah Kuota")
-			$('#type').val('new');
-		}
-		
-	});
-	
-	
-	function simpanData()
-	{
-		
-		if($("#id_unit").val()==''){
-			$("#id_unit").addClass('form-control-warning');
-			showNotif('top-center','Input Data','Harus dipilih','warning');
-			$("#id_unit").focus();
-			return;
-		}
-		if($("#nama_kamar").val()==''){
-			$("#nama_kamar").addClass('form-control-warning');
-			showNotif('top-center','Input Data','Harus diisi','warning');
-			$("#nama_unit").focus();
-			return;
-		}
-		if($("#kuota").val()==''){
-			$("#kuota").addClass('form-control-warning');
-			showNotif('top-center','Input Data','Harus diisi','warning');
-			$("#kuota").focus();
-			return;
-		}
-		
-		var formData = $("#formAdd").serialize();
-		$.ajax({
-			type: "POST",
-			url: base_url+"psb/simpan_kuota",
-			dataType: 'json',
-			data: formData,
-			beforeSend: function () {
-				$("body").loading({zIndex:1060});　
-			},
-			success: function(data) {
-				$('body').loading('stop');
-				if(data.status==200){
-					showNotif('bottom-right',data.title,data.msg,'success');
-					$("#OpenModal").modal('hide');
-					$('input').val('');
-					}else{
-					showNotif('bottom-right',data.title,data.msg,'error');
-				}
-				
-				searchData();
-				} ,error: function(xhr, status, error) {
-				showNotif('bottom-right','Peringatan',error,'error');
-				$('body').loading('stop');
-			}
 		});
-	}
-	
-	$(document).on('click','.hapus_data',function(e){
-		var id = $("#data-hapus").val();
-		$.ajax({
-			url: base_url + 'psb/hapus_kuota',
-			data: {id:id},
-			method: 'POST',
-			dataType:'json',
-			beforeSend: function () {
-				$('body').loading();　
-			},
-			success: function(data) {
-				$('#confirm-delete').modal('hide');
-				if(data.status==true){
-					showNotif('bottom-right',data.title,data.msg,'success');
-					}else{
-					sweet('Peringatan!!!',data.msg,'warning','warning');
-				}
-				searchData();
-				
-				$('body').loading('stop');　
-				},error: function(xhr, status, error) {
-				showNotif('bottom-right','Update',error,'error');
-				$('body').loading('stop');　
+		
+		
+		function simpanData()
+		{
+			
+			if($("#id_unit").val()==''){
+				$("#id_unit").addClass('form-control-warning');
+				showNotif('top-center','Input Data','Harus dipilih','warning');
+				$("#id_unit").focus();
+				return;
 			}
+			if($("#nama_kamar").val()==''){
+				$("#nama_kamar").addClass('form-control-warning');
+				showNotif('top-center','Input Data','Harus diisi','warning');
+				$("#nama_unit").focus();
+				return;
+			}
+			if($("#kuota").val()==''){
+				$("#kuota").addClass('form-control-warning');
+				showNotif('top-center','Input Data','Harus diisi','warning');
+				$("#kuota").focus();
+				return;
+			}
+			
+			var formData = $("#formAdd").serialize();
+			$.ajax({
+				type: "POST",
+				url: base_url+"psb/simpan_kuota",
+				dataType: 'json',
+				data: formData,
+				beforeSend: function () {
+					$("body").loading({zIndex:1060});　
+				},
+				success: function(data) {
+					$('body').loading('stop');
+					if(data.status==200){
+						showNotif('bottom-right',data.title,data.msg,'success');
+						$("#OpenModal").modal('hide');
+						$('input').val('');
+						}else{
+						showNotif('bottom-right',data.title,data.msg,'error');
+					}
+					
+					searchData();
+					} ,error: function(xhr, status, error) {
+					showNotif('bottom-right','Peringatan',error,'error');
+					$('body').loading('stop');
+				}
+			});
+		}
+		
+		$(document).on('click','.hapus_data',function(e){
+			var id = $("#data-hapus").val();
+			$.ajax({
+				url: base_url + 'psb/hapus_kuota',
+				data: {id:id},
+				method: 'POST',
+				dataType:'json',
+				beforeSend: function () {
+					$('body').loading();　
+				},
+				success: function(data) {
+					$('#confirm-delete').modal('hide');
+					if(data.status==true){
+						showNotif('bottom-right',data.title,data.msg,'success');
+						}else{
+						sweet('Peringatan!!!',data.msg,'warning','warning');
+					}
+					searchData();
+					
+					$('body').loading('stop');　
+					},error: function(xhr, status, error) {
+					showNotif('bottom-right','Update',error,'error');
+					$('body').loading('stop');　
+				}
+			});
 		});
-	});
+		
+		$(document).on('click','.clear',function(e){
+			$("#keywords").val('');
+			searchData();
+		});
+		
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+			$('#data-hapus').val($(e.relatedTarget).data('id'));
+		});
+		
+	</script>        
 	
-	$(document).on('click','.clear',function(e){
-		$("#keywords").val('');
-		searchData();
-	});
 	
-	$('#confirm-delete').on('show.bs.modal', function(e) {
-		$('#data-hapus').val($(e.relatedTarget).data('id'));
-	});
-	
-</script>        
-
-
 <?php } ?>	

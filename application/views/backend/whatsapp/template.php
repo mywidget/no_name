@@ -10,10 +10,7 @@
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
-				<button class="btn btn-primary d-none d-sm-inline-block add_template" data-id="0">
-					<i class="ti ti-plus fa-lg"></i>
-					Tambah
-				</button>
+				
 			</div>
 		</div>
 	</div>
@@ -25,6 +22,12 @@
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data</h3>
+						<div class="card-actions">
+							<button class="btn btn-primary add_template" data-id="0">
+								<i class="ti ti-plus fa-lg"></i>
+								Tambah
+							</button>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
@@ -79,12 +82,13 @@
 				<input type="hidden" id="data-hapus">
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
+				<button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">Close</button>
 				<button class="btn btn-danger hapus_data" type="button">YA</button> 
 			</div>
 		</div>
 	</div>
 </div>
+
 <div class="modal fade" id="ModalTemplate" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
 		<div class="modal-content flat">
@@ -153,8 +157,8 @@
 				</form>
 			</div>
 			<div class="modal-footer">
+				<button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">Close</button>
 				<button type="button" name="submit" class="btn btn-info save_data">Simpan</button>
-				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>

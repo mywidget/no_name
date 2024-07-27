@@ -1,6 +1,6 @@
 <div id="posts_content">
     <?php if(!empty($record)){ ?>
-        <div class="table-responsives">
+        <div class="table-responsive">
             <table class="table card-table table-vcenter table-striped text-nowrap datatable">
                 <thead class="thead-dark">
                     <tr>

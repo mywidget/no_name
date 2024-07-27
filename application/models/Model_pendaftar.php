@@ -740,4 +740,11 @@
 			$query = $this->db->get('rb_psb_daftar');
 			return $query->result_array();
 		}
-	}				
+		
+		public function batch_data($table, $data)
+		{
+		// dump($data);
+			$this->db->update_batch($table, $data, 'id'); // this will set the id column as the condition field
+			return true;
+		}
+	}					
