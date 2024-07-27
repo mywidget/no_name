@@ -22,6 +22,7 @@
         <script>
             var base_url = '<?=base_url();?>';
             var base_url_assets = base_url + 'assets';
+            var file_size = '<?=tag_key('file_size');?>';
    
         </script>
     </head>
