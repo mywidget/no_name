@@ -1009,7 +1009,7 @@
 			$sheet->setTitle("Penerimaan Santri Baru");
 			/* Excel File Format */
 			$writer = new Xlsx($spreadsheet);
-			$filename = 'penerimaan-santri-baru-pesantren';
+			$filename = 'penerimaan-santri-baru-pesantren-'.$filter.'-'.time();
 			
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
