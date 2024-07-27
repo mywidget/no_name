@@ -330,7 +330,7 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
             .addClass('is-invalid')
             .siblings('.invalid-feedback')
             .text(
-                `Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : '500 KB'}`
+                `Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : file_size + ' KB'}`
             );
             $(`#${id}Preview`).attr('src', '#');
             $(`#${id}PreviewContainer`).hide();
