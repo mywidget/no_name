@@ -930,6 +930,7 @@
 			$sheet->setCellValue('AW6','Baju');
 			$sheet->setCellValue('AX6','Celana/Rok');
 			$sheet->setCellValue('AY6','Biaya Daftar');
+			$sheet->setCellValue('AZ6','Tanggal Daftar');
 			
 			
 			/* Excel Data */
@@ -994,6 +995,7 @@
 				$sheet->setCellValue('AW'.$row_number, $row['ukuran_seragam_baju']);
 				$sheet->setCellValue('AX'.$row_number, $row['ukuran_celana_rok']);
 				$sheet->setCellValue('AY'.$row_number, $row['biaya_daftar']);
+				$sheet->setCellValue('AZ'.$row_number, $row['tanggal_daftar']);
 				
 				$row_number++;
 			}
