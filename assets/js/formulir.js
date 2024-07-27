@@ -324,10 +324,9 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
     $(this).removeClass('is-invalid');
     
     if (foto) {
-        const maxImageSize = id == 'fotoKk' ? 1000 * 1024 : 500 * 1024;
+        const maxImageSize = id == 'fotoKk' ? 1000 * 1024 : `${file_size}` * 1024;
         if (foto.size > maxImageSize) {
-            $(this)
-            .val('')
+            $(this).val('')
             .addClass('is-invalid')
             .siblings('.invalid-feedback')
             .text(
