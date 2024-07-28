@@ -732,6 +732,18 @@
 		{
 			/* Filter */
 			$filter = $this->input->post('export');
+			$status = $this->input->post('status');
+			$unit = $this->input->post('unit');
+			$kelas = $this->input->post('kelas');
+			if(!empty($status)){
+				$this->db->where('status_sekolah', $status);
+			}
+			if(!empty($unit)){
+				$this->db->where('unit_sekolah', $unit);
+			}
+			if(!empty($kelas)){
+				$this->db->where('kelas', $kelas);
+			}
 			/* Query */
 			$this->db->select("*");
 			$this->db->where('tahun_akademik', $filter);
@@ -743,8 +755,8 @@
 		
 		public function batch_data($table, $data)
 		{
-		// dump($data);
+			// dump($data);
 			$this->db->update_batch($table, $data, 'id'); // this will set the id column as the condition field
 			return true;
 		}
-	}					
+	}							

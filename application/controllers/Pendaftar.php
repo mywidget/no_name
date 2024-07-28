@@ -223,7 +223,7 @@
 			if ( $this->input->is_ajax_request() ) 
 			{
 				$id = $this->input->post('id',true);
-				
+				$id = getUnitByName($id);
 				$kelas = $this->model_app->view_where_ordering('rb_kelas',['id_unit'=>$id],'nama_kelas','ASC')->result();
 				$response = [];
 				foreach($kelas AS $val)
@@ -882,7 +882,7 @@
 			/* Data */
 			$filter = $this->input->post('export');
 			$data = $this->model_pendaftar->fetch_transactions();
-			
+			dump($data);
 			/* Spreadsheet Init */
 			$spreadsheet = new Spreadsheet();
 			

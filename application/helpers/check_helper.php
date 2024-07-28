@@ -482,8 +482,8 @@
 			return $data;
 		}
 	}
-	
-	if ( ! function_exists('get_sub'))
+	      
+	if ( ! function_exists('getUnitByName'))
 	{
 		/**
 			* Code cek_desain
@@ -491,126 +491,19 @@
 			@param $id int
 			@return id
 		*/
-		function get_sub($id)
+		function getUnitByName($id)
 		{
 			$ci = & get_instance();
-			$query = $ci->model_app->pilih_where('title,aksi','sub_materiel',['id_master'=>$id]);
-			$data = [];
+			$query = $ci->model_app->pilih_where('id','rb_unit',['nama_jurusan'=>$id]);
+			$data = '-';
 			if ($query->num_rows() >0)
 			{
-				$data = $query->row();
+				$data = $query->row()->id;
 			}
 			return $data;
 		}
 	}
-	if ( ! function_exists('parent_barang'))
-	{
-		/**
-			* Code cek_desain
-			*
-			@param $id int
-			@return id
-		*/
-		function parent_barang($id)
-		{
-			$ci = & get_instance();
-			$query = $ci->model_app->pilih_where('id,parent,nama_barang,tag,kategori,linked','cc_master',['id'=>$id]);
-			$data = ['parent'=>0,'title'=>'-','tag'=>'-','kategori'=>0,'linked'=>'N'];
-			if ($query->num_rows() >0)
-			{
-				
-				$data = $query->row();
-				
-			}
-			return $data;
-		}
-	}
-	if ( ! function_exists('parent_tag'))
-	{
-		/**
-			* Code parent_tag
-			*
-			@param $tag string
-			@return array
-		*/
-		function parent_tag($tag)
-		{
-			$ci = & get_instance();
-			$tag = strtolower($tag);
-			$query = $ci->model_app->pilih_where('id,parent,nama_barang,tag','cc_master',['parent'=>0,'tag'=>$tag]);
-			$data = ['id'=>0,'parent'=>0,'nama_barang'=>'-'];
-			if ($query->num_rows() >0)
-			{
-				$data = $query->row();
-			}
-			return $data;
-		}
-	}
-	
-	if ( ! function_exists('kategori'))
-	{
-		/**
-			* Code cek_desain
-			*
-			@param $id int
-			@return id
-		*/
-		function kategori($id)
-		{
-			$ci = & get_instance();
-			$query = $ci->model_app->pilih_where('title,tag,id_sub','kategori',['id'=>$id]);
-			$row = ['title'=>'-','tag'=>'-','id_sub'=>0];
-			if ($query->num_rows()>0)
-			{
-				$row = ['title'=>$query->row()->title,'tag'=>$query->row()->tag,'id_sub'=>$query->row()->id_sub];
-				
-			}
-			return $row;
-		}
-	}	
-	if ( ! function_exists('kategori_tag'))
-	{
-		/**
-			* Code cek_desain
-			*
-			@param $id int
-			@return id
-		*/
-		function kategori_tag($id)
-		{
-			$ci = & get_instance();
-			$query = $ci->model_app->pilih_where('title','kategori_tag',['id'=>$id]);
-			$row = ['title'=>'-'];
-			if ($query->num_rows()>0)
-			{
-				$row = ['title'=>$query->row()->title];
-				
-			}
-			return $row;
-		}
-	}
-	
-	if ( ! function_exists('form_data'))
-	{
-		/**
-			* Code cek_desain
-			*
-			@param $id int
-			@return id
-		*/
-		function form_data($id)
-		{
-			$ci = & get_instance();
-			$query = $ci->model_app->pilih_where('kategori','form_penggunaan',['id'=>$id]);
-			$row = ['title'=>'-'];
-			if ($query->num_rows()>0)
-			{
-				$row = ['title'=>$query->row()->kategori];
-				
-			}
-			return $row;
-		}
-	}
+	      
 	if ( ! function_exists('by_username'))
 	{
 		/**

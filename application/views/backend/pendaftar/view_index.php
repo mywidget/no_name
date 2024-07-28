@@ -202,8 +202,22 @@
 				</div>
                 <div class="modal-body">
                     <!-- Date -->
-                    <input id="filter-tahun" name="export" class="form-control mt-3" type="text" readonly>
-					
+					<div class="form-group">
+						<label for="filter-tahun" class="form-label my-0"><small> Tahun Akademik </small></label>
+						<input id="filter-tahun" name="export" class="form-control mt-3" type="text" readonly>
+					</div>
+					<div class="form-group">
+						<label for="filter-status" class="form-label mt-2"><small>Status Pendaftar </small></label>
+						<input id="filter-status" name="status" class="form-control mt-3" type="text" readonly>
+					</div>
+					<div class="form-group d-none" id="show-unit">
+						<label for="filter-sortunit" class="form-label mt-2"><small>Unit Pilihan</small></label>
+						<input id="filter-sortunit" name="unit" class="form-control mt-3" type="text" readonly>
+					</div>
+					<div class="form-group d-none" id="show-kelas">
+						<label for="filter-sortkelas" class="form-label mt-2"><small>Kelas Pilihan</small></label>
+						<input id="filter-sortkelas" name="kelas" class="form-control mt-3" type="text" readonly>
+					</div>
 				</div>
                 <div class="modal-footer">
 					<button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
@@ -380,7 +394,20 @@
 		$(document).on('click','.export',function(e){
 			$("#modalExport").modal('show');
 			var tahun = $("#sort_tahun").val();
+			var status = $("#status").val();
+			var sortUnit = $("#sortUnit").val();
+			var sortKelas = $("#sortKelas").val();
+			
+			if(sortUnit!=''){
+				$("#show-unit").removeClass('d-none');
+			}
+			if(sortKelas != 0){
+				$("#show-kelas").removeClass('d-none');
+			}
 			$("#filter-tahun").val(tahun);
+			$("#filter-status").val(status);
+			$("#filter-sortunit").val(sortUnit);
+			$("#filter-sortkelas").val(sortKelas);
 			
 		});
 		
@@ -431,7 +458,7 @@
 				dataType : "json",
 				beforeSend: function(){
 					$("#sortKelas").empty();
-					$("#sortKelas").append("<option value='0'>Pilih</option>");
+					$("#sortKelas").append("<option value=''>Pilih</option>");
 				},
 				success: function(response) {
 					var msize = response.length;
