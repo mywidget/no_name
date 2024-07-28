@@ -456,7 +456,7 @@
                         <label for="telp2" class="form-label m-0"><small> Nomor telfon alternatif </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6">
-                        <input type="tel" name="no_hp_alternatif" onkeyup="formatNumber(this)" id="telp2" class="form-control">
+                        <input type="tel" name="no_hp_alternatif" onkeyup="formatNumber(this)" id="telp2" class="form-control" >
                     </div>
                 </div>
             </div>
