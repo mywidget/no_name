@@ -102,7 +102,7 @@
                         <label for="nik" class="form-label m-0"><small> NIK </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" id="nik" name="nik" minlength="16" maxlength="16" class="form-control" autocomplete="off"   value="<?=$nik;?>" onkeyup="formatNumber(this)" required>
+                        <input type="number" id="nik" name="nik" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"   value="<?=$nik;?>"  required>
                         <div class="invalid-tooltip" id="nik-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -282,7 +282,7 @@
                         <label for="nisn" class="form-label m-0"><small> NISN </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control" autocomplete="off"  value="<?=$nisn;?>" onkeyup="formatNumber(this)" required>  
+                        <input type="number" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control search-input" autocomplete="off"  value="<?=$nisn;?>" pattern="^\d{10}$" required>  
                         <div class="invalid-tooltip">NISN wajib diisi</div>
                         <div class="invalid-feedback"></div>
                     </div>
@@ -306,7 +306,7 @@
                         <label for="nokk" class="form-label m-0"><small> Nomor Kartu Keluarga </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="no_kk" id="nokk" minlength="16" maxlength="16" class="form-control" autocomplete="off"  value="<?=$no_kk;?>" onkeyup="formatNumber(this)" required>  
+                        <input type="text" name="no_kk" id="nokk" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  value="<?=$no_kk;?>" required>  
                         <div class="invalid-tooltip">Nomor KK wajib diisi</div>
                     </div>
                 </div>
@@ -325,7 +325,7 @@
                         <label for="nikAyah" class="form-label m-0"><small> NIK Ayah </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nik_ayah" id="nikAyah" minlength="16" maxlength="16" class="form-control" autocomplete="off" value="<?=$nik_ayah;?>" onkeyup="formatNumber(this)" required>  
+                        <input type="number" name="nik_ayah" id="nikAyah" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off" value="<?=$nik_ayah;?>" onkeyup="formatNumber(this)" required>  
                         <div class="invalid-tooltip" id="nikAyah-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -382,7 +382,7 @@
                         <label for="nikIbu" class="form-label m-0"><small> NIK Ibu </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nik_ibu" id="nikIbu" minlength="16" maxlength="16" class="form-control" autocomplete="off"  value="<?=$nik_ibu;?>" onkeyup="formatNumber(this)" required>  
+                        <input type="number" name="nik_ibu" id="nikIbu" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  value="<?=$nik_ibu;?>" required>  
                         <div class="invalid-tooltip" id="nikIbu-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -795,18 +795,39 @@
         ?>
         <script src="<?=base_url('assets');?>/js/formulir.js?v=<?=time();?>"></script>
         <script>
+            $('#nik').keypress(validateNumber);
+            $('#nisn').keypress(validateNumber);
+            $('#nokk').keypress(validateNumber);
+            $('#nikAyah').keypress(validateNumber);
+            $('#nikIbu').keypress(validateNumber);
             $("input").on("keypress",function() {
                 $(this).prop("type", "number");
                 var maxLength = $(this).attr("maxlength");
                 if(maxLength){
+                    if ($(this).val().length==maxLength) {
+                        $(".search-input").css("color", "green");
+                        } else {
+                        $(".search-input").css("color", "red");
+                    }
                     if($(this).val().length >= maxLength) {
                         $(this).prop("type", "text");
                         // $(this).attr('maxlength',maxLength)
                         // alert("You can't write more than " + maxLength +" chacters")
                     }
                 }
-            })
+            });
+            // $('#nik').keyup(function () {
+            
+            // });
+            function validateNumber(event) {
+                var key = window.event ? event.keyCode : event.which;
+                if (event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 37 || event.keyCode === 39) {
+                    return true;
+                    } else if (key < 48 || key > 57) {
+                    return false;
+                } else return true;
+            };
         </script>
         <?php    
         }
-    ?>                                                                                                                                                                                                                    
+    ?>                                                                                                                                                                                                                                    
