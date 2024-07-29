@@ -801,9 +801,9 @@
             $('#nikAyah').keypress(validateNumber);
             $('#nikIbu').keypress(validateNumber);
             $("input").on("keypress",function() {
-                $(this).prop("type", "number");
                 var maxLength = $(this).attr("maxlength");
                 if(maxLength){
+                    $(this).prop("type", "number");
                     if ($(this).val().length==maxLength) {
                         $(".search-input").css("color", "green");
                         } else {
@@ -830,4 +830,4 @@
         </script>
         <?php    
         }
-    ?>                                                                                                                                                                                                                                    
+    ?>                                                                                                                                                                                                                                        
