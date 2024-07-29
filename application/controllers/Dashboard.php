@@ -677,7 +677,7 @@
 						$config['file_name']        = $new_name;
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
 						$config['max_size']		 = tag_key('file_size');
-						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
+						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
 						$config['encrypt_name']  = FALSE; //enkripsi nama file
 						$this->upload->initialize($config);
 						if ($this->upload->do_upload('fotoSantri'))
@@ -702,7 +702,7 @@
 						$config['file_name']        = $new_name;
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
 						$config['max_size']		 = tag_key('file_size');
-						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
+						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
 						$config['encrypt_name']  = FALSE; //enkripsi nama file
 						$this->upload->initialize($config);
 						if ($this->upload->do_upload('fotoKk'))
@@ -728,7 +728,7 @@
 						$config['file_name']        = $new_name;
 						$config['upload_path']   = './upload/foto_dokumen'; //path folder
 						$config['max_size']		 = tag_key('file_size');
-						$config['allowed_types'] = 'jpg|png|jpeg'; //type yang image yang dizinkan
+						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
 						$config['file_ext_tolower'] = TRUE;
 						$config['encrypt_name']  = FALSE;
 						$this->upload->initialize($config);
