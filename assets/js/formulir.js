@@ -318,7 +318,7 @@ $('body').on("change","#form_kec",function(){
     });
 });
 
-$('#fotoSantri, #fotoKk').change(function () {
+$('#fotoSantri, #fotoKk, #fotobukti').change(function () {
     const id = $(this).attr('id');
     const foto = this.files[0];
     $(this).removeClass('is-invalid');
@@ -338,7 +338,7 @@ $('#fotoSantri, #fotoKk').change(function () {
         // }
         
         // const expectedAspectRatio = id == 'fotoKk' ? 16 / 9 : 3 / 4;
-        // const img = new Image();
+        const img = new Image();
         
         // img.onload = () => {
             // const aspectRatio = img.width / img.height;
