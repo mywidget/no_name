@@ -32,7 +32,7 @@
                             <td><?=$no;?></td>
                             <td><?=$row['title'];?></td>
                             <td><?=$row['create_date'];?></td>
-                            <td></td>
+                            <td><?=$row['gambar'];?></td>
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
                                     <?=$status;?>
