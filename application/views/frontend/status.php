@@ -33,6 +33,22 @@
 </main>
 <?php $this->RenderScript[] = function() { ?>
     <script>
+        // var html = '<h1>A</h1><h2>B</h2><p>Foobar</p><h3>C</h3>';
+        
+        // //split on ><
+        // var arr = html.split(/></g);
+        
+        // //split removes the >< so we need to determine where to put them back in.
+        // for(var i = 0; i < arr.length; i++){
+            // if(arr[i].substring(0, 1) != '<'){
+                // arr[i] = '<' + arr[i];
+            // }
+            
+            // if(arr[i].slice(-1) != '>'){
+                // arr[i] = arr[i] + '>';
+            // }
+        // }
+        // console.log(arr)
         $('#form-cek').on('submit', function (e) {
             e.preventDefault();
             $('button:submit', this).html(spinner).prop('disabled', true);
