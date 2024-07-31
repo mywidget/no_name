@@ -9,6 +9,7 @@ upload/*
 .htaccess
 user.ini
 php.ini
+desktop.ini
 index.php
 *.zip
 *.rar
