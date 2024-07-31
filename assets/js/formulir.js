@@ -324,34 +324,34 @@ $('#fotoSantri, #fotoKk').change(function () {
     $(this).removeClass('is-invalid');
     
     if (foto) {
-        const maxImageSize = id == 'fotoKk' ? 1000 * 1024 : `${file_size}` * 1024;
-        if (foto.size > maxImageSize) {
-            $(this).val('')
-            .addClass('is-invalid')
-            .siblings('.invalid-feedback')
-            .text(`Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : file_size + ' KB'}`
-            );
-            $(`#${id}Preview`).attr('src', '#');
-            $(`#${id}PreviewContainer`).hide();
+        // const maxImageSize = id == 'fotoKk' ? 1000 * 1024 : `${file_size}` * 1024;
+        // if (foto.size > maxImageSize) {
+            // $(this).val('')
+            // .addClass('is-invalid')
+            // .siblings('.invalid-feedback')
+            // .text(`Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : file_size + ' KB'}`
+            // );
+            // $(`#${id}Preview`).attr('src', '#');
+            // $(`#${id}PreviewContainer`).hide();
             
-            return;
-        }
+            // // return;
+        // }
         
-        const expectedAspectRatio = id == 'fotoKk' ? 16 / 9 : 3 / 4;
-        const img = new Image();
+        // const expectedAspectRatio = id == 'fotoKk' ? 16 / 9 : 3 / 4;
+        // const img = new Image();
         
-        img.onload = () => {
-            const aspectRatio = img.width / img.height;
-            if (Math.abs(aspectRatio - expectedAspectRatio) > 0.01) {
-                $(this)
-                .addClass('is-invalid')
-                .siblings('.invalid-feedback')
-                .text(`Ukuran foto akan di crop dengan ukuran ${
-                    id == 'fotoKk' ? '16:9' : '3:4'
-                } silahkan ubah jika tidak sesuai`
-                );
-            }
-        };
+        // img.onload = () => {
+            // const aspectRatio = img.width / img.height;
+            // if (Math.abs(aspectRatio - expectedAspectRatio) > 0.01) {
+                // $(this)
+                // .addClass('is-invalid')
+                // .siblings('.invalid-feedback')
+                // .text(`Ukuran foto akan di crop dengan ukuran ${
+                    // id == 'fotoKk' ? '16:9' : '3:4'
+                // } silahkan ubah jika tidak sesuai`
+                // );
+            // }
+        // };
         
         img.src = URL.createObjectURL(foto);
         $(`#${id}Preview`).attr('src', URL.createObjectURL(foto));
