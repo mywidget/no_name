@@ -406,7 +406,7 @@ Array.prototype.slice.call(forms)
             
             if(nikAyah != 16){
                 $("#nikAyah").addClass('is-invalid');
-                $("#nikAyah").siblings('.invalid-tooltip').text('NISN harus 10 digit');
+                $("#nikAyah").siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit');
                 $("#nikAyah").focus();
                 return;
             }else{
@@ -416,7 +416,7 @@ Array.prototype.slice.call(forms)
             
             if(nikIbu != 16){
                 $("#nikIbu").addClass('is-invalid');
-                $("#nikIbu").siblings('.invalid-tooltip').text('NISN harus 10 digit');
+                $("#nikIbu").siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit');
                 $("#nikIbu").focus();
                 return;
             }else{
