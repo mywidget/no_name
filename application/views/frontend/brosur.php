@@ -10,7 +10,7 @@
             }
         ?>
         <div class="col-md-4 shadow-sm">
-            <h4 class="p-2 text-dark"><?php echo $val->title ;?></h4>
+            <h4 class="p-2 text-dark"><a href="/brosur/<?php echo $val->seo ;?>"><?php echo $val->title ;?></a></h4>
             <div class="image_item">
             	<a href="<?=$gambar;?>" data-toggle="lightbox" data-gallery="example-gallery" >
                     <img class="img-fluid" src="<?=$gambar;?>" width="100%" alt="<?php echo $val->title ;?>">

@@ -58,6 +58,7 @@ $route['syarat']                   = 'dashboard/syarat';
 $route['formulir']                 = 'dashboard/formulir';
 $route['status']                   = 'dashboard/status';
 $route['brosur']                   = 'dashboard/brosur';
+$route['brosur/(:any)']            = 'dashboard/brosur_detail';
 $route['contact']                  = 'dashboard/contact';
 $route['santri']                   = 'dashboard/santri';
 $route['cetak-formulir/(:any)']    = 'dashboard/print_dokumen/$1';

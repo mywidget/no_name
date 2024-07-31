@@ -82,6 +82,19 @@
 			$this->thm->load('frontend/template','frontend/brosur',$data);
 		}
 		
+		public function brosur_detail()
+		{
+			$seo = $this->uri->segment(2);
+			
+			$this->thm->set('title', 'Brosur | '.tag_key('site_title'));
+			$this->thm->set('description', tag_key('site_desc'));
+			$this->thm->set('keywords', tag_key('site_keys'));
+			$data['brosur'] = $this->model_app->view_where('rb_psb_brosur',['aktif'=>'Ya','seo'=>$seo])->row();
+			
+			$data['menu'] = $this->model_data->get_categories();
+			$this->thm->load('frontend/template','frontend/brosur_detail',$data);
+		}
+		
 		public function contact()
 		{
 			$this->thm->set('title', 'Kontak | '.tag_key('site_title'));

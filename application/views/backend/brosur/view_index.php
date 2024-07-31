@@ -10,7 +10,7 @@
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
-				 
+				
 			</div>
 		</div>
 	</div>
@@ -108,6 +108,10 @@
 							<input type="text" name="title" class="form-control" id="title" placeholder="Title" value="" required="" autocomplete="off">
 						</div>
 						<div class="form-group mb-1">
+							<label class="form-label" for="deskripsi">Deskripsi</label>
+							<textarea  name="deskripsi" value="" class="form-control" id="deskripsi" required=""></textarea>
+						</div>
+						<div class="form-group mb-1">
 							<label class="form-label" for="gambar">Gambar</label>
 							<input type="file" name="gambar" class="form-control" id="gambar" required="">
 							<input type="hidden" name="gambar_lama" class="form-control" id="gambar_lama" required="">
@@ -144,7 +148,26 @@
 <?php $this->RenderScript[] = function() { ?>
 	
 	<script>
-		
+		$(document).ready(function () {
+			tinymce.init({
+				selector: '#deskripsi',
+				height: 300,
+				menubar: false,
+				plugins: [
+				'advlist', 'autolink','lists', 'link', 'image', 'charmap',  'preview', 'anchor',
+				// 'searchreplace visualblocks code fullscreen',
+				'insertdatetime', 'media', 'table', 'code', 'wordcount'
+				],
+				mobile: { 
+					theme: 'mobile' 
+				},
+				toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+				content_css: [
+				'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+				'//www.tiny.cloud/css/codepen.min.css'
+				],
+			});
+		});
 		searchData();
 		function searchData(page_num)
 		{
@@ -189,11 +212,12 @@
 						$("body").loading({zIndex:1060});
 					},
 					success: function(data) {
+						$('body').loading('stop');
 						$('#id').val(data.id);
 						$('#title').val(data.title);
 						$('#gambar_lama').val(data.gambar);
 						$('#aktif').val(data.aktif);
-						$('body').loading('stop');
+						tinymce.get('deskripsi').setContent(data.deskripsi); 
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						sweet('Peringatan!!!',thrownError,'warning','warning');
@@ -203,6 +227,7 @@
 				}else{
 				
 				$("#myModalLabel").html("Tambah Brosur")
+				tinymce.get('deskripsi').setContent(''); 
 				$('#type').val('new');
 			}
 			
@@ -214,6 +239,7 @@
 		});
 		$('#formAdd').on('submit', function (e) {
 			e.preventDefault();
+			tinymce.triggerSave();
 			const formData = new FormData($(this)[0]);
 			if($("#title").val()==''){
 				$("#title").addClass('form-control-warning');

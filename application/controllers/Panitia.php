@@ -173,6 +173,7 @@
 					'id'=>$id,
 					'title'=>$result->row()->title,
 					'gambar'=>$result->row()->gambar,
+					'deskripsi'=>$result->row()->deskripsi,
 					'aktif'=>$result->row()->aktif,
 					];
 					}else{
@@ -328,11 +329,20 @@
 				array(
 				'field' => 'title',
 				'label' => 'Title',
-				'rules' => 'required|trim|min_length[2]',
+				'rules' => 'required|trim|min_length[2]|is_unique[rb_psb_brosur.title]',
 				'errors' => array(
 				'required' => '%s. Harus di isi',
 				'min_length' => '%s minimal 2 digit.',
 				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				array(
+				'field' => 'deskripsi',
+				'label' => 'Deskripsi',
+				'rules' => 'required|trim|min_length[5]',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'min_length' => '%s minimal 2 digit.',
 				)
 				),
 				));
@@ -364,6 +374,8 @@
 					
 					$data_post 	= [
 					"title"	=> $this->input->post('title',TRUE),
+					"seo"	=> seotitle($this->input->post('title',TRUE)),
+					"deskripsi"	=> seotitle($this->input->post('deskripsi',TRUE)),
 					"gambar"	=> $gambar,
 					"create_date"	=> date('Y-m-d H:i:s'),
 					"aktif"	    => $this->input->post('aktif',TRUE),
@@ -429,6 +441,8 @@
 				
 				$data_post 	= [
 				"title"	=> $this->input->post('title',TRUE),
+				"deskripsi"	=> $this->input->post('deskripsi',TRUE),
+				"seo"	=> seotitle($this->input->post('title',TRUE)),
 				"gambar"	=> $gambar,
 				"aktif"	    => $this->input->post('aktif',TRUE),
 				];

@@ -666,7 +666,47 @@
 		return intval(preg_replace('/,.*|[^0-9]/', '', $rupiah));
 	} 			
 	
-	
+	if ( ! function_exists('seotitle'))
+	{
+		/**
+			* - Fungsi untuk memfilter string manjadi string seo.
+			*   Contoh : seotitle("foo bar bass")
+			*   Hasil  : foo-bar-bass
+			* 
+			* @param 	string 	$str
+			* @param 	string 	$sp
+			* @return 	string 	
+		*/
+		function seotitle($str = '', $sp = '-')
+		{
+			$seotitle = '';
+			
+			if ( !empty($str) )
+			{	
+				$q_separator = preg_quote($sp, '#');
+				
+				$trans = array(
+				'_' => $sp,
+				'&.+?;' => '',
+				'[^\w\d -]' => '',
+				'\s+' => $sp,
+				'('.$q_separator.')+' => $sp
+				);
+				
+				$str = strip_tags($str);
+				
+				foreach ($trans as $key => $val)
+				{
+					$str = preg_replace('#'.$key.'#i'.(UTF8_ENABLED ? 'u' : ''), $val, $str);
+				}
+				
+				$str = strtolower($str);
+				$seotitle = trim(trim($str, $sp));
+			}
+			
+			return $seotitle;
+		}
+	}
 	function cleans($s) {
 		$c = array (' ');
 		$d = array ('-','/','\\',',','.','#',':',';','\'','"','[',']','{','}',')','(','|','`','~','!','@','%','$','^','&','*','=','?','+','"');
