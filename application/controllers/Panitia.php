@@ -175,6 +175,7 @@
 					'gambar'=>$result->row()->gambar,
 					'deskripsi'=>$result->row()->deskripsi,
 					'aktif'=>$result->row()->aktif,
+					'tampil_image'=>$result->row()->tampil_image,
 					];
 					}else{
 					$response = [
@@ -379,6 +380,7 @@
 					"gambar"	=> $gambar,
 					"create_date"	=> date('Y-m-d H:i:s'),
 					"aktif"	    => $this->input->post('aktif',TRUE),
+					"tampil_image"	    => $this->input->post('tampil_image',TRUE),
 					];
 					$insert = $this->model_app->input('rb_psb_brosur',$data_post);
 					if($insert['status']==true)
@@ -445,6 +447,7 @@
 				"seo"	=> seotitle($this->input->post('title',TRUE)),
 				"gambar"	=> $gambar,
 				"aktif"	    => $this->input->post('aktif',TRUE),
+				"tampil_image"	    => $this->input->post('tampil_image',TRUE),
 				];
 				$update = $this->model_app->update('rb_psb_brosur',$data_post, ['id'=>$postid]);
 				if($update['status']=='ok')

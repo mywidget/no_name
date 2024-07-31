@@ -117,12 +117,21 @@
 							<input type="hidden" name="gambar_lama" class="form-control" id="gambar_lama" required="">
 						</div>
 						
-						<div class="form-group mb-1">
-							<label class="form-label" for="aktif">Aktif</label>
-							<select name="aktif" id="aktif" class="form-control form-select">
-								<option value="Ya">Ya</option>
-								<option value="Tidak">Tidak</option>
-							</select>
+						<div class="form-group mb-1 row">
+							<div class="col-6">
+								<label class="form-label" for="tampil_image">Tampilkan Gambar</label>
+								<select name="tampil_image" id="tampil_image" class="form-control form-select">
+									<option value="Ya">Ya</option>
+									<option value="Tidak">Tidak</option>
+								</select>
+							</div>
+							<div class="col-6">
+								<label class="form-label" for="aktif">Aktif</label>
+								<select name="aktif" id="aktif" class="form-control form-select">
+									<option value="Ya">Ya</option>
+									<option value="Tidak">Tidak</option>
+								</select>
+							</div>
 						</div>
 						
 					</div>
@@ -217,6 +226,7 @@
 						$('#title').val(data.title);
 						$('#gambar_lama').val(data.gambar);
 						$('#aktif').val(data.aktif);
+						$('#tampil_image').val(data.tampil_image);
 						tinymce.get('deskripsi').setContent(data.deskripsi); 
 					},
 					error: function (xhr, ajaxOptions, thrownError) {

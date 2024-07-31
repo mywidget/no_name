@@ -7,15 +7,18 @@
             }else{
             $gambar = 'https://unsplash.it/1200/768.jpg?image=251';
         }
+       
     ?>
     <div class="shadow rounded-12 p-3">
         <h4 class="my-4 text-dark"><?=$brosur->title;?></h4>
         <hr class="my-2">
+        <?php  if($brosur->tampil_image=='Ya'){ ?>
         <div class="mb-4">
             <div class="image_item">
                 <img class="img-fluid" src="<?=$gambar;?>" width="100%" alt="<?php echo $brosur->title ;?>">
             </div>
         </div>
+        <?php } ?>
         <?=$brosur->deskripsi;?>
     </div>
     <?php }else{ ?>
