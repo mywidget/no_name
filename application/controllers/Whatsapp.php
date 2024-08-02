@@ -828,9 +828,9 @@
 				
 				$cek = $this->model_app->view_where('rb_device', ['id' => $id]);
 				if ($cek->num_rows() > 0) {
-					$response = ['status'=>200,'id'=>$id,'token'=>maskString($cek->row()->token)];
+					$response = ['status'=>200,'id'=>encrypt_url($cek->row()->id),'token'=>maskString($cek->row()->token)];
 					} else {
-					$response = ['status'=>false,'token'=>''];
+					$response = ['status'=>false,'token'=>'','msg'=>'Gagal'];
 				}
 			}
 			
@@ -854,7 +854,6 @@
 			
 			if($tipe=='edit' AND $id > 0)
 			{
-				
 				$cek = $this->model_app->view_where('rb_device', ['token'=>$token,'id !=' => $id]);
 				if ($cek->num_rows() > 0) {
 					$response = ['status'=>false,'msg'=>'Token Sudah ada'];
