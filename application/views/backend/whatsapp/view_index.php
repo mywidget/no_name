@@ -410,7 +410,7 @@
 						$("#exampleModalScrollableTitle").html('Form Edit');
 					}
 					
-					if(data.status==200 && data.id > 0){
+					if(data.status==200 && data.id !=""){
 						$('#addDevice').modal('show');
 						$('#id_device').val(data.id);
 						$('#token_api').val(data.token);
