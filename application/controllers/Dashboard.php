@@ -38,7 +38,7 @@
 			// $data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row();
 			$data['row'] = $this->model_app->view_where('rb_pages',['seo'=>'syarat','aktif'=>'Ya'])->row();
 			$data['menu'] = $this->model_data->get_categories();
-			 
+			
 			$this->thm->load('frontend/template','frontend/syarat',$data);
 		}
 		
@@ -49,7 +49,7 @@
 			$this->thm->set('keywords', tag_key('site_keys'));
 			$data['menu'] = $this->model_data->get_categories();
 			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
-			 
+			
 			$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('rb_unit','id,nama_jurusan','id','ASC')->result_array();
 			$data['kamar'] = $this->model_app->view_ordering('rb_kamar','nama_kamar','ASC')->result_array();
 			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
@@ -891,28 +891,42 @@
 			return $response;	
 		}
 		
+		public function cek_status_device()
+		{
+			
+			$status = $this->model_formulir->get_token();
+			if($status!=false){
+			echo 1;
+			}else{
+			echo 2;
+			}
+		}
+		
 		private function send_notif($post)
 		{
-			$token = $this->model_formulir->get_token()->token;
-			$isi_pesan = $this->model_formulir->get_pesan_pendaftaran($post);
-			$data_send = array(
-			'target' => $post['nomor_hp'],
-			'message' => $isi_pesan,
-			'countryCode' => '62'
-			);
-			// dump($token);
-			
-			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
-			$this->curl->setDefaultJsonDecoder($assoc = true);
-			$this->curl->setHeader('Authorization', $token);
-			$this->curl->setHeader('Content-Type', 'application/json');
-			$this->curl->post('https://api.fonnte.com/send', $data_send);
-			if ($this->curl->error) {
-				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
-				} else {
-				$response = $this->curl->response;
-				$result = ['status' => true, 'msg' => (object)$response];
-				$this->report_pesan($response,$isi_pesan,$post['nik']);
+			$status = $this->model_formulir->get_token();
+			if($status!=false){
+				$token = $this->model_formulir->get_token()->token;
+				$isi_pesan = $this->model_formulir->get_pesan_pendaftaran($post);
+				$data_send = array(
+				'target' => $post['nomor_hp'],
+				'message' => $isi_pesan,
+				'countryCode' => '62'
+				);
+				// dump($token);
+				
+				$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+				$this->curl->setDefaultJsonDecoder($assoc = true);
+				$this->curl->setHeader('Authorization', $token);
+				$this->curl->setHeader('Content-Type', 'application/json');
+				$this->curl->post('https://api.fonnte.com/send', $data_send);
+				if ($this->curl->error) {
+					$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+					} else {
+					$response = $this->curl->response;
+					$result = ['status' => true, 'msg' => (object)$response];
+					$this->report_pesan($response,$isi_pesan,$post['nik']);
+				}
 			}
 		}
 		
@@ -935,7 +949,7 @@
 			* fonnte
 			*
 			* @param  mixed $url
-			* @return array
+		* @return array
 		*/
 		private function fonnte($url,$token="")
 		{
