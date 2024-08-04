@@ -40,7 +40,7 @@
 ?>
 
 <main class="container" id="formulir">
-    <h4 class="mt-5 mb-4 db-primary">Formulir Pendaftaran Santri Baru <?php !empty($tahun['nama_tahun']) ? $tahun['nama_tahun'] : "";?></h4>
+    <h4 class="mt-5 mb-4 db-primary">Formulir Pendaftaran Santri Baru </h4>
     <form method="post" class='form-horizontal needs-validation' id="formPendaftaran" novalidate>
         <ol type="I">
             <h5>
