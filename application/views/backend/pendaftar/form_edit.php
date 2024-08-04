@@ -3,10 +3,29 @@
 		<h5>
 			<li>Identitas calon santri</li>
 		</h5>
-		<input type="hidden" name="thnakademik" id="thnakademik" class="form-control" value="<?=$record->tahun_akademik;?>">
 		<input type="hidden" name="id_pendaftar" id="id_pendaftar" class="form-control" value="<?=encrypt_url($record->id);?>">
 		<div class="container p-0">
 			<div class="row align-items-center">
+				<div class="col-sm-3 col-md-3 col-lg-4">
+					<label for="email" class="form-label m-0"><small>Tahun Akademik</small></label>
+				</div>
+				<div class="col-sm-9 col-md-8 col-lg-8">
+					<select name="thnakademik" id="thnakademik" class="form-control form-select">
+						<option value="">Tahun Akademik</option>
+						<?php foreach($tahun AS $val) :
+							if($val->id_tahun_akademik==$record->tahun_akademik){
+							$selected = 'selected';
+								}else{
+							$selected = '';
+							}
+						?>
+						<option value="<?=$val->id_tahun_akademik;?>" <?=$selected;?>><?=$val->id_tahun_akademik;?></option>
+						<?php endforeach; ?>
+					</select>
+					<div class="invalid-feedback"></div>
+				</div>
+			</div>
+			<div class="row align-items-center mt-2">
 				<div class="col-sm-3 col-md-3 col-lg-4">
 					<label for="email" class="form-label m-0"><small>Email Aktif</small></label>
 				</div>
@@ -1088,4 +1107,4 @@
 			
 			
 			
-		</script>																																											
+		</script>																																															
