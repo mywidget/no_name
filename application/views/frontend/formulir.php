@@ -1,42 +1,45 @@
 <?php
     
-    // $email          ='rangkasku@gmail.com';
-    // $nama           ='Munajat';
-    // $tempat_lahir   ='Lebak';
-    // $tgl_lahir      ='2000-01-01';
-    // $nik            ='1205175502120004';
-    // $nama_sekolah   ='SMPN 5';
-    // $alamat_sekolah ='Rangkasbitung';
-    // $nisn           ='0127279327';
-    // $no_kk           ='1402073008210003';
-    // $nama_ayah      ='Julianus Manalu';
-    // $nik_ayah       ='1205170407820009';
-    // $nama_ibu       ='Siti Julaiha';
-    // $nik_ibu        ='1205174806850008';
-    // $anak_Ke        =1;
-    // $dari           =2;
-    // $nomor_hp       ='089611274798';
-    // $alamat         ='Jln poros Penyaguan, Indragiri hulu,Riau';
+    $email          ='rangkasku@gmail.com';
+    $nama           ='Munajat';
+    $tempat_lahir   ='Lebak';
+    $tgl_lahir      ='2000-01-01';
+    $nik            ='1205175502120004';
+    $nama_sekolah   ='SMPN 5';
+    $alamat_sekolah ='Rangkasbitung';
+    $nisn           ='0127279327';
+    $no_kk           ='1402073008210003';
+    $nama_ayah      ='Julianus Manalu';
+    $nik_ayah       ='1205170407820009';
+    $nama_ibu       ='Siti Julaiha';
+    $nik_ibu        ='1205174806850008';
+    $anak_Ke        =1;
+    $dari           =2;
+    $nomor_hp       ='089611274798';
+    $alamat         ='Jln poros Penyaguan, Indragiri hulu,Riau';
+    $rt             =2;
+    $dusun          ="Tutul";
+    $kodepos        =42117;
     
     $selected = 'selected';
     
-    $email          ='';
-    $nama           ='';
-    $tempat_lahir   ='';
-    $tgl_lahir      ='';
-    $nik            ='';
-    $nama_sekolah   ='';
-    $alamat_sekolah ='';
-    $nisn           ='';
-    $no_kk          ='';
-    $nama_ayah      ='';
-    $nik_ayah       ='';
-    $nama_ibu       ='';
-    $nik_ibu        ='';
-    $anak_Ke        ='';
-    $dari           ='';
-    $nomor_hp       ='';
-    $alamat         ='';
+    // $email          ='';
+    // $nama           ='';
+    // $tempat_lahir   ='';
+    // $tgl_lahir      ='';
+    // $nik            ='';
+    // $nama_sekolah   ='';
+    // $alamat_sekolah ='';
+    // $nisn           ='';
+    // $no_kk          ='';
+    // $nama_ayah      ='';
+    // $nik_ayah       ='';
+    // $nama_ibu       ='';
+    // $nik_ibu        ='';
+    // $anak_Ke        ='';
+    // $dari           ='';
+    // $nomor_hp       ='';
+    // $alamat         ='';
     if(!empty($tahun['nama_tahun'])){
         $nama_tahun = $tahun['nama_tahun'];
         $id_tahun_akademik = $tahun['id_tahun_akademik'];
@@ -486,12 +489,12 @@
                         <label for="rt" class="form-label m-0"><small> RT RW </small></label>
                     </div>
                     <div class="col-5 col-sm-3 col-md-3 col-lg-2 position-relative">
-                        <input type="number" name="rt" id="rt" class="form-control" placeholder="RT" required="">
+                        <input type="number" value="<?=$rt;?>" name="rt" id="rt" class="form-control" placeholder="RT" required="">
                         <div class="invalid-tooltip">RT Wajib diisi</div>
                     </div>
                     <div class="col-auto">/</div>
                     <div class="col-5 col-sm-3 col-md-3 col-lg-2 position-relative">
-                        <input type="number" name="rw" id="rw" class="form-control" placeholder="RW" required="">
+                        <input type="number" value="<?=$rt;?>" name="rw" id="rw" class="form-control" placeholder="RW" required="">
                         <div class="invalid-tooltip">RW Wajib diisi</div>
                     </div>
                 </div>
@@ -500,7 +503,7 @@
                         <label for="dusun" class="form-label m-0"><small> Dusun </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6">
-                        <input type="text" name="dusun" id="dusun" class="form-control" >
+                        <input type="text" value="<?=$dusun;?>" name="dusun" id="dusun" class="form-control" required>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -508,7 +511,7 @@
                         <label for="kodepos" class="form-label m-0"><small> Kode pos </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="kode_pos" id="kodepos" class="form-control" required="">
+                        <input type="number" value="<?=$kodepos;?>" name="kode_pos" id="kodepos" class="form-control" required="">
                         <div class="invalid-tooltip">Kode pos harus berupa 5 digit angka</div>
                     </div>
                 </div>
@@ -683,6 +686,15 @@
                             </a>
                         </div>
                     </div>
+                    
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-3 col-md-3 col-lg-2">
+                        <label for="fotobukti" class="form-label m-0"><small> Recaptcha </small></label>
+                    </div>
+                    <div class="col-sm-9 col-md-8 col-lg-6">
+                        <div class="g-recaptcha" data-sitekey="<?=tag_key('site_key');?>"></div>
+                    </div>
                 </div>
             </ol>
             
@@ -800,6 +812,8 @@
     <?php
         $this->RenderScript[] = function() {
         ?>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+        
         <script src="<?=base_url('assets');?>/js/formulir.js?v=<?=time();?>"></script>
         <script>
             $('#nik').keypress(validateNumber);
@@ -837,4 +851,4 @@
         </script>
         <?php    
         }
-    ?>                                                                                                                                                                                                                                                            
+    ?>                                                                                                                                                                                                                                                                        

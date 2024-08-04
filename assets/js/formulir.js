@@ -326,31 +326,31 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
     if (foto) {
         // const maxImageSize = id == 'fotoKk' ? 1000 * 1024 : `${file_size}` * 1024;
         // if (foto.size > maxImageSize) {
-            // $(this).val('')
-            // .addClass('is-invalid')
-            // .siblings('.invalid-feedback')
-            // .text(`Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : file_size + ' KB'}`
-            // );
-            // $(`#${id}Preview`).attr('src', '#');
-            // $(`#${id}PreviewContainer`).hide();
-            
-            // // return;
+        // $(this).val('')
+        // .addClass('is-invalid')
+        // .siblings('.invalid-feedback')
+        // .text(`Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : file_size + ' KB'}`
+        // );
+        // $(`#${id}Preview`).attr('src', '#');
+        // $(`#${id}PreviewContainer`).hide();
+        
+        // // return;
         // }
         
         // const expectedAspectRatio = id == 'fotoKk' ? 16 / 9 : 3 / 4;
         const img = new Image();
         
         // img.onload = () => {
-            // const aspectRatio = img.width / img.height;
-            // if (Math.abs(aspectRatio - expectedAspectRatio) > 0.01) {
-                // $(this)
-                // .addClass('is-invalid')
-                // .siblings('.invalid-feedback')
-                // .text(`Ukuran foto akan di crop dengan ukuran ${
-                    // id == 'fotoKk' ? '16:9' : '3:4'
-                // } silahkan ubah jika tidak sesuai`
-                // );
-            // }
+        // const aspectRatio = img.width / img.height;
+        // if (Math.abs(aspectRatio - expectedAspectRatio) > 0.01) {
+        // $(this)
+        // .addClass('is-invalid')
+        // .siblings('.invalid-feedback')
+        // .text(`Ukuran foto akan di crop dengan ukuran ${
+        // id == 'fotoKk' ? '16:9' : '3:4'
+        // } silahkan ubah jika tidak sesuai`
+        // );
+        // }
         // };
         
         img.src = URL.createObjectURL(foto);
@@ -360,7 +360,7 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
         $(`#${id}PreviewContainer`).hide();
     }
 });
- 
+
 $('#image').change(function(){
     $("#frames").html('');
     for (var i = 0; i < $(this)[0].files.length; i++) {
@@ -389,7 +389,7 @@ Array.prototype.slice.call(forms)
                 $("#nik").siblings('.invalid-tooltip').text('NIK harus 16 digit');
                 $("#nik").focus();
                 return;
-            }else{
+                }else{
                 $("#nik").removeClass('is-invalid').addClass('is-valid');
                 $("#nik").siblings('.invalid-tooltip').hide();
             }
@@ -399,7 +399,7 @@ Array.prototype.slice.call(forms)
                 $("#nisn").siblings('.invalid-tooltip').text('NISN harus 10 digit');
                 $("#nisn").focus();
                 return;
-            }else{
+                }else{
                 $("#nisn").removeClass('is-invalid').addClass('is-valid');
                 $("#nisn").siblings('.invalid-tooltip').hide();
             }
@@ -409,7 +409,7 @@ Array.prototype.slice.call(forms)
                 $("#nikAyah").siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit');
                 $("#nikAyah").focus();
                 return;
-            }else{
+                }else{
                 $("#nikAyah").removeClass('is-invalid').addClass('is-valid');
                 $("#nikAyah").siblings('.invalid-tooltip').hide();
             }
@@ -419,85 +419,95 @@ Array.prototype.slice.call(forms)
                 $("#nikIbu").siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit');
                 $("#nikIbu").focus();
                 return;
-            }else{
+                }else{
                 $("#nikIbu").removeClass('is-invalid').addClass('is-valid');
                 $("#nikIbu").siblings('.invalid-tooltip').hide();
             }
-            
-            const formData = new FormData($(this)[0]);
-            $('button:submit', this).html(spinner).prop('disabled', true);
-            
-            $.ajax({
-                type: 'POST',
-                data: formData,
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                url: base_url+ "dashboard/proses",
-                success: (response) => {
-                    // console.log(response)
-                    if (response.status === false) {
-                        // alerts()
-                        swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            html: response.message,
-                            confirmButtonText: 'OK',
-                        })
-                        .then(() => {
-                            if (response.message) {
-                                const errors = response.message;
-                                setTimeout(() => {
-                                    const firstErrorKey = Object.keys(errors)[0];
-                                    console.log(firstErrorKey)
-                                    $(`#${firstErrorKey}`).focus();
-                                }, 500);
-                                
-                                for (const key in errors) {
-                                    $(`#${key}`).addClass('is-invalid');
-                                    $(`#${key}`).siblings('.invalid-feedback').text(errors[key]);
-                                    $(`#${key}`).siblings('.invalid-tooltip').text(errors[key]);
+            var response = grecaptcha.getResponse();
+            console.log(response)
+            if (response.length == 0) {
+                swal.fire({
+                    icon: 'error',
+                    title: 'error',
+                    html:'error recaptha',
+                    confirmButtonText: 'OK',
+                });
+                } else {
+                const formData = new FormData($(this)[0]);
+                $('button:submit', this).html(spinner).prop('disabled', true);
+                
+                $.ajax({
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    url: base_url+ "dashboard/proses",
+                    success: (response) => {
+                        // console.log(response)
+                        if (response.status === false) {
+                            // alerts()
+                            swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                html: response.message,
+                                confirmButtonText: 'OK',
+                            })
+                            .then(() => {
+                                if (response.message) {
+                                    const errors = response.message;
+                                    setTimeout(() => {
+                                        const firstErrorKey = Object.keys(errors)[0];
+                                        console.log(firstErrorKey)
+                                        $(`#${firstErrorKey}`).focus();
+                                    }, 500);
+                                    
+                                    for (const key in errors) {
+                                        $(`#${key}`).addClass('is-invalid');
+                                        $(`#${key}`).siblings('.invalid-feedback').text(errors[key]);
+                                        $(`#${key}`).siblings('.invalid-tooltip').text(errors[key]);
+                                    }
                                 }
-                            }
-                        });
-                        } else {
-                        // const total = response.reduce((acc, { billAmount }) => acc + Number(billAmount), 0);
-                        // $('#total').text(formatRupiah(response.amount));
-                        // $('#rincian').html(rincianPembayaran(response));
-                        swal.fire({
-                            title: 'Konfirmasi',
-                            buttonsStyling: false,
-                            showCancelButton: false,
-                            reverseButtons: true,
-                            html: rulesConfirmElement,
-                            confirmButtonText: 'Tutup',
-                            cancelButtonText: 'Periksa Data',
-                            customClass: {
-                                ...sweetAlertButtonClass,
-                                confirmButton: 'btn btn-success rounded-pill flex-grow-1',
-                                cancelButton: 'btn btn-outline-success rounded-pill flex-grow-1',
-                                actions: 'w-100 px-4 gap-2',
-                                title: 'fs-4',
-                            },
-                        })
-                        .then((result) => {
-                            if (result.isConfirmed) {
-                                $('input').val('') 
-                                $('select').val('') 
-                                $('#formulir').hide(); 
-                                $('#sukses').removeClass('d-none'); 
-                                $('#sukses').show(); 
-                                // location.reload(); 
-                                } else {
-                                location.reload(); 
-                            }
-                        });
-                    }
-                },
-                complete: () => {
-                    $('button:submit', this).text('Submit Formulir').prop('disabled', false);
-                },
-            });
+                            });
+                            } else {
+                            // const total = response.reduce((acc, { billAmount }) => acc + Number(billAmount), 0);
+                            // $('#total').text(formatRupiah(response.amount));
+                            // $('#rincian').html(rincianPembayaran(response));
+                            swal.fire({
+                                title: 'Konfirmasi',
+                                buttonsStyling: false,
+                                showCancelButton: false,
+                                reverseButtons: true,
+                                html: rulesConfirmElement,
+                                confirmButtonText: 'Tutup',
+                                cancelButtonText: 'Periksa Data',
+                                customClass: {
+                                    ...sweetAlertButtonClass,
+                                    confirmButton: 'btn btn-success rounded-pill flex-grow-1',
+                                    cancelButton: 'btn btn-outline-success rounded-pill flex-grow-1',
+                                    actions: 'w-100 px-4 gap-2',
+                                    title: 'fs-4',
+                                },
+                            })
+                            .then((result) => {
+                                if (result.isConfirmed) {
+                                    $('input').val('') 
+                                    $('select').val('') 
+                                    $('#formulir').hide(); 
+                                    $('#sukses').removeClass('d-none'); 
+                                    $('#sukses').show(); 
+                                    // location.reload(); 
+                                    } else {
+                                    location.reload(); 
+                                }
+                            });
+                        }
+                    },
+                    complete: () => {
+                        $('button:submit', this).text('Submit Formulir').prop('disabled', false);
+                    },
+                });
+            }
         }
         
         form.classList.add('was-validated')

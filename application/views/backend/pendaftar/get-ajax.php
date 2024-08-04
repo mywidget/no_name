@@ -147,10 +147,12 @@
 			var countcheck = $('#tablein > tbody input[type="checkbox"]:checked').length;
 			console.log(countcheck);
 			if (countcheck == 0) {
+				$(".OpenModalPendaftar").show();
 				$("#update_status").hide();
 				$("#status_pendaftar").val('');
             }
 			if (countcheck > 0) {
+				$(".OpenModalPendaftar").hide();
 				$("#update_status").show();
 				$("#status_pendaftar").val('');
             }
@@ -160,10 +162,12 @@
 			var rowCount = $("#tablein > tbody tr").children().length;
 			var countcheck = $('#tablein > tbody input[type="checkbox"]:checked').length;
             if (countcheck == 0) {
+				$(".OpenModalPendaftar").show();
 				$("#update_status").hide();
 				$("#status_pendaftar").val('');
             }
 			if (countcheck > 0) {
+				$(".OpenModalPendaftar").hide();
 				$("#update_status").show();
 				$("#status_pendaftar").val('');
             }

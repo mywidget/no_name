@@ -220,11 +220,7 @@
         <script src="<?=base_url();?>assets/backend/js/tabler.min.js" defer></script>
         <script src="<?=base_url();?>assets/backend/js/demo.min.js" defer></script>
         <script src="<?=base_url();?>assets/backend/libs/tinymce/tinymce.js" defer></script>
-        <?php if($this->session->level=='admin'){ ?>
-            <!--script src="<?=base_url();?>assets/backend/js/chart.js" defer></script-->
-            <?php }else{ ?>
-            <!--script src="<?=base_url();?>assets/backend/js/chart_satker.js" defer></script-->
-        <?php } ?>
+        
         <script src="<?=base_url();?>assets/backend/libs/icon-picker/simple-iconpicker.js" defer></script>
         <script type="text/javascript" src="<?=base_url();?>assets/backend/js/datatables.min.js"></script>
         <script>

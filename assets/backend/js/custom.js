@@ -28,58 +28,10 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || lo
 	}
 }
 
-
-// $("li.nav-item a").filter(function() {
-// return this.href == url;
-// }).parentsUntil(".sidebar > .nav-link collapsed").addClass("active");
-// $("li.nav-item a").filter(function() {
-// return this.href == url;
-// }).closest(".collapse").addClass("show");
-// $(".collapse-item").filter(function() {
-// return this.href == url;
-// }).closest("a").siblings().removeClass("active").end().addClass("active").css({
-// display : "block"
-// });
-
-// var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
-// $('li.nav-item a.nav-link').each(function() {
-// console.log(path)
-// if (this.href === path) {
-// $(this).addClass('active');
-// }
-// });
-
-
-// jQuery(document).ready(function() {
-// jQuery("#viewerContainer").scrollbar();
-// jQuery(".scrollbar-inner").scrollbar();
-// jQuery(".scrollbar-dynamic").scrollbar();
-// jQuery(".scrollbar-vista").scrollbar({
-// "showArrows" : true,
-// "scrollx" : "advanced",
-// "scrolly" : "advanced"
-// });
-// });
 $(".dropdown").on("shown.bs.dropdown", function(canCreateDiscussions) {
 	$(".dropdown-menu input").focus();
 });
 
-// function cb(start, end) {
-// $("#reportrange span").html(start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY"));
-// }
-// $("#reportrange").daterangepicker({
-// startDate : start,
-// endDate : end,
-// ranges : {
-// "Today" : [moment(), moment()],
-// "Yesterday" : [moment().subtract(1, "days"), moment().subtract(1, "days")],
-// "Last 7 Days" : [moment().subtract(6, "days"), moment()],
-// "Last 30 Days" : [moment().subtract(29, "days"), moment()],
-// "This Month" : [moment().startOf("month"), moment().endOf("month")],
-// "Last Month" : [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
-// }
-// }, cb);
-// cb(start, end);
 function sweet_alert(p, color, icon, buttons,modal) {
     Swal.fire({
 		icon : icon,
