@@ -1,6 +1,6 @@
 <main class="container my-4">
     <div class="shadow rounded-12 p-3">
-        <h4 class="my-4 text-dark">Kontak Panitia Pendaftaran Santri Baru <?php echo $tahun['nama_tahun'];?></h4>
+        <h4 class="my-4 text-dark">Kontak Panitia Pendaftaran Santri Baru</h4>
         <hr class="my-2">
         <?php
             if(!empty($panitia)):
