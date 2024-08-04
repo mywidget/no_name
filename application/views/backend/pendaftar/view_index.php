@@ -31,7 +31,7 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Update status</div>
 								<div class="mx-2 d-inline-block">
-									<select name="status_pendaftar" id="status_pendaftar" class="form-select" required="">
+									<select name="status_pendaftar" id="update_status_pendaftar" class="form-select" required="">
 										<option value="">Pilih status</option>
 										<option value="Proses">Proses</option>
 										<option value="Diterima">Diterima</option>
@@ -544,9 +544,12 @@
 			}
 		});
 		
-		$('body').on("change","#update_status",function(){
+		$('body').on("change","#update_status_pendaftar",function(){
 			// do what you like with the input
-			$input = $("#status_pendaftar").val();
+			$input = $("#update_status_pendaftar").val();
+			if($input==""){
+				return;
+			}
 			var $form = $('#update_form');
 			
 			var data = {
@@ -569,7 +572,7 @@
 						}else{
 						showNotif('bottom-right',data.title,data.message,'error');
 					}
-					
+					$("#update_status").hide();
 					searchPengguna();
 					} ,error: function(xhr, status, error) {
 					showNotif('bottom-right','Peringatan',error,'error');
