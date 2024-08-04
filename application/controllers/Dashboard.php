@@ -49,7 +49,7 @@
 			$this->thm->set('keywords', tag_key('site_keys'));
 			$data['menu'] = $this->model_data->get_categories();
 			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
-			// if(!isset$data['tahun']);
+			 
 			$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('rb_unit','id,nama_jurusan','id','ASC')->result_array();
 			$data['kamar'] = $this->model_app->view_ordering('rb_kamar','nama_kamar','ASC')->result_array();
 			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
