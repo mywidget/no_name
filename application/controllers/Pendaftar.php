@@ -857,6 +857,7 @@
 			$pilih = $this->input->post('pilih',true);
 			$status = $this->input->post('status',true);
 			$id = $this->input->post('id',true);
+			if(!empty($pilih)):
 			$update_data = [];
 			foreach($pilih AS $val){
 				$update_data[] = [
@@ -874,6 +875,7 @@
 			$this->output
 			->set_content_type('application/json')
 			->set_output(json_encode($data));
+			endif;
 		}
 		
 		function export_excel()
