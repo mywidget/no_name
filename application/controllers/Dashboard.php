@@ -890,18 +890,7 @@
 			$response =$kuota->terpakai;
 			return $response;	
 		}
-		
-		public function cek_status_device()
-		{
-			
-			$status = $this->model_formulir->get_token();
-			if($status!=false){
-			echo 1;
-			}else{
-			echo 2;
-			}
-		}
-		
+		 
 		private function send_notif($post)
 		{
 			$status = $this->model_formulir->get_token();
