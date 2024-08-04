@@ -10,7 +10,8 @@
         <title><?=$title;?></title>
         <meta name="keywords" content="<?=$keywords;?>">
         <meta name="description" content="<?=$description;?>">
-        <meta name="author" content="Munajat Ibnu">
+        <link rel="canonical" href="<?=tag_key('site_url');?>" />
+        <meta name="author" content="<?=tag_key('site_author');?>">
         <link rel="icon" href="<?=base_url('assets');?>/images/tebuireng4.ico">
         <!-- CSS -->
         <link rel="stylesheet" href="<?=base_url('assets');?>/dist/css/bootstrap.min.css">
