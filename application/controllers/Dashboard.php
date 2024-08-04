@@ -36,7 +36,7 @@
 			$this->thm->set('keywords', tag_key('site_keys'));
 			
 			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
-			$data['row'] = $this->model_app->view_where('rb_pages',['seo'=>'syarat','aktif'=>'Ya']);
+			$data['row'] = $this->model_app->view_where('rb_pages',['seo'=>'syarat','aktif'=>'Ya'])->row();
 			$data['menu'] = $this->model_data->get_categories();
 			
 			// dump($data['provinsi']);
