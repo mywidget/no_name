@@ -684,7 +684,7 @@
 					$captcha_response = trim($this->input->post('g-recaptcha-response'));
 					
 					$check = array(
-					'secret'		=>	<?=tag_key('secret_key');?>,
+					'secret'		=>	tag_key('secret_key'),
 					'response'		=>	$captcha_response,
 					'remoteip'		=>	$this->input->ip_address()
 					);
