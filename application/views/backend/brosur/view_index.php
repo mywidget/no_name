@@ -119,7 +119,7 @@
 						
 						<div class="form-group mb-1 row">
 							<div class="col-6">
-								<label class="form-label" for="tampil_image">Tampilkan Gambar</label>
+								<label class="form-label" for="tampil_image">Tampilkan Gambar Detail</label>
 								<select name="tampil_image" id="tampil_image" class="form-control form-select">
 									<option value="Ya">Ya</option>
 									<option value="Tidak">Tidak</option>
