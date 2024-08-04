@@ -38,7 +38,7 @@
                             
                             $hapus = '<a class="dropdown-item text-danger" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
                             
-                            $edit ="<a href='javascript:void(0);' class='dropdown-item text-info' data-bs-toggle='modal' data-bs-target='#OpenModalUser' data-id='<?=$kode;?>' data-mod='edit' class='openPopup text-info'><i class='ti ti-edit'></i>&nbsp;&nbsp;Edit Data</a>";
+                            $edit ="<a href='javascript:void(0);' class='dropdown-item text-info' data-bs-toggle='modal' data-bs-target='#OpenModalUser' data-id='".$kode."' data-mod='edit' class='openPopup text-info'><i class='ti ti-edit'></i>&nbsp;&nbsp;Edit Data</a>";
                             
                             $status = '<a class="btn btn-'.$color.' btn-sm flat" data-id="'.$kode.'">'.$icon.'</a>';
                             
