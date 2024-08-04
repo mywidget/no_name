@@ -190,6 +190,4 @@
             })
         });
     </script>    
-    <?php }else{
-        echo "Belum ada data";
-    } ?>                                    
+    <?php }else{echo "Belum ada data";} ?>

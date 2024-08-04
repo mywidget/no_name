@@ -36,28 +36,19 @@
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['status'=>1,'aktif'=>'Ya'])->result();
 			$data['menu'] = getMenu($this->menu);
-			$status = $this->input->get();
-			// if(isset($status)){
-			// if(!empty($status['baru'])){
-			$data['status'] = 'Baru';
-			// $data['baru'] = $status['baru'];
-			// }else{
-			$data['baru'] = '';
-			// $data['status'] = '';
-			// }
-			// if(!empty($status['pindahan'])){
-			// $data['pindahan'] = $status['baru'];
-			// $data['status'] = 'Pindahan';
-			// }else{
-			// $data['pindahan'] = '';
-			// $data['status'] = '';
-			// }
-			// }else{
-			// $data['baru'] = '';
-			// $data['pindahan'] = '';
-			// $data['status'] = '';
-			// }
+			$status = $this->input->get('status',true);
+			$filter = $this->input->get('filter',true);
+			// dump($status); 
+			$data['status'] = '';
+			$data['filter'] = '';
+			if(!empty($status)){
+				$data['status'] = $status;
+			}
+			if(!empty($filter)){
+				$data['filter'] = $filter;
+			}
 			
+			// dump(ucfirst($data['status']));
 			$this->thm->load('backend/template','backend/pendaftar/view_index',$data);
 		}
 		
@@ -110,11 +101,13 @@
 			
 			$diterima = $this->input->post('diterima');
 			if (!empty($diterima)) {
-				$conditions['search']['sortKelas'] = $sortKelas;
+				$conditions['where'] = ['s_pendidikan'=>'Baru',
+				'status'=>$diterima
+				];
+				}else{
+				$conditions['where'] = ['s_pendidikan'=>'Baru'];
 			}
 			
-			$conditions['where'] = ['s_pendidikan'=>'Baru'
-			];
 			
 			// Get record count 
 			$conditions['returnType'] = 'count';
@@ -152,7 +145,11 @@
 			$data['tahun'] = $this->model_app->view('rb_tahun_akademik')->result();
 			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['aktif'=>'Ya'])->result();
-			
+			$status = $this->input->get('status',true);
+			$data['status'] = '';
+			if(!empty($status)){
+				$data['status'] = $status;
+			}
 			
 			$this->thm->load('backend/template','backend/pendaftar/view_index_naik_tingkat',$data);
 		}
@@ -190,7 +187,14 @@
 			if (!empty($sortKelas)) {
 				$conditions['search']['sortKelas'] = $sortKelas;
 			}
-			$conditions['where'] = ['s_pendidikan'=>'Naik Tingkatan'];
+			$diterima = $this->input->post('diterima');
+			if (!empty($diterima)) {
+				$conditions['where'] = ['s_pendidikan'=>'Naik Tingkatan',
+				'status'=>$diterima
+				];
+				}else{
+				$conditions['where'] = ['s_pendidikan'=>'Naik Tingkatan'];
+			}
 			// Get record count 
 			$conditions['returnType'] = 'count';
 			$totalRec = $this->model_pendaftar->getPendaftar($conditions);
@@ -213,7 +217,7 @@
 			$data['record'] = $this->model_pendaftar->getPendaftar($conditions);
 			
 			// Load the data list view 
-			$this->load->view('backend/pendaftar/get-ajax',$data);
+			$this->load->view('backend/pendaftar/get-ajax-naik-tingkat',$data);
 			
 		}
 		
@@ -1110,4 +1114,4 @@
             $writer->save('php://output');
 		}
 		
-	}																																																																																																																																																		
+	}																																																																																																																																																				

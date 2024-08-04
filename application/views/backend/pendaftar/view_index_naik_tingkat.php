@@ -11,7 +11,7 @@
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
                 <div class="btn-list">
-					 
+					
 				</div>
 			</div>
 		</div>
@@ -178,6 +178,9 @@
 	}
 	
 </style>
+<script>
+	var filter_status = "<?=ucfirst($status);?>";
+</script>
 <?php
 	$this->RenderScript[] = function() {
 	?>
@@ -191,6 +194,7 @@
 			var sort_tahun = $('#sort_tahun').val();
 			var sortUnit = $('#sortUnit').val();
 			var sortKelas = $('#sortKelas').val();
+			var diterima = filter_status;
 			$.ajax({
 				type: 'POST',
 				url: base_url+'pendaftar/ajax_list_naik_tingkat/'+page_num,
@@ -201,7 +205,8 @@
 					sortBy:sortBy,
 					status:status,
 					sortUnit:sortUnit,
-					sortKelas:sortKelas
+					sortKelas:sortKelas,
+					diterima:diterima
 				},
 				beforeSend: function(){
 					$('body').loading();

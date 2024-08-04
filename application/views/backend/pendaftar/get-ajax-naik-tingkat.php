@@ -128,7 +128,7 @@
         <?php echo $this->ajax_pagination->create_links(); ?>
     </div>
     <?php }else{ ?>
-    <table class='table table-bordered'>
+   <table class="table card-table table-vcenter table-striped text-nowrap datatable">
         <tr>
             <td>Belum ada data</td>
         </tr>

@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar" class="btn">
+                                        <a href="/pendaftar?status=Diterima" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -93,7 +93,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar" class="btn">
+                                        <a href="/pendaftar?status=Tidak Diterima" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -120,7 +120,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar" class="btn">
+                                        <a href="/pendaftar?filter=Pindahan" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -146,7 +146,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar" class="btn">
+                                        <a href="/pendaftar?filter=Pindahan&status=Diterima" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -172,7 +172,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar" class="btn">
+                                        <a href="/pendaftar?filter=Pindahan&status=Tidak Diterima" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -225,7 +225,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                        <a href="/pendaftar/naik_tingkat?status=Diterima" class="btn">
                                             Detail
                                         </a>
                                     </div>
@@ -252,7 +252,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="/pendaftar/naik_tingkat" class="btn">
+                                        <a href="/pendaftar/naik_tingkat?status=Tidak Diterima" class="btn">
                                             Detail
                                         </a>
                                     </div>

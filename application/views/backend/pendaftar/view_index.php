@@ -78,8 +78,8 @@
 								<div class="d-none d-sm-inline-block">Status</div>
 								<div class="mx-2 d-inline-block">
 									<select id="status" name="status" class="form-control form-select" style="width:100px!important" onchange="searchPengguna()">
-										<option value="Baru" <?php echo ($status == 'Baru') ? 'selected' : ''; ?>>Baru</option>
-										<option value="Pindahan" <?php echo ($status == 'Pindahan') ? 'selected' : ''; ?>>Pindahan</option>
+										<option value="Baru" <?php echo ($filter == 'Baru') ? 'selected' : ''; ?>>Baru</option>
+										<option value="Pindahan" <?php echo ($filter == 'Pindahan') ? 'selected' : ''; ?>>Pindahan</option>
 									</select>
 								</div>
 							</div>
@@ -227,6 +227,7 @@
 		</div>
 	</div>
 </div>
+
 <style>
     .select2-container {
     width: 100% !important;
@@ -240,6 +241,9 @@
 	}
 	
 </style>
+<script>
+	var filter_status = "<?=ucfirst($status);?>";
+</script>
 <?php
 	$this->RenderScript[] = function() {
 	?>
@@ -255,7 +259,7 @@
 			var status = $('#status').val();
 			var sortUnit = $('#sortUnit').val();
 			var sortKelas = $('#sortKelas').val();
-			var diterima = "";
+			var diterima = filter_status;
 			$.ajax({
 				type: 'POST',
 				url: base_url+'pendaftar/ajax_list/'+page_num,
@@ -277,12 +281,15 @@
 					$('body').loading('stop');
 				},
 				success: function(html){
+					
 					if(html=='Belum ada data'){
 						$('#export').removeClass('btn-success').addClass('btn-secondary');
 						$('#export').attr('disabled',true);
-						html = "<table class='table table-bordered'><tr><td>"+html+"</td></tr></table>";
-					}
+						var data = "<table class='table table-bordered'><tr><td>"+html+"</td></tr></table>";
+					$('#posts_content').html(data);
+					}else{
 					$('#posts_content').html(html);
+					}
 					$('body').loading('stop');
 				}
 				
