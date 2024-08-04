@@ -39,7 +39,7 @@
 			$data['row'] = $this->model_app->view_where('rb_pages',['seo'=>'syarat','aktif'=>'Ya'])->row();
 			$data['menu'] = $this->model_data->get_categories();
 			
-			dump($data['row']);
+			dump($data['tahun']);
 			$this->thm->load('frontend/template','frontend/syarat',$data);
 		}
 		
