@@ -271,7 +271,7 @@
 				cek_crud_akses('CONTENT','json');
 				$id = $this->db->escape_str($this->input->post('id'));
 				$index = decrypt_url($id);
-				$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
+				$data['tahun'] = $this->model_app->view('rb_tahun_akademik')->result();
 				
 				$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('rb_unit','id,nama_jurusan','id','ASC')->result_array();
 				$data['kamar'] = $this->model_app->view_ordering('rb_kamar','nama_kamar','ASC')->result_array();
