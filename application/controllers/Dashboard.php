@@ -600,6 +600,14 @@
 				
 				$this->form_validation->set_rules(array(
 				array(
+				'field' => 'thnakademik',
+				'label' => 'Tahun Akademik',
+				'rules' => 'required|trim',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				)
+				),
+				array(
 				'field' => 'email',
 				'label' => 'Email',
 				'rules' => 'required|trim|min_length[10]|is_unique[rb_psb_daftar.email]',
