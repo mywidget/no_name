@@ -882,7 +882,7 @@
 			/* Data */
 			$filter = $this->input->post('export');
 			$data = $this->model_pendaftar->fetch_transactions();
-			dump($data);
+			// dump($data);
 			/* Spreadsheet Init */
 			$spreadsheet = new Spreadsheet();
 			
