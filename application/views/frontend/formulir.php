@@ -319,7 +319,7 @@
                         <label for="nokk" class="form-label m-0"><small> Nomor Kartu Keluarga </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="no_kk" id="nokk" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  value="<?=$no_kk;?>" required>  
+                        <input type="number" name="no_kk" id="nokk" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  value="<?=$no_kk;?>" required>  
                         <div class="invalid-tooltip">Nomor KK wajib diisi</div>
                     </div>
                 </div>
