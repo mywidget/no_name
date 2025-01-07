@@ -381,11 +381,17 @@
 			{
 				$id = $this->input->post('id',true);
 				$gender = $this->input->post('gender',true);
-				$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'gender'=>$gender,'aktif'=>'Ya'])->result();
-				// dump($kamar);
-				foreach($kamar AS $val){
-					$response[] = ['id'=>($val->nama_kamar),
-					'name'=>($val->nama_kamar)
+				if(empty($gender)){
+					$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'gender'=>$gender,'aktif'=>'Ya'])->result();
+					// dump($kamar);
+					foreach($kamar AS $val){
+						$response[] = ['id'=>($val->nama_kamar),
+						'name'=>($val->nama_kamar)
+						];
+					}
+					}else{
+					$response = ['id'=>0,
+					'name'=>'-'
 					];
 				}
 				
@@ -1050,7 +1056,7 @@
 			
 		}
 		
-		 
+		
 		// Fungsi untuk mengambil data jumlah pendaftar per kelas berdasarkan tahun akademik melalui AJAX
 		public function get_data_per_kelas() {
 			$tahun = $this->input->post('tahun',true);
