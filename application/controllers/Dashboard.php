@@ -390,7 +390,7 @@
 						];
 					}
 					}else{
-					$response = ['id'=>0,
+					$response[] = ['id'=>0,
 					'name'=>'-'
 					];
 				}
