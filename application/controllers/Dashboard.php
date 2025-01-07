@@ -335,11 +335,12 @@
 			{
 				$id = $this->input->post('id',true);
 				$status = $this->input->post('status',true);
-				if($status=='Baru'){
-					$where = ['id_unit'=>$id,'aktif'=>'Ya','status'=>1];
-					}else{
-					$where = ['id_unit'=>$id];
-				}
+				// if($status=='Baru'){
+					// $where = ['id_unit'=>$id,'aktif'=>'Ya','status'=>1];
+					// }else{
+					// $where = ['id_unit'=>$id];
+				// }
+				$where = ['id_unit'=>$id,'aktif'=>'Ya','status'=>1];
 				$kelas = $this->model_app->view_where_ordering('rb_kelas',$where,'nama_kelas','ASC')->result();
 				$response = [];
 				foreach($kelas AS $val)
