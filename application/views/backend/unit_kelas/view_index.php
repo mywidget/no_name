@@ -18,7 +18,7 @@
 <div class="page-body">
 	<div class="container-xl">
 		<div class="row row-cards">
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-12 col-sm-12">
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data Unit</h3>
@@ -67,7 +67,7 @@
 					</div>
 				</div><!-- /.card -->
 			</div>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-12 col-sm-12">
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data Kelas</h3>
@@ -213,7 +213,7 @@
 					<div class="card-block">
 						<div class="form-group mb-1">
 							<label class="form-label" for="kode_kelas">Unit</label>
-							<select name="unit_kelas" id="unit_kelas" class="form-control form-select">
+							<select name="unit_kelas" id="id_unit_kelas" class="form-control form-select">
 								<option value="">Pilih Unit</option>
 								<?php foreach($unit AS $val) : ?>
 								<option value="<?=$val->id;?>"><?=$val->nama_jurusan;?></option>
@@ -473,7 +473,7 @@
 						$('#id_kelas').val(data.id);
 						$('#kode_kelas').val(data.kode);
 						$('#nama_kelas').val(data.nama);
-						$('#unit_kelas').val(data.unit);
+						$('#id_unit_kelas').val(data.unit);
 						$('#aktif_kelas').val(data.aktif);
 						$('body').loading('stop');
 					},
@@ -492,10 +492,10 @@
 		function simpanKelas()
 		{
 			// console.log('submit');
-			if($("#unit_kelas").val()==''){
-				$("#unit_kelas").addClass('form-control-warning');
+			if($("#id_unit_kelas").val()==''){
+				$("#id_unit_kelas").addClass('form-control-warning');
 				showNotif('top-center','Input Data','Harus dipilih','warning');
-				$("#unit_kelas").focus();
+				$("#id_unit_kelas").focus();
 				return;
 			}
 			if($("#kode_kelas").val()==''){
