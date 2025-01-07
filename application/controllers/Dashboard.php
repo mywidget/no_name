@@ -340,7 +340,7 @@
 					// }else{
 					// $where = ['id_unit'=>$id];
 				// }
-				$where = ['id_unit'=>$id,'aktif'=>'Ya','status'=>1];
+				$where = ['id_unit'=>$id,'aktif'=>'Ya'];
 				$kelas = $this->model_app->view_where_ordering('rb_kelas',$where,'nama_kelas','ASC')->result();
 				$response = [];
 				foreach($kelas AS $val)
