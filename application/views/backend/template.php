@@ -58,7 +58,8 @@
             // var baseurl = 
         </script>
         <script src="<?=base_url('assets/');?>backend/js/custom.js?r=<?=time();?>" type="text/javascript"></script>
-        <script src="<?=base_url();?>assets/backend/libs/tinymce/tinymce.min.js?1668287865" defer></script>
+        <!--script src="<?=base_url();?>assets/backend/libs/tinymce/tinymce.min.js?1668287865" defer></script-->
+       
     </head>
     <body >
         <script src="<?=base_url('assets/');?>backend/js/demo-theme.min.js?1666304673"></script>
@@ -211,7 +212,8 @@
         
         <!-- Libs JS -->
         
-       
+       <!--script src="https://cdn.tiny.cloud/1/idl3cu7ft4vqd894w7n1pmou866f612eo65mpfqg4xnqc8qe/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script-->
         <script src="<?= base_url('assets/'); ?>backend/libs/sweetalert2/sweetalert2.min.js"></script>
         
         <script src="//cdn.jsdelivr.net/npm/litepicker-polyfills-ie11/dist/index.js" defer></script>
@@ -223,6 +225,7 @@
         
         <script src="<?=base_url();?>assets/backend/libs/icon-picker/simple-iconpicker.js" defer></script>
         <script type="text/javascript" src="<?=base_url();?>assets/backend/js/datatables.min.js"></script>
+        
         <script>
             $("li.nav-item a").filter(function() {
                 return this.href == url;

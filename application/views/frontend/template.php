@@ -12,7 +12,7 @@
         <meta name="description" content="<?=$description;?>">
         <link rel="canonical" href="<?=tag_key('site_url');?>" />
         <meta name="author" content="<?=tag_key('site_author');?>">
-        <link rel="icon" href="<?=base_url('assets');?>/images/tebuireng4.ico">
+        <link rel="icon" type="image/x-icon" href="<?= base_url('upload/'); ?><?=info('site_favicon');?>">
         <!-- CSS -->
         <link rel="stylesheet" href="<?=base_url('assets');?>/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -24,7 +24,7 @@
             var base_url = '<?=base_url();?>';
             var base_url_assets = base_url + 'assets';
             var file_size = '<?=tag_key('file_size');?>';
-   
+            
         </script>
     </head>
     
@@ -75,21 +75,31 @@
                     <div class="col-sm-4">
                         <h5>Ikuti Kami</h5>
                         <div class="d-flex justify-content-center">
-                            <a class="link-dark px-3" href="https://www.instagram.com/tebuireng_alishlah" target="_blank">
+                            <?php if(tag_key('view_instagram')=='Y'):?>
+                            <a class="link-dark px-3" href="<?=tag_key('instagram_link');?>" target="_blank">
                                 <span><i class="fa fa-instagram fa-lg" aria-hidden="true"></i></span>
                             </a>
-                            <a class="link-dark px-3" href="https://www.facebook.com/Tebuirengalishlah" target="_blank">
+                            <?php endif;  ?>
+                             <?php if(tag_key('view_facebook')=='Y'):?>
+                            <a class="link-dark px-3" href="<?=tag_key('facebook_link');?>" target="_blank">
                                 <span><i class="fa fa-facebook-square fa-lg" aria-hidden="true"></i></span>
                             </a>
-                            <a class="link-dark px-3" href="https://youtube.com/@tebuireng4al-ishlah393" target="_blank">
+                            <?php endif;  ?>
+                             <?php if(tag_key('view_youtube')=='Y'):?>
+                            <a class="link-dark px-3" href="<?=tag_key('youtube_link');?>" target="_blank">
                                 <span><i class="fa fa-youtube-play fa-lg" aria-hidden="true"></i></span>
                             </a>
-                            <a class="link-dark px-3" href="https://www.tiktok.com/@tebuireng.alishlah?_t=8kk7VRYAF0R&_r=1" target="_blank">
+                            <?php endif;  ?>
+                             <?php if(tag_key('view_twitter')=='Y'):?>
+                            <a class="link-dark px-3" href="<?=tag_key('twitter_link');?>" target="_blank">
                                 <span><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></span>
                             </a>
-                            <a class="link-dark px-3" href="https://www.instagram.com/tebuireng_alishlah/?igshid=MzNlNGNkZWQ4Mg%3D%3D" target="_blank">
+                            <?php endif;  ?>
+                             <?php if(tag_key('view_telegram')=='Y'):?>
+                            <a class="link-dark px-3" href="<?=tag_key('telegram_link');?>" target="_blank">
                                 <span><i class="fa fa-telegram fa-lg" aria-hidden="true"></i></span>
                             </a>
+                            <?php endif;  ?>
                         </div>
                     </div>
                 </div>
@@ -102,33 +112,33 @@
         
         <!-- Javascript -->
         <script src="<?=base_url('assets');?>/fullscreen/assets/js/jquery-3.5.1.min.js"></script>
-        <!--script src="<?=base_url('assets');?>/fullscreen/assets/js/jquery-migrate-3.3.0.min.js"></script-->		
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="<?=base_url('assets');?>/js/bootstrap.bundle.min.js"></script>
-        <script src="<?= base_url('assets/'); ?>build/js/intlTelInput.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.3/dist/index.bundle.min.js"></script>
-        <script src="<?=base_url('assets');?>/js/sweetalert2.all.min.js"></script>
-        <script src="<?=base_url('assets');?>/fullscreen/assets/js/jquery.backstretch.min.js"></script>
-        <script src="<?=base_url('assets');?>/fullscreen/assets/js/wow.min.js"></script>
-        <script src="<?=base_url('assets');?>/fullscreen/assets/js/waypoints.min.js"></script>
-        
-        <script src="<?=base_url('assets');?>/fullscreen/assets/js/scripts.js"></script>
-        <script src="<?=base_url('assets');?>/js/function.js?v=<?=time();?>"></script>
-        <script>
-            var url = window.location;
-            // untuk sidebar menu
-            $('ul.nav li.nav-item a').filter(function() {
-                return this.href == url;
-            }).siblings().removeClass('active').end().addClass('active');
-            
-        </script>
-        <?php
-            if(isset($this->RenderScript))
-            foreach($this->RenderScript as $script) {
-                $script();
-            }
-        ?>
-        
+                <!--script src="<?=base_url('assets');?>/fullscreen/assets/js/jquery-migrate-3.3.0.min.js"></script-->		
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="<?=base_url('assets');?>/js/bootstrap.bundle.min.js"></script>
+                <script src="<?= base_url('assets/'); ?>build/js/intlTelInput.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.3/dist/index.bundle.min.js"></script>
+                <script src="<?=base_url('assets');?>/js/sweetalert2.all.min.js"></script>
+                <script src="<?=base_url('assets');?>/fullscreen/assets/js/jquery.backstretch.min.js"></script>
+                <script src="<?=base_url('assets');?>/fullscreen/assets/js/wow.min.js"></script>
+                <script src="<?=base_url('assets');?>/fullscreen/assets/js/waypoints.min.js"></script>
+                
+                <script src="<?=base_url('assets');?>/fullscreen/assets/js/scripts.js"></script>
+                <script src="<?=base_url('assets');?>/js/function.js?v=<?=time();?>"></script>
+                <script>
+                    var url = window.location;
+                    // untuk sidebar menu
+                    $('ul.nav li.nav-item a').filter(function() {
+                        return this.href == url;
+                    }).siblings().removeClass('active').end().addClass('active');
+                    
+                </script>
+                <?php
+                    if(isset($this->RenderScript))
+                    foreach($this->RenderScript as $script) {
+                        $script();
+                    }
+                ?>
+                
     </body>
     
 </html>        

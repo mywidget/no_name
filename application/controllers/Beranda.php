@@ -8,7 +8,7 @@
 			parent::__construct();
 			
 			cek_session_login(1);
-			$this->load->model('model_pendaftar');
+			
 			$this->title = tag_key('site_title');
 			$this->iduser = $this->session->iduser; 
             $this->level = $this->session->level; 
@@ -21,91 +21,76 @@
 			$this->thm->set('title', 'Dashboard');
 			//PENDAFTAR BARU
 			$_where['where'] = array(
-			'pd.s_pendidikan' => 'Baru',
-			'td.aktif'=>'Ya'
+			's_pendidikan' => 'Baru'
 			);
 			//PENDAFTAR BARU DITERIMA
 			$diterima['where'] = array(
-			'pd.s_pendidikan' => 'Baru',
-			'pd.status' => 'Diterima',
-			'td.aktif'=>'Ya',
+			's_pendidikan' => 'Baru',
+			'status' => 'Diterima'
 			);
 			//PENDAFTAR BARU DITERIMA
 			$ditolak['where'] = array(
-			'pd.s_pendidikan' => 'Baru',
-			'pd.status' => 'Tidak Diterima',
-			'td.aktif'=>'Ya'
+			's_pendidikan' => 'Baru',
+			'status' => 'Tidak Diterima'
 			);
 			
 			//PENDAFTAR PINDAHAN
 			$pindahan['where'] = array(
-			'pd.s_pendidikan' => 'Pindahan',
-			'td.aktif'=>'Ya'
+			's_pendidikan' => 'Pindahan'
 			);
 			//PENDAFTAR PINDAHAN DITERIMA
 			$pindahan_diterima['where'] = array(
-			'pd.s_pendidikan' => 'Pindahan',
-			'pd.status' => 'Diterima',
-			'td.aktif'=>'Ya'
+			's_pendidikan' => 'Pindahan',
+			'status' => 'Diterima'
 			);
 			//PENDAFTAR PINDAHAN DITOLAK
 			$pindahan_ditolak['where'] = array(
-			'pd.s_pendidikan' => 'Pindahan',
-			'pd.status' => 'Tidak Diterima',
-			'td.aktif'=>'Ya'
+			's_pendidikan' => 'Pindahan',
+			'status' => 'Tidak Diterima'
 			);
-			
+			 
 			//PENDAFTAR NAIK TINGKAT
 			$where['where'] = array(
-			'pd.s_pendidikan' => 'Naik Tingkatan',
-			'td.aktif'=>'Ya'
+			's_pendidikan' => 'Naik Tingkatan',
 			);
 			
 			//PENDAFTAR NAIK DITERIMA
 			$naik_diterima['where'] = array(
-			'pd.s_pendidikan' => 'Naik Tingkatan',
-			'pd.status' => 'Diterima',
-			'td.aktif'=>'Ya'
+			's_pendidikan' => 'Naik Tingkatan',
+			'status' => 'Diterima'
 			);
 			
 			//PENDAFTAR NAIK DITOLAK
 			$naik_ditolak['where'] = array(
-			'pd.s_pendidikan' => 'Naik Tingkatan',
-			'pd.status' => 'Tidak Diterima',
-			'td.aktif'=>'Ya'
+			's_pendidikan' => 'Naik Tingkatan',
+			'status' => 'Tidak Diterima'
 			);
 			
 			$where_user['where'] = array(
-			'level !=' => 'admin',
-			'aktif'=>'Ya'
+			'level !=' => 'admin'
 			);
 			
 			$data['pengguna'] = $this->model_app->counter('tb_users',$where_user);
 			
 			//baru
-			$data['pendaftar_baru'] = $this->model_data->get_counter_by_tahun_akademik($_where);
-			$data['pendaftar_diterima'] = $this->model_data->get_counter_by_tahun_akademik($diterima);
-			//ditolak
-			$data['pendaftar_ditolak'] = $this->model_data->get_counter_by_tahun_akademik($ditolak);
+			$data['pendaftar_baru'] = $this->model_app->counter('rb_psb_daftar',$_where);
+			$data['pendaftar_diterima'] = $this->model_app->counter('rb_psb_daftar',$diterima);
+			$data['pendaftar_ditolak'] = $this->model_app->counter('rb_psb_daftar',$ditolak);
 			//pindahan
-			$data['pendaftar_pindahan_baru'] =$this->model_data->get_counter_by_tahun_akademik($pindahan);
-			$data['pendaftar_pindahan_diterima'] = $this->model_data->get_counter_by_tahun_akademik($pindahan_diterima);
-			$data['pendaftar_pindahan_ditolak'] = $this->model_data->get_counter_by_tahun_akademik($pindahan_ditolak);
+			$data['pendaftar_pindahan_baru'] = $this->model_app->counter('rb_psb_daftar',$pindahan);
+			$data['pendaftar_pindahan_diterima'] = $this->model_app->counter('rb_psb_daftar',$pindahan_diterima);
+			$data['pendaftar_pindahan_ditolak'] = $this->model_app->counter('rb_psb_daftar',$pindahan_ditolak);
 			//NAIK TINGKAT
-			$data['naik_tingkat'] = $this->model_data->get_counter_by_tahun_akademik($where);
-			
-			$data['naik_tingkat_diterima'] = $this->model_data->get_counter_by_tahun_akademik($naik_diterima);
-			
-			$data['naik_tingkat_ditolak'] = $this->model_data->get_counter_by_tahun_akademik($naik_ditolak);
-			
+			$data['naik_tingkat'] = $this->model_app->counter('rb_psb_daftar',$where);
+			$data['naik_tingkat_diterima'] = $this->model_app->counter('rb_psb_daftar',$naik_diterima);
+			$data['naik_tingkat_ditolak'] = $this->model_app->counter('rb_psb_daftar',$naik_ditolak);
+			 
 			$data['tanggal'] = tgl_dari_slash() . ' - ' .tgl_sampai_slash();
 			$data['dari'] = month();
 			$data['sampai'] = year();
 			
 			$data['item'] = year();
-			$data['tahun_aktif'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row()->id_tahun_akademik;
-			// dump($data['tahun_aktif']);
-			$data['tahun_akademik'] = $this->model_pendaftar->get_tahun_akademik();
+			
 			$this->thm->load('backend/template','backend/dashboard',$data);
 			
 			
@@ -294,32 +279,8 @@
 			->set_content_type('application/json')
 			->set_output(json_encode($json));
 		}
-		public function get_data()
-		{
-			// Mengambil data pendaftar per kelas dari model
-			$data = $this->data_Pendaftar();
-			// dump($data);
-			// Mengembalikan data dalam format JSON
-			echo json_encode($data);
-		}
 		
-		private function data_Pendaftar()
-		{
-			// Query untuk mengambil jumlah pendaftar berdasarkan kelas
-			$this->db->select('u.kode_jurusan, COUNT(p.id) as total_pendaftar, ta.nama_tahun as id_tahun_akademik');
-			$this->db->from('rb_unit u');
-			$this->db->join('rb_psb_daftar p', 'p.id_unit = u.id', 'left');
-			$this->db->join('rb_tahun_akademik ta', 'ta.id_tahun_akademik = p.tahun_akademik', 'right');
-			$this->db->where('id_unit >',0);
-			
-			 // $this->db->order_by('u.urutan', 'ASC');
-			$this->db->group_by('p.id_unit, ta.id_tahun_akademik');
- 
-			$query = $this->db->get();
-			
-			// Mengembalikan hasil query sebagai array
-			return $query->result_array();
-		}
+		
 	}
 	
 	/* End of file Home.php */

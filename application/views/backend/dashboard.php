@@ -270,26 +270,52 @@
                         </div>
                     </div>
                     
-                    <!--div class="col-sm-12 col-lg-12">
+                    <div class="col-sm-12 col-lg-12">
                         <div class="card">
-                        <div class="card-body">
-                        <div class="d-flex align-items-center">
-                        <div class="subheader">GRAFIK</div>
-                        <div class="ms-auto lh-1">
-                        <div class="input-group">
-                        <span class="input-group-text">
-                        <a href="#" class="link-secondary">
-                        <i class="ti ti-calendar fa-lg"></i>
-                        </a>
-                        </span>
-                        <input type="text" id="tanggal_satker" class="form-control w-30 tanggal" value="<?=$tanggal;?>" />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="subheader">GRAFIK PENDAFTAR</div>
+                                    <div class="ms-auto lh-1">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <a href="#" class="link-secondary">
+                                                    <i class="ti ti-calendar fa-lg"></i>
+                                                </a>
+                                            </span>
+                                            <select id="tahun_akademik" name="tahun_akademik" class="form-control custom-select">
+                                                <option value="">-- Pilih Tahun Akademik --</option>
+                                                <?php foreach ($tahun_akademik as $ta): ?>
+                                                
+                                                <option value="<?= $ta['id_tahun_akademik']; ?>" <?php echo ($ta['id_tahun_akademik'] == $tahun_aktif) ? 'selected' : ''; ?>><?= $ta['nama_tahun']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="chart_pendaftar" class="p-3"></div>
                         </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="subheader">GRAFIK PENDAFTAR</div>
+                                    <div class="ms-auto lh-1">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <a href="#" class="link-secondary">
+                                                    <i class="ti ti-calendar fa-lg"></i>
+                                                </a>
+                                            </span>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="chart" class="p-3"></div>
                         </div>
-                        </div>
-                        </div>
-                        <div id="chart_satker" class="p-3"></div>
-                        </div>
-                    </div-->
+                    </div>
                 </div>
             </div>
         </div>
@@ -299,7 +325,163 @@
 <style>
     .dataTables_wrapper {padding:0 10px 20px 10px}
 </style>
+
 <script>
+    $(document).ready(function() {
+        // Ambil data dari controller
+        $.ajax({
+            url: '<?= base_url('home/get_data') ?>',
+            method: 'GET',
+            success: function(response) {
+                const data = JSON.parse(response);
+                let chartData = {};
+                let categories = [];
+                
+                // Mengelompokkan data berdasarkan kode_jurusan dan tahun akademik
+                data.forEach(item => {
+                    if (!chartData[item.kode_jurusan]) {
+                        chartData[item.kode_jurusan] = {
+                            name: item.kode_jurusan,
+                            data: []
+                        };
+                    }
+                    chartData[item.kode_jurusan].data.push(item.total_pendaftar);
+                    if (!categories.includes(item.id_tahun_akademik)) {
+                        categories.push(item.id_tahun_akademik);
+                    }
+                });
+                
+                // Persiapkan series untuk ApexCharts
+                let series = Object.values(chartData);
+                let options = {
+                    chart: {
+                        type: 'bar',
+                        height: 300,
+                        maxHeight: 300
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '40%'
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    series: series,
+                    xaxis: {
+                        categories: categories
+                    },
+                    colors: ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF'], // Contoh warna berbeda untuk tiap unit
+                    title: {
+                        text: 'Total Pendaftar per Unit dan Tahun Akademik'
+                    }
+                };
+                
+                // Membuat chart
+                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            },
+            error: function() {
+                alert('Error loading data');
+            }
+        });
+    });
+</script>
+<script>
+    
+    var tahun_aktif = "<?=$tahun_aktif;?>";
+    // Fungsi untuk memuat data ke chart
+    var chart;
+    function loadChartData(tahun) {
+        $.ajax({
+            url: '<?php echo site_url('dashboard/get_data_per_kelas'); ?>',
+            method: 'POST',
+            data:{tahun:tahun},
+            dataType: 'json',
+            success: function(response) {
+                var kelas = [];
+                var total_pendaftar = [];
+                var tahun_akademik = [];
+                
+                response.forEach(function(item) {
+                    kelas.push(item.kelas);
+                    total_pendaftar.push(item.total_pendaftar);
+                    tahun_akademik.push(item.nama_tahun);
+                });
+                
+                // Cek apakah chart sudah ada
+                if (chart) {
+                    // Jika chart sudah ada, update data chart
+                    chart.updateOptions({
+                        series: [{
+                            name: 'Total Pendaftar',
+                            data: total_pendaftar
+                        }],
+                        xaxis: {
+                            categories: kelas
+                        },
+                        subtitle: {
+                            text: 'Tahun Akademik: ' + tahun,
+                            align: 'center'
+                        }
+                    });
+                    } else {
+                    // Jika chart belum ada, buat chart baru
+                    var options = {
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        series: [{
+                            name: 'Total Pendaftar',
+                            data: total_pendaftar
+                        }],
+                        xaxis: {
+                            categories: kelas,
+                            title: {
+                                text: 'Kelas'
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Jumlah Pendaftar'
+                            }
+                        },
+                        title: {
+                            text: 'Total Pendaftar per Kelas',
+                            align: 'center'
+                        },
+                        subtitle: {
+                            text: 'Tahun Akademik: ' + tahun,
+                            align: 'center'
+                        },
+                        dataLabels: {
+                            enabled: true
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    };
+                    
+                    // Inisialisasi chart pertama kali
+                    chart = new ApexCharts(document.querySelector("#chart_pendaftar"), options);
+                    chart.render();
+                }
+            }
+        });
+    }
+    
+    // Memanggil fungsi untuk load data saat halaman dimuat
+    $(document).ready(function() {
+        // Load data awal tanpa filter
+        loadChartData(tahun_aktif);
+        
+        // Ketika tahun akademik dipilih, panggil fungsi untuk memuat data
+        $('#tahun_akademik').change(function() {
+            var selectedYear = $(this).val();
+            loadChartData(selectedYear);
+        });
+    });
     $(document).ready(function () {
         $('#aktifitas').DataTable();
     });

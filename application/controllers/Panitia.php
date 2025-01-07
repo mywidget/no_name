@@ -504,6 +504,7 @@
 				$this->image_lib->clear();
 			}
 		}
+		
 		function hapus_data(){
 			cek_input_post('GET');
 			cek_crud_akses('DELETE');
@@ -533,6 +534,7 @@
 			}
 			
 		}
+		
 		function hapus_brosur(){
 			cek_input_post('GET');
 			cek_crud_akses('DELETE');

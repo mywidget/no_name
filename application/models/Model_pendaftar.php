@@ -1,6 +1,30 @@
 <?php 
 	class Model_pendaftar extends CI_model{
 		
+		// Fungsi untuk mengambil total pendaftar per kelas dan mengurutkan berdasarkan tahun akademik
+		public function get_total_per_kelas($tahun_akademik = null) {
+			$this->db->select('pd.kelas, COUNT(*) as total_pendaftar, ta.nama_tahun');
+			$this->db->from('rb_psb_daftar pd');
+			$this->db->join('rb_tahun_akademik ta', 'pd.tahun_akademik = ta.id_tahun_akademik', 'left');
+			
+			// Jika tahun akademik dipilih, filter berdasarkan tahun akademik
+			if ($tahun_akademik) {
+				$this->db->where('pd.tahun_akademik', $tahun_akademik);
+			}
+			
+			$this->db->group_by('pd.kelas, ta.nama_tahun');
+			$this->db->order_by('ta.nama_tahun', 'ASC');
+			$query = $this->db->get();
+			
+			return $query->result_array();
+		}
+		
+		// Fungsi untuk mendapatkan daftar tahun akademik
+		public function get_tahun_akademik() {
+			$this->db->select('id_tahun_akademik, nama_tahun');
+			$query = $this->db->get('rb_tahun_akademik');
+			return $query->result_array();
+		}
 		function getPendaftar($params = array()){
 			// print_r($params);
 			$this->db->select('*'); 
@@ -759,4 +783,4 @@
 			$this->db->update_batch($table, $data, 'id'); // this will set the id column as the condition field
 			return true;
 		}
-	}							
+	}										

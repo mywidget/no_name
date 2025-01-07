@@ -287,7 +287,10 @@
 		echo "</textarea>";
 		exit;
 	}
-	
+	function cleanTag($text){
+		$text = preg_replace('/[^a-zA-Z0-9\s]/', ' ', strip_tags(html_entity_decode($text)));
+		return $text;
+	}    
 	function register_header($script, $loc=""){
 		global $register_header;
 		$register_header .= $script."\n";

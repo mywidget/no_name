@@ -6,7 +6,7 @@
 					<?=$menu;?>
 				</div>
                 <h2 class="page-title">
-					Halaman
+					Alur pendaftaran
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
@@ -49,8 +49,9 @@
 								<div class="d-none d-sm-inline-block">Sort</div>
 								<div class="mx-2 d-inline-block">
 									<select id="sortBy" class="form-control form-select w-1" onchange="searchData()" style="width:80px!important">
+										<option value="URUTAN" selected>URUTAN</option>
 										<option value="ASC">ASC</option>
-										<option value="DESC" selected>DESC</option>
+										<option value="DESC">DESC</option>
 									</select>
 								</div>
 							</div>
@@ -107,7 +108,7 @@
 	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="myModalLabel">Tambah halaman</h5>
+				<h5 class="modal-title" id="myModalLabel">Tambah</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -123,13 +124,17 @@
 									<input type="text" name="title" value="" class="form-control" id="title" placeholder="Title" required="">
 								</div>
 								<div class="form-group mb-1">
-									<label class="form-label" for="seo">seo</label>
-									<input type="text" name="seo" value="" class="form-control" id="seo" placeholder="seo" required="">
+									<label class="form-label" for="icon">Icon</label>
+									<input type="text" name="icon" value="" class="form-control" id="icon" placeholder="icon" required="">
 								</div>
 								
 								<div class="form-group mb-1">
 									<label class="form-label" for="deskripsi">Deskripsi</label>
 									<textarea  name="deskripsi" value="" class="form-control" id="deskripsi" required=""></textarea>
+								</div>
+								<div class="form-group mb-1">
+									<label class="form-label" for="urutan">Urutan</label>
+									<input type="number" name="urutan" value="" class="form-control" id="urutan" value="1"  required="" min="1">
 								</div>
 								<div class="form-group mb-1">
 									<label>Status Aktif</label>
@@ -157,7 +162,7 @@
 	pointer-events: none;
 	cursor: not-allowed;
 	}
-	 
+	
 </style>
 
 <?php
@@ -165,14 +170,7 @@
 	?>
 	
 	<script>
-		
-		// function startEditor(id) {
-		// tinymce.init({
-		// selector: "textarea#"+id,
-		// plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-		// toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-		// });
-		// }
+		 
 		$(document).ready(function () {
 			
 			tinymce.init({
@@ -208,13 +206,9 @@
 			var limit = $('#limits').val();
 			var keywords = $('#keywords').val();
 			var sortBy = $('#sortBy').val();
-			var sort_tahun = $('#sort_tahun').val();
-			var status = $('#status').val();
-			var sortUnit = $('#sortUnit').val();
-			var sortKelas = $('#sortKelas').val();
 			$.ajax({
 				type: 'POST',
-				url: base_url+'halaman/ajax_list/'+page_num,
+				url: base_url+'alur/ajax_list/'+page_num,
 				data:{page:page_num,
 					limit:limit,
 					keywords:keywords,
@@ -235,18 +229,20 @@
 			var mod = $(e.relatedTarget).data('mod');
 			if(mod=='add'){
 				$("#type").val('add');
-				$("#myModalLabel").html('Tambah halaman');
+				$("#myModalLabel").html('Tambah');
 				$("#title").val('');
+				$("#icon").val('');
+				$("#urutan").val(1);
 				// startEditor('deskripsi');
 				tinymce.get('deskripsi').setContent(''); 
 				return;
 				}else{
 				$("#type").val('edit');
-				$("#myModalLabel").html('Edit halaman');
+				$("#myModalLabel").html('Edit');
 			}
 			$.ajax({
 				type: 'POST',
-				url: base_url + "halaman/edit_data",
+				url: base_url + "alur/edit_data",
 				data: {id:id,mod:mod},
 				dataType: "json",
 				beforeSend: function () {
@@ -255,9 +251,8 @@
 				success: function(data) {
 					$('#id').val(data.id);
 					$('#title').val(data.title);
-					$('#seo').val(data.seo);
-					// $('#deskripsi').val(data.deskripsi);
-					// startEditor('deskripsi');
+					$('#icon').val(data.icon);
+					$('#urutan').val(data.urutan);
 					tinymce.get('deskripsi').setContent(data.deskripsi); 
 					$('#aktif').val(data.aktif);
 					
@@ -286,7 +281,7 @@
 			var formData = $("#formHalaman").serialize();
 			$.ajax({
 				type: "POST",
-				url: base_url+"halaman/simpan_data",
+				url: base_url+"alur/simpan_data",
 				dataType: 'json',
 				data: formData,
 				beforeSend: function () {
@@ -311,7 +306,7 @@
 		$(document).on('click','.hapus_user',function(e){
 			var id = $("#data-hapus").val();
 			$.ajax({
-				url: base_url + 'halaman/hapus_data',
+				url: base_url + 'alur/hapus_data',
 				data: {id:id},
 				method: 'POST',
 				dataType:'json',
@@ -340,7 +335,7 @@
 			var aktif = $(this).attr('data-aktif');
 			
 			$.ajax({
-				url: base_url + 'halaman/aktifkan',
+				url: base_url + 'alur/aktifkan',
 				data: {id:id,aktif:aktif},
 				method: 'POST',
 				dataType:'json',

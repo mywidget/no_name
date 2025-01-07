@@ -4,8 +4,13 @@
 	function tag_key($val)
 	{
 		$ci = & get_instance();
-		$data = $ci->model_app->view_where('rb_setting',['name'=>$val])->row();
-		return $data->value;
+		$sql_cek = $ci->model_app->view_where('rb_setting',['name'=>$val]);
+		if($sql_cek->num_rows() >0)
+		{
+			return $sql_cek->row()->value;
+			}else{
+			return false;
+		}
 	}
 	
 	if ( ! function_exists('cek_id'))
@@ -482,7 +487,7 @@
 			return $data;
 		}
 	}
-	      
+	
 	if ( ! function_exists('getUnitByName'))
 	{
 		/**
@@ -503,7 +508,7 @@
 			return $data;
 		}
 	}
-	      
+	
 	if ( ! function_exists('by_username'))
 	{
 		/**

@@ -13,6 +13,7 @@
 			parent::__construct();
 			$this->curl = new Curl();
 			$this->load->model('model_formulir');
+			$this->load->model('model_pendaftar');
 			$this->title = tag_key('site_title');
 		}
 		
@@ -23,7 +24,8 @@
 			'title'=>tag_key('site_title'),
 			'description'=>tag_key('site_desc'),
 			'keywords'=>tag_key('site_keys'),
-			'menu'=>$this->model_data->get_categories()
+			'menu'=>$this->model_data->get_categories(),
+			'alur'=>$this->model_data->get_alur()
 			];
 			
 			$this->thm->load('frontend/template','frontend/home',$data);
@@ -1046,5 +1048,14 @@
 				$this->load->view('errors/404');
 			}
 			
+		}
+		
+		 
+		// Fungsi untuk mengambil data jumlah pendaftar per kelas berdasarkan tahun akademik melalui AJAX
+		public function get_data_per_kelas() {
+			$tahun = $this->input->post('tahun',true);
+			// Ambil data berdasarkan tahun akademik yang dipilih
+			$data = $this->model_pendaftar->get_total_per_kelas($tahun);
+			echo json_encode($data);
 		}
 	}
