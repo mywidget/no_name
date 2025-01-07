@@ -143,6 +143,7 @@ $('body').on("change","#form_kelas",function(){
     var id_unit = $("#form_unit").val();
     var gender = $("#gender").val();
     if(gender==''){
+        $("#form_kamar").empty();
         $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
         }else{
         $.ajax({
@@ -179,11 +180,15 @@ function load_kamar(id)
         },
         success: function(response) {
             var len = response.length;
-            $("#form_kamar").append("<option value='0'>Pilih Kamar</option>");
-            for (var i = 0; i < len; i++) {
-                var id = response[i]['id'];
-                var name = response[i]['name'];
-                $("#form_kamar").append("<option value='" + id + "'>" + name + "</option>");
+            if(len > 0){
+                $("#form_kamar").append("<option value='0'>Pilih Kamar</option>");
+                for (var i = 0; i < len; i++) {
+                    var id = response[i]['id'];
+                    var name = response[i]['name'];
+                    $("#form_kamar").append("<option value='" + id + "'>" + name + "</option>");
+                }
+                }else{
+                $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
             }
         }
     });

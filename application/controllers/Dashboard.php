@@ -381,8 +381,8 @@
 			{
 				$id = $this->input->post('id',true);
 				$gender = $this->input->post('gender',true);
-				$response[] ='';
-				if(empty($gender)){
+				$response=[];
+				if(!empty($gender)){
 					$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'gender'=>$gender,'aktif'=>'Ya'])->result();
 					// dump($kamar);
 					foreach($kamar AS $val){
@@ -390,14 +390,7 @@
 						'name'=>($val->nama_kamar)
 						];
 					}
-					}else{
-					$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'aktif'=>'Ya'])->result();
-					// dump($kamar);
-					foreach($kamar AS $val){
-						$response[] = ['id'=>($val->nama_kamar),
-						'name'=>($val->nama_kamar)
-						];
-					}
+					
 				}
 				
 				$this->output
@@ -410,18 +403,18 @@
 		{
 			if ( $this->input->is_ajax_request() ) 
 			{
-			$id = $this->input->post('id',true);
-			
-			$biaya = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
-			
-			$response = ['id'=>($biaya->kuota),
-			'name'=>($biaya->kuota)
-			];
-			
-			$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($response));
-		}
+				$id = $this->input->post('id',true);
+				
+				$biaya = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
+				
+				$response = ['id'=>($biaya->kuota),
+				'name'=>($biaya->kuota)
+				];
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
 		}
 		
 		
