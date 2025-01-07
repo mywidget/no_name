@@ -181,7 +181,7 @@
 				if(!empty($_FILES['file']['name']))
 				{
 					$opathFile = FCPATH."upload/" . $this->input->post('file_lama',TRUE);
-					$size = @getimagesize($opathFile);
+					$size = @filesize($opathFile);
 					if($size !== false){
 						$img=FCPATH."upload/".$this->input->post('file_lama',TRUE);
 						unlink($img);
@@ -251,7 +251,7 @@
 			$search = $this->model_app->edit('rb_filemanager', $where);
 			if($search->num_rows()>0){
 				$row = $search->row();
-				$this->hapus_file_brosur($row->gambar);
+				$this->hapus_file_brosur($row->nama_file);
 				$res = $this->model_app->hapus('rb_filemanager',$where);
 				if($res==true){
 					$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
