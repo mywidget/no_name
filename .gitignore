@@ -2,6 +2,7 @@ application/config/database.php
 application/logs/*
 application/temp/*
 application/cache/*
+backup_db/*
 temp/*
 ci_sessions/*
 upload/*
