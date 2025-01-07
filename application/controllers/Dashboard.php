@@ -381,6 +381,7 @@
 			{
 				$id = $this->input->post('id',true);
 				$gender = $this->input->post('gender',true);
+				$response[] ='';
 				if(empty($gender)){
 					$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'gender'=>$gender,'aktif'=>'Ya'])->result();
 					// dump($kamar);
