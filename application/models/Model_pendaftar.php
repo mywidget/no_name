@@ -14,7 +14,7 @@
 			}
 			
 			$this->db->group_by('pd.kelas, ta.nama_tahun');
-			$this->db->order_by('ta.nama_tahun', 'ASC');
+			$this->db->order_by('rk.urutan', 'ASC');
 			$query = $this->db->get();
 			
 			return $query->result_array();
