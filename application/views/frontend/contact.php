@@ -11,7 +11,7 @@
                 <label for="noin"><?=$row->title;?></label>
             </div>
             <div class="col-auto">
-                <span><?=$row->nomerwa;?></span>
+                <span><?=$row->nomor_wa;?></span>
             </div>
         </div>
         <?php 
