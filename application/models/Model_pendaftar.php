@@ -3,7 +3,7 @@
 		
 		// Fungsi untuk mengambil total pendaftar per kelas dan mengurutkan berdasarkan tahun akademik
 		public function get_total_per_kelas($tahun_akademik = null) {
-			$this->db->select('rk.kode_kelas AS kelas, COUNT(*) as total_pendaftar, ta.nama_tahun');
+			$this->db->select('rk.nama_kelas AS kelas, COUNT(*) as total_pendaftar, ta.nama_tahun');
 			$this->db->from('rb_psb_daftar pd');
 			$this->db->join('rb_tahun_akademik ta', 'pd.tahun_akademik = ta.id_tahun_akademik', 'left');
 			$this->db->join('rb_kelas rk', 'pd.kelas = rk.id');
