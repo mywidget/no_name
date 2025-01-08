@@ -509,6 +509,27 @@
 		}
 	}
 	
+	if ( ! function_exists('getKelasById'))
+	{
+		/**
+			* Code cek_desain
+			*
+			@param $id int
+			@return id
+		*/
+		function getKelasById($id)
+		{
+			$ci = & get_instance();
+			$query = $ci->model_app->pilih_where('kode_kelas','rb_kelas',['id'=>$id]);
+			$data = '-';
+			if ($query->num_rows() >0)
+			{
+				$data = $query->row()->kode_kelas;
+			}
+			return $data;
+		}
+	}
+	
 	if ( ! function_exists('by_username'))
 	{
 		/**
