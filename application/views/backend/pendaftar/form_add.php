@@ -634,6 +634,93 @@
 	</div>
 </ol>
 <script>
+	$('#form_unit').attr('disabled',false);
+	$("#pekerjaanAyah").filter(function () {
+		$.ajax({
+			type: 'POST',
+			url: base_url+ "pendaftar/load_pekerjaan",
+			dataType : "json",
+			beforeSend: function(){
+				$("#pekerjaanAyah").empty();
+				$("#pekerjaanAyah").append("<option value=''>Pilih</option>");
+			},
+			success: function(response) {
+				$("#pekerjaanAyah").attr("disabled", false);
+				var msize = response.length;
+				var i = 0;
+				for (; i < msize; i++) {
+					var teg = response[i]["id"];
+					var name = response[i]["name"];
+					$("#pekerjaanAyah").append("<option value='" + name + "'>" + name + "</option>");
+				}
+			}
+		});
+	});
+	
+	$("#pendidikanAyah").filter(function () {
+		$.ajax({
+			type: 'POST',
+			url: base_url+ "pendaftar/load_pendidikan",
+			dataType : "json",
+			beforeSend: function(){
+				$("#pendidikanAyah").empty();
+				$("#pendidikanAyah").append("<option value=''>Pilih</option>");
+			},
+			success: function(response) {
+				$("#pendidikanAyah").attr("disabled", false);
+				var msize = response.length;
+				var i = 0;
+				for (; i < msize; i++) {
+					var teg = response[i]["id"];
+					var name = response[i]["name"];
+					$("#pendidikanAyah").append("<option value='" + name + "'>" + name + "</option>");
+				}
+			}
+		});
+	});
+	$("#pendidikanIbu").filter(function () {
+		$.ajax({
+			type: 'POST',
+			url: base_url+ "pendaftar/load_pendidikan",
+			dataType : "json",
+			beforeSend: function(){
+				$("#pendidikanIbu").empty();
+				$("#pendidikanIbu").append("<option value=''>Pilih</option>");
+			},
+			success: function(response) {
+				$("#pendidikanIbu").attr("disabled", false);
+				var msize = response.length;
+				var i = 0;
+				for (; i < msize; i++) {
+					var teg = response[i]["id"];
+					var name = response[i]["name"];
+					$("#pendidikanIbu").append("<option value='" + name + "'>" + name + "</option>");
+				}
+			}
+		});
+	});
+	
+	$("#pekerjaanIbu").filter(function () {
+		$.ajax({
+			type: 'POST',
+			url: base_url+ "pendaftar/load_pekerjaan",
+			dataType : "json",
+			beforeSend: function(){
+				$("#pekerjaanIbu").empty();
+				$("#pekerjaanIbu").append("<option value=''>Pilih</option>");
+			},
+			success: function(response) {
+				$("#pekerjaanIbu").attr("disabled", false);
+				var msize = response.length;
+				var i = 0;
+				for (; i < msize; i++) {
+					var teg = response[i]["id"];
+					var name = response[i]["name"];
+					$("#pekerjaanIbu").append("<option value='" + name + "'>" + name + "</option>");
+				}
+			}
+		});
+	});
 	
 	$("#form_prov").filter(function () {
 		$.ajax({
@@ -737,11 +824,11 @@
 		}
 	});
 	function validateNumber(event) {
-			var key = window.event ? event.keyCode : event.which;
-			if (event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 37 || event.keyCode === 39) {
-				return true;
-				} else if (key < 48 || key > 57) {
-				return false;
-			} else return true;
-		};
+		var key = window.event ? event.keyCode : event.which;
+		if (event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 37 || event.keyCode === 39) {
+			return true;
+			} else if (key < 48 || key > 57) {
+			return false;
+		} else return true;
+	};
 </script>																	

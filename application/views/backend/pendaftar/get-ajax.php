@@ -98,7 +98,7 @@
                                     <ul class="dropdown-menu" style="">
                                         <li><a class="dropdown-item" href="#">Kelas : <?=$kode_kelas;?></a></li>
                                         <li><a class="dropdown-item" href="#">Nama Kelas : <?=getKelas($row['kelas'])->nama_kelas;?></a></li>
-                                        <li><a class="dropdown-item" href="#">Biaya Pendaftaran : <?=$row['biaya_daftar'];?></a></li>
+                                        <li><a class="dropdown-item" href="#">Biaya Pendaftaran : <?=rprp($row['biaya_daftar']);?></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -112,6 +112,7 @@
                                         Aksi
                                     </button>
                                     <ul class="dropdown-menu"  data-popper-placement="right-start">
+                                    <li><?=$edit;?></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Foto Pendaftar</a></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto_kk'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran KK</a></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['fotobukti'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Bukti Transfer</a></li>
@@ -120,7 +121,7 @@
                                             <?php }else{ ?>
                                             <li><a class="dropdown-item"  href="javascript:void(0)" data-bs-toggle="tooltips" aria-label="Clear search" data-bs-placement="left" title="Belum ada lampiran"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran Surat</a></li>
                                         <?php } ?>
-                                        <li><?=$edit;?></li>
+                                        
                                         <?php if($row['status']=='Tidak Diterima'){ ?>
                                             <li><?=$hapus;?></li>
                                         <?php } ?>

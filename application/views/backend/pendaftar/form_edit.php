@@ -1,3 +1,21 @@
+<script>
+	var status_diterima = "";
+</script>
+<?php 
+	
+	if($record->status == 'Tidak Diterima'){ ?>
+	<script>
+		// Menonaktifkan semua elemen <input> dan <select>
+		var inputs = document.querySelectorAll('input');
+		var selects = document.querySelectorAll('select');
+		$('#btn-bahan').attr('disabled',true);
+		
+		// Menonaktifkan semua input dan select
+		inputs.forEach(input => input.disabled = true);
+		selects.forEach(select => select.disabled = true);
+		var status_diterima = "<?=$record->status;?>";
+	</script>
+<?php } ?>		
 <form method="post" class='form-horizontal' id="formPendaftaran">
 	<ol type="I">
 		<h5>
@@ -180,6 +198,7 @@
 					<select name="status_sekolah" id="statusPendidikan" class="form-select">
 						<option value="Baru">Baru</option>
 						<option value="Pindahan">Pindahan</option>
+						<option value="Kenaikan">Kenaikan</option>
 					</select>
 				</div>
 			</div>
@@ -668,11 +687,13 @@
 				</div>
 			</div>
 			
-		</form>		
+		</form>	
+		
+		
 		<style>
 			input[readonly] {
 			pointer-events: none;
-			 cursor: not-allowed;
+			cursor: not-allowed;
 			}
 		</style>
 		<script>
@@ -699,36 +720,38 @@
 			
 			$("#form_unit").filter(function () {
 				$.ajax({
-				url: base_url+ "pendaftar/unit_sekolah",
-				type: "POST",
-				dataType: 'json',
-				beforeSend: function () {
-					$("#form_unit").append("<option value='loading'>loading</option>");
-					$("#form_unit").attr("disabled", true);
-				},
-				success: function (response) {
-					if(response.status==false){
+					url: base_url+ "pendaftar/unit_sekolah",
+					type: "POST",
+					dataType: 'json',
+					beforeSend: function () {
 						$("#form_unit").append("<option value='loading'>loading</option>");
 						$("#form_unit").attr("disabled", true);
-						$("#form_unit").attr("disabled", true);
-						return;
-					}
-					$("#form_unit option[value='loading']").remove();
-					$("#form_unit").attr("disabled", false);
-					$("#form_unit").append("<option value=''>Pilih</option>");
-					var len = response.length;
-					for (var i = 0; i < len; i++) {
-						
-						var id = response[i]['id'];
-						var name = response[i]['name'];
-						if(name==unit_sekolah){
-							$("#form_unit").append("<option value='" + id + "' selected>" + name + "</option>");
-							}else{
-							$("#form_unit").append("<option value='" + id + "'>" + name + "</option>");
+					},
+					success: function (response) {
+						if(response.status==false){
+							$("#form_unit").append("<option value='loading'>loading</option>");
+							$("#form_unit").attr("disabled", true);
+							$("#form_unit").attr("disabled", true);
+							return;
+						}
+						$("#form_unit option[value='loading']").remove();
+						if(status_diterima!='Tidak Diterima'){
+							$("#form_unit").attr("disabled", false);
+						}
+						$("#form_unit").append("<option value=''>Pilih</option>");
+						var len = response.length;
+						for (var i = 0; i < len; i++) {
+							
+							var id = response[i]['id'];
+							var name = response[i]['name'];
+							if(name==unit_sekolah){
+								$("#form_unit").append("<option value='" + id + "' selected>" + name + "</option>");
+								}else{
+								$("#form_unit").append("<option value='" + id + "'>" + name + "</option>");
+							}
 						}
 					}
-				}
-			});
+				});
 			});
 			
 			$("#form_kelas").filter(function () {
@@ -748,7 +771,9 @@
 							return;
 						}
 						$("#form_kelas option[value='loading']").remove();
-						$("#form_kelas").attr("disabled", false);
+						if(status_diterima!='Tidak Diterima'){
+							$("#form_kelas").attr("disabled", false);
+						}
 						$("#form_kelas").append("<option value=''>Pilih</option>");
 						var len = response.length;
 						for (var i = 0; i < len; i++) {
@@ -782,7 +807,9 @@
 							return;
 						}
 						$("#form_kamar option[value='loading']").remove();
-						$("#form_kamar").attr("disabled", false);
+						if(status_diterima!='Tidak Diterima'){
+							$("#form_kamar").attr("disabled", false);
+						}
 						$("#form_kamar").append("<option value=''>Pilih</option>");
 						var len = response.length;
 						for (var i = 0; i < len; i++) {
@@ -797,7 +824,7 @@
 						}
 					}
 				});
-			});
+				});
 			
 			$("#ijazahTerakhir").filter(function () {
 				$.ajax({
@@ -900,7 +927,9 @@
 							return;
 						}
 						$("#form_prov option[value='loading']").remove();
+						if(status_diterima!='Tidak Diterima'){
 						$("#form_prov").attr("disabled", false);
+						}
 						$("#form_prov").append("<option value=''>Pilih Provinsi</option>");
 						var len = response.length;
 						for (var i = 0; i < len; i++) {
@@ -932,7 +961,9 @@
 						$("#form_kab").append("<option value=''>Pilih</option>");
 					},
 					success: function(response) {
+					if(status_diterima!='Tidak Diterima'){
 						$("#form_kab").attr("disabled", false);
+					}
 						var msize = response.length;
 						var i = 0;
 						for (; i < msize; i++) {
@@ -962,7 +993,9 @@
 						$("#form_kec").append("<option value=''>Pilih</option>");
 					},
 					success: function(response) {
+					if(status_diterima!='Tidak Diterima'){
 						$("#form_kec").attr("disabled", false);
+					}
 						var msize = response.length;
 						var i = 0;
 						for (; i < msize; i++) {
@@ -992,7 +1025,9 @@
 						$("#form_des").append("<option value=''>Pilih</option>");
 					},
 					success: function(response) {
+					if(status_diterima!='Tidak Diterima'){
 						$("#form_des").attr("disabled", false);
+					}
 						var msize = response.length;
 						var i = 0;
 						for (; i < msize; i++) {
@@ -1018,7 +1053,9 @@
 						// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
 					},
 					success: function(response) {
+					if(status_diterima!='Tidak Diterima'){
 						$("#pendidikanAyah").attr("disabled", false);
+					}
 						var msize = response.length;
 						var i = 0;
 						for (; i < msize; i++) {
@@ -1043,7 +1080,9 @@
 						// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
 					},
 					success: function(response) {
+					if(status_diterima!='Tidak Diterima'){
 						$("#pendidikanIbu").attr("disabled", false);
+					}
 						var msize = response.length;
 						var i = 0;
 						for (; i < msize; i++) {
@@ -1069,7 +1108,9 @@
 						// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
 					},
 					success: function(response) {
+					if(status_diterima!='Tidak Diterima'){
 						$("#pekerjaanAyah").attr("disabled", false);
+					}
 						var msize = response.length;
 						var i = 0;
 						for (; i < msize; i++) {
@@ -1094,7 +1135,9 @@
 						// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
 					},
 					success: function(response) {
+					if(status_diterima!='Tidak Diterima'){
 						$("#pekerjaanIbu").attr("disabled", false);
+					}
 						var msize = response.length;
 						var i = 0;
 						for (; i < msize; i++) {
@@ -1109,7 +1152,4 @@
 					}
 				});
 			});
-			
-			
-			
-		</script>																																																	
+		</script>
