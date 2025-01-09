@@ -798,4 +798,141 @@
 			$this->db->update_batch($table, $data, 'id'); // this will set the id column as the condition field
 			return true;
 		}
-	}											
+		
+		function getBiaya($params = array()){
+			// print_r($params);
+			$this->db->select('b.id_biaya, k.title as kategori, b.title, b.amount, ta.nama_tahun as tahun_akademik, u.nama_jurusan');
+			$this->db->from('rb_biaya b');
+			$this->db->join('rb_kategori k', 'b.id_kategori = k.id_kategori');
+			$this->db->join('rb_tahun_akademik ta', 'b.id_tahun_akademik = ta.id_tahun_akademik');
+			$this->db->join('rb_unit u', 'b.id_unit = u.id', 'left'); // Join dengan tabel rb_unit
+			
+			if(array_key_exists("where", $params)){ 
+				foreach($params['where'] as $key => $val){ 
+					$this->db->where($key, $val); 
+				} 
+			}
+			if(array_key_exists("search", $params)){ 
+				if(!empty($params['search']['keywords'])){ 
+					$this->db->like('u.nama_jurusan', $params['search']['keywords']); 
+					$this->db->or_like('b.amount', $params['search']['keywords']); 
+					$this->db->or_like('k.title', $params['search']['keywords']); 
+				} 
+				
+				if(!empty($params['search']['tahun'])){ 
+					$this->db->where('b.id_tahun_akademik', $params['search']['tahun']); 
+				} 
+			 
+				if(!empty($params['search']['sortUnit'])){ 
+					$this->db->like('b.id_unit', $params['search']['sortUnit']); 
+				} 
+				 
+			}
+			
+			if(!empty($params['search']['sortBy'])){ 
+				$this->db->order_by('b.id_biaya', $params['search']['sortBy']); 
+			}
+			
+			if(array_key_exists("returnType",$params) && $params['returnType'] == 'count'){ 
+				$result = $this->db->count_all_results(); 
+				}else{ 
+				if(array_key_exists("id", $params) || (array_key_exists("returnType", $params) && $params['returnType'] == 'single')){ 
+					if(!empty($params['id'])){ 
+						$this->db->where('b.id_biaya', $params['id']); 
+					} 
+					$query = $this->db->get(); 
+					$result = $query->row_array(); 
+					}else{ 
+					$this->db->order_by('b.id_biaya', 'DESC'); 
+					if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+						$this->db->limit($params['limit'],$params['start']); 
+						}elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+						$this->db->limit($params['limit']); 
+					} 
+					
+					$query = $this->db->get(); 
+					$result = ($query->num_rows() > 0)?$query->result_array():FALSE; 
+				} 
+			} 
+			
+			// Return fetched data 
+			return $result; 
+		}
+		
+		public function get_all($tahun_akademik) {
+			$this->db->select('b.id_biaya, k.title as kategori, b.title, b.amount, ta.nama_tahun as tahun_akademik, u.nama_jurusan');
+			$this->db->from('rb_biaya b');
+			$this->db->join('rb_kategori k', 'b.id_kategori = k.id_kategori');
+			$this->db->join('rb_tahun_akademik ta', 'b.id_tahun_akademik = ta.id_tahun_akademik');
+			$this->db->join('rb_unit u', 'b.id_unit = u.id', 'left'); // Join dengan tabel rb_unit
+			if (!empty($tahun_akademik)) {
+				$this->db->where('b.id_tahun_akademik', $tahun_akademik);
+			}
+			$query = $this->db->get();
+			return $query->result(); // Mengembalikan data sebagai array
+		}
+		public function get_alled() {
+			$this->db->select('b.id_biaya, k.title as kategori, b.title, b.amount, ta.nama_tahun as tahun_akademik');
+			$this->db->from('rb_biaya b');
+			$this->db->join('rb_kategori k', 'b.id_kategori = k.id_kategori');
+			$this->db->join('rb_tahun_akademik ta', 'b.id_tahun_akademik = ta.id_tahun_akademik');
+			$query = $this->db->get();
+			return $query->result(); // Mengembalikan data sebagai array
+		}
+		
+		// Menampilkan semua data biaya
+		public function get_all_biaya()
+		{
+			$this->db->select('b.id_biaya, b.title, b.amount, k.title as kategori');
+			$this->db->from('rb_biaya b');
+			$this->db->join('rb_kategori k', 'b.id_kategori = k.id_kategori');
+			$query = $this->db->get();
+			return $query->result();
+		}
+		
+		// Menampilkan semua data unit
+		public function get_all_unit()
+		{
+			$this->db->select('*');
+			$this->db->from('rb_unit');
+			$query = $this->db->get();
+			return $query->result();
+		}
+		
+		// Menampilkan semua data biaya
+		public function get_all_kategori()
+		{
+			$this->db->select('*');
+			$this->db->from('rb_kategori');
+			$query = $this->db->get();
+			return $query->result();
+		}
+		
+		// Menambah data biaya
+		public function insert_biaya($data)
+		{
+			return $this->db->insert('rb_biaya', $data);
+		}
+		
+		// Mengupdate data biaya
+		public function update_biaya($id, $data)
+		{
+			$this->db->where('id_biaya', $id);
+			return $this->db->update('rb_biaya', $data);
+		}
+		
+		// Menghapus data biaya
+		public function delete_biaya($id)
+		{
+			$this->db->where('id_biaya', $id);
+			return $this->db->delete('rb_biaya');
+		}
+		
+		// Mengambil data biaya berdasarkan ID
+		public function get_biaya_by_id($id)
+		{
+			$this->db->where('id_biaya', $id);
+			$query = $this->db->get('rb_biaya');
+			return $query->row();
+		}
+	}																		

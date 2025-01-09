@@ -1218,7 +1218,7 @@
 					$current_status = $this->model_pendaftar->check_status($id);
 					
 					// Lakukan update jika status saat ini "Diterima"
-					if ($current_status != 'Diterima' OR $current_status != 'Ditolak') {
+					if ($current_status == 'Baru' OR $current_status == 'Proses') {
 						$update_data[] = [
 						'id' => $id,
 						'status' => $status

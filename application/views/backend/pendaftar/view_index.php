@@ -638,6 +638,7 @@
 					}
 					$("#update_status_pendaftar").val('');
 					$("#update_status").hide();
+					$(".OpenModalPendaftar").show();
 					searchPengguna();
 				},
 				error: function(xhr, status, error) {

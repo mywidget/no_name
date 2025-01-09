@@ -103,7 +103,8 @@ $('body').on("change","#form_unit",function(){
     var id = $(this).val();
     var statusSantri = $('#statusPendidikan').val();
     load_kamar(id)
-    // console.log(statusSantri)
+    load_biaya(id)
+    console.log(id)
     $.ajax({
         type: 'POST',
         url: base_url+ "dashboard/kelas",
@@ -137,34 +138,29 @@ $('body').on("change","#statusPendidikan",function(){
     var form_unit = $("#form_unit").val();
     $("#form_unit").val(form_unit).change();
 });
-
-$('body').on("change","#form_kelas",function(){
-    var id = $(this).val();
-    var id_unit = $("#form_unit").val();
-    var gender = $("#gender").val();
-    if(gender==''){
-        $("#form_kamar").empty();
-        $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
-        }else{
-        $.ajax({
-            type: 'POST',
-            url: base_url+ "dashboard/biaya",
-            data: {id:id,id_unit:id_unit},
-            dataType : "json",
-            beforeSend: function(){
-                $("#form_biaya").empty();
-            },
-            success: function(response) {
-                
-                var teg = response.id;
-                var name = response.name;
-                $("#form_biaya").append("<option value='" + teg + "'>" + name + "</option>");
-                
-            }
-        });
-    }
-});
-
+function load_biaya(id_unit){
+    
+    var thnakademik = $("#thnakademik").val();
+    var status = $("#statusPendidikan").val();
+    
+    $.ajax({
+        type: 'POST',
+        url: base_url+ "dashboard/biaya",
+        data: {id:id_unit,status:status,thnakademik:thnakademik},
+        dataType : "json",
+        beforeSend: function(){
+            $("#form_biaya").empty();
+        },
+        success: function(response) {
+            
+            var teg = response.id;
+            var name = response.name;
+            $("#form_biaya").append("<option value='" + teg + "'>" + name + "</option>");
+            
+        }
+    });
+    
+}
 function load_kamar(id)
 {
     
@@ -183,14 +179,14 @@ function load_kamar(id)
             if(len > 0){
                 $("#form_kamar").append("<option value='0'>Pilih Kamar</option>");
                 for (var i = 0; i < len; i++) {
-                    var id = response[i]['id'];
-                    var name = response[i]['name'];
-                    $("#form_kamar").append("<option value='" + id + "'>" + name + "</option>");
-                }
-                }else{
-                $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
-            }
+            var id = response[i]['id'];
+            var name = response[i]['name'];
+            $("#form_kamar").append("<option value='" + id + "'>" + name + "</option>");
         }
+        }else{
+        $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
+    }
+    }
     });
 }
 

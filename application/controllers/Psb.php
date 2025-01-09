@@ -816,7 +816,7 @@
 				$search = $this->model_app->edit('rb_tahun_akademik', $where);
 				if($search->num_rows()>0){
 					$row = $search->row();
-				 
+					
 					if($row->aktif=='Ya'){
 						$last = $this->model_app->last_id('rb_tahun_akademik')->id;
 						$this->model_app->update('rb_tahun_akademik',['aktif'=>'Tidak'], ['id'=>$last]);
@@ -1526,4 +1526,137 @@
 			return $cek;
 		}
 		
-	}																														
+		public function biaya() 
+		{
+			$data['title'] = 'Data Pendaftar | '.$this->title;
+			$data['menu'] = getMenu($this->menu);
+			$data['tahun'] = $this->model_app->view('rb_tahun_akademik')->result();
+			$data['units'] = $this->model_pendaftar->get_all_unit();
+			$data['kategori'] = $this->model_pendaftar->get_all_kategori(); // Ambil data kategori
+			$this->thm->load('backend/template','backend/pendaftar/view_biaya',$data);
+		}
+		
+		function ajax_list_biaya()
+        {
+			cek_crud_akses('READ','html');
+            // Define offset 
+            $page = $this->input->post('page');
+            if (!$page) {
+                $offset = 0;
+                } else {
+                $offset = $page;
+			}
+            $sortBy	 = $this->input->post('sortBy');
+            if (!empty($sortBy)) {
+                $conditions['search']['sortBy'] = $sortBy;
+			}
+            $tahun	 = $this->input->post('tahun');
+            if (!empty($tahun)) {
+                $conditions['search']['tahun'] = $tahun;
+			}
+            $keywords = $this->input->post('keywords');
+            if (!empty($keywords)) {
+                $conditions['search']['keywords'] = $keywords;
+			}
+			$limit = $this->input->post('limit');
+            if (!empty($limit)) {
+                $conditions['search']['limit'] = $limit;
+				}else{
+				$limit = 5;
+			}
+			
+			
+            // Get record count 
+            $conditions['returnType'] = 'count';
+            $totalRec = $this->model_pendaftar->getBiaya($conditions);
+            
+            // Pagination configuration 
+            $config['target']      = '#posts_content_biaya';
+            $config['base_url']    = base_url('psb/ajax_list_biaya');
+            $config['total_rows']  = $totalRec;
+            $config['per_page']    = $limit;
+            $config['link_func']   = 'searchBiaya';
+            
+            // Initialize pagination library 
+            $this->ajax_pagination->initialize($config);
+            
+            // Get records 
+            $conditions['start'] = $offset;
+            $conditions['limit'] = $limit;
+			
+            unset($conditions['returnType']);
+            $data['record'] = $this->model_pendaftar->getBiaya($conditions);
+			
+            // Load the data list view 
+			$this->load->view('backend/pendaftar/get-ajax-biaya',$data);
+			
+		}
+		
+		public function get_tahun_akademik() {
+			$query = $this->db->get('rb_tahun_akademik');
+			$tahun_akademik = $query->result();
+			
+			echo json_encode($tahun_akademik); // Mengirimkan data tahun akademik dalam format JSON
+		}
+		// Menambah data biaya
+		public function add_biaya()
+		{
+			$amount = str_replace([ 'Rp', '.', ' ' ], '', $this->input->post('amount'));
+			$data = array(
+			'id_unit'  => $this->input->post('id_unit'),
+			'id_kategori'  => $this->input->post('id_kategori'),
+			'title'        => $this->input->post('title'),
+			'amount'       => $amount,
+			'id_tahun_akademik' => $this->input->post('id_tahun_akademik') // Menambahkan tahun akademik
+			);
+			
+			$result = $this->model_pendaftar->insert_biaya($data);
+			
+			if ($result) {
+				echo json_encode(['status' => true, 'title'=>'Simpan','message' => 'Data berhasil ditambahkan']);
+				} else {
+				echo json_encode(['status' => false, 'title'=>'Simpan','message' => 'Gagal menambahkan data']);
+			}
+		}
+		
+		// Mengupdate data biaya
+		public function update_biaya()
+		{
+			$amount = str_replace([ 'Rp', '.', ' ' ], '', $this->input->post('amount'));
+			$data = array(
+			'id_unit'  => $this->input->post('id_unit'),
+			'id_kategori'  => $this->input->post('id_kategori'),
+			'title'        => $this->input->post('title'),
+			'amount'       => $amount,
+			'id_tahun_akademik' => $this->input->post('id_tahun_akademik') // Menambahkan tahun akademik
+			);
+			
+			$id_biaya = $this->input->post('id_biaya');
+			$result = $this->model_pendaftar->update_biaya($id_biaya, $data);
+			
+			if ($result) {
+				echo json_encode(['status' => true,'title'=>'Update', 'message' => 'Data berhasil diupdate']);
+				} else {
+				echo json_encode(['status' => false, 'title'=>'Update','message' => 'Gagal mengupdate data']);
+			}
+		}
+		
+		// Menghapus data biaya
+		public function delete_biaya()
+		{
+			$id = decrypt_url($this->input->post('id'));
+			if ($this->model_pendaftar->delete_biaya($id)) {
+				echo json_encode(array('status' => true, 'title'=>'Hapus','message' => 'Data berhasil dihapus.'));
+				} else {
+				echo json_encode(array('status' => false, 'title'=>'Hapus','message' => 'Data gagal dihapus.'));
+			}
+		}
+		
+		// Mengambil data biaya berdasarkan ID
+		public function edit_biaya($id)
+		{
+			$id= decrypt_url($id);
+			$data = $this->model_pendaftar->get_biaya_by_id($id);
+			echo json_encode($data);
+		}
+	}																																									

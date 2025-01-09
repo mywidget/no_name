@@ -336,9 +336,9 @@
 				$id = $this->input->post('id',true);
 				$status = $this->input->post('status',true);
 				// if($status=='Baru'){
-					// $where = ['id_unit'=>$id,'aktif'=>'Ya','status'=>1];
-					// }else{
-					// $where = ['id_unit'=>$id];
+				// $where = ['id_unit'=>$id,'aktif'=>'Ya','status'=>1];
+				// }else{
+				// $where = ['id_unit'=>$id];
 				// }
 				$where = ['id_unit'=>$id,'aktif'=>'Ya'];
 				$kelas = $this->model_app->view_where_ordering('rb_kelas',$where,'nama_kelas','ASC')->result();
@@ -362,18 +362,44 @@
 			if ( $this->input->is_ajax_request() ) 
 			{
 				$id = $this->input->post('id',true);
-				$id_unit = $this->input->post('id_unit',true);
 				
-				$biaya = $this->model_app->view_where('rb_unit',['id'=>$id_unit])->row();
-				
-				$response = ['id'=>rprp($biaya->biaya_pendaftaran),
-				'name'=>rprp($biaya->biaya_pendaftaran)
-				];
+				$id_tahun_akademik = $this->input->post('thnakademik',true);
+				$status = $this->input->post('status',true);
+				$cek_kategori = $this->cek_kategori($status);
+			 
+				if($cek_kategori==TRUE){
+					$id_kategori = $cek_kategori['id'];
+					}else{
+					$id_kategori =0;
+				}
+				$query = $this->model_app->view_where('rb_biaya',['id_unit'=>$id,'id_kategori'=>$id_kategori,'id_tahun_akademik'=>$id_tahun_akademik]);
+				if($query->num_rows() > 0){
+					$biaya = $query->row();
+					$response = ['id'=>$biaya->amount,
+					'name'=>rprp($biaya->amount)
+					];
+					}else{
+					$response = ['id'=>0,
+					'name'=>'Belum ada data'
+					];
+				}
 				
 				$this->output
 				->set_content_type('application/json')
 				->set_output(json_encode($response));
 			}
+		}
+		
+		private function cek_kategori($slug)
+		{
+			$query = $this->model_app->view_where('rb_kategori',['slug'=>$slug]);
+			if($query->num_rows() > 0){
+				$result = ['status'=>true,'id'=>$query->row()->id_kategori];
+				}else{
+				$result = ['status'=>false,'id'=>0];
+			}
+			
+			return $result;
 		}
 		
 		public function load_kamar()
