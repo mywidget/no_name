@@ -110,7 +110,8 @@
 				$type   = xss_filter($this->input->post('type'), 'xss');
 				$name   = xss_filter($this->input->post('name'), 'xss');
 				$value 	= xss_filter($this->input->post('value'));
-				
+				$jenis 	= xss_filter($this->input->post('jenis'));
+			 
 				$this->form_validation->set_rules(array(array(
 				'field' => 'name',
 				'label' => 'Name',
@@ -134,7 +135,7 @@
 							{
 								$gbr = $this->upload->data();
 								$gambar = $gbr['file_name'];
-								$param = ['name' => cleans($name), 'value' => $gambar];
+								$param = ['name' => cleans($name), 'value' => $gambar, 'jenis' => $jenis];
 								$input =  $this->model_app->input('rb_setting', $param);
 								if ($input['status'] == 'ok') {
 									$result = array('status' => true, 'title'=>'Tambah Data','msg' => 'Data berhasil diinput');
@@ -148,7 +149,7 @@
 								$this->thm->json_output($response);
 							}
 							}else{
-							$param = ['name' => cleans($name), 'value' => $value];
+							$param = ['name' => cleans($name), 'value' => $value, 'jenis' => $jenis];
 							$input =  $this->model_app->input('rb_setting', $param);
 							if ($input['status'] == 'ok') {
 								$result = array('status' => true, 'title'=>'Tambah Data','msg' => 'Data berhasil diinput');
@@ -180,7 +181,7 @@
 								}
 								$gbr = $this->upload->data();
 								$gambar = $gbr['file_name'];
-								$param = ['name' => cleans($name), 'value' => $gambar];
+								$param = ['name' => cleans($name), 'value' => $gambar, 'jenis' => $jenis];
 							
 								$input =  $this->model_app->update('rb_setting', $param, ['id' => $id]);
 								if ($input['status'] == 'ok') {
@@ -198,7 +199,7 @@
 							}else{
 							$id = xss_filter($this->input->post('id'), 'xss');
 							$id = decrypt_url($id);
-							$param = ['name' => cleans($name), 'value' => $value];
+							$param = ['name' => cleans($name), 'value' => $value, 'jenis' => $jenis];
 							$update = $this->model_app->update('rb_setting', $param, ['id' => $id]);
 							if ($update['status'] == 'ok') {
 								$result = array('status' => true, 'title'=>'Simpan Data','msg' => 'Data berhasil disimpan');
