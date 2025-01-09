@@ -88,7 +88,21 @@
 			// Return fetched data 
 			return $result; 
 		}
-		
+		// Fungsi untuk memeriksa status pendaftar
+		public function check_status($id_pendaftar)
+		{
+			// Query untuk mendapatkan status berdasarkan ID pendaftar
+			$this->db->select('status');
+			$this->db->from('rb_psb_daftar');
+			$this->db->where('id', $id_pendaftar);
+			$query = $this->db->get();
+			
+			// Cek jika data ditemukan
+			if ($query->num_rows() > 0) {
+				return $query->row()->status;
+			}
+			return null; // Jika tidak ditemukan
+		}
 		function getUnit($params = array()){
 			// print_r($params);
 			$this->db->select('*'); 
@@ -784,4 +798,4 @@
 			$this->db->update_batch($table, $data, 'id'); // this will set the id column as the condition field
 			return true;
 		}
-	}										
+	}											

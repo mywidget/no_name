@@ -14,9 +14,9 @@
 						<option value="">Tahun Akademik</option>
 						<?php foreach($tahun AS $val) :
 							if($val->id_tahun_akademik==$record->tahun_akademik){
-							$selected = 'selected';
+								$selected = 'selected';
 								}else{
-							$selected = '';
+								$selected = '';
 							}
 						?>
 						<option value="<?=$val->id_tahun_akademik;?>" <?=$selected;?>><?=$val->id_tahun_akademik;?></option>
@@ -669,7 +669,12 @@
 			</div>
 			
 		</form>		
-		
+		<style>
+			input[readonly] {
+			pointer-events: none;
+			 cursor: not-allowed;
+			}
+		</style>
 		<script>
 			$('select[readonly]').focus(function(){
 				this.blur();
@@ -694,36 +699,36 @@
 			
 			$("#form_unit").filter(function () {
 				$.ajax({
-					url: base_url+ "pendaftar/unit_sekolah",
-					type: "POST",
-					dataType: 'json',
-					beforeSend: function () {
+				url: base_url+ "pendaftar/unit_sekolah",
+				type: "POST",
+				dataType: 'json',
+				beforeSend: function () {
+					$("#form_unit").append("<option value='loading'>loading</option>");
+					$("#form_unit").attr("disabled", true);
+				},
+				success: function (response) {
+					if(response.status==false){
 						$("#form_unit").append("<option value='loading'>loading</option>");
 						$("#form_unit").attr("disabled", true);
-					},
-					success: function (response) {
-						if(response.status==false){
-							$("#form_unit").append("<option value='loading'>loading</option>");
-							$("#form_unit").attr("disabled", true);
-							$("#form_unit").attr("disabled", true);
-							return;
-						}
-						$("#form_unit option[value='loading']").remove();
-						$("#form_unit").attr("disabled", false);
-						$("#form_unit").append("<option value=''>Pilih</option>");
-						var len = response.length;
-						for (var i = 0; i < len; i++) {
-							
-							var id = response[i]['id'];
-							var name = response[i]['name'];
-							if(name==unit_sekolah){
-								$("#form_unit").append("<option value='" + id + "' selected>" + name + "</option>");
-								}else{
-								$("#form_unit").append("<option value='" + id + "'>" + name + "</option>");
-							}
+						$("#form_unit").attr("disabled", true);
+						return;
+					}
+					$("#form_unit option[value='loading']").remove();
+					$("#form_unit").attr("disabled", false);
+					$("#form_unit").append("<option value=''>Pilih</option>");
+					var len = response.length;
+					for (var i = 0; i < len; i++) {
+						
+						var id = response[i]['id'];
+						var name = response[i]['name'];
+						if(name==unit_sekolah){
+							$("#form_unit").append("<option value='" + id + "' selected>" + name + "</option>");
+							}else{
+							$("#form_unit").append("<option value='" + id + "'>" + name + "</option>");
 						}
 					}
-				});
+				}
+			});
 			});
 			
 			$("#form_kelas").filter(function () {
@@ -1107,4 +1112,4 @@
 			
 			
 			
-		</script>																																															
+		</script>																																																	

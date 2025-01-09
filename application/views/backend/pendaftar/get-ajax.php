@@ -141,52 +141,7 @@
     </div>
     
     <script>
-        $('#selectAll').click(function (e) {
-			$(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
-            var rowCount = $("#tablein > tbody tr").children().length;
-			var countcheck = $('#tablein > tbody input[type="checkbox"]:checked').length;
-			console.log(countcheck);
-			if (countcheck == 0) {
-				$(".OpenModalPendaftar").show();
-				$("#update_status").hide();
-				$("#status_pendaftar").val('');
-            }
-			if (countcheck > 0) {
-				$(".OpenModalPendaftar").hide();
-				$("#update_status").show();
-				$("#status_pendaftar").val('');
-            }
-            
-        });
-        $('#tablein >tbody input[type="checkbox"]').click(function() {
-			var rowCount = $("#tablein > tbody tr").children().length;
-			var countcheck = $('#tablein > tbody input[type="checkbox"]:checked').length;
-            if (countcheck == 0) {
-				$(".OpenModalPendaftar").show();
-				$("#update_status").hide();
-				$("#status_pendaftar").val('');
-            }
-			if (countcheck > 0) {
-				$(".OpenModalPendaftar").hide();
-				$("#update_status").show();
-				$("#status_pendaftar").val('');
-            }
-        });
-        
-        
-        function withoutJquery(i){
-            console.time('time2');
-            var temp=document.createElement('input');
-            var texttoCopy=document.getElementById('copyText'+i).innerHTML;
-            temp.type='input';
-            temp.setAttribute('value',texttoCopy);
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand("copy");
-            temp.remove();
-            console.timeEnd('time2');
-        }
-        
+       
         $(document).ready(function () {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltips"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

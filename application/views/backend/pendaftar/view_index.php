@@ -171,7 +171,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-				<button type="button" onClick="simpanMember()" id="btn-bahan" class="btn btn-success">Submit</button>
+				<button type="button" onClick="simpan_pendaftar()" id="btn-bahan" class="btn btn-success">Submit</button>
 			</div>
 		</div>
 	</div>
@@ -369,7 +369,7 @@
 			
 		}
 		
-		function simpanMember()
+		function simpan_pendaftar()
 		{
 			
 			var formData = $("#formPendaftaran").serialize();
@@ -397,7 +397,54 @@
 				}
 			});
 		}
-		
+		$(document).on('click','#selectAll',function(e){
+		// $('#selectAll').click(function (e) {
+			$(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+            var rowCount = $("#tablein > tbody tr").children().length;
+			var countcheck = $('#tablein > tbody input[type="checkbox"]:checked').length;
+			console.log(countcheck);
+			if (countcheck == 0) {
+				$(".OpenModalPendaftar").show();
+				$("#update_status").hide();
+				$("#status_pendaftar").val('');
+			}
+			if (countcheck > 0) {
+				$(".OpenModalPendaftar").hide();
+				$("#update_status").show();
+				$("#status_pendaftar").val('');
+			}
+            
+		});
+		$(document).on('click','#tablein >tbody input[type="checkbox"]',function(e){
+        // $('#tablein >tbody input[type="checkbox"]').click(function() {
+			var rowCount = $("#tablein > tbody tr").children().length;
+			var countcheck = $('#tablein > tbody input[type="checkbox"]:checked').length;
+            if (countcheck == 0) {
+				$(".OpenModalPendaftar").show();
+				$("#update_status").hide();
+				$("#status_pendaftar").val('');
+			}
+			if (countcheck > 0) {
+				$(".OpenModalPendaftar").hide();
+				$("#update_status").show();
+				$("#status_pendaftar").val('');
+			}
+		});
+        
+        
+        function withoutJquery(i){
+            console.time('time2');
+            var temp=document.createElement('input');
+            var texttoCopy=document.getElementById('copyText'+i).innerHTML;
+            temp.type='input';
+            temp.setAttribute('value',texttoCopy);
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            temp.remove();
+            console.timeEnd('time2');
+		}
+        
 		$(document).on('click','.export',function(e){
 			$("#modalExport").modal('show');
 			var tahun = $("#sort_tahun").val();
@@ -552,42 +599,54 @@
 		});
 		
 		$('body').on("change","#update_status_pendaftar",function(){
-			// do what you like with the input
+			// Ambil status yang dipilih
 			$input = $("#update_status_pendaftar").val();
-			if($input==""){
+			if ($input == "") {
 				return;
 			}
+			
 			var $form = $('#update_form');
 			
-			var data = {
-				'status' : $input
-			};
+			// Ambil data checkbox yang dicentang (jika ada)
+			var selectedCheckboxes = [];
+			$('input[name="pilih[]"]:checked').each(function() {
+				selectedCheckboxes.push($(this).val());
+			});
 			
+			// Gabungkan data status dan checkbox yang dicentang
+			var data = {
+				'status': $input,
+				'selected_checkboxes': selectedCheckboxes
+			};
+			// Gabungkan data form dengan data yang baru
 			data = $form.serialize() + '&' + $.param(data);
+		 
 			$.ajax({
 				type: "POST",
-				url: base_url+"pendaftar/update_status",
+				url: base_url + "pendaftar/update_status",
 				dataType: 'json',
 				data: data,
 				beforeSend: function () {
-					$("body").loading({zIndex:1060});　
+					$("body").loading({zIndex: 1060});
 				},
 				success: function(data) {
 					$('body').loading('stop');
-					if(data.status==true){
-						showNotif('bottom-right',data.title,data.message,'success');
-						}else{
-						showNotif('bottom-right',data.title,data.message,'error');
+					if (data.status == true) {
+						showNotif('bottom-right', data.title, data.message, 'success');
+						} else {
+						showNotif('bottom-right', data.title, data.message, 'error');
 					}
 					$("#update_status_pendaftar").val('');
 					$("#update_status").hide();
 					searchPengguna();
-					} ,error: function(xhr, status, error) {
-					showNotif('bottom-right','Peringatan',error,'error');
+				},
+				error: function(xhr, status, error) {
+					showNotif('bottom-right', 'Peringatan', error, 'error');
 					$('body').loading('stop');
 				}
 			});
 		});
+		
 		
 		
 		$('#OpenModalPendaftar').on('show.bs.modal', function(e) {

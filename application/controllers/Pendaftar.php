@@ -687,6 +687,15 @@
 				)
 				),
 				
+				array(
+				'field' => 'kamar',
+				'label' => 'Kuota kamar',
+				'rules' => 'required|trim',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				)
+				),
+				
 				));
 				
 				if ( $this->form_validation->run() ) 
@@ -1080,7 +1089,7 @@
 				}
 			}
 		}
-		 
+		
 		private function send_notif($post)
 		{
 			$token = $this->model_formulir->get_token()->token;
@@ -1189,21 +1198,77 @@
 			}
 			
 		}
+		public function update_status()
+		{
+			$status = $this->input->post('status'); // Ambil status yang dipilih
+			$selected_checkboxes = $this->input->post('selected_checkboxes'); // Checkbox yang dicentang
+			$id_pendaftar = $this->input->post('id'); // ID Pendaftar (jika ada)
+			
+			if ($status && !empty($selected_checkboxes)) {
+				
+				// Array untuk menyimpan data update
+				$update_data = [];
+				
+				// Cek status pendaftar di database untuk masing-masing ID
+				foreach ($selected_checkboxes as $val) {
+					// Ambil ID pendaftar dan lakukan dekripsi (jika menggunakan enkripsi)
+					$id = decrypt_url($id_pendaftar[$val]);
+					
+					// Periksa status di database
+					$current_status = $this->model_pendaftar->check_status($id);
+					
+					// Lakukan update jika status saat ini "Diterima"
+					if ($current_status != 'Diterima' OR $current_status != 'Ditolak') {
+						$update_data[] = [
+						'id' => $id,
+						'status' => $status
+						];
+					}
+				}
+				
+				// Jika ada data yang perlu diupdate
+				if (!empty($update_data)) {
+					// Proses batch update
+					if ($this->model_pendaftar->batch_data('rb_psb_daftar', $update_data)) {
+						$data = array('status' => true, 'title' => 'Update status', 'message' => 'Data berhasil diupdate');
+						} else {
+						$data = array('status' => false, 'title' => 'Update status', 'message' => 'Data gagal diupdate');
+					}
+					} else {
+					// Jika tidak ada pendaftar dengan status "Diterima"
+					$data = array('status' => false, 'title' => 'Update status', 'message' => 'Tidak ada pendaftar dengan status '.$status.' yang diperbarui');
+				}
+				
+				// Kembalikan response dalam format JSON
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($data));
+				} else {
+				// Jika tidak ada status atau checkbox yang dipilih
+				$data = array('status' => false, 'title' => 'Update status', 'message' => 'Data tidak lengkap');
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($data));
+			}
+		}
 		
-		function update_status()
+		function update_statused()
 		{
 			
 			$pilih = $this->input->post('pilih',true);
 			$status = $this->input->post('status',true);
-			$id = $this->input->post('id',true);
-			if(!empty($pilih)):
+			$selected_checkboxes = $this->input->post('selected_checkboxes');
+			
+			$id_pendaftar = $this->input->post('id',true);
+			$current_status = $this->model_pendaftar->check_status($id_pendaftar);
+			// dump($_POST);
+			if ($status && !empty($selected_checkboxes)):
 			$update_data = [];
 			foreach($pilih AS $val){
 				$update_data[] = [
 				'id'    => decrypt_url($id[$val]),
 				'status' => $status
 				];
-				
 			}    
 			
 			if ($this->model_pendaftar->batch_data('rb_psb_daftar', $update_data) == true) {
@@ -1449,4 +1514,4 @@
             $writer->save('php://output');
 		}
 		
-	}																																																																																																																																																				
+	}																																																																																																																																																								
