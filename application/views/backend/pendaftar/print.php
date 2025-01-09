@@ -6,8 +6,8 @@
 		<!--link href="<?=base_url();?>assets/print_style/printer.css" rel="stylesheet"/-->
 		<script type="text/javascript">
 			<!--
-			// window.print();
-			// window.onfocus=function(){ window.close();}
+			window.print();
+			window.onfocus=function(){ window.close();}
 			//-->
 		</script>
 		
