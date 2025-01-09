@@ -124,8 +124,6 @@
 					'id'=>$id,
 					'kode'=>$result->row()->kode_jurusan,
 					'nama'=>$result->row()->nama_jurusan,
-					"pendaftaran"	=> $result->row()->biaya_pendaftaran,
-					"kenaikan"	=> $result->row()->biaya_kenaikan,
 					'aktif'=>$result->row()->aktif,
 					];
 					}else{
@@ -165,34 +163,13 @@
 				'is_unique'     => '%s sudah ada.'
 				)
 				),
-				array(
-				'field' => 'pendaftaran',
-				'label' => 'Biaya Pendaftaran',
-				'rules' => 'required|trim|numeric|min_length[3]',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 3 digit.',
-				)
-				),
-				array(
-				'field' => 'kenaikan',
-				'label' => 'Biaya Kenaikan Tingkat',
-				'rules' => 'required|trim|numeric|min_length[3]',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 3 digit.',
-				)
-				),
+		
 				));
 				if ( $this->form_validation->run() ) 
 				{
 					$data_post 	= [
 					"kode_jurusan"	=> $this->input->post('kode_unit',TRUE),
 					"nama_jurusan"	=> $this->input->post('nama_unit',TRUE),
-					"biaya_pendaftaran"	=> $this->input->post('pendaftaran',TRUE),
-					"biaya_kenaikan"	=> $this->input->post('kenaikan',TRUE),
 					"aktif"	    => $this->input->post('aktif_unit',TRUE),
 					];
 					$insert = $this->model_app->input('rb_unit',$data_post);
@@ -252,8 +229,6 @@
 					$data_post 	= [
 					"kode_jurusan"	=> $this->input->post('kode_unit',TRUE),
 					"nama_jurusan"	=> $this->input->post('nama_unit',TRUE),
-					"biaya_pendaftaran"	=> $this->input->post('pendaftaran',TRUE),
-					"biaya_kenaikan"	=> $this->input->post('kenaikan',TRUE),
 					"aktif"	    => $this->input->post('aktif_unit',TRUE),
 					];
 					

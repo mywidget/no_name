@@ -170,16 +170,7 @@
 							<label class="form-label" for="nama_unit">Nama Unit</label>
 							<input type="text" name="nama_unit" class="form-control" id="nama_unit" placeholder="Nama Unit" value="" required="" autocomplete="off">
 						</div>
-						<div class="form-group mb-1">
-							<label class="form-label" for="pendaftaran">Biaya Pendaftaran</label>
-							<input type="text" name="pendaftaran" class="form-control" id="pendaftaran" placeholder="Biaya Pendaftaran" value="" required="">
-						</div>
-						
-						<div class="form-group mb-1">
-							<label class="form-label" for="kenaikan">Biaya Kenaikan Tingkat</label>
-							<input type="text" name="kenaikan" class="form-control" id="kenaikan" placeholder="Biaya Kenaikan Tingkat" value="" required="">
-						</div>
-						
+						 
 						<div class="form-group mb-1">
 							<label class="form-label" for="aktif_unit">Aktif</label>
 							<select name="aktif_unit" id="aktif_unit" class="form-control form-select">
@@ -328,8 +319,6 @@
 						$('#id_unit').val(data.id);
 						$('#kode_unit').val(data.kode);
 						$('#nama_unit').val(data.nama);
-						$('#pendaftaran').val(data.pendaftaran);
-						$('#kenaikan').val(data.kenaikan);
 						$('#aktif_unit').val(data.aktif);
 						$('body').loading('stop');
 					},
