@@ -179,14 +179,14 @@ function load_kamar(id)
             if(len > 0){
                 $("#form_kamar").append("<option value='0'>Pilih Kamar</option>");
                 for (var i = 0; i < len; i++) {
-            var id = response[i]['id'];
-            var name = response[i]['name'];
-            $("#form_kamar").append("<option value='" + id + "'>" + name + "</option>");
+                    var id = response[i]['id'];
+                    var name = response[i]['name'];
+                    $("#form_kamar").append("<option value='" + id + "'>" + name + "</option>");
+                }
+                }else{
+                $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
+            }
         }
-        }else{
-        $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
-    }
-    }
     });
 }
 
@@ -495,9 +495,10 @@ Array.prototype.slice.call(forms)
                                     $('input').val('') 
                                     $('select').val('') 
                                     $('#formulir').hide(); 
+                                    $('#nomor_pendaftaran').html(response.nik); 
                                     $('#sukses').removeClass('d-none'); 
                                     $('#sukses').show(); 
-                                    // location.reload(); 
+                                    redirectToPage(); 
                                     } else {
                                     location.reload(); 
                                 }
@@ -514,7 +515,10 @@ Array.prototype.slice.call(forms)
         form.classList.add('was-validated')
     }, false)
 })
-
+ 
+function redirectToPage() {
+    window.location.href = base_url+'pendaftaran-sukses';
+}
 // $('#formPendaftaran').on('submit', function (e) {
 // e.preventDefault();
 

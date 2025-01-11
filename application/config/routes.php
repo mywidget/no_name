@@ -55,6 +55,7 @@ $route['error/401']                = "My404/login";
 $route['translate_uri_dashes']     = FALSE;
 $route['text-message']             = 'api/command_post';
 $route['syarat']                   = 'dashboard/syarat';
+$route['pendaftaran-sukses']       = 'dashboard/sukses';
 $route['formulir']                 = 'dashboard/formulir';
 $route['status']                   = 'dashboard/status';
 $route['brosur']                   = 'dashboard/brosur';

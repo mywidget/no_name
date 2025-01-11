@@ -54,6 +54,9 @@
                         <tr>
                             <td><input class="form-check-input m-0 align-middle case" type="checkbox" name="pilih[]" id="case<?=$i;?>" value="<?=$i;?>">
                                 <input type='hidden' id='id_<?=$i;?>' name='id[<?=$i;?>]' value="<?=$kode;?>" />
+                                <input type='hidden' id='biaya_daftar_<?=$i;?>' name='biaya_daftar[<?=$i;?>]' value="<?=$row['biaya_daftar'];?>" />
+                                <input type='hidden' id='tahun_akademik_<?=$i;?>' name='tahun_akademik[<?=$i;?>]' value="<?=$row['tahun_akademik'];?>" />
+                                <input type='hidden' id='kode_daftar_<?=$i;?>' name='kode_daftar[<?=$i;?>]' value="<?=$row['kode_daftar'];?>" />
                             </td>
                             <td><?=$no;?></td>
                             <td><?=indo_date($row['tanggal_daftar']);?></td>
@@ -65,6 +68,7 @@
                                     </button>
                                     <ul class="dropdown-menu" style="">
                                         <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery(<?=$i;?>);" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">Kode Pendaftaran : <span id="copyText<?=$i;?>"><?=$row['kode_daftar'];?></span></a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=$i;?>_<?=$i;?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">Tanggal lahir : <span id="copyText<?=$i;?>_<?=$i;?>"><?=$row['tanggal_lahir'];?></span></a></li>
                                         <li><a class="dropdown-item" href="#">Email : <?=$row['email'];?></a></li>
                                         <li><a class="dropdown-item" href="#">Jenis Kelamin : <?=$row['jenis_kelamin'];?></a></li>
                                         <li><a class="dropdown-item" href="#">No. HP : <?=$row['nomor_hp'];?></a></li>

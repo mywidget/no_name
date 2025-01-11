@@ -22,6 +22,7 @@
             $this->idlevel = $this->session->idlevel; 
 			$this->load->model('model_pendaftar');
 			$this->load->model('model_formulir');
+			$this->load->model('model_tagihan');
 			$this->curl = new Curl();
 			$this->menu = $this->uri->segment(1); 
 			$this->perPage = 10;
@@ -1203,10 +1204,15 @@
 			$status = $this->input->post('status'); // Ambil status yang dipilih
 			$selected_checkboxes = $this->input->post('selected_checkboxes'); // Checkbox yang dicentang
 			$id_pendaftar = $this->input->post('id'); // ID Pendaftar (jika ada)
+			$kode_daftar = $this->input->post('kode_daftar'); // ID Pendaftar (jika ada)
+			$biaya_daftar = $this->input->post('biaya_daftar'); // ID Pendaftar (jika ada)
+			$kode_daftar = $this->input->post('kode_daftar'); // ID Pendaftar (jika ada)
+			$tahun_akademik = $this->input->post('tahun_akademik'); // ID Pendaftar (jika ada)
 			
 			if ($status && !empty($selected_checkboxes)) {
 				
 				// Array untuk menyimpan data update
+				$input_tagihan = [];
 				$update_data = [];
 				
 				// Cek status pendaftar di database untuk masing-masing ID
@@ -1218,15 +1224,34 @@
 					$current_status = $this->model_pendaftar->check_status($id);
 					
 					// Lakukan update jika status saat ini "Diterima"
+					if (($current_status == 'Baru' OR $current_status == 'Proses') AND $status=='Diterima') {
+						$input_tagihan[] = [
+						'kode_daftar' => $kode_daftar[$val],
+						'id_siswa' => $id,
+						'total_bayar' => $biaya_daftar[$val],
+						'tahun_akademik' => $tahun_akademik[$val],
+						'tgl_tagihan' => date('Y-m-d'),
+						'id_user' => $this->iduser
+						];
+						
+						
+					}
+					
 					if ($current_status == 'Baru' OR $current_status == 'Proses') {
 						$update_data[] = [
 						'id' => $id,
 						'status' => $status
 						];
+						
 					}
 				}
-				
+				// dump($input_tagihan);
 				// Jika ada data yang perlu diupdate
+				if (!empty($input_tagihan)) {
+					// $this->model_tagihan->insertMultipleWithAutoNumber('PSB-', 6, 'id_tagihan', 'rb_tagihan', $input_tagihan);
+					$this->model_tagihan->input_multiple_data($input_tagihan);
+				}
+				// exit;
 				if (!empty($update_data)) {
 					// Proses batch update
 					if ($this->model_pendaftar->batch_data('rb_psb_daftar', $update_data)) {
@@ -1514,4 +1539,4 @@
             $writer->save('php://output');
 		}
 		
-	}																																																																																																																																																								
+	}																																																																																																																																																														

@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
         Assalamualaikum Wr. Wb <strong> <?php echo $row['nama'];?></strong>
     </div>
-    <small class="d-block text-secondary mt-2"><strong>Note: </strong> Selamat Anda Terdaftar Sebagai calon santri Pondok Pesantren Tebuireng 4 Al-Ishlah, pada Unit : <?php echo $row['unit_sekolah'];?> Kelas : <?php echo $row['kelas'];?> Untuk selanjutnya silahkan upload bukti pembayaran, Foto Santri, Scan Foto Kartu Keluarga untuk melengkapi proses pendaftaran, Terimakasih Wassalam</small>
+    <small class="d-block text-secondary mt-2"><strong>Note: </strong> Selamat Anda Terdaftar Sebagai calon santri Pondok Pesantren Tebuireng 4 Al-Ishlah, pada Unit : <?php echo $row['unit_sekolah'];?> Kelas : <?=getKelas($row['kelas'])->nama_kelas;?>. Untuk selanjutnya silahkan upload bukti pembayaran, Foto Santri, Scan Foto Kartu Keluarga untuk melengkapi proses pendaftaran, Terimakasih Wassalam</small>
 </div>
 <div class="shadow rounded-12 p-3 mb-3">
     <hr class="my-2">

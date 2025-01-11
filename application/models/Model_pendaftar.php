@@ -103,6 +103,7 @@
 			}
 			return null; // Jika tidak ditemukan
 		}
+		 
 		function getUnit($params = array()){
 			// print_r($params);
 			$this->db->select('*'); 

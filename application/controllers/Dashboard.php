@@ -43,6 +43,24 @@
 			
 			$this->thm->load('frontend/template','frontend/syarat',$data);
 		}
+		public function sukses()
+		{
+			$this->thm->set('title', 'Syarat Pendaftaran | '. tag_key('site_title'));
+			$this->thm->set('description', tag_key('site_desc'));
+			$this->thm->set('keywords', tag_key('site_keys'));
+			
+			if($this->session->pendaftaran){
+				$data['row'] = $this->model_app->view_where('rb_pages',['seo'=>'pendaftaran-sukses','aktif'=>'Ya'])->row();
+				$data['menu'] = $this->model_data->get_categories();
+				$data['deskripsi'] = get_pesan_sukses($data['row']->deskripsi);
+				 
+				$this->thm->load('frontend/template','frontend/sukses',$data);
+				
+				$this->session->unset_userdata(array('pendaftaran', 'nik'));
+				}else{
+				redirect('formulir');
+			}
+		}
 		
 		public function formulir()
 		{
@@ -57,7 +75,7 @@
 			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
 			$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
 			$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
-			
+			$this->session->set_userdata(['pendaftaran'=>'sukses', 'nik'=>1402124911110001]);
 			$this->thm->load('frontend/template','frontend/formulir',$data);
 		}
 		
@@ -366,7 +384,7 @@
 				$id_tahun_akademik = $this->input->post('thnakademik',true);
 				$status = $this->input->post('status',true);
 				$cek_kategori = $this->cek_kategori($status);
-			 
+				
 				if($cek_kategori==TRUE){
 					$id_kategori = $cek_kategori['id'];
 					}else{
@@ -900,6 +918,7 @@
 							
 							$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
 							$this->send_notif($post);
+							$this->session->set_userdata(["pendaftaran" => 'sukses','nik'=>$nik]);
 							$response['status'] = true;
 							$response['nik'] = $this->input->post('nik',true);
 							$response['message'] = 'Berhasil';

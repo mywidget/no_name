@@ -557,47 +557,73 @@
 			return $ci->model_app->pilih('favicon','info')->row()->favicon;
 		}
 	}
-	
-	function autoNumbers($awalan,$digit)
+	function autoNumbers($awalan, $digit)
 	{
-		//%06s
+		// Mendapatkan instance CodeIgniter
 		$ci = & get_instance();
-		$ci->db->select_max('id_member','max_id');
+		
+		// Mengambil ID terakhir dari tabel 'konsumen'
+		$ci->db->select_max('id_member', 'max_id');
 		$query = $ci->db->get('konsumen');
-		if($query->num_rows()>0){
-			$data=$query->row();
+		
+		if ($query->num_rows() > 0) {
+			// Jika ada data, ambil ID terakhir
+			$data = $query->row();
 			$maxid = $data->max_id;
+			
+			// Menghitung panjang awalan
 			$count_awalan = strlen($awalan);
-			$potong_awalan = str_replace($awalan,"",$maxid);
+			
+			// Menghapus awalan dari ID terakhir
+			$potong_awalan = str_replace($awalan, "", $maxid);
 			$count_potong_awalan = strlen($potong_awalan);
+			
+			// Mendapatkan angka urut dan menambahkannya 1
 			$noUrut = (int) substr($maxid, $count_awalan, $count_potong_awalan);
 			$noUrut++;
-			$kode_baru = $awalan.sprintf($digit, $noUrut);
-			}else{
-			$kode_baru = $awalan.sprintf($digit, 1);
+			
+			// Format ID baru dengan awalan dan jumlah digit yang sesuai
+			$kode_baru = $awalan . sprintf('%0' . $digit . 'd', $noUrut);
+			} else {
+			// Jika tidak ada data sebelumnya, ID pertama akan dimulai dari 1
+			$kode_baru = $awalan . sprintf('%0' . $digit . 'd', 1);
 		}
+		
 		return $kode_baru;
 	}
-	function autoNumber($awalan,$digit,$id_table,$table)
+	function autoNumber($awalan, $digit, $id_table, $table)
 	{
-		//%06s
+		// Mendapatkan instance CodeIgniter
 		$ci = & get_instance();
-		$ci->db->select_max($id_table,'max_id');
+		
+		// Mengambil ID terakhir dari kolom tertentu dalam tabel
+		$ci->db->select_max($id_table, 'max_id');
 		$query = $ci->db->get($table);
-		if($query->num_rows()>0){
-			$data=$query->row();
+		
+		// Jika ada data di tabel, ambil ID terakhir
+		if ($query->num_rows() > 0) {
+			$data = $query->row();
 			$maxid = $data->max_id;
+			
+			// Menghitung panjang awalan
 			$count_awalan = strlen($awalan);
-			$potong_awalan = str_replace($awalan,"",$maxid);
+			
+			// Menghapus awalan dari ID terakhir
+			$potong_awalan = str_replace($awalan, "", $maxid);
 			$count_potong_awalan = strlen($potong_awalan);
+			
+			// Mendapatkan angka urut dan menambahkannya 1
 			$noUrut = (int) substr($maxid, $count_awalan, $count_potong_awalan);
 			$noUrut++;
-			$kode_baru = $awalan.sprintf($digit, $noUrut);
-			}else{
-			$kode_baru = $awalan.sprintf($digit, 1);
+			} else {
+			// Jika tidak ada data sebelumnya, ID pertama akan dimulai dari 1
+			$noUrut = 1;
 		}
-		return $kode_baru;
+		
+		// Format ID baru dengan awalan dan jumlah digit yang sesuai
+		return $awalan . sprintf('%0' . $digit . 'd', $noUrut);
 	}
+	
 	
 	function cek_info()
     {
@@ -652,6 +678,26 @@
 		}
 	}
 	
+	if ( ! function_exists('get_nama'))
+	{
+		/**
+			* get_nama
+			* 
+			@param int 
+			@return string
+		*/
+		function get_nama($id)
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih_where('nama','rb_psb_daftar',['id'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row()->nama; 	
+				}else{
+				return false; 
+			}
+		}
+	}		
 	if ( ! function_exists('get_device'))
 	{
 		/**
@@ -687,7 +733,7 @@
 			if($cek->num_rows() > 0)
 			{
 				$idparent = $cek->row()->idparent;
-				 
+				
 				if($idparent==0){
 					$parent = $cek->row()->idmenu;
 					}else{
@@ -720,7 +766,7 @@
 			}
 		}
 	}		
-		
+	
 	if ( ! function_exists('getNamaKelas'))
 	{
 		/**
@@ -821,4 +867,47 @@
 				return '-'; 
 			}
 		}
-	}						
+	}										
+	
+	function get_pesan_sukses($post)
+	{
+		$ci = & get_instance();
+		$ci->db->select('kode_daftar,tahun_akademik,email,nama,jenis_kelamin,unit_sekolah,kelas,nomor_hp,tanggal_lahir');
+		$ci->db->from('rb_psb_daftar');
+		$ci->db->where('nik',$ci->session->nik);
+		$query = $ci->db->get(); 
+		
+		if($query->num_rows() > 0){ 
+			$row = $query->row();
+			$searchVal =[
+			"{kode_pendaftaran}",
+			"{tahun_akademik}",
+			"{email}",
+			"{nama}",
+			"{tanggal_lahir}",
+			"{jenis_kelamin}",
+			"{unit_sekolah}",
+			"{kelas}",
+			"{nomor_hp}",
+			"{cek_status_pendaftaran}",
+			];
+			
+			$replaceVal = [
+			$row->kode_daftar,
+			$row->tahun_akademik,
+			$row->email,
+			$row->nama,
+			$row->tanggal_lahir,
+			$row->jenis_kelamin,
+			$row->unit_sekolah,
+			getKelas($row->kelas)->nama_kelas,
+			$row->nomor_hp,
+			base_url('status'),
+			];
+			
+			// Function to replace string
+			$pesan = str_replace($searchVal, $replaceVal, $post);
+			
+			return $pesan;
+		}
+	}

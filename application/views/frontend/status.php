@@ -15,7 +15,7 @@
                     <label for="noInduk">Nomor Pendaftaran</label>
                 </div>
                 <div class="col-sm-8 col-md-6 col-lg-4">
-                    <input type="number" name="kode_daftar" id="noInduk" class="form-control" value="" required="">
+                    <input type="text" name="kode_daftar" id="noInduk" class="form-control" value="" required="">
                 </div>
             </div>
             
