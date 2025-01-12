@@ -157,7 +157,7 @@
 	pointer-events: none;
 	cursor: not-allowed;
 	}
-	 
+	
 </style>
 
 <?php
@@ -243,6 +243,10 @@
 				}else{
 				$("#type").val('edit');
 				$("#myModalLabel").html('Edit halaman');
+				$('#id').val('');
+				$('#title').val('');
+				$('#seo').val('');
+				tinymce.get('deskripsi').setContent(''); 
 			}
 			$.ajax({
 				type: 'POST',
@@ -264,6 +268,7 @@
 					$('body').loading('stop');
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
+					$("#OpenModal").modal('hide');
 					sweet('Peringatan!!!',thrownError,'warning','warning');
 					$('body').loading('stop');
 				}
@@ -302,8 +307,8 @@
 					}
 					
 					searchData();
-					} ,error: function(xhr, status, error) {
-					showNotif('bottom-right','Peringatan',error,'error');
+					} ,error: function (xhr, ajaxOptions, thrownError) {
+					sweet('Peringatan!!!',thrownError,'warning','warning');
 					$('body').loading('stop');
 				}
 			});
@@ -328,8 +333,8 @@
 					searchData();
 					
 					$('body').loading('stop');　
-					},error: function(xhr, status, error) {
-					showNotif('bottom-right','Update',error,'error');
+					},error: function (xhr, ajaxOptions, thrownError) {
+					sweet('Peringatan!!!',thrownError,'warning','warning');
 					$('body').loading('stop');　
 				}
 			});
@@ -355,8 +360,8 @@
 					}
 					searchData();
 					$('body').loading('stop');　
-					},error: function(xhr, status, error) {
-					showNotif('bottom-right','Update',error,'error');
+					},error: function (xhr, ajaxOptions, thrownError) {
+					sweet('Peringatan!!!',thrownError,'warning','warning');
 					$('body').loading('stop');　
 				}
 			});
