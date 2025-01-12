@@ -295,9 +295,11 @@
 		function cek_session_login($params=0){
 			$ci = & get_instance();
 			$session = $ci->session->level;
-			if($params==0)
+			
+			
+			if (!isset($session))
 			{
-				if (!isset($session))
+				if ($ci->input->is_ajax_request()) 
 				{
 					$data = ['status'=>401,'msg'=>'Login required'];
 					$ci->output
@@ -306,22 +308,17 @@
 					->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
 					->_display();
 					exit;
+					}else{
+					if (!isset($session)){
+						redirect('error/401');
+					}
 				}
 				
 			}
-			elseif($params==1)
-			{
-				if (!isset($session)){
-					redirect('error/401');
-				}
-				}else{
-				if (!isset($session)){
-					redirect('error/401');
-				}
-			}
+			
 		}
 	}
-	
+	 
 	
 	if ( ! function_exists('cekSessiLogin'))
 	{
