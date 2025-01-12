@@ -278,7 +278,7 @@
 				$array = array('aktif'=>'Tidak');
 				$title = 'dinonaktifkan';
 			}
-			 
+			
 			$search = $this->model_app->edit('rb_pages', ['id' => $id]);
 			if($search->num_rows()>0){
 				$row = $search->row_array();
@@ -296,5 +296,74 @@
 			$this->thm->json_output($data);
 			
 		}
+		// Mengambil rekening untuk dropdown
+		public function get_kategori()
+		{
+			$kategori = $this->model_tagihan->get_kategori();
+			echo json_encode($kategori);
+		}
 		
-	}																																									
+		// Mengambil rekening untuk dropdown
+		public function get_rekening()
+		{
+			$rekening = $this->model_tagihan->get_rekening();
+			echo json_encode($rekening);
+		}
+		
+		// Menyimpan pembayaran
+		public function save_bayar()
+		{
+			// Validasi input
+			$this->form_validation->set_rules('rekening', 'Rekening', 'required');
+			$this->form_validation->set_rules('lampiran', 'Lampiran', 'callback_file_check'); // Atur validasi file
+			
+			if ($this->form_validation->run() == FALSE) {
+				echo json_encode(['status' => false, 'message' => validation_errors()]);
+				} else {
+				// Atur upload config
+				$config['upload_path']   = './upload/lampiran/';
+				$config['allowed_types'] = 'jpg|jpeg|png';
+				$config['max_size']      = 2048; // Max file size in KB
+				$config['file_name']     = uniqid('lampiran_'); // Generate unique filename
+				
+				$this->upload->initialize($config);
+				
+				// Upload file
+				if (!$this->upload->do_upload('lampiran')) {
+					// Jika gagal upload
+					echo json_encode(['status' => false, 'message' => $this->upload->display_errors()]);
+					} else {
+					// Jika berhasil upload
+					$file_data = $this->upload->data();
+					$data = [
+                    'id_kategori' => $this->input->post('id_kategori'),
+                    'id_tagihan'  => $this->input->post('id_tagihan'),
+                    'id_bayar'    => $this->input->post('rekening'),
+                    'lampiran'    => $file_data['file_name'], // Simpan nama file yang di-upload
+                    'jumlah_bayar'=> $this->input->post('sisabayar')
+					];
+					
+					$result = $this->model_tagihan->insert_bayar($data);
+					
+					if ($result) {
+						echo json_encode(['status' => true, 'message' => 'Pembayaran berhasil disimpan']);
+						} else {
+						echo json_encode(['status' => false, 'message' => 'Terjadi kesalahan, silakan coba lagi']);
+					}
+				}
+			}
+		}
+		
+		// Callback untuk validasi file
+		public function file_check($str)
+		{
+			$allowed_types = array('jpeg', 'jpg', 'png');
+			$file_type = pathinfo($_FILES['lampiran']['name'], PATHINFO_EXTENSION);
+			
+			if (!in_array($file_type, $allowed_types)) {
+				$this->form_validation->set_message('file_check', 'Format file tidak valid. Hanya jpeg, jpg, dan png yang diperbolehkan.');
+				return FALSE;
+			}
+			return TRUE;
+		}
+	}																																												

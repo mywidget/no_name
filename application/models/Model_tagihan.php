@@ -189,7 +189,63 @@
 			if (!empty($update_tagihan)) {
 				$this->batch_data_tagihan($update_tagihan);
 			}
+			
+			if (!empty($rb_bayar_tagihan)) {
+				$this->db->insert_batch('rb_bayar_tagihan', $rb_bayar_tagihan);
+			}
+		}
+		public function input_tagihan()
+		{
 			 
+			$input_tagihan = [
+			'kode_daftar' => $this->input->post('nik',true),
+			'id_siswa' => decrypt_url($this->input->post('id_pendaftar',true)),
+			'total_bayar' => convert_to_number($this->input->post('biaya',true)),
+			'tahun_akademik' => $this->input->post('thnakademik',true),
+			'tgl_tagihan' => date('Y-m-d'),
+			'id_user' => $this->session->iduser
+			];
+			// Insert individu dan dapatkan ID
+			$this->db->insert('rb_tagihan', $input_tagihan);
+			$inserted_ids = $this->db->insert_id();
+			$res = $this->check_harga(3,$this->input->post('thnakademik',true));
+			$update_tagihan[] = [
+			'id_tagihan'=>$inserted_ids,
+			'total_tagihan'=>convert_to_number($this->input->post('biaya',true)) + $res['amount'],
+			];
+			
+			$tagihan_detail = [
+			[
+			'id_tagihan'=>$inserted_ids,
+			'id_kategori'=>1,
+			'title'=>'Biaya pendaftar',
+			'jumlah'=>1,
+			'harga'=>convert_to_number($this->input->post('biaya',true)),
+			],
+			[
+			'id_tagihan'=>$inserted_ids,
+			'id_kategori'=>3,
+			'title'=>$res['title'],
+			'jumlah'=>1,
+			'harga'=>$res['amount'],
+			]
+			];
+			$rb_bayar_tagihan[] = [
+			'id_kategori'=>1,
+			'id_tagihan'=>$inserted_ids,
+			'id_bayar'=>1,
+			'jumlah_bayar'=>convert_to_number($this->input->post('biaya',true)),
+			'id_user'=>$this->session->iduser,
+			'tgl_bayar'=>date('Y-m-d'),
+			];
+			
+			$this->db->insert_batch('rb_tagihan_detail', $tagihan_detail);
+			
+			// dump($update_tagihan);
+			if (!empty($update_tagihan)) {
+				$this->batch_data_tagihan($update_tagihan);
+			}
+			
 			if (!empty($rb_bayar_tagihan)) {
 				$this->db->insert_batch('rb_bayar_tagihan', $rb_bayar_tagihan);
 			}
@@ -204,12 +260,28 @@
 			$this->db->where('id_tahun_akademik', $tahun_akademik);
 			$query = $this->db->get();
 			
-			// Cek jika data ditemukan
-			if ($query->num_rows() > 0) {
-				return ['title'=>$query->row()->title,'amount'=>$query->row()->amount];
-			}
-			return ['title'=>'-','amount'=>0];
-			
+		// Cek jika data ditemukan
+		if ($query->num_rows() > 0) {
+			return ['title'=>$query->row()->title,'amount'=>$query->row()->amount];
 		}
+		return ['title'=>'-','amount'=>0];
 		
-	}																											
+		}
+		public function get_kategori()
+		{
+			// Query untuk mengambil rekening
+			$query = $this->db->get('rb_kategori');
+			return $query->result_array();
+		}
+		public function get_rekening()
+		{
+			// Query untuk mengambil rekening
+			$query = $this->db->get('rb_rekening');
+			return $query->result_array();
+		}
+		public function insert_bayar($data)
+		{
+			// Menyimpan data pembayaran
+			return $this->db->insert('rb_bayar_tagihan', $data);
+		}
+	}																														

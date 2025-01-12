@@ -163,141 +163,69 @@
 	</div>
 </div>
 
-<!-- bayar invoice -->
-<div class="modal fade" id="ModalBayar" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" id="saving-bayar">
-        <div class="modal-content flat">
-            <div class="modal-header py-1">
-                <h4 class="modal-title">BAYAR TAGIHAN #<span class="tinvoice"></span></h4>
+<!-- Modal -->
+<div class="modal fade" id="ModalBayar" tabindex="-1" aria-labelledby="ModalBayarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalBayarLabel">BAYAR TAGIHAN #<span class="tinvoice"></span></h5>
 			</div>
-            <div class="modal-body pb-0">
-                <div class="form-group row mb-0">
-                    <label  class="col-4 col-form-label"> 
-                        <div class="input-group">
-                            BAYAR&nbsp;&nbsp;
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="Bayar1" name="Bayar" class="custom-control-input Bayar" value="1" checked>
-                                <label class="custom-control-label" for="Bayar1"> FULL&nbsp;&nbsp;</label>
-							</div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="Bayar2" name="Bayar" class="custom-control-input Bayar" value="2" >
-                                <label class="custom-control-label" for="Bayar2">SEBAGIAN</label>
-								</div>
-						</div>
-					</label> 
-                    <div class="col-8">
-                        <div class="input-group input-group-sm mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" for="id_byr">CARA BAYAR</span>
-							</div>
-                            <select name="id_byr" id="id_byr" onchange="sumawal()" class="custom-select form-control form-control-sm"  data-valueKey="id" data-displayKey="name" required>
-							</select>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" for="rekening">REKENING</span>
-							</div>
-                            <select name="rekening" id="rekening" class="custom-select form-control form-control-sm rekening" disabled>
+            <div class="modal-body">
+                <form id="bayarForm">
+                    <div class="mb-3 row">
+                        <label for="kategori" class="col-4 col-form-label">JENIS PEMBAYARAN</label>
+                        <div class="col-8">
+                            <select name="kategori" id="kategori" class="form-select">
+                                <!-- Options dynamically added here -->
 							</select>
 						</div>
 					</div>
-				</div> 
-                <div class="form-group row mb-0 lampiran">
-                    <label for="lampiran" class="col-4 col-form-label">Bukti Transfer</label> 
-                    <div class="col-8">
-                        <div class="input-group input-group-sm">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary preview p-0 flat" id="preview" >
-                                    <img class="img-preview mklbItem" id="imageresource" src="<?=base_url('assets/img/bone.jpg');?>"  data-toggle='tooltip' title="Preview bukti transfer" style="width: 30px; height: 30px; object-fit: cover;">
-								</button>
-							</div>
-                            <div class="custom-file form-control-sm">
-                                <input class="custom-file-input" name='lampiran' id="lampiran" type="file">
-                                <label class="custom-file-label" for="lampiran">Format file jpeg | jpg | png | webp</label>
-							</div>
+					<div class="mb-3 row">
+                        <label for="rekening" class="col-4 col-form-label">PILIH REKENING</label>
+                        <div class="col-8">
+                            <select name="rekening" id="rekening" class="form-select">
+                                <!-- Options dynamically added here -->
+							</select>
 						</div>
 					</div>
-				</div>
-                <div class="form-group row mb-0">
-                    <label for="pajak" class="col-4 col-form-label">PPN | Total Pajak</label> 
-                    <div class="col-4">
-                        <div class="input-group">
-                            <input id="pajak" name="pajak" value="0" type="text" onchange="inputan()" class="form-control form-control-sm"> 
-                            <div class="input-group-append">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-warning btn-sm flat pajakd" id="pajakd" disabled>% INPUT PAJAK</button>
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        <button style="display:none" type="button" onclick="savpajak();" class="btn btn-success btn-sm flat savpajak" id="savpajak" data-toggle='tooltip' title="Simpan Pajak"><i class="fa fa-save"></i></button>
-                                        <button style="display:none" type="button" onclick="batal();" class="btn btn-danger btn-sm batal" id="batal"><i class="fa fa-times"></i></button>
-									</div>
-								</div>
-							</div>
+                    <div class="mb-3 row">
+                        <label for="lampiran" class="col-4 col-form-label">BUKTI TRANSFER</label>
+                        <div class="col-8">
+                            <input class="form-control" name="lampiran" id="lampiran" type="file" accept=".jpeg, .jpg, .png">
 						</div>
 					</div>
-                    <div class="col-4">
-                        <div class="input-group">
-                            <input id="sumpajak" name="sumpajak" type="text" class="form-control form-control-sm" readonly>
+                    <div class="mb-3 row">
+                        <label for="sisabayar" class="col-4 col-form-label">TOTAL TAGIHAN</label>
+                        <div class="col-8">
+                            <input id="sisabayar" name="sisabayar" type="text" class="form-control" readonly>
 						</div>
 					</div>
-				</div>
-                
-                <div class="form-group row mb-0">
-                    <label for="sisabayar" class="col-4 col-form-label">TOTAL ORDER</label> 
-                    <div class="col-8">
-                        <div class="input-group">
-                            <input id="sisabayar" name="sisabayar" type="text" class="form-control form-control-sm" readonly>
+                    <div class="mb-3 row">
+                        <label for="totalbyr" class="col-4 col-form-label">SISA TAGIHAN</label>
+                        <div class="col-8">
+                            <input id="totalbyr" name="totalbyr" type="text" class="form-control" value="0" readonly>
+                            <input id="total_bayar" name="total_bayar" type="hidden" value="0">
 						</div>
 					</div>
-				</div> 
-                <div class="form-group row mb-0">
-                    <label for="totalbyr" class="col-4 col-form-label">SISA</label> 
-                    <div class="col-8">
-                        <div class="input-group">
-                            <input id="totalbyr" name="totalbyr" type="text" value="0" class="form-control form-control-sm" readonly>
-                            <input id="total_bayar" name="total_bayar" type="hidden" value="0" class="form-control form-control-sm" readonly>
+                    <div class="mb-3 row">
+                        <label for="uangm" class="col-4 col-form-label">JUMLAH BAYAR</label>
+                        <div class="col-8">
+                            <input id="uangm" name="uangm" type="text" class="form-control" onchange="inputan()">
 						</div>
 					</div>
-				</div> 
-                <div class="form-group row mb-0 p-0 flat">
-                    <label for="nominal" class="col-4 col-form-label">NOMINAL</label> 
-                    <div class="col-8">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button class="btn btn-primary btn-sm flat n-bayar" data-id="50000">50.000</button>
-                            <button class="btn btn-secondary btn-sm flat n-bayar" data-id="100000">100.000</button>
-                            <button class="btn btn-success btn-sm flat n-bayar" data-id="200000">200.000</button>
-                            <button class="btn btn-info btn-sm flat n-bayar" data-id="300000">300.000</button>
-                            <button class="btn btn-warning btn-sm flat n-bayar" data-id="400000">400.000</button>
-                            <button class="btn btn-danger btn-sm flat n-bayar" data-id="500000">500.000</button>
-                            <button type="button" onclick="lunasd();" class="btn btn-dark btn-sm flat lunasd">UANGPAS</button>
-						</div>
+                    <div class="mb-3 row">
+                        <div class="col-12 load-bayar"></div>
 					</div>
-				</div>
-                <div class="form-group row mb-0 flat">
-                    <label for="uangm" class="col-4 col-form-label">JUMLAH BAYAR</label> 
-                    <div class="col-8">
-                        <div class="input-group flat">
-                            <input id="uangm" name="uangm" type="text" onchange="inputan()" onkeyup="kembalian()" class="form-control form-control-sm input"> 
-						</div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="bayar_l" disabled>SIMPAN PEMBAYARAN</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">TUTUP</button>
 					</div>
-				</div>
-                <div class="form-group row mb-0 mt-0">
-                    <label for="kembalian" class="col-4 col-form-label">KEMBALIAN</label> 
-                    <div class="col-8">
-                        <div class="input-group">
-                            <input id="kembalian" name="kembalian" type="text" class="form-control form-control-sm" readonly>
-						</div>
-					</div>
-				</div> 
-                
-                <div class="form-group row">
-                    <div class="col-12 load-bayar"></div>
-				</div>
-			</div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary flat bayar_l" id="bayar_l" disabled>SIMPAN BAYAR</button>
-                <button type="button" class="btn btn-danger flat" data-dismiss="modal">TUTUP</button>
+				</form>
 			</div>
 		</div>
 	</div>
 </div>
+
 
 <style>
 	.select2-container {
@@ -477,7 +405,65 @@
 			$('#data-hapus').val($(e.relatedTarget).data('id'));
 		});
 		
-	</script>        
-	
+		
+		$(document).ready(function() {
+			// Ambil rekening untuk dropdown
+			$.ajax({
+				url: "<?php echo site_url('keuangan/get_kategori'); ?>",
+				method: "GET",
+				dataType: "json",
+				success: function(data) {
+					if (data) {
+						var rekening = $('#kategori');
+						rekening.empty();
+						rekening.append('<option value="">Pilih kategori</option>');
+						$.each(data, function(index, item) {
+							rekening.append('<option value="' + item.id_kategori + '">' + item.title + '</option>');
+						});
+					}
+				}
+			});
+			
+			// Ambil rekening untuk dropdown
+			$.ajax({
+				url: "<?php echo site_url('keuangan/get_rekening'); ?>",
+				method: "GET",
+				dataType: "json",
+				success: function(data) {
+					if (data) {
+						var rekening = $('#rekening');
+						rekening.empty();
+						rekening.append('<option value="">Pilih Rekening</option>');
+						$.each(data, function(index, item) {
+							rekening.append('<option value="' + item.id + '">' + item.title + '</option>');
+						});
+					}
+				}
+			});
+			
+			// AJAX save bayar
+			$('#bayarForm').submit(function(e) {
+				e.preventDefault();
+				
+				var formData = new FormData(this);
+				$.ajax({
+					url: "<?php echo site_url('keuangan/save_bayar'); ?>",
+					type: "POST",
+					data: formData,
+					dataType: "json",
+					processData: false,
+					contentType: false,
+					success: function(response) {
+						if (response.status) {
+							alert(response.message);
+							$('#ModalBayar').modal('hide');
+							} else {
+							alert(response.message);
+						}
+					}
+				});
+			});
+		});
+	</script>
 	
 <?php } ?>	

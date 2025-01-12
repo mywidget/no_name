@@ -701,7 +701,14 @@
 				
 				if ( $this->form_validation->run() ) 
 				{
-					
+					$current_status = $this->model_pendaftar->check_status($id_pendaftar);
+					if ($current_status == 'Baru' OR $current_status == 'Proses') {
+						$status_pendaftar = $this->input->post('status_pendaftar',true);
+						$this->model_tagihan->input_tagihan();
+						}else{
+						$status_pendaftar = $current_status;
+					}
+					 
 					$nama_unit = $this->model_pendaftar->nama_unit_byid($this->input->post('unit_sekolah',true));
 					
 					$input_data = [
@@ -758,7 +765,7 @@
 					"kondisi_sekarang"            => $this->input->post('kondisi_sekarang',true),
 					"ukuran_seragam_baju"         => $this->input->post('ukuran_seragam_baju',true),
 					"ukuran_celana_rok"           => $this->input->post('ukuran_celana_rok',true),
-					"status"           => $this->input->post('status_pendaftar',true),
+					"status"           			  => $status_pendaftar,
 					];
 					// dump($input_data);
 					$biaya=convert_to_number($this->input->post('biaya',true));
@@ -774,9 +781,7 @@
 					$kuota = $kuota-1;
 					
 					$update_kuota = ['kuota'=>$kuota]; 
-					
-					
-					
+ 
 					$input = $this->model_app->update('rb_psb_daftar',$input_data,['id'=>$id_pendaftar]);
 					if($input['status']==true)
 					{
@@ -1539,4 +1544,4 @@
             $writer->save('php://output');
 		}
 		
-	}																																																																																																																																																														
+	}																																																																																																																																																																

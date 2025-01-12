@@ -884,11 +884,11 @@
 					},
 					success: function (response) {
 						// console.log(response);
-						if(response.name=='Diterima'){
-							$("#status_pendaftar").attr('readonly',true);
-							}else{
-							$("#status_pendaftar").attr('readonly',false);
-						}
+						// if(response.name=='Diterima'){
+							// $("#status_pendaftar").attr('readonly',true);
+							// }else{
+							// $("#status_pendaftar").attr('readonly',false);
+						// }
 						$("#status_pendaftar").val(response.name).change();
 					}
 				});
