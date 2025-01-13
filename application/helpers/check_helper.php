@@ -238,7 +238,7 @@
 			
 			if ($query == FALSE){
 				
-				if($tipe=='json'){
+				if($tipe=='JSON'){
 					$data = ['status'=>false,'msg'=>'akses ditolak'];
 					$ci->output
 					->set_content_type('application/json', 'utf-8')
@@ -253,7 +253,6 @@
 					}else{
 					redirect('error/cruds');
 					exit;
-					
 				}
 			}
 		}
@@ -330,7 +329,7 @@
 			
 		}
 	}
-	 
+	
 	
 	if ( ! function_exists('cekSessiLogin'))
 	{
@@ -487,6 +486,20 @@
 			exit;
 		}
 	}	
+	function cekRequest()
+	{
+		$ci = & get_instance();
+		if (!$ci->input->is_ajax_request()) 
+		{
+			$data = ['status'=>400,'msg'=>'Bad Request'];
+			$ci->output
+			->set_status_header(400)
+			->set_content_type('application/json', 'utf-8')
+			->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+			->_display();
+			exit;
+		}
+	}	
 	
 	if ( ! function_exists('get_unit'))
 	{
@@ -507,68 +520,68 @@
 			}
 			return $data;
 		}
-	}
-	
-	if ( ! function_exists('getUnitByName'))
+}
+
+if ( ! function_exists('getUnitByName'))
+{
+	/**
+		* Code cek_desain
+		*
+		@param $id int
+		@return id
+	*/
+	function getUnitByName($id)
 	{
-		/**
-			* Code cek_desain
-			*
-			@param $id int
-			@return id
-		*/
-		function getUnitByName($id)
+		$ci = & get_instance();
+		$query = $ci->model_app->pilih_where('id','rb_unit',['nama_jurusan'=>$id]);
+		$data = '-';
+		if ($query->num_rows() >0)
 		{
-			$ci = & get_instance();
-			$query = $ci->model_app->pilih_where('id','rb_unit',['nama_jurusan'=>$id]);
-			$data = '-';
-			if ($query->num_rows() >0)
-			{
-				$data = $query->row()->id;
-			}
-			return $data;
+			$data = $query->row()->id;
 		}
+		return $data;
 	}
-	
-	if ( ! function_exists('getKelasById'))
+}
+
+if ( ! function_exists('getKelasById'))
+{
+	/**
+		* Code cek_desain
+		*
+		@param $id int
+		@return id
+	*/
+	function getKelasById($id)
 	{
-		/**
-			* Code cek_desain
-			*
-			@param $id int
-			@return id
-		*/
-		function getKelasById($id)
+		$ci = & get_instance();
+		$query = $ci->model_app->pilih_where('kode_kelas','rb_kelas',['id'=>$id]);
+		$data = '-';
+		if ($query->num_rows() >0)
 		{
-			$ci = & get_instance();
-			$query = $ci->model_app->pilih_where('kode_kelas','rb_kelas',['id'=>$id]);
-			$data = '-';
-			if ($query->num_rows() >0)
-			{
-				$data = $query->row()->kode_kelas;
-			}
-			return $data;
+			$data = $query->row()->kode_kelas;
 		}
+		return $data;
 	}
-	
-	if ( ! function_exists('by_username'))
+}
+
+if ( ! function_exists('by_username'))
+{
+	/**
+		* Code cek_desain
+		*
+		@param $id int
+		@return id
+	*/
+	function by_username($by)
 	{
-		/**
-			* Code cek_desain
-			*
-			@param $id int
-			@return id
-		*/
-		function by_username($by)
+		$ci = & get_instance();
+		$query = $ci->model_app->pilih_where('nama_lengkap','tb_users',['email'=>$by]);
+		$row = ['title'=>'-'];
+		if ($query->num_rows()>0)
 		{
-			$ci = & get_instance();
-			$query = $ci->model_app->pilih_where('nama_lengkap','tb_users',['email'=>$by]);
-			$row = ['title'=>'-'];
-			if ($query->num_rows()>0)
-			{
-				$row = ['title'=>$query->row()->nama_lengkap];
-				
-			}
-			return $row;
+			$row = ['title'=>$query->row()->nama_lengkap];
+			
 		}
+		return $row;
 	}
+}

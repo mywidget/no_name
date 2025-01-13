@@ -77,31 +77,29 @@
 		
 		function bayar_tagihan()
 		{
+			cekRequest();
+			cek_crud_akses('CONTENT','JSON');
+			$id = $this->db->escape_str($this->input->post('id'));
+			$index = decrypt_url($id);
 			
-			if ($this->input->is_ajax_request()) 
-			{
-				cek_crud_akses('CONTENT');
-				$id = $this->db->escape_str($this->input->post('id'));
-				$index = decrypt_url($id);
-				
-				$result = $this->model_app->view_where('rb_tagihan',['id_tagihan'=>$index]);
-				if($result->num_rows() > 0){
-					$sisa = $result->row()->total_tagihan - $result->row()->total_bayar;
-					$response = [
-					'status'=>true,
-					'id'=>$id,
-					'total_dibayar'=>$result->row()->total_bayar,
-					'total_tagihan'=>$result->row()->total_tagihan,
-					'sisa'=>$sisa
-					];
-					}else{
-					$response = [
-					'status'=>false,
-					'msg'=>'Gagal'
-					];
-				}
-				$this->thm->json_output($response);
+			$result = $this->model_app->view_where('rb_tagihan',['id_tagihan'=>$index]);
+			if($result->num_rows() > 0){
+				$sisa = $result->row()->total_tagihan - $result->row()->total_bayar;
+				$response = [
+				'status'=>true,
+				'id'=>$id,
+				'total_dibayar'=>$result->row()->total_bayar,
+				'total_tagihan'=>$result->row()->total_tagihan,
+				'sisa'=>$sisa
+				];
+				}else{
+				$response = [
+				'status'=>false,
+				'msg'=>'Gagal'
+				];
 			}
+			$this->thm->json_output($response);
+			
 		}
 		
 		function hapus_data(){
@@ -137,6 +135,12 @@
 			$search = $this->model_app->edit('rb_bayar_tagihan', $where);
 			if($search->num_rows()>0){
 				$row = $search->row();
+				$opathFile = FCPATH."upload/lampiran/" . $row->lampiran;
+				$size = @getimagesize($opathFile);
+				if($size !== false){
+					$img=FCPATH."upload/lampiran/".$row->lampiran;
+					unlink($img);
+				}
 				$jumlah_bayar = $row->jumlah_bayar;
 				$this->cek_total_bayar($tagihan,$jumlah_bayar);
 				$res = $this->model_app->hapus('rb_bayar_tagihan',$where);
@@ -197,8 +201,11 @@
 		// Mengambil rekening untuk dropdown
 		public function get_kategori()
 		{
-			$kategori = $this->model_tagihan->get_kategori();
-			echo json_encode($kategori);
+			if ($this->input->is_ajax_request()) 
+			{
+				$kategori = $this->model_tagihan->get_kategori();
+				echo json_encode($kategori);
+			}
 		}
 		
 		// Mengambil rekening untuk dropdown
@@ -211,72 +218,94 @@
 		// Mengambil data bayar
 		public function load_bayar()
 		{
-			$id_tagihan = decrypt_url($this->input->post('id',TRUE));
-			$query = $this->model_tagihan->get_bayar($id_tagihan);
-			$data = [];
-			foreach($query AS $row){
-				$data[] = [
-				'id_bayar_tagihan'=>encrypt_url($row->id_bayar_tagihan),
-				'id_tagihan'=>encrypt_url($row->id_tagihan),
-				'id'=>$this->input->post('id',TRUE),
-				'kategori'=>getKategori($row->id_kategori),
-				'tanggal'=>$row->tgl_bayar,
-				'jumlah_bayar'=>$row->jumlah_bayar,
-				];
+			if ($this->input->is_ajax_request()) 
+			{
+				$id_tagihan = decrypt_url($this->input->post('id',TRUE));
+				$query = $this->model_tagihan->get_bayar($id_tagihan);
+				$data = [];
+				foreach($query AS $row){
+					$data[] = [
+					'id_bayar_tagihan'=>encrypt_url($row->id_bayar_tagihan),
+					'id_tagihan'=>encrypt_url($row->id_tagihan),
+					'id'=>$this->input->post('id',TRUE),
+					'kategori'=>getKategori($row->id_kategori),
+					'tanggal'=>$row->tgl_bayar,
+					'jumlah_bayar'=>$row->jumlah_bayar,
+					];
+				}
+				echo json_encode($data);
 			}
-			echo json_encode($data);
 		}
 		
 		// Menyimpan pembayaran
 		public function save_bayar()
 		{
-			
-			// Validasi input
-			$this->form_validation->set_rules('rekening', 'Rekening', 'required');
-			$this->form_validation->set_rules('lampiran', 'Lampiran', 'callback_file_check'); // Atur validasi file
-			// dump($_POST);
-			if ($this->form_validation->run() == FALSE) {
-				echo json_encode(['status' => false, 'message' => validation_errors()]);
-				} else {
-				// Atur upload config
-				$config['upload_path']   = './upload/lampiran/';
-				$config['allowed_types'] = 'jpg|jpeg|png';
-				$config['max_size']      = 2048; // Max file size in KB
-				$config['file_name']     = uniqid('lampiran_'); // Generate unique filename
-				
-				$this->upload->initialize($config);
-				
-				// Upload file
-				if (!$this->upload->do_upload('lampiran')) {
-					// Jika gagal upload
-					echo json_encode(['status' => false, 'message' => $this->upload->display_errors()]);
+			if ($this->input->is_ajax_request()) 
+			{
+				// Validasi input
+				$this->form_validation->set_rules('rekening', 'Rekening', 'required');
+				$this->form_validation->set_rules('lampiran', 'Lampiran', 'callback_file_check'); // Atur validasi file
+				// dump($_POST);
+				if ($this->form_validation->run() == FALSE) {
+					echo json_encode(['status' => false, 'message' => validation_errors()]);
 					} else {
-					$id_tagihan = decrypt_url($this->input->post('id_tagihan',TRUE));
-					$total_tagihan = convert_to_number($this->input->post('total_tagihan',TRUE));
-					$total_dibayar = convert_to_number($this->input->post('total_dibayar',TRUE));
-					$sisa_tagihan = convert_to_number($this->input->post('sisa_tagihan',TRUE));
-					$jumlah_bayar = convert_to_number($this->input->post('jumlah_bayar',TRUE));
-					$total_bayar = $total_dibayar + $jumlah_bayar;
-					// Jika berhasil upload
-					$file_data = $this->upload->data();
+					// Atur upload config
+					$config['upload_path']   = './upload/lampiran/';
+					$config['allowed_types'] = 'jpg|jpeg|png';
+					$config['max_size']      = 2048; // Max file size in KB
+					$config['file_name']     = uniqid('lampiran_'); // Generate unique filename
 					
-					$data = [
-                    'id_kategori' => $this->input->post('kategori'),
-                    'id_tagihan'  => $id_tagihan,
-                    'id_bayar'    => $this->input->post('rekening'),
-                    'lampiran'    => $file_data['file_name'], // Simpan nama file yang di-upload
-                    'tgl_bayar'    => date('Y-m-d'), // Simpan nama file yang di-upload
-                    'jumlah_bayar'=> convert_to_number($this->input->post('jumlah_bayar'))
-					];
+					$this->upload->initialize($config);
 					
-					$result = $this->model_tagihan->insert_bayar($data);
-					$this->model_app->update('rb_tagihan',['total_bayar'=>$total_bayar],['id_tagihan'=>$id_tagihan]);
-					
-					if ($result) {
-						echo json_encode(['status' => true, 'message' => 'Pembayaran berhasil disimpan']);
+					// Upload file
+					if (!$this->upload->do_upload('lampiran')) {
+						// Jika gagal upload
+						echo json_encode(['status' => false, 'message' => $this->upload->display_errors()]);
 						} else {
-						echo json_encode(['status' => false, 'message' => 'Terjadi kesalahan, silakan coba lagi']);
+						$id_tagihan = decrypt_url($this->input->post('id_tagihan',TRUE));
+						$total_tagihan = convert_to_number($this->input->post('total_tagihan',TRUE));
+						$total_dibayar = convert_to_number($this->input->post('total_dibayar',TRUE));
+						$sisa_tagihan = convert_to_number($this->input->post('sisa_tagihan',TRUE));
+						$jumlah_bayar = convert_to_number($this->input->post('jumlah_bayar',TRUE));
+						$total_bayar = $total_dibayar + $jumlah_bayar;
+						// Jika berhasil upload
+						$file_data = $this->upload->data();
+						
+						$data = [
+						'id_kategori' => $this->input->post('kategori'),
+						'id_tagihan'  => $id_tagihan,
+						'id_bayar'    => $this->input->post('rekening'),
+						'lampiran'    => $file_data['file_name'], // Simpan nama file yang di-upload
+						'tgl_bayar'    => $this->input->post('tanggal_bayar'), // Simpan nama file yang di-upload
+						'jumlah_bayar'=> convert_to_number($this->input->post('jumlah_bayar')),
+						'id_user'=> $this->iduser
+						];
+						
+						$result = $this->model_tagihan->insert_bayar($data);
+						$this->model_app->update('rb_tagihan',['total_bayar'=>$total_bayar],['id_tagihan'=>$id_tagihan]);
+						
+						if ($result) {
+							echo json_encode(['status' => true, 'message' => 'Pembayaran berhasil disimpan']);
+							} else {
+							echo json_encode(['status' => false, 'message' => 'Terjadi kesalahan, silakan coba lagi']);
+						}
 					}
+				}
+			}
+		}
+		
+		public function cetak_tagihan($id="")
+		{
+			$data['title']       = 'Cetak tagihan';
+			if($id){
+				$id = decrypt_url($id);
+				$search = $this->model_app->edit('rb_tagihan', ['id_tagihan' => $id]);
+				if($search->num_rows()>0){
+					$data['favicon'] = tag_image('site_favicon');
+					$data['logo'] = tag_image('site_logo');
+					$data['cetak'] = $search->row();
+					$data['result'] = $this->model_app->view_where('rb_bayar_tagihan', ['id_tagihan' => $id])->result();
+					$this->load->view('backend/keuangan/cetak_tagihan', $data);
 				}
 			}
 		}
@@ -293,4 +322,4 @@
 			}
 			return TRUE;
 		}
-	}																																																		
+	}																																																																			

@@ -22,16 +22,18 @@
                             
                             if ($row['status_lunas'] == 'Y')
                             { 
-                                $aktif ='<i class="fa fa-check-circle" data-bs-toggle="tooltip" title="Aktif"></i>';
+                                
                                 $status = '<a href="#" class="btn btn-success btn-sm active" aria-current="page">'.$aktif.'</a>';
                                 $bayar = '<a class="btn btn-success" href="#"><i class="fa fa-check-circle"></i>&nbsp;&nbsp;Lunas</a>';
                                 }else{ 
-                                $aktif = '<i class="fa fa-check-circle-o" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
-                                $status = '<a href="#" class="btn btn-secondary btn-sm active" aria-current="page">'.$aktif.'</a>';
+                                
                                 $bayar = '<a class="btn btn-info" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#ModalBayar" href="#"><i class="fa fa-money"></i>&nbsp;&nbsp;Bayar</a>';
                             }
                             $hapus = '<a class="btn btn-danger" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
                             $sisa = $row['total_tagihan'] - $row['total_bayar'];
+                            
+                            $icon = '<i class="fa fa-print" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
+                            $print = '<a href="/keuangan/cetak_tagihan/'.$kode.'" class="btn btn-secondary btn-sm active" target="_blank">'.$icon.'</a>';
                         ?>
                         <tr>
                             <td><?=$no;?></td>
@@ -43,7 +45,7 @@
                             <td class="text-end"><?=rprp($sisa);?></td>
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
-                                    <?=$status;?>
+                                    <?=$print;?>
                                     <?=$bayar;?>
                                 </div>
                             </td>

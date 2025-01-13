@@ -271,7 +271,7 @@ function alert_timer(timer=2000) {
 }
 function alert_logout(base_url) {
 	Swal.fire({
-		title: "Form Login",
+		title: "Login ulang",
 		icon: "warning",
 		html: `
 		<input type="email" id="email" class="swal2-input" placeholder="Enter your email" required>

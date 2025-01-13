@@ -22,13 +22,12 @@
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data</h3>
-						<div class="card-actions">
+						<!--div class="card-actions">
 							<a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#OpenModal" aria-label="Tambah Unit" data-id="0" data-mod="add">
-								<!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
-								Tambah
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+							Tambah
 							</a>
-						</div>
+						</div-->
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
@@ -141,50 +140,6 @@
 	</div>
 </div>
 
-<div class="modal modal-blur fade" id="OpenModal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="myModalLabel">Tambah Kuota</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<form id="formAdd">
-					<input type="hidden" class="form-control" id="id" name="id">
-					<input type="hidden" class="form-control" id="type" name="type">
-					<div class="card-block">
-						<div class="form-group mb-1">
-							<label class="form-label" for="title">Title</label>
-							<input type="text" name="title" class="form-control" id="title" placeholder="Title" value="" required="" autocomplete="off">
-						</div>
-						<div class="form-group mb-1">
-							<label class="form-label" for="nama">Nama</label>
-							<input type="text" name="nama" class="form-control" id="nama" placeholder="Nama" value="" required="">
-						</div>
-						<div class="form-group mb-1">
-							<label class="form-label" for="nomor">Nomor Whatsapp</label>
-							<input type="text" name="nomor" class="form-control" id="nomor" placeholder="Nomor Whatsapp" value="" required="">
-						</div>
-						
-						<div class="form-group mb-1">
-							<label class="form-label" for="aktif">Aktif</label>
-							<select name="aktif" id="aktif" class="form-control form-select">
-								<option value="Ya">Ya</option>
-								<option value="Tidak">Tidak</option>
-							</select>
-						</div>
-						
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-				<button type="button" onClick="simpanData()" id="btn-data" class="btn btn-success">Submit</button>
-			</div>
-		</div>
-	</div>
-</div>
-
 <!-- Modal -->
 <div class="modal fade" id="ModalBayar" tabindex="-1" aria-labelledby="ModalBayarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
@@ -195,7 +150,13 @@
             <div class="modal-body">
                 <form id="bayarForm">
 					<input id="id_tagihan" name="id_tagihan" type="hidden" class="form-control" readonly>
-                    <div class="mb-3 row">
+					<div class="mb-1 row">
+                        <label for="tanggal_bayar" class="col-4 col-form-label">TANGGAL BAYAR</label>
+                        <div class="col-8">
+                            <input id="tanggal_bayar" name="tanggal_bayar" type="date" class="form-control">
+						</div>
+					</div>
+                    <div class="mb-1 row">
                         <label for="kategori" class="col-4 col-form-label">JENIS PEMBAYARAN</label>
                         <div class="col-8">
                             <select name="kategori" id="kategori" class="form-select">
@@ -203,7 +164,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="mb-3 row">
+					<div class="mb-1 row">
                         <label for="rekening" class="col-4 col-form-label">PILIH REKENING</label>
                         <div class="col-8">
                             <select name="rekening" id="rekening" class="form-select">
@@ -211,37 +172,37 @@
 							</select>
 						</div>
 					</div>
-                    <div class="mb-3 row">
+                    <div class="mb-1 row">
                         <label for="lampiran" class="col-4 col-form-label">BUKTI TRANSFER</label>
                         <div class="col-8">
                             <input class="form-control" name="lampiran" id="lampiran" type="file" accept=".jpeg, .jpg, .png">
 						</div>
 					</div>
-                    <div class="mb-3 row">
+                    <div class="mb-1 row">
                         <label for="total_tagihan" class="col-4 col-form-label">TOTAL TAGIHAN</label>
                         <div class="col-8">
                             <input id="total_tagihan" name="total_tagihan" type="text" class="form-control" readonly>
 						</div>
 					</div>
-                    <div class="mb-3 row">
+                    <div class="mb-1 row">
                         <label for="total_dibayar" class="col-4 col-form-label">SUDAH DIBAYAR</label>
                         <div class="col-8">
                             <input id="total_dibayar" name="total_dibayar" type="text" class="form-control" readonly>
 						</div>
 					</div>
-                    <div class="mb-3 row">
+                    <div class="mb-1 row">
                         <label for="sisa_tagihan" class="col-4 col-form-label">SISA TAGIHAN</label>
                         <div class="col-8">
                             <input id="sisa_tagihan" name="sisa_tagihan" type="text" class="form-control" value="0" readonly>
 						</div>
 					</div>
-                    <div class="mb-3 row">
+                    <div class="mb-1 row">
                         <label for="jumlah_bayar" class="col-4 col-form-label">JUMLAH BAYAR</label>
                         <div class="col-8">
                             <input id="jumlah_bayar" name="jumlah_bayar" type="text" class="form-control rupiah">
 						</div>
 					</div>
-                    <div class="mb-3 row">
+                    <div class="mb-1 row">
                         <div class="col-12 load-bayar"></div>
 					</div>
 					
@@ -338,8 +299,8 @@
 					table += '<thead><tr>';
 					table += '<th scope="col" class="w-2">#</th>';
 					table += '<th scope="col" class="w-20">Kategori</th>';
-					table += '<th scope="col" class="w-20">Tanggal</th>';
-					table += '<th class="text-right w-20" scope="col">Sub Total</th>';
+					table += '<th scope="col" class="w-20">Tanggal bayar</th>';
+					table += '<th class="text-end w-20" scope="col">Sub Total</th>';
 					table += '<th scope="col" class="text-center w-8">Aksi</th>';
 					table += '</tr></thead>';
 					table += '<tbody>';
@@ -347,11 +308,11 @@
 					// Menambahkan baris tabel untuk setiap item dalam data
 					$.each(data, function(index, item) {
 						table += '<tr>';
-						table += '<td>' + (index + 1) + '</td>'; // Menampilkan urutan
-						table += '<td>' + item.kategori + '</td>'; // Mengisi tanggal
-						table += '<td>' + item.tanggal + '</td>'; // Mengisi tanggal
-						table += '<td class="text-right">' + item.jumlah_bayar + '</td>'; // Mengisi sub total
-						table += '<td class="text-center"><button type="button" class="btn btn-danger btn-sm" data-id="'+item.id_bayar_tagihan+'" data-tagihan="'+item.id_tagihan+'" data-bs-toggle="modal" data-bs-target="#confirm-hapus">Hapus</button></td>'; // Tombol aksi
+						table += '<td class="pt-1 pb-1">' + (index + 1) + '</td>'; // Menampilkan urutan
+						table += '<td class="pt-1 pb-1">' + item.kategori + '</td>'; // Mengisi tanggal
+						table += '<td class="pt-1 pb-1">' + item.tanggal + '</td>'; // Mengisi tanggal
+						table += '<td class="pt-1 pb-1 text-end">' + formatRupiah(item.jumlah_bayar )+ '</td>'; // Mengisi sub total
+						table += '<td class="text-center pt-1 pb-1"><button type="button" class="btn btn-danger btn-sm" data-id="'+item.id_bayar_tagihan+'" data-tagihan="'+item.id_tagihan+'" data-bs-toggle="modal" data-bs-target="#confirm-hapus">Hapus</button></td>'; // Tombol aksi
 						table += '</tr>';
 					});
 					
@@ -471,6 +432,8 @@
 					dataType: "json",
 					beforeSend: function () {
 						$("body").loading({zIndex:1060});
+						$('#kategori').val('');
+						$('#rekening').val('');
 						$('#id_tagihan').val('');
 						$('#total_tagihan').val('');
 						$('#total_dibayar').val('');
