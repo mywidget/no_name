@@ -313,20 +313,7 @@
 				}
 			});
 		});
-		function formatRupiah(angka) {
-			var reverse = angka.toString().split('').reverse().join(''); // Membalik angka
-			var ribuan = reverse.match(/\d{1,3}/g); // Memecah angka menjadi grup ribuan
-			ribuan = ribuan.join('.').split('').reverse().join(''); // Menyambung grup ribuan dengan titik
-			return ribuan ? 'Rp ' + ribuan : ''; // Menambahkan simbol "Rp" di depan
-		}
-		$(document).ready(function() {
-			// Format input amount ke format rupiah
-			$('.rupiah').on('input', function() {
-				var nilai = $(this).val().replace(/[^\d]/g, ''); // Menghapus selain angka
-				$(this).val(formatRupiah(nilai));
-			});
-			
-			
-		});
+		
+		
 	</script>
 <?php } ?>			

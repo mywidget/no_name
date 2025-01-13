@@ -75,7 +75,7 @@
 			
 		}
 		
-		function edit_data()
+		function bayar_tagihan()
 		{
 			
 			if ($this->input->is_ajax_request()) 
@@ -84,15 +84,15 @@
 				$id = $this->db->escape_str($this->input->post('id'));
 				$index = decrypt_url($id);
 				
-				$result = $this->model_app->view_where('rb_pages',['id'=>$index]);
+				$result = $this->model_app->view_where('rb_tagihan',['id_tagihan'=>$index]);
 				if($result->num_rows() > 0){
+				$sisa = $result->row()->total_tagihan - $result->row()->total_bayar;
 					$response = [
 					'status'=>true,
 					'id'=>$id,
-					'title'=>$result->row()->title,
-					'seo'=>$result->row()->seo,
-					'deskripsi'=>$result->row()->deskripsi,
-					'aktif'=>$result->row()->aktif,
+					'total_dibayar'=>$result->row()->total_bayar,
+					'total_tagihan'=>$result->row()->total_tagihan,
+					'sisa'=>$sisa
 					];
 					}else{
 					$response = [
@@ -313,10 +313,11 @@
 		// Menyimpan pembayaran
 		public function save_bayar()
 		{
+		
 			// Validasi input
 			$this->form_validation->set_rules('rekening', 'Rekening', 'required');
 			$this->form_validation->set_rules('lampiran', 'Lampiran', 'callback_file_check'); // Atur validasi file
-			
+			// dump($_POST);
 			if ($this->form_validation->run() == FALSE) {
 				echo json_encode(['status' => false, 'message' => validation_errors()]);
 				} else {
@@ -333,17 +334,25 @@
 					// Jika gagal upload
 					echo json_encode(['status' => false, 'message' => $this->upload->display_errors()]);
 					} else {
+					$id_tagihan = decrypt_url($this->input->post('id_tagihan',TRUE));
+					$total_tagihan = convert_to_number($this->input->post('total_tagihan',TRUE));
+					$total_dibayar = convert_to_number($this->input->post('total_dibayar',TRUE));
+					$sisa_tagihan = convert_to_number($this->input->post('sisa_tagihan',TRUE));
+					$jumlah_bayar = convert_to_number($this->input->post('jumlah_bayar',TRUE));
+					$total_bayar = $total_dibayar + $jumlah_bayar;
 					// Jika berhasil upload
 					$file_data = $this->upload->data();
+					
 					$data = [
-                    'id_kategori' => $this->input->post('id_kategori'),
-                    'id_tagihan'  => $this->input->post('id_tagihan'),
+                    'id_kategori' => $this->input->post('kategori'),
+                    'id_tagihan'  => $id_tagihan,
                     'id_bayar'    => $this->input->post('rekening'),
                     'lampiran'    => $file_data['file_name'], // Simpan nama file yang di-upload
-                    'jumlah_bayar'=> $this->input->post('sisabayar')
+                    'jumlah_bayar'=> $this->input->post('jumlah_bayar')
 					];
-					
+			 
 					$result = $this->model_tagihan->insert_bayar($data);
+					$this->model_app->update('rb_tagihan',['total_bayar'=>$total_bayar],['id_tagihan'=>$id_tagihan]);
 					
 					if ($result) {
 						echo json_encode(['status' => true, 'message' => 'Pembayaran berhasil disimpan']);

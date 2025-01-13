@@ -164,7 +164,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="ModalBayar" tabindex="-1" aria-labelledby="ModalBayarLabel" aria-hidden="true">
+<div class="modal fade" id="ModalBayar" tabindex="-1" aria-labelledby="ModalBayarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -172,6 +172,7 @@
 			</div>
             <div class="modal-body">
                 <form id="bayarForm">
+					<input id="id_tagihan" name="id_tagihan" type="hidden" class="form-control" readonly>
                     <div class="mb-3 row">
                         <label for="kategori" class="col-4 col-form-label">JENIS PEMBAYARAN</label>
                         <div class="col-8">
@@ -195,32 +196,38 @@
 						</div>
 					</div>
                     <div class="mb-3 row">
-                        <label for="sisabayar" class="col-4 col-form-label">TOTAL TAGIHAN</label>
+                        <label for="total_tagihan" class="col-4 col-form-label">TOTAL TAGIHAN</label>
                         <div class="col-8">
-                            <input id="sisabayar" name="sisabayar" type="text" class="form-control" readonly>
+                            <input id="total_tagihan" name="total_tagihan" type="text" class="form-control" readonly>
 						</div>
 					</div>
                     <div class="mb-3 row">
-                        <label for="totalbyr" class="col-4 col-form-label">SISA TAGIHAN</label>
+                        <label for="total_dibayar" class="col-4 col-form-label">SUDAH DIBAYAR</label>
                         <div class="col-8">
-                            <input id="totalbyr" name="totalbyr" type="text" class="form-control" value="0" readonly>
-                            <input id="total_bayar" name="total_bayar" type="hidden" value="0">
+                            <input id="total_dibayar" name="total_dibayar" type="text" class="form-control" readonly>
 						</div>
 					</div>
                     <div class="mb-3 row">
-                        <label for="uangm" class="col-4 col-form-label">JUMLAH BAYAR</label>
+                        <label for="sisa_tagihan" class="col-4 col-form-label">SISA TAGIHAN</label>
                         <div class="col-8">
-                            <input id="uangm" name="uangm" type="text" class="form-control" onchange="inputan()">
+                            <input id="sisa_tagihan" name="sisa_tagihan" type="text" class="form-control" value="0" readonly>
+						</div>
+					</div>
+                    <div class="mb-3 row">
+                        <label for="jumlah_bayar" class="col-4 col-form-label">JUMLAH BAYAR</label>
+                        <div class="col-8">
+                            <input id="jumlah_bayar" name="jumlah_bayar" type="text" class="form-control rupiah">
 						</div>
 					</div>
                     <div class="mb-3 row">
                         <div class="col-12 load-bayar"></div>
 					</div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="bayar_l" disabled>SIMPAN PEMBAYARAN</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">TUTUP</button>
-					</div>
+					
 				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" id="simpan_bayar" disabled>SIMPAN PEMBAYARAN</button>
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">TUTUP</button>
 			</div>
 		</div>
 	</div>
@@ -233,7 +240,23 @@
 	padding: 0;
 	z-index:1050;
 	}
-	
+	/* Tambahkan styling khusus untuk input di dalam SweetAlert */
+	.swal2-content{z-index:1050}
+	.swal2-input {
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	}
+	input[readonly]
+	{
+    background-color:#ccc;
+	}
+	.modal-footer {
+	border-top: 1px solid #dee2e6; /* Menambahkan garis pada bagian atas footer modal */
+    }
 </style>
 
 <?php $this->RenderScript[] = function() { ?>
@@ -255,8 +278,18 @@
 					keywords:keywords,
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
-					sweet('Peringatan!!!',thrownError,'warning','warning');
+					// Menangani error yang terjadi
 					$('body').loading('stop');
+					$('#ModalBayar').modal('hide');
+					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+					if (xhr.status === 401 || xhr.status === 403) {
+						// Menyembunyikan modal
+						// Menampilkan alert dengan pesan session kadaluarsa
+						alert_logout(base_url);
+						} else {
+						// Jika terjadi error selain session kadaluarsa
+						sweet('Peringatan!!!',thrownError,'warning','warning');
+					}
 				},
 				beforeSend: function(){
 					$('body').loading();
@@ -280,6 +313,20 @@
 					$.each(data, function(index, item) {
 						dropdown.append('<option value="' + item.id_tahun_akademik + '">' + item.nama_tahun + '</option>');
 					});
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					// Menangani error yang terjadi
+					$('body').loading('stop');
+					$('#ModalBayar').modal('hide');
+					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+					if (xhr.status === 401 || xhr.status === 403) {
+						// Menyembunyikan modal
+						// Menampilkan alert dengan pesan session kadaluarsa
+						alert_logout(base_url);
+						} else {
+						// Jika terjadi error selain session kadaluarsa
+						sweet('Peringatan!!!',thrownError,'warning','warning');
+					}
 				}
 			});
 		});
@@ -287,37 +334,47 @@
 			var id = $(e.relatedTarget).data('id');
 			var mod = $(e.relatedTarget).data('mod');
 			$('input').val('');
+			
 			if(id != 0){
 				$('#type').val('edit');
-				$("#myModalLabel").html("Edit Panitia")
+				$("#myModalLabel").html("Edit Panitia");
 				$.ajax({
 					type: 'POST',
-					url: base_url + "keuangan/edit_data",
-					data: {id:id,mod:mod},
+					url: base_url + "keuangan/bayar_tagihan",
+					data: {id: id, mod: mod},
 					dataType: "json",
 					beforeSend: function () {
 						$("body").loading({zIndex:1060});
 					},
 					success: function(data) {
-						$('#id').val(data.id);
-						$('#title').val(data.title);
-						$('#nama').val(data.nama);
-						$('#nomor').val(data.nomor);
-						$('#aktif').val(data.aktif);
+						// Jika data diterima dengan sukses
+						$('#id_tagihan').val(data.id);
+						$('#total_tagihan').val(formatRupiah(data.total_tagihan));
+						$('#total_dibayar').val(formatRupiah(data.total_dibayar));
+						$('#sisa_tagihan').val(formatRupiah(data.sisa));
 						$('body').loading('stop');
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
-						sweet('Peringatan!!!',thrownError,'warning','warning');
+						// Menangani error yang terjadi
 						$('body').loading('stop');
+						$('#ModalBayar').modal('hide');
+						// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+						if (xhr.status === 401 || xhr.status === 403) {
+							// Menyembunyikan modal
+							// Menampilkan alert dengan pesan session kadaluarsa
+							alert_logout(base_url);
+							} else {
+							// Jika terjadi error selain session kadaluarsa
+							sweet('Peringatan!!!',thrownError,'warning','warning');
+						}
 					}
 				});
-				}else{
-				
-				$("#myModalLabel").html("Tambah Panitia")
+				} else {
+				$("#myModalLabel").html("Tambah Panitia");
 				$('#type').val('new');
 			}
-			
 		});
+		
 		
 		
 		function simpanData()
@@ -355,16 +412,27 @@
 					$('body').loading('stop');
 					if(data.status==200){
 						showNotif('bottom-right',data.title,data.msg,'success');
-						$("#OpenModal").modal('hide');
+						$("#ModalBayar").modal('hide');
 						$('input').val('');
 						}else{
 						showNotif('bottom-right',data.title,data.msg,'error');
 					}
 					
 					searchData();
-					} ,error: function(xhr, status, error) {
-					showNotif('bottom-right','Peringatan',error,'error');
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					// Menangani error yang terjadi
 					$('body').loading('stop');
+					$('#ModalBayar').modal('hide');
+					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+					if (xhr.status === 401 || xhr.status === 403) {
+						// Menyembunyikan modal
+						// Menampilkan alert dengan pesan session kadaluarsa
+						alert_logout(base_url);
+						} else {
+						// Jika terjadi error selain session kadaluarsa
+						sweet('Peringatan!!!',thrownError,'warning','warning');
+					}
 				}
 			});
 		}
@@ -389,9 +457,19 @@
 					searchData();
 					
 					$('body').loading('stop');　
-					},error: function(xhr, status, error) {
-					showNotif('bottom-right','Update',error,'error');
-					$('body').loading('stop');　
+					},error: function (xhr, ajaxOptions, thrownError) {
+					// Menangani error yang terjadi
+					$('body').loading('stop');
+					$('#confirm-delete').modal('hide');
+					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+					if (xhr.status === 401 || xhr.status === 403) {
+						// Menyembunyikan modal
+						// Menampilkan alert dengan pesan session kadaluarsa
+						alert_logout(base_url);
+						} else {
+						// Jika terjadi error selain session kadaluarsa
+						sweet('Peringatan!!!',thrownError,'warning','warning');
+					}
 				}
 			});
 		});
@@ -399,6 +477,10 @@
 		$(document).on('click','.clear',function(e){
 			$("#keywords").val('');
 			searchData();
+		});
+		
+		$(document).on('click','#simpan_bayar',function(e){
+			$("#bayarForm").submit();
 		});
 		
 		$('#confirm-delete').on('show.bs.modal', function(e) {
@@ -435,8 +517,22 @@
 						rekening.empty();
 						rekening.append('<option value="">Pilih Rekening</option>');
 						$.each(data, function(index, item) {
-							rekening.append('<option value="' + item.id + '">' + item.title + '</option>');
+							rekening.append('<option value="' + item.id_rekening + '">' + item.title + '</option>');
 						});
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					// Menangani error yang terjadi
+					$('body').loading('stop');
+					// $('#ModalBayar').modal('hide');
+					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+					if (xhr.status === 401 || xhr.status === 403) {
+						// Menyembunyikan modal
+						// Menampilkan alert dengan pesan session kadaluarsa
+						alert_logout(base_url);
+						} else {
+						// Jika terjadi error selain session kadaluarsa
+						sweet('Peringatan!!!',thrownError,'warning','warning');
 					}
 				}
 			});
@@ -455,15 +551,92 @@
 					contentType: false,
 					success: function(response) {
 						if (response.status) {
-							alert(response.message);
+							sweet('Notifikasi!!!',response.message,'success','success');
 							$('#ModalBayar').modal('hide');
+							searchData();
 							} else {
 							alert(response.message);
+						}
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						// Menangani error yang terjadi
+						$('body').loading('stop');
+						$('#ModalBayar').modal('hide');
+						// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+						if (xhr.status === 401 || xhr.status === 403) {
+							// Menyembunyikan modal
+							// Menampilkan alert dengan pesan session kadaluarsa
+							alert_logout(base_url);
+							} else {
+							// Jika terjadi error selain session kadaluarsa
+							sweet('Peringatan!!!',thrownError,'warning','warning');
 						}
 					}
 				});
 			});
 		});
+		
+		$(document).ready(function() {
+			// Fungsi untuk memeriksa status tombol simpan_bayar
+			function checkFormStatus() {
+				var kategoriSelected = $('#kategori').val();
+				var rekeningSelected = $('#rekening').val();
+				var jumlah_bayar = angka($('#jumlah_bayar').val());
+				
+				// Jika kategori dan rekening keduanya terpilih, aktifkan tombol simpan_bayar
+				if (kategoriSelected && rekeningSelected && jumlah_bayar > 0) {
+					$('#simpan_bayar').prop('disabled', false); // Aktifkan tombol simpan_bayar
+					} else {
+					$('#simpan_bayar').prop('disabled', true); // Nonaktifkan tombol simpan_bayar
+				}
+			}
+			
+			// Event listener untuk kategori select change
+			$('#kategori').on('change', function() {
+				checkFormStatus(); // Memeriksa apakah tombol simpan_bayar harus diaktifkan
+			});
+			
+			// Event listener untuk rekening select change
+			$('#rekening').on('change', function() {
+				checkFormStatus(); // Memeriksa apakah tombol simpan_bayar harus diaktifkan
+			});
+			
+			$('#jumlah_bayar').on('keyup', function() {
+				checkFormStatus(); // Memeriksa apakah tombol simpan_bayar harus diaktifkan
+			});
+			
+			// Inisialisasi status tombol saat halaman pertama kali dimuat
+			checkFormStatus();
+			// Menghitung sisa tagihan setiap kali ada input di #jumlah_bayar
+			$('#jumlah_bayar').on('keyup', function() {
+				// Mendapatkan nilai total tagihan dan jumlah bayar
+				var totalTagihan = angka($('#total_tagihan').val()) || 0;
+				var jumlahBayar = angka($(this).val()) || 0;
+				
+				
+				// Validasi agar jumlah bayar tidak melebihi total tagihan
+				if (parseInt(jumlahBayar) > parseInt(totalTagihan)) {
+					jumlahBayar = totalTagihan;  // Membatasi jumlah bayar agar tidak melebihi total tagihan
+					$(this).val(formatRupiah(jumlahBayar));   // Update nilai input jumlah bayar
+				}
+				// Menghitung sisa tagihan
+				var sisaTagihan = totalTagihan - jumlahBayar;
+				// console.log(sisaTagihan)
+				// Update sisa tagihan
+				$('#sisa_tagihan').val(formatRupiah(sisaTagihan));  // Menampilkan sisa tagihan dengan 2 desimal
+			});
+			$('#jumlah_bayar').on('keyup', function() {
+				var value = $(this).val();
+				
+				// Menghapus angka 0 yang ada di depan
+				var newValue = value.replace(/^0+/, '');
+				
+				
+				// Update nilai input jika ada perubahan
+				$(this).val(newValue);
+			});
+		});
+		
 	</script>
 	
 <?php } ?>	

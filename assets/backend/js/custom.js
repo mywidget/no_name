@@ -146,10 +146,68 @@ function formatNumber(options) {
 */
 function angka(comment) {
 	comment = comment ? comment : "";
-	var sql = comment.replace("Rp.", "");
+	var sql = comment.replace("Rp", "");
 	var newClassName = replaceAll(".", "", sql);
 	return newClassName;
 }
+function KeyUpformatRupiah(angka) {
+    // Menghapus semua karakter non-angka dan hanya mengambil angka saja
+    var angkaHanyaAngka = angka.replace(/[^0-9]/g, '');
+    
+    // Jika input kosong atau hanya terdiri dari angka kosong, kembalikan string kosong
+    if (!angkaHanyaAngka) return '';
+	
+    // Memastikan angka yang diproses dalam bentuk string
+    var reverse = angkaHanyaAngka.toString().split('').reverse().join(''); // Membalik angka
+    var ribuan = reverse.match(/\d{1,3}/g); // Memecah angka menjadi grup ribuan
+    ribuan = ribuan.join('.').split('').reverse().join(''); // Menyambung grup ribuan dengan titik
+    
+    return 'Rp ' + ribuan; // Menambahkan simbol "Rp" di depan
+}
+function formatRupiah(angka) {
+    // Memastikan angka adalah string atau angka
+    if (typeof angka !== 'string' && typeof angka !== 'number') {
+        return '';  // Jika bukan string atau number, kembalikan string kosong
+    }
+
+    // Konversi angka menjadi string jika angka berupa number
+    angka = angka.toString();
+    
+    // Menghapus semua karakter non-angka dan hanya mengambil angka saja
+    var angkaHanyaAngka = angka.replace(/[^0-9]/g, '');
+    
+    // Jika input kosong atau hanya terdiri dari angka kosong, kembalikan string kosong
+    if (!angkaHanyaAngka) return '';
+
+    // Memastikan angka yang diproses dalam bentuk string
+    var reverse = angkaHanyaAngka.split('').reverse().join(''); // Membalik angka
+    var ribuan = reverse.match(/\d{1,3}/g); // Memecah angka menjadi grup ribuan
+    ribuan = ribuan.join('.').split('').reverse().join(''); // Menyambung grup ribuan dengan titik
+    
+    return 'Rp ' + ribuan; // Menambahkan simbol "Rp" di depan
+}
+
+function format_Rupiah(angka) {
+	var angka = angka ? angka : 0;
+	var reverse = angka.toString().split('').reverse().join(''); // Membalik angka
+	var ribuan = reverse.match(/\d{1,3}/g); // Memecah angka menjadi grup ribuan
+	ribuan = ribuan.join('.').split('').reverse().join(''); // Menyambung grup ribuan dengan titik
+	return ribuan ?  ribuan : ''; // Menambahkan simbol "Rp" di depan
+}
+$(document).ready(function() {
+	// Format input amount ke format rupiah
+	$('.rupiah').on('input', function() {
+		var nilai = $(this).val().replace(/[^\d]/g, ''); // Menghapus selain angka
+		$(this).val(formatRupiah(nilai));
+	});
+	
+	$('.rprp').on('input', function() {
+		var nilai = $(this).val().replace(/[^\d]/g, ''); // Menghapus selain angka
+		$(this).val(format_Rupiah(nilai));
+	});
+	
+	
+});
 /**
 	* @param {string} substr
 	* @param {string} replacement
@@ -186,3 +244,98 @@ function cek_notifikasi(){
 	});
 }
 
+// Fungsi logout yang memicu SweetAlert2 setelah logout
+function alert_timer(timer=2000) {
+	let timerInterval;
+	Swal.fire({
+		title: "Auto close alert!",
+		html: "I will close in <b></b> milliseconds.",
+		timer: timer,
+		timerProgressBar: true,
+		didOpen: () => {
+			Swal.showLoading();
+			const timer = Swal.getPopup().querySelector("b");
+			timerInterval = setInterval(() => {
+				timer.textContent = `${Swal.getTimerLeft()}`;
+			}, 100);
+		},
+		willClose: () => {
+			clearInterval(timerInterval);
+		}
+		}).then((result) => {
+		/* Read more about handling dismissals below */
+		if (result.dismiss === Swal.DismissReason.timer) {
+			console.log("I was closed by the timer");
+		}
+	});
+}
+function alert_logout(base_url) {
+	Swal.fire({
+		title: "Form Login",
+		icon: "warning",
+		html: `
+		<input type="email" id="email" class="swal2-input" placeholder="Enter your email" required>
+		<input type="password" id="password" class="swal2-input" placeholder="Enter your password" required>
+		`,
+		confirmButtonText: "Login",
+		showCancelButton: true,
+		preConfirm: async () => {
+			const email = document.getElementById('email').value;
+			const password = document.getElementById('password').value;
+			
+			// Validasi input
+			if (!email || !password) {
+				Swal.showValidationMessage("Email dan kata sandi diperlukan");
+				return false;
+			}
+			
+			// Kirim data login ke controller CodeIgniter
+			try {
+				const response = await fetch(base_url+'login', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ email, password })
+				});
+				
+				const result = await response.json();
+				if (!result.status) {
+					return Swal.showValidationMessage(`Login gagal: ${result.message}`);
+				}
+				
+				// Jika login berhasil
+				Swal.fire({
+					title: `Selamat Datang kembali, ${result.userName}!`,
+					text: 'Anda telah berhasil masuk.',
+					icon: 'success',
+				});
+				
+				} catch (error) {
+				Swal.showValidationMessage(`Permintaan gagal: ${error}`);
+			}
+		},
+		allowOutsideClick: () => !Swal.isLoading(),
+		didOpen: () => {
+			// Pastikan input email mendapatkan fokus saat SweetAlert muncul
+			document.getElementById('email').focus();
+		}
+		}).then((result) => {
+		if (result.isConfirmed) {
+			// Jika tombol "Login" ditekan
+			// console.log("User logged in.");
+			} else if (result.isDismissed) {
+			// Jika tombol "Cancel" ditekan
+			// console.log("Login canceled.");
+			// Anda bisa menangani aksi lain di sini, seperti menampilkan pesan
+			Swal.fire({
+				title: "Anda membatalkan login!",
+				text: "Anda dapat masuk lagi kapan saja.",
+				icon: "info"
+				}).then(() => {
+				// Setelah pengguna menekan tombol OK pada alert ini, redirect ke halaman lain
+				window.location.href = base_url+'auth'; // Ganti dengan URL tujuan yang sesuai
+			});
+		}
+	});
+}

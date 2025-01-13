@@ -788,35 +788,7 @@
 			});
 			
 		}
-		
-		// $('body').on("change","#form_kelas",function(){
-		// var id = $(this).val();
-		// var id_unit = $("#form_unit").val();
-		// var gender = $("#gender").val();
-		// if(gender==''){
-		// $("#form_kamar").append("<option value='0'>Jenis Kelamin Belum dipilih</option>");
-		// }else{
-		// $.ajax({
-		// type: 'POST',
-		// url: base_url+ "dashboard/biaya",
-		// data: {id:id,id_unit:id_unit},
-		// dataType : "json",
-		// beforeSend: function(){
-		// $("#form_biaya").empty();
-		// $("#form_kamar").attr('disabled',false);
-		// },
-		// success: function(response) {
-		
-		// var teg = response.id;
-		// var name = response.name;
-		// $("#form_biaya").append("<option value='" + teg + "'>" + name + "</option>");
-		
-		// }
-		// });
-		// }
-		// });
-		
-		
+		 
 		function load_kamar(id)
 		{
 			
@@ -940,93 +912,7 @@
 				}
 			});
 		});
-		
-		// function pendidikan_ayah(){
-			// $.ajax({
-				// type: 'POST',
-				// url: base_url+ "pendaftar/load_pendidikan",
-				// dataType : "json",
-				// beforeSend: function(){
-					// $("#pendidikanAyah").empty();
-					// $("#pendidikanAyah").append("<option value=''>Pilih</option>");
-				// },
-				// success: function(response) {
-					// $("#pendidikanAyah").attr("disabled", false);
-					// var msize = response.length;
-					// var i = 0;
-					// for (; i < msize; i++) {
-						// var teg = response[i]["id"];
-						// var name = response[i]["name"];
-						// $("#pendidikanAyah").append("<option value='" + name + "'>" + name + "</option>");
-					// }
-				// }
-			// });
-		// }
-		// function pendidikan_ibu(){
-			// $.ajax({
-				// type: 'POST',
-				// url: base_url+ "pendaftar/load_pendidikan",
-				// dataType : "json",
-				// beforeSend: function(){
-					// $("#pendidikanIbu").empty();
-					// $("#pendidikanIbu").append("<option value=''>Pilih</option>");
-				// },
-				// success: function(response) {
-					// $("#pendidikanIbu").attr("disabled", false);
-					// var msize = response.length;
-					// var i = 0;
-					// for (; i < msize; i++) {
-						// var teg = response[i]["id"];
-						// var name = response[i]["name"];
-						// $("#pendidikanIbu").append("<option value='" + name + "'>" + name + "</option>");
-					// }
-				// }
-			// });
-		// }
-		// function pekerjaan_ayah(){
-			// $.ajax({
-				// type: 'POST',
-				// url: base_url+ "pendaftar/load_pekerjaan",
-				// dataType : "json",
-				// beforeSend: function(){
-					// $("#pekerjaanAyah").empty();
-					// $("#pekerjaanAyah").append("<option value=''>Pilih</option>");
-				// },
-				// success: function(response) {
-					// $("#pekerjaanAyah").attr("disabled", false);
-					// var msize = response.length;
-					// var i = 0;
-					// for (; i < msize; i++) {
-						// var teg = response[i]["id"];
-						// var name = response[i]["name"];
-						// $("#pekerjaanAyah").append("<option value='" + name + "'>" + name + "</option>");
-					// }
-				// }
-			// });
-		// }
-		// function pekerjaan_ibu(){
-			// $.ajax({
-				// type: 'POST',
-				// url: base_url+ "pendaftar/load_pekerjaan",
-				// dataType : "json",
-				// beforeSend: function(){
-					// $("#pekerjaanIbu").empty();
-					// $("#pekerjaanIbu").append("<option value=''>Pilih</option>");
-				// },
-				// success: function(response) {
-					// $("#pekerjaanIbu").attr("disabled", false);
-					// var msize = response.length;
-					// var i = 0;
-					// for (; i < msize; i++) {
-						// var teg = response[i]["id"];
-						// var name = response[i]["name"];
-						// $("#pekerjaanIbu").append("<option value='" + name + "'>" + name + "</option>");
-					// }
-				// }
-			// });
-		// }
-		
-		
+		 
 		var forms = document.querySelectorAll('.needs-validation')
 		
 		// Loop over them and prevent submission
@@ -1162,70 +1048,6 @@
 				form.classList.add('was-validated')
 			}, false)
 		})
-		
-		// $(document).on('click','.simpan_pendaftar',function(){
-		// var thnakademik = $("#thnakademik").val().length;
-		// var nik = $("#nik").val().length;
-		// var nisn = $("#nisn").val().length;
-		// var nikAyah = $("#nikAyah").val().length;
-		// var nikIbu = $("#nikIbu").val().length;
-		
-		// if(thnakademik == ""){
-		// $("#thnakademik").addClass('is-invalid');
-		// $("#thnakademik").siblings('.invalid-tooltip').text('Harus dipilih');
-		// $("#thnakademik").focus();
-		// return;
-		// }else{
-		// $("#thnakademik").removeClass('is-invalid').addClass('is-valid');
-		// $("#thnakademik").siblings('.invalid-tooltip').hide();
-		// }
-		// if(nik != 16){
-		// $("#nik").addClass('is-invalid');
-		// $("#nik").siblings('.invalid-tooltip').text('NIK harus 16 digit');
-		// $("#nik").focus();
-		// return;
-		// }else{
-		// $("#nik").removeClass('is-invalid').addClass('is-valid');
-		// $("#nik").siblings('.invalid-tooltip').hide();
-		// }
-		
-		// if(nisn != 10){
-		// $("#nisn").addClass('is-invalid');
-		// $("#nisn").siblings('.invalid-tooltip').text('NISN harus 10 digit');
-		// $("#nisn").focus();
-		// return;
-		// }else{
-		// $("#nisn").removeClass('is-invalid').addClass('is-valid');
-		// $("#nisn").siblings('.invalid-tooltip').hide();
-		// }
-		
-		// if(nikAyah != 16){
-		// $("#nikAyah").addClass('is-invalid');
-		// $("#nikAyah").siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit');
-		// $("#nikAyah").focus();
-		// return;
-		// }else{
-		// $("#nikAyah").removeClass('is-invalid').addClass('is-valid');
-		// $("#nikAyah").siblings('.invalid-tooltip').hide();
-		// }
-		
-		// if(nikIbu != 16){
-		// $("#nikIbu").addClass('is-invalid');
-		// $("#nikIbu").siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit');
-		// $("#nikIbu").focus();
-		// return;
-		// }else{
-		// $("#nikIbu").removeClass('is-invalid').addClass('is-valid');
-		// $("#nikIbu").siblings('.invalid-tooltip').hide();
-		// }
-		
-		// formPendaftaran()
-		// });
-		
-		
-		// $('#nik').keyup(function () {
-		
-		// });
-		
+		 
 	</script>        
 <?php } ?>			
