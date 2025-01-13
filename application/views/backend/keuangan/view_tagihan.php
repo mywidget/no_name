@@ -119,6 +119,28 @@
 	</div>
 </div>
 
+<div class="modal modal-blur fade" id="confirm-hapus" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-status bg-danger"></div>
+			<div class="modal-body text-center py-4">
+				<!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" /></svg>
+				<h3>Apa kamu yakin?</h3>
+				<div class="text-muted">Apakah Anda benar-benar ingin menghapus data? Apa yang telah Anda lakukan tidak dapat dibatalkan.</div>
+				<p class="debug-url"></p>
+				<input type="hidden" id="data-bayar">
+				<input type="hidden" id="data-tagihan">
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
+				<button class="btn btn-danger hapus_bayar" type="button">YA</button> 
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="modal modal-blur fade" id="OpenModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -300,24 +322,126 @@
 				}
 			});
 		}
-		$(document).ready(function() {
+		
+		function load_bayar(id) {
 			$.ajax({
-				url: "<?php echo base_url('psb/get_tahun_akademik'); ?>", // Ganti dengan URL untuk mengambil data tahun akademik
-				type: "GET",
+				url: base_url+"keuangan/load_bayar",
+				type: "POST",
+				data: { id: id },
 				dataType: "json",
 				success: function(data) {
-					var dropdown = $('#tahun_akademik_filter');
+					var dropdown = $('.load-bayar');
 					dropdown.empty(); // Kosongkan dropdown terlebih dahulu
-					dropdown.append('<option value="">Pilih Tahun Akademik</option>'); // Option default
 					
+					// Membuat header tabel
+					var table = '<table class="table table-bordered">';
+					table += '<thead><tr>';
+					table += '<th scope="col" class="w-2">#</th>';
+					table += '<th scope="col" class="w-20">Kategori</th>';
+					table += '<th scope="col" class="w-20">Tanggal</th>';
+					table += '<th class="text-right w-20" scope="col">Sub Total</th>';
+					table += '<th scope="col" class="text-center w-8">Aksi</th>';
+					table += '</tr></thead>';
+					table += '<tbody>';
+					
+					// Menambahkan baris tabel untuk setiap item dalam data
 					$.each(data, function(index, item) {
-						dropdown.append('<option value="' + item.id_tahun_akademik + '">' + item.nama_tahun + '</option>');
+						table += '<tr>';
+						table += '<td>' + (index + 1) + '</td>'; // Menampilkan urutan
+						table += '<td>' + item.kategori + '</td>'; // Mengisi tanggal
+						table += '<td>' + item.tanggal + '</td>'; // Mengisi tanggal
+						table += '<td class="text-right">' + item.jumlah_bayar + '</td>'; // Mengisi sub total
+						table += '<td class="text-center"><button type="button" class="btn btn-danger btn-sm" data-id="'+item.id_bayar_tagihan+'" data-tagihan="'+item.id_tagihan+'" data-bs-toggle="modal" data-bs-target="#confirm-hapus">Hapus</button></td>'; // Tombol aksi
+						table += '</tr>';
 					});
+					
+					table += '</tbody>';
+					table += '</table>';
+					
+					// Menambahkan tabel ke dalam dropdown
+					dropdown.append(table);
 				},
-				error: function (xhr, ajaxOptions, thrownError) {
+				error: function(xhr, ajaxOptions, thrownError) {
 					// Menangani error yang terjadi
 					$('body').loading('stop');
-					$('#ModalBayar').modal('hide');
+					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+					if (xhr.status === 401 || xhr.status === 403) {
+						// Menyembunyikan modal
+						// Menampilkan alert dengan pesan session kadaluarsa
+						alert_logout(base_url);
+						} else {
+						// Jika terjadi error selain session kadaluarsa
+						sweet('Peringatan!!!', thrownError, 'warning', 'warning');
+					}
+				}
+			});
+		}
+		
+		function load_modal(id) {
+			$('#ModalBayar').modal('show');
+			$.ajax({
+				url: base_url+"keuangan/bayar_tagihan",
+				type: "POST",
+				data: { id: id },
+				dataType: "json",
+				beforeSend: function () {
+					$("body").loading({zIndex:1060});
+					$('#id_tagihan').val('');
+					$('#total_tagihan').val('');
+					$('#total_dibayar').val('');
+					$('#sisa_tagihan').val('');
+				},
+				success: function(data) {
+					if(data.status==true){
+						$('#id_tagihan').val(data.id);
+						$('#total_tagihan').val(formatRupiah(data.total_tagihan));
+						$('#total_dibayar').val(formatRupiah(data.total_dibayar));
+						$('#sisa_tagihan').val(formatRupiah(data.sisa));
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					// Menangani error yang terjadi
+					$('body').loading('stop');
+					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+					if (xhr.status === 401 || xhr.status === 403) {
+						// Menyembunyikan modal
+						// Menampilkan alert dengan pesan session kadaluarsa
+						alert_logout(base_url);
+						} else {
+						// Jika terjadi error selain session kadaluarsa
+						sweet('Peringatan!!!', thrownError, 'warning', 'warning');
+					}
+				}
+			});
+		}
+		
+		$(document).on('click','.hapus_bayar',function(e){
+			var id = $("#data-bayar").val();
+			var tagihan = $("#data-tagihan").val();
+			
+			$.ajax({
+				url: base_url + 'keuangan/hapus_bayar',
+				data: {id:id,tagihan:tagihan},
+				method: 'POST',
+				dataType:'json',
+				beforeSend: function () {
+					$('body').loading();　
+				},
+				success: function(data) {
+					if(data.status==true){
+						showNotif('bottom-right',data.title,data.msg,'success');
+						load_modal(data.id)
+						}else{
+						sweet('Peringatan!!!',data.msg,'warning','warning');
+					}
+					$('#confirm-hapus').modal('hide');
+					searchData();
+					
+					$('body').loading('stop');　
+					},error: function (xhr, ajaxOptions, thrownError) {
+					// Menangani error yang terjadi
+					$('body').loading('stop');
+					$('#confirm-hapus').modal('hide');
 					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
 					if (xhr.status === 401 || xhr.status === 403) {
 						// Menyembunyikan modal
@@ -330,6 +454,8 @@
 				}
 			});
 		});
+		
+		
 		$('#ModalBayar').on('show.bs.modal', function(e) {
 			var id = $(e.relatedTarget).data('id');
 			var mod = $(e.relatedTarget).data('mod');
@@ -345,8 +471,13 @@
 					dataType: "json",
 					beforeSend: function () {
 						$("body").loading({zIndex:1060});
+						$('#id_tagihan').val('');
+						$('#total_tagihan').val('');
+						$('#total_dibayar').val('');
+						$('#sisa_tagihan').val('');
 					},
 					success: function(data) {
+						load_bayar(data.id)
 						// Jika data diterima dengan sukses
 						$('#id_tagihan').val(data.id);
 						$('#total_tagihan').val(formatRupiah(data.total_tagihan));
@@ -376,71 +507,10 @@
 		});
 		
 		
-		
-		function simpanData()
-		{
-			
-			if($("#title").val()==''){
-				$("#title").addClass('form-control-warning');
-				showNotif('top-center','Input Data','Harus diisi','warning');
-				$("#title").focus();
-				return;
-			}
-			if($("#nama").val()==''){
-				$("#nama").addClass('form-control-warning');
-				showNotif('top-center','Input Data','Harus diisi','warning');
-				$("#nama").focus();
-				return;
-			}
-			if($("#nomor").val()==''){
-				$("#nomor").addClass('form-control-warning');
-				showNotif('top-center','Input Data','Harus diisi','warning');
-				$("#nomor").focus();
-				return;
-			}
-			
-			var formData = $("#formAdd").serialize();
-			$.ajax({
-				type: "POST",
-				url: base_url+"panitia/simpan_data",
-				dataType: 'json',
-				data: formData,
-				beforeSend: function () {
-					$("body").loading({zIndex:1060});　
-				},
-				success: function(data) {
-					$('body').loading('stop');
-					if(data.status==200){
-						showNotif('bottom-right',data.title,data.msg,'success');
-						$("#ModalBayar").modal('hide');
-						$('input').val('');
-						}else{
-						showNotif('bottom-right',data.title,data.msg,'error');
-					}
-					
-					searchData();
-				},
-				error: function (xhr, ajaxOptions, thrownError) {
-					// Menangani error yang terjadi
-					$('body').loading('stop');
-					$('#ModalBayar').modal('hide');
-					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
-					if (xhr.status === 401 || xhr.status === 403) {
-						// Menyembunyikan modal
-						// Menampilkan alert dengan pesan session kadaluarsa
-						alert_logout(base_url);
-						} else {
-						// Jika terjadi error selain session kadaluarsa
-						sweet('Peringatan!!!',thrownError,'warning','warning');
-					}
-				}
-			});
-		}
-		
 		$(document).on('click','.hapus_data',function(e){
 			var id = $("#data-hapus").val();
 			$.ajax({
-				url: base_url + 'panitia/hapus_data',
+				url: base_url + 'keuangan/hapus_data',
 				data: {id:id},
 				method: 'POST',
 				dataType:'json',
@@ -451,10 +521,11 @@
 					$('#confirm-delete').modal('hide');
 					if(data.status==true){
 						showNotif('bottom-right',data.title,data.msg,'success');
+						
 						}else{
 						sweet('Peringatan!!!',data.msg,'warning','warning');
 					}
-					searchData();
+					// searchData();
 					
 					$('body').loading('stop');　
 					},error: function (xhr, ajaxOptions, thrownError) {
@@ -481,6 +552,11 @@
 		
 		$(document).on('click','#simpan_bayar',function(e){
 			$("#bayarForm").submit();
+		});
+		
+		$('#confirm-hapus').on('show.bs.modal', function(e) {
+			$('#data-bayar').val($(e.relatedTarget).data('id'));
+			$('#data-tagihan').val($(e.relatedTarget).data('tagihan'));
 		});
 		
 		$('#confirm-delete').on('show.bs.modal', function(e) {
@@ -543,7 +619,7 @@
 				
 				var formData = new FormData(this);
 				$.ajax({
-					url: "<?php echo site_url('keuangan/save_bayar'); ?>",
+					url: base_url+"keuangan/save_bayar",
 					type: "POST",
 					data: formData,
 					dataType: "json",
@@ -555,7 +631,7 @@
 							$('#ModalBayar').modal('hide');
 							searchData();
 							} else {
-							alert(response.message);
+							sweet('Notifikasi!!!',response.message,'warning','warning');
 						}
 					},
 					error: function (xhr, ajaxOptions, thrownError) {

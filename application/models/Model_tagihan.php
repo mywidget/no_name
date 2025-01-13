@@ -279,6 +279,13 @@
 			$query = $this->db->get('rb_rekening');
 			return $query->result_array();
 		}
+		public function get_bayar($id_tagihan)
+		{
+			// Query untuk mengambil rb_bayar_tagihan
+			$this->db->where('id_tagihan', $id_tagihan);
+			$query = $this->db->get('rb_bayar_tagihan');
+			return $query->result();
+		}
 		public function insert_bayar($data)
 		{
 			// Menyimpan data pembayaran

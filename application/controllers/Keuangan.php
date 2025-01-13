@@ -86,7 +86,7 @@
 				
 				$result = $this->model_app->view_where('rb_tagihan',['id_tagihan'=>$index]);
 				if($result->num_rows() > 0){
-				$sisa = $result->row()->total_tagihan - $result->row()->total_bayar;
+					$sisa = $result->row()->total_tagihan - $result->row()->total_bayar;
 					$response = [
 					'status'=>true,
 					'id'=>$id,
@@ -101,142 +101,6 @@
 					];
 				}
 				$this->thm->json_output($response);
-			}
-		}
-		
-		function simpan_data(){
-			cek_input_post('GET');
-			cek_crud_akses('UPDATE');
-			$type = $this->input->post('type',TRUE);
-			// dump($_POST);
-			if($type=='add'){
-				$this->form_validation->set_rules(array(
-				array(
-				'field' => 'title',
-				'label' => 'Title',
-				'rules' => 'required|trim|min_length[5]|is_unique[rb_pages.title]',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'min_length' => '%s minimal 5 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),array(
-				'field' => 'seo',
-				'label' => 'seo',
-				'rules' => 'required|trim|min_length[5]|is_unique[rb_pages.seo]',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'min_length' => '%s minimal 5 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
-				array(
-				'field' => 'deskripsi',
-				'label' => 'Deskripsi',
-				'rules' => 'required|trim|min_length[10]',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'min_length' => '%s minimal 10 kata.',
-				)
-				),
-				));
-				if ( $this->form_validation->run() ) 
-				{
-					$data_post 	= [
-					"title"	=> $this->input->post('title',TRUE),
-					"seo"	=> $this->input->post('seo',TRUE),
-					"deskripsi"	=> $this->input->post('deskripsi',TRUE),
-					"aktif"	    => $this->input->post('aktif',TRUE),
-					];
-					$insert = $this->model_app->input('rb_pages',$data_post);
-					if($insert['status']==true)
-					{
-						$arr = [
-						'status'=>true,
-						'title' =>'Input data',
-						'msg'   =>'Data berhasil Input'
-						];
-					}
-					else
-					{
-						$arr = [
-						'status'=>false,
-						'title' =>'Input data',
-						'msg'   =>'Data gagal Input'
-						];
-					}
-					}else{
-					$response['status'] = false;
-					$response['type'] = 'error';
-					$response['msg']= validation_errors();
-					$this->thm->json_output($response);
-				}
-			}
-			
-			
-			if($type=='edit'){
-				$postid 	= decrypt_url($this->input->post('id',TRUE));
-				
-				$data_post 	= [
-				"title"	=> $this->input->post('title',TRUE),
-				"seo"	=> $this->input->post('seo',TRUE),
-				"deskripsi"	=> $this->input->post('deskripsi',TRUE),
-				"aktif"	    => $this->input->post('aktif',TRUE),
-				];
-				
-				$update = $this->model_app->update('rb_pages',$data_post, ['id'=>$postid]);
-				if($update['status']=='ok')
-				{
-					$arr = [
-					'status'=>true,
-					'title' =>'Update data',
-					'msg'   =>'Data berhasil diupdate'
-					];
-				}
-				else
-				{
-					$arr = [
-					'status'=>false,
-					'title' =>'Update data',
-					'msg'   =>'Data gagal diupdate'
-					];
-				}
-				
-			}
-			if($type==''){
-				$arr = [
-				'status'=>201,
-				'title' =>'Input data',
-				'msg'   =>'Data gagal'
-				];
-			}
-			
-			$this->thm->json_output($arr);
-			
-		}
-		
-		function _create_thumb($file_name){
-			// Image resizing config
-			$config = array(
-			
-			// Image Small
-			array(
-			'image_library' => 'GD2',
-			'source_image'  => './upload/'.$file_name,
-			'maintain_ratio'=> FALSE,
-			'width'         => 400,
-			'height'        => 300,
-			'new_image'     => './upload/400x300_'.$file_name
-			));
-			
-			$this->load->library('image_lib', $config[0]);
-			foreach ($config as $item){
-				$this->image_lib->initialize($item);
-				if(!$this->image_lib->crop())
-				{
-					return false;
-				}
-				$this->image_lib->clear();
 			}
 		}
 		
@@ -262,6 +126,40 @@
 			
 			$this->thm->json_output($data);
 			
+		}
+		function hapus_bayar(){
+			cek_input_post('GET');
+			cek_crud_akses('DELETE');
+			$id 	 = decrypt_url($this->input->post('id',TRUE));
+			$tagihan = decrypt_url($this->input->post('tagihan',TRUE));
+			
+			$where = array('id_bayar_tagihan' => $id);
+			$search = $this->model_app->edit('rb_bayar_tagihan', $where);
+			if($search->num_rows()>0){
+				$row = $search->row();
+				$jumlah_bayar = $row->jumlah_bayar;
+				$this->cek_total_bayar($tagihan,$jumlah_bayar);
+				$res = $this->model_app->hapus('rb_bayar_tagihan',$where);
+				if($res==true){
+					$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus','id'=>encrypt_url($tagihan));
+					}else{
+					$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus','id'=>0);
+				}
+				
+				}else{
+				$data = array('status'=>false,'msg'=>'Data gagal dihapus');
+			}
+			
+			$this->thm->json_output($data);
+			
+		}
+		
+		private function cek_total_bayar($id,$jumlah_bayar){
+			$query = $this->model_app->edit('rb_tagihan', ['id_tagihan'=>$id]);
+			if($query->num_rows()>0){
+				$total_bayar = $query->row()->total_bayar - $jumlah_bayar;
+				$this->model_app->update('rb_tagihan',['total_bayar'=>$total_bayar],['id_tagihan'=>$id]);
+			}
 		}
 		
 		function aktifkan(){
@@ -310,10 +208,29 @@
 			echo json_encode($rekening);
 		}
 		
+		// Mengambil data bayar
+		public function load_bayar()
+		{
+			$id_tagihan = decrypt_url($this->input->post('id',TRUE));
+			$query = $this->model_tagihan->get_bayar($id_tagihan);
+			$data = [];
+			foreach($query AS $row){
+				$data[] = [
+				'id_bayar_tagihan'=>encrypt_url($row->id_bayar_tagihan),
+				'id_tagihan'=>encrypt_url($row->id_tagihan),
+				'id'=>$this->input->post('id',TRUE),
+				'kategori'=>getKategori($row->id_kategori),
+				'tanggal'=>$row->tgl_bayar,
+				'jumlah_bayar'=>$row->jumlah_bayar,
+				];
+			}
+			echo json_encode($data);
+		}
+		
 		// Menyimpan pembayaran
 		public function save_bayar()
 		{
-		
+			
 			// Validasi input
 			$this->form_validation->set_rules('rekening', 'Rekening', 'required');
 			$this->form_validation->set_rules('lampiran', 'Lampiran', 'callback_file_check'); // Atur validasi file
@@ -348,9 +265,10 @@
                     'id_tagihan'  => $id_tagihan,
                     'id_bayar'    => $this->input->post('rekening'),
                     'lampiran'    => $file_data['file_name'], // Simpan nama file yang di-upload
-                    'jumlah_bayar'=> $this->input->post('jumlah_bayar')
+                    'tgl_bayar'    => date('Y-m-d'), // Simpan nama file yang di-upload
+                    'jumlah_bayar'=> convert_to_number($this->input->post('jumlah_bayar'))
 					];
-			 
+					
 					$result = $this->model_tagihan->insert_bayar($data);
 					$this->model_app->update('rb_tagihan',['total_bayar'=>$total_bayar],['id_tagihan'=>$id_tagihan]);
 					
@@ -375,4 +293,4 @@
 			}
 			return TRUE;
 		}
-	}																																												
+	}																																																		
