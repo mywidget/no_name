@@ -465,7 +465,7 @@
 				$jumlah = convert_to_number($this->input->post('jumlah'));
 				$total_saldo = $this->model_tagihan->total_saldo();
 				if($jumlah > $total_saldo){
-				$data = ['status'=>false,'message']
+				$data = ['status'=>false,'message'=>'Saldo tidak cukup'];
 				$this->thm->json_output($data);
 				}
 				// Data valid, simpan ke database
