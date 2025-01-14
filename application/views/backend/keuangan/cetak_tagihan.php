@@ -151,25 +151,31 @@
 						</div>
 						
 						<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-							<p>Kode Daftar</p>
+							<p>Kode Pendaftaran</p>
 							<button class="btn btn-default btn-md" type="submit"><?=($cetak->kode_daftar);?></button>
 						</div>
 						
-						<div class="col-md-12 col-sm-12 col-xs-12 text-center mt-2 mb-2">
+						<div class="col-md-12 col-sm-12 col-xs-12 text-center mt-2 mb-2" style="margin-bottom:10px!important">
 							<h4 class="mb-0 pb-0">TOTAL TAGIHAN</h4>
 							<button class="btn btn-default btn-lg" type="submit"><?=rprp($cetak->total_tagihan);?></button>
 						</div>
-						<div class="col-md-12 col-sm-12 col-xs-12 " style="margin-top:20px!important">
-						</div>
 						
-						<div class="row mt-2">
+						
+						<div class="p-2" >
 							<table class="table table-striped">
 								<tr>
 									<td class="text-center" colspan="2">RINCIAN PEMBAYARAN</td>
 								</tr>
 								<?php 
+									$total = 0;
 									if($result):
-									foreach($result AS $val){ ?>
+									foreach($result AS $val){
+										$total +=$val->jumlah_bayar;
+									?>
+									<tr>
+										<td class="">Tanggal Bayar</td>
+										<td class="text-right"><?=$val->tgl_bayar;?></td>
+									</tr>
 									<tr>
 										<td class="">
 											<?=getKategori($val->id_kategori);?>
@@ -182,7 +188,16 @@
 									} 
 									endif;
 								?>
+								<tr>
+									<td class="text-left">TOTAL BAYAR</td>
+									<td class="text-right"><?=rprp($total)?></td>
+								</tr>
 							</table>
+						</div>
+						<div class="col-md-12 col-sm-12 col-xs-12 text-center" style="margin-top:10px!important">
+							<?php if($cetak->status_lunas=='Y'): ?>
+							<button class="btn btn-default btn-lg" type="submit">LUNAS</button>
+							<?php endif;?>
 						</div>
 					</div>
 				</div>
