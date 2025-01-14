@@ -170,7 +170,7 @@
 	pointer-events: none;
 	cursor: not-allowed;
 	}
-	
+
 </style>
 
 <?php

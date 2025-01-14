@@ -90,23 +90,55 @@
 			<div class="modal-body">
 				<!-- Form -->
 				<form id="formPengeluaran">
-					<div class="mb-3">
-						<label for="tanggal" class="form-label">Tanggal</label>
+					<div class="mb-1">
+						<label for="tanggal" class="form-label">TANGGAL</label>
 						<input type="date" name="tanggal" id="tanggal" class="form-control">
 						<div class="invalid-feedback" id="errorTanggal"></div>
+						<input type="hidden" name="id" id="id_pengeluaran" class="form-control">
+						<input type="hidden" name="tipe" id="tipe" class="form-control">
 					</div>
-					<div class="mb-3">
-						<label for="kategori" class="form-label">Keterangan</label>
-						<input type="text" name="kategori" id="kategori" class="form-control">
-						<div class="invalid-feedback" id="errorKategori"></div>
+					<div class="mb-1">
+                        <label for="kategori" class="col-form-label">DARI KAS</label>
+						<select name="kategori" id="kategori" class="form-select">
+							<!-- Options dynamically added here -->
+						</select>
 					</div>
-					<div class="mb-3">
-						<label for="jumlah" class="form-label">Jumlah</label>
+					<div class="mb-1">
+						<label for="keterangan" class="form-label">KETERANGAN</label>
+						<input type="text" name="keterangan" id="keterangan" class="form-control">
+						<div class="invalid-feedback" id="errorKeterangan"></div>
+					</div>
+					<div class="mb-1">
+						<label for="jumlah" class="form-label">JUMLAH</label>
 						<input type="text" name="jumlah" id="jumlah" class="form-control rupiah" step="0.01">
 						<div class="invalid-feedback" id="errorJumlah"></div>
 					</div>
-					<button type="submit" class="btn btn-primary">Simpan Pengeluaran</button>
 				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" id="simpan_pengeluaran">SIMPAN</button>
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">TUTUP</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal modal-blur fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-status bg-danger"></div>
+			<div class="modal-body text-center py-4">
+				<!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" /></svg>
+				<h3>Apa kamu yakin?</h3>
+				<div class="text-muted">Apakah Anda benar-benar ingin menghapus data? Apa yang telah Anda lakukan tidak dapat dibatalkan.</div>
+				<p class="debug-url"></p>
+				<input type="hidden" id="data-hapus">
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
+				<button class="btn btn-danger hapus_data" type="button">YA</button> 
 			</div>
 		</div>
 	</div>
@@ -135,82 +167,40 @@
 	.modal-footer {
 	border-top: 1px solid #dee2e6; /* Menambahkan garis pada bagian atas footer modal */
     }
-</style>
-
-<?php $this->RenderScript[] = function() { ?>
+	.table tfoot td {
+	color: var(--tblr-muted);
+	background: var(--tblr-gray-50);
+	font-size: .625rem;
+	font-weight: var(--tblr-font-weight-bold);
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	line-height: 1rem;
+	color: var(--tblr-muted);
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+	white-space: nowrap;
+	}
+	</style>
 	
-	<script>
+	<?php $this->RenderScript[] = function() { ?>
 		
-		searchData();
-		function searchData(page_num)
-		{
+		<script>
 			
-			page_num = page_num?page_num:0;
-			var limit = $('#limits').val();
-			$.ajax({
-				type: 'POST',
-				url: base_url+'keuangan/ajax_list_pengeluaran/'+page_num,
-				data:{page:page_num,
-					limit:limit
-				},
-				error: function (xhr, ajaxOptions, thrownError) {
-					// Menangani error yang terjadi
-					$('body').loading('stop');
-					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
-					if (xhr.status === 401 || xhr.status === 403) {
-						// Menyembunyikan modal
-						// Menampilkan alert dengan pesan session kadaluarsa
-						alert_logout(base_url);
-						} else {
-						// Jika terjadi error selain session kadaluarsa
-						sweet('Peringatan!!!',thrownError,'warning','warning');
-					}
-				},
-				beforeSend: function(){
-					$('body').loading();
-				},
-				success: function(html){
-					$('#posts_content').html(html);
-					$('body').loading('stop');
-				}
-			});
-		}
-		
-		$(document).on('click','.clear',function(e){
-			$("#keywords").val('');
 			searchData();
-		});
-		$(document).ready(function () {
-            // Menangani submit form pengeluaran dengan AJAX
-            $('#formPengeluaran').on('submit', function (e) {
-                e.preventDefault(); // Mencegah reload halaman
-                
-                // Menjaga agar form tidak mengirimkan data ganda
-                var formData = new FormData(this);
-                
-                $.ajax({
-                    url: base_url+"keuangan/save_pengeluaran",
-                    type: 'POST',
-                    data: formData,
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            // Menampilkan pesan sukses
-							showNotif('bottom-right',data.title,response.message,'success');
-							searchData();
-                            $('#modalForm').modal('hide');
-                            $('#formPengeluaran')[0].reset();
-							} else {
-							sweet('Peringatan!!!', response.message, 'warning', 'warning');
-							
-						}
+			function searchData(page_num)
+			{
 				
-                    },error: function (xhr, ajaxOptions, thrownError) {
+				page_num = page_num?page_num:0;
+				var limit = $('#limits').val();
+				$.ajax({
+					type: 'POST',
+					url: base_url+'keuangan/ajax_list_pengeluaran/'+page_num,
+					data:{page:page_num,
+						limit:limit
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
 						// Menangani error yang terjadi
 						$('body').loading('stop');
-						$('#modalForm').modal('hide');
 						// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
 						if (xhr.status === 401 || xhr.status === 403) {
 							// Menyembunyikan modal
@@ -220,10 +210,131 @@
 							// Jika terjadi error selain session kadaluarsa
 							sweet('Peringatan!!!',thrownError,'warning','warning');
 						}
+					},
+					beforeSend: function(){
+						$('body').loading();
+					},
+					success: function(html){
+						$('#posts_content').html(html);
+						$('body').loading('stop');
+					}
+				});
+			}
+			
+			$(document).on('click','.clear',function(e){
+				$("#keywords").val('');
+				searchData();
+			});
+			
+			$(document).ready(function () {
+				$.ajax({
+					url: base_url+"keuangan/get_kategori",
+					method: "GET",
+					dataType: "json",
+					success: function(data) {
+						if (data) {
+							var rekening = $('#kategori');
+							rekening.empty();
+							rekening.append('<option value="">Pilih kategori</option>');
+							$.each(data, function(index, item) {
+								rekening.append('<option value="' + item.id_kategori + '">' + item.title + '</option>');
+							});
+						}
+					}
+				});
+				$(document).on('click','#simpan_pengeluaran',function(e){
+					$("#formPengeluaran").submit();
+				});
+				// Menangani submit form pengeluaran dengan AJAX
+				$('#formPengeluaran').on('submit', function (e) {
+					e.preventDefault(); // Mencegah reload halaman
+					
+					// Menjaga agar form tidak mengirimkan data ganda
+					var formData = new FormData(this);
+					
+					$.ajax({
+						url: base_url+"keuangan/save_pengeluaran",
+						type: 'POST',
+						data: formData,
+						dataType: 'json',
+						processData: false,
+						contentType: false,
+						success: function (response) {
+							if (response.status === 'success') {
+								// Menampilkan pesan sukses
+								sweet('Berhasil!!!', response.message, 'success', 'success');
+								searchData();
+								$('#modalForm').modal('hide');
+								$('#formPengeluaran')[0].reset();
+								} else {
+								sweet('Peringatan!!!', response.message, 'warning', 'warning');
+								
+							}
+							
+							},error: function (xhr, ajaxOptions, thrownError) {
+							// Menangani error yang terjadi
+							$('body').loading('stop');
+							$('#modalForm').modal('hide');
+							// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+							if (xhr.status === 401 || xhr.status === 403) {
+								// Menyembunyikan modal
+								// Menampilkan alert dengan pesan session kadaluarsa
+								alert_logout(base_url);
+								} else {
+								// Jika terjadi error selain session kadaluarsa
+								sweet('Peringatan!!!',thrownError,'warning','warning');
+							}
+						}
+					});
+				});
+			});
+			$(document).on('click','.edit_pengeluaran',function(){
+				var id = $(this).data('id');
+				$.ajax({
+					url: base_url+"keuangan/edit_pengeluaran",
+					type: "POST",
+					data :{id:id},
+					dataType: "json",
+					success: function(data) {
+						$('#modalForm').modal('show');
+						$('#id_pengeluaran').val(data.id);
+						$('#tanggal').val(data.tanggal);
+						$('#kategori').val(data.id_kategori);
+						$('#keterangan').val(data.keterangan);
+						$('#jumlah').val(formatRupiah(data.jumlah));
+						$('#biayaModalLabel').text('Form Edit Pengeluaran');
 					}
 				});
 			});
-		});
-	</script>
-	
-<?php } ?>		
+			$('#confirm-delete').on('show.bs.modal', function(e) {
+				$('#data-hapus').val($(e.relatedTarget).data('id'));
+			});
+			$(document).on('click','.hapus_data',function(e){
+				var id = $("#data-hapus").val();
+				$.ajax({
+					url: base_url + 'keuangan/hapus_pengeluaran',
+					data: {id:id},
+					method: 'POST',
+					dataType:'json',
+					beforeSend: function () {
+						$('body').loading();　
+					},
+					success: function(data) {
+						$('#confirm-delete').modal('hide');
+						if(data.status==true){
+							showNotif('bottom-right',data.title,data.message,'success');
+							}else{
+							sweet('Peringatan!!!',data.message,'warning','warning');
+						}
+						searchBiaya();
+						
+						$('body').loading('stop');　
+						},error: function(xhr, status, error) {
+						showNotif('bottom-right','Update',error,'error');
+						$('body').loading('stop');　
+					}
+				});
+			});	
+		</script>
+		
+	<?php } ?>			

@@ -451,37 +451,61 @@
 				}
 			}
 		}
+		// Sunting data pengeluaran
+		public function edit_pengeluaran() {
+			if ($this->input->is_ajax_request()) 
+			{
+				$id = decrypt_url($this->input->post('id'));
+				$search = $this->model_app->edit('rb_pengeluaran', ['id' => $id]);
+				if($search->num_rows()>0){
+					$this->thm->json_output($search->row());
+				}
+			}
+		}
 		// Menyimpan data pengeluaran
 		public function save_pengeluaran() {
 			// Validasi input
+			 
 			$this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
-			$this->form_validation->set_rules('kategori', 'Keterangan', 'required');
+			$this->form_validation->set_rules('kategori', 'Kategori', 'required');
+			$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 			$this->form_validation->set_rules('jumlah', 'Jumlah', 'required');
 			
 			if ($this->form_validation->run() == FALSE) {
 				// Jika validasi gagal, kirim pesan error
 				echo json_encode(array('status' => 'error', 'message' => validation_errors()));
 				} else {
+				$id = ($this->input->post('id'));
 				$jumlah = convert_to_number($this->input->post('jumlah'));
 				$total_saldo = $this->model_tagihan->total_saldo();
 				if($jumlah > $total_saldo){
-				$data = ['status'=>false,'message'=>'Saldo tidak cukup'];
-				$this->thm->json_output($data);
+					$data = ['status'=>false,'message'=>'Saldo tidak cukup'];
+					$this->thm->json_output($data);
 				}
 				// Data valid, simpan ke database
 				$data = array(
-                'tanggal' => $this->input->post('tanggal'),
-                'keterangan' => $this->input->post('kategori'),
-                'jumlah' => convert_to_number($this->input->post('jumlah')),
+				'id_kategori' => $this->input->post('kategori'),
+				'tanggal' => $this->input->post('tanggal'),
+				'keterangan' => $this->input->post('keterangan'),
+				'jumlah' => convert_to_number($this->input->post('jumlah')),
 				);
-				
-				// Simpan data ke database
-				if ($this->model_app->input('rb_pengeluaran',$data)) {
-					// Kirim response sukses
-					echo json_encode(array('status' => 'success', 'message' => 'Pengeluaran berhasil disimpan'));
-					} else {
-					// Jika gagal menyimpan, kirim pesan error
-					echo json_encode(array('status' => 'error', 'message' => 'Pengeluaran gagal disimpan'));
+				if($id > 0){
+					if ($this->model_app->update('rb_pengeluaran',$data,['id'=>$id])) {
+						// Kirim response sukses
+						echo json_encode(array('status' => 'success', 'message' => 'Pengeluaran berhasil disimpan'));
+						} else {
+						// Jika gagal menyimpan, kirim pesan error
+						echo json_encode(array('status' => 'error', 'message' => 'Pengeluaran gagal disimpan'));
+					}
+					}else{
+					// Simpan data ke database
+					if ($this->model_app->input('rb_pengeluaran',$data)) {
+						// Kirim response sukses
+						echo json_encode(array('status' => 'success', 'message' => 'Pengeluaran berhasil disimpan'));
+						} else {
+						// Jika gagal menyimpan, kirim pesan error
+						echo json_encode(array('status' => 'error', 'message' => 'Pengeluaran gagal disimpan'));
+					}
 				}
 			}
 		}
@@ -497,4 +521,4 @@
 			}
 			return TRUE;
 		}
-	}																																																																							
+	}																																																																													
