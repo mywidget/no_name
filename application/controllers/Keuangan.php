@@ -476,7 +476,7 @@
 				);
 				
 				// Simpan data ke database
-				if ($this->Pengeluaran_model->save($data)) {
+				if ($this->model_tagihan->save($data)) {
 					// Kirim response sukses
 					echo json_encode(array('status' => 'success', 'message' => 'Pengeluaran berhasil disimpan'));
 					} else {
