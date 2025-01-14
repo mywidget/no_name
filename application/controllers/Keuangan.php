@@ -456,7 +456,7 @@
 			// Validasi input
 			$this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
 			$this->form_validation->set_rules('kategori', 'Keterangan', 'required');
-			$this->form_validation->set_rules('jumlah', 'Jumlah', 'required|numeric');
+			$this->form_validation->set_rules('jumlah', 'Jumlah', 'required');
 			
 			if ($this->form_validation->run() == FALSE) {
 				// Jika validasi gagal, kirim pesan error
@@ -465,6 +465,7 @@
 				$jumlah = convert_to_number($this->input->post('jumlah'));
 				$total_saldo = $this->model_tagihan->total_saldo();
 				if($jumlah > $total_saldo){
+				$data = ['status'=>false,'message']
 				$this->thm->json_output($data);
 				}
 				// Data valid, simpan ke database
