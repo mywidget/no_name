@@ -48,7 +48,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-body table-responsive">
+					<div class="card-body">
 						<div class="d-flex ">
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Show</div>
@@ -130,7 +130,7 @@
 						</div>
 					</div>
 					
-					<div class="pb-2" id="posts_content">
+					<div class="table-responsive" id="posts_content">
 					</div>
 				</div><!-- /.card -->
 			</div>

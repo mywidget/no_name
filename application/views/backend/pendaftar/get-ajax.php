@@ -18,7 +18,7 @@
                 <tbody> 
                     <?php 
                         $i = 0;
-                        $no = 1;
+                        $no=$this->uri->segment(3)+1;
                         foreach ($record as $row){
                             $kode = encrypt_url($row['id']);
                             $link = base_url('pendaftar').'/print_dokumen/'.$kode;
@@ -141,7 +141,7 @@
             </table>  
         </div>
     </form>
-    <div class="p-2">
+    <div class="card-footer bg-transparent">
         <?php echo $this->ajax_pagination->create_links(); ?>
     </div>
     

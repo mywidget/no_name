@@ -402,7 +402,23 @@
 		
 	}
 	
-	
+	function date_short($tgl){
+        $tanggal 	= strtotime($tgl);
+        $hari_arr 	= Array (	'0'=>'Minggu',
+        '1'=>'Senin',
+        '2'=>'Selasa',
+        '3'=>'Rabu',
+        '4'=>'Kamis',
+        '5'=>'Jum`at',
+        '6'=>'Sabtu'
+        );
+		$hari 	= @$hari_arr[date('w',$tanggal)];
+		$tggl 	= date('j',$tanggal);
+		$bln 	= date('m',$tanggal);
+		$thn 	= date('y',$tanggal);
+		return "$hari, $tggl/$bln/$thn";	
+        
+    }
 	
 	function get_month($n=null){
 		

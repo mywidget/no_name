@@ -67,7 +67,7 @@
 			}
 			if(array_key_exists("search", $params)){ 
 				// if(!empty($params['search']['keywords'])){ 
-					// $this->db->where('id_kategori', $params['search']['keywords']); 
+				// $this->db->where('id_kategori', $params['search']['keywords']); 
 				// } 
 				
 				if(!empty($params['search']['kategori'])){ 
@@ -91,6 +91,52 @@
 					$result = $query->row_array(); 
 					}else{ 
 					$this->db->order_by('rb_bayar_tagihan.id_bayar_tagihan ', 'DESC'); 
+					if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+						$this->db->limit($params['limit'],$params['start']); 
+						}elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+						$this->db->limit($params['limit']); 
+					} 
+					
+					$query = $this->db->get(); 
+					$result = ($query->num_rows() > 0)?$query->result_array():FALSE; 
+				} 
+			} 
+			
+			// Return fetched data 
+			return $result; 
+		}
+		function getPengeluaran($params = array()){
+			// print_r($params);
+			$this->db->select('*'); 
+			$this->db->from('rb_pengeluaran'); 
+			
+			if(array_key_exists("where", $params)){ 
+				foreach($params['where'] as $key => $val){ 
+					$this->db->where($key, $val); 
+				} 
+			}
+			if(array_key_exists("search", $params)){ 
+				if(!empty($params['search']['keywords'])){ 
+					$this->db->where('id_kategori', $params['search']['keywords']); 
+				} 
+				
+			}
+			
+			if(!empty($params['search']['sortBy'])){ 
+				$this->db->order_by('`rb_pengeluaran`.`id `', $params['search']['sortBy']); 
+			}
+			
+			if(array_key_exists("returnType",$params) && $params['returnType'] == 'count'){ 
+				$result = $this->db->count_all_results(); 
+				}else{ 
+				if(array_key_exists("id", $params) || (array_key_exists("returnType", $params) && $params['returnType'] == 'single')){ 
+					if(!empty($params['id'])){ 
+						$this->db->where('rb_pengeluaran.id ', $params['id']); 
+					} 
+					$query = $this->db->get(); 
+					$result = $query->row_array(); 
+					}else{ 
+					$this->db->order_by('rb_pengeluaran.id ', 'DESC'); 
 					if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
 						$this->db->limit($params['limit'],$params['start']); 
 						}elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
@@ -250,7 +296,7 @@
 		}
 		public function input_tagihan()
 		{
-			 
+			
 			$input_tagihan = [
 			'kode_daftar' => $this->input->post('nik',true),
 			'id_siswa' => decrypt_url($this->input->post('id_pendaftar',true)),
@@ -314,12 +360,12 @@
 			$this->db->where('id_tahun_akademik', $tahun_akademik);
 			$query = $this->db->get();
 			
-		// Cek jika data ditemukan
-		if ($query->num_rows() > 0) {
-			return ['title'=>$query->row()->title,'amount'=>$query->row()->amount];
-		}
-		return ['title'=>'-','amount'=>0];
-		
+			// Cek jika data ditemukan
+			if ($query->num_rows() > 0) {
+				return ['title'=>$query->row()->title,'amount'=>$query->row()->amount];
+			}
+			return ['title'=>'-','amount'=>0];
+			
 		}
 		public function get_kategori()
 		{
@@ -345,4 +391,40 @@
 			// Menyimpan data pembayaran
 			return $this->db->insert('rb_bayar_tagihan', $data);
 		}
-	}																														
+		// Fungsi untuk menjumlahkan jumlah_bayar berdasarkan kriteria tertentu
+		public function total_jumlah_bayar($id_tagihan = null, $id_kategori = null) {
+			$this->db->select_sum('jumlah_bayar'); // Menjumlahkan jumlah_bayar
+			$this->db->from('rb_bayar_tagihan');  // Tabel yang digunakan
+			
+			// Jika id_tagihan diberikan, tambahkan kondisi
+			if ($id_tagihan) {
+				$this->db->where('id_tagihan', $id_tagihan);
+			}
+			
+			// Jika id_kategori diberikan, tambahkan kondisi
+			if ($id_kategori) {
+				$this->db->where('id_kategori', $id_kategori);
+			}
+			
+			// Eksekusi query dan ambil hasilnya
+			$query = $this->db->get();
+			
+			// Ambil hasil sum
+			$result = $query->row();
+			
+			return $result ? $result->jumlah_bayar : 0;  // Jika ada hasil, kembalikan total, jika tidak 0
+		}
+		// Fungsi untuk menjumlahkan jumlah_bayar berdasarkan kriteria tertentu
+		public function total_saldo() {
+			$this->db->select_sum('jumlah_bayar'); // Menjumlahkan jumlah_bayar
+			$this->db->from('rb_bayar_tagihan');  // Tabel yang digunakan
+			 
+			// Eksekusi query dan ambil hasilnya
+			$query = $this->db->get();
+			
+			// Ambil hasil sum
+			$result = $query->row();
+			
+			return $result ? $result->jumlah_bayar : 0;  // Jika ada hasil, kembalikan total, jika tidak 0
+		}
+	}																															

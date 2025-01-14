@@ -89,7 +89,7 @@
 						</div>
 					</div>
 					
-					<div class="pb-2" id="posts_content">
+					<div class="table-responsive" id="posts_content">
 					</div>
 				</div><!-- /.card -->
 			</div>
