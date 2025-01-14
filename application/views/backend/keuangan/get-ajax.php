@@ -23,7 +23,6 @@
                             if ($row['status_lunas'] == 'Y')
                             { 
                                 
-                                $status = '<a href="#" class="btn btn-success btn-sm active" aria-current="page">'.$aktif.'</a>';
                                 $bayar = '<a class="btn btn-success" href="#"><i class="fa fa-check-circle"></i>&nbsp;&nbsp;Lunas</a>';
                                 }else{ 
                                 

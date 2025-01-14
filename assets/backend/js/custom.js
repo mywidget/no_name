@@ -55,7 +55,7 @@ function sweet_alert(p, color, icon, buttons,modal) {
 	});
 }
 
-function sweet(p, color, icon, buttons) {
+function sweet(judul, pesan, icon, buttons) {
     const $ = Swal.mixin({
         customClass : {
             confirmButton : "btn btn-" + buttons
@@ -64,8 +64,8 @@ function sweet(p, color, icon, buttons) {
 	});
     $.fire({
         icon : icon,
-        title : p,
-        text : color
+        title : judul,
+        html : pesan
 	});
 }
 

@@ -47,7 +47,7 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Sort</div>
 								<div class="mx-2 d-inline-block">
-									<select id="sortBy" class="form-control form-select w-1" onchange="searchBiaya()" style="width:85px!important">
+									<select id="sortBy" class="form-control form-select w-1" onchange="searchData()" style="width:85px!important">
 										<option value="ASC">ASC</option>
 										<option value="DESC" selected>DESC</option>
 									</select>
@@ -57,7 +57,7 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Status</div>
 								<div class="mx-2 d-inline-block">
-									<select id="sortBy" class="form-control form-select w-1" onchange="searchBiaya()" style="width:80px!important">
+									<select id="status" class="form-control form-select w-1" onchange="searchData()" style="width:80px!important">
 										<option value="" selected>PILIH</option>
 										<option value="Y">Lunas</option>
 										<option value="N" >Belum Lunas</option>
@@ -66,7 +66,7 @@
 							</div>
 							<div class="text-muted">
 								<div class="mx-2 d-inline-block">
-									<select id="tahun_akademik_filter" class="form-control form-select w-5" style="width:200px!important" onchange="searchBiaya()">
+									<select id="tahun_akademik_filter" class="form-control form-select w-5" style="width:200px!important" onchange="searchData()">
 										<option value="">Tahun Akademik</option>
 									</select>
 								</div>
@@ -252,13 +252,19 @@
 			
 			page_num = page_num?page_num:0;
 			var limit = $('#limits').val();
+			var status = $('#status').val();
 			var keywords = $('#keywords').val();
+			var kategori = $('#kategori').val();
+			var tahun = $('#tahun_akademik_filter').val();
 			$.ajax({
 				type: 'POST',
 				url: base_url+'keuangan/ajax_list/'+page_num,
 				data:{page:page_num,
 					limit:limit,
+					status:status,
 					keywords:keywords,
+					kategori:kategori,
+					tahun:tahun,
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					// Menangani error yang terjadi
@@ -544,6 +550,21 @@
 					}
 				}
 			});
+			$.ajax({
+				url: base_url+ 'psb/get_tahun_akademik',  
+				type: "GET",
+				dataType: "json",
+				success: function(data) {
+					var dropdown = $('#tahun_akademik_filter');
+					dropdown.empty(); // Kosongkan dropdown terlebih dahulu
+					dropdown.append('<option value="">Pilih Tahun Akademik</option>'); // Option default
+					
+					$.each(data, function(index, item) {
+						dropdown.append('<option value="' + item.id_tahun_akademik + '">' + item.nama_tahun + '</option>');
+					});
+				}
+			});
+			
 			
 			// Ambil rekening untuk dropdown
 			$.ajax({
@@ -594,7 +615,7 @@
 							$('#ModalBayar').modal('hide');
 							searchData();
 							} else {
-							sweet('Notifikasi!!!',response.message,'warning','warning');
+							sweet('Peringatan!!!',response.message,'warning','warning');
 						}
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
@@ -650,16 +671,17 @@
 			$('#jumlah_bayar').on('keyup', function() {
 				// Mendapatkan nilai total tagihan dan jumlah bayar
 				var totalTagihan = angka($('#total_tagihan').val()) || 0;
+				var total_dibayar = angka($('#total_dibayar').val()) || 0;
 				var jumlahBayar = angka($(this).val()) || 0;
 				
 				
 				// Validasi agar jumlah bayar tidak melebihi total tagihan
 				if (parseInt(jumlahBayar) > parseInt(totalTagihan)) {
-					jumlahBayar = totalTagihan;  // Membatasi jumlah bayar agar tidak melebihi total tagihan
+					jumlahBayar = totalTagihan-total_dibayar;  // Membatasi jumlah bayar agar tidak melebihi total tagihan
 					$(this).val(formatRupiah(jumlahBayar));   // Update nilai input jumlah bayar
 				}
 				// Menghitung sisa tagihan
-				var sisaTagihan = totalTagihan - jumlahBayar;
+				var sisaTagihan = totalTagihan - jumlahBayar - total_dibayar;
 				// console.log(sisaTagihan)
 				// Update sisa tagihan
 				$('#sisa_tagihan').val(formatRupiah(sisaTagihan));  // Menampilkan sisa tagihan dengan 2 desimal

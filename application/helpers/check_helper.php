@@ -25,6 +25,18 @@
 		}
 	}
 	
+	function getRekening($id)
+	{
+		$ci = & get_instance();
+		$sql_cek = $ci->model_app->view_where('rb_rekening',['id_rekening'=>$id]);
+		if($sql_cek->num_rows() >0)
+		{
+			return $sql_cek->row()->title;
+			}else{
+			return false;
+		}
+	}
+	
 	function tag_image($val)
 	{
 		$ci = & get_instance();

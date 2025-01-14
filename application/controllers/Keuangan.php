@@ -28,6 +28,18 @@
 			$this->thm->load('backend/template','backend/keuangan/view_tagihan',$data);
 		}
 		
+		public function pemasukan()
+        {
+			cek_menu_akses();
+			cek_crud_akses('READ');
+			
+			$data['title'] = 'Pemasukan | '.$this->title;
+			$data['menu'] = getMenu($this->menu);
+			$data['kategori'] = $this->model_tagihan->get_kategori();
+			
+			$this->thm->load('backend/template','backend/keuangan/view_pemasukan',$data);
+		}
+		
         function ajax_list()
         {
             // Define offset 
@@ -47,7 +59,18 @@
 				}else{
 				$limit = 5;
 			}
-			
+			$status = $this->input->post('status');
+            if (!empty($status)) {
+                $conditions['search']['status'] = $status;
+			}
+			$kategori = $this->input->post('kategori');
+            if (!empty($kategori)) {
+                $conditions['search']['kategori'] = $kategori;
+			}
+			$tahun = $this->input->post('tahun');
+            if (!empty($tahun)) {
+                $conditions['search']['tahun'] = $tahun;
+			}
 			
             // Get record count 
             $conditions['returnType'] = 'count';
@@ -55,7 +78,7 @@
             
             // Pagination configuration 
             $config['target']      = '#posts_content';
-            $config['base_url']    = base_url('halaman/ajax_list');
+            $config['base_url']    = base_url('keuangan/ajax_list');
             $config['total_rows']  = $totalRec;
             $config['per_page']    = $limit;
             $config['link_func']   = 'searchData';
@@ -72,6 +95,60 @@
 			
             // Load the data list view 
 			$this->load->view('backend/keuangan/get-ajax',$data);
+			
+		}
+		
+        function ajax_list_pemasukan()
+        {
+            // Define offset 
+            $page = $this->input->post('page');
+            if (!$page) {
+                $offset = 0;
+                } else {
+                $offset = $page;
+			}
+			
+            $keywords = $this->input->post('keywords');
+            if (!empty($keywords)) {
+                $conditions['search']['keywords'] = $keywords;
+			}
+			
+            $kategori = $this->input->post('kategori');
+            if (!empty($kategori)) {
+                $conditions['search']['kategori'] = $kategori;
+			}
+			
+			$limit = $this->input->post('limit');
+            if (!empty($limit)) {
+                $conditions['search']['limit'] = $limit;
+				}else{
+				$limit = 5;
+			}
+			
+			
+            // Get record count 
+            $conditions['returnType'] = 'count';
+            $totalRec = $this->model_tagihan->getPemasukan($conditions);
+            
+            // Pagination configuration 
+            $config['target']      = '#posts_content';
+            $config['base_url']    = base_url('keuangan/ajax_list_pemasukan');
+            $config['total_rows']  = $totalRec;
+            $config['per_page']    = $limit;
+            $config['link_func']   = 'searchData';
+            
+            // Initialize pagination library 
+            $this->ajax_pagination->initialize($config);
+            
+            // Get records 
+            $conditions['start'] = $offset;
+            $conditions['limit'] = $limit;
+			
+            unset($conditions['returnType']);
+            $data['record'] = $this->model_tagihan->getPemasukan($conditions);
+			
+            // Load the data list view 
+			$this->load->view('backend/keuangan/get-ajax-pemasukan',$data);
 			
 		}
 		
@@ -243,6 +320,7 @@
 			if ($this->input->is_ajax_request()) 
 			{
 				// Validasi input
+				$this->form_validation->set_rules('tanggal_bayar', 'Tanggal bayar', 'required');
 				$this->form_validation->set_rules('rekening', 'Rekening', 'required');
 				$this->form_validation->set_rules('lampiran', 'Lampiran', 'callback_file_check'); // Atur validasi file
 				// dump($_POST);
@@ -270,7 +348,11 @@
 						$total_bayar = $total_dibayar + $jumlah_bayar;
 						// Jika berhasil upload
 						$file_data = $this->upload->data();
-						
+						if($sisa_tagihan >0){
+							$status = 'N';
+							}else{
+							$status = 'Y';
+						}
 						$data = [
 						'id_kategori' => $this->input->post('kategori'),
 						'id_tagihan'  => $id_tagihan,
@@ -282,7 +364,7 @@
 						];
 						
 						$result = $this->model_tagihan->insert_bayar($data);
-						$this->model_app->update('rb_tagihan',['total_bayar'=>$total_bayar],['id_tagihan'=>$id_tagihan]);
+						$this->model_app->update('rb_tagihan',['total_bayar'=>$total_bayar,'status_lunas'=>$status],['id_tagihan'=>$id_tagihan]);
 						
 						if ($result) {
 							echo json_encode(['status' => true, 'message' => 'Pembayaran berhasil disimpan']);
@@ -322,4 +404,4 @@
 			}
 			return TRUE;
 		}
-	}																																																																			
+	}																																																																					

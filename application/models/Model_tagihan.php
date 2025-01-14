@@ -15,6 +15,9 @@
 				if(!empty($params['search']['keywords'])){ 
 					$this->db->like('nomor_tagihan', $params['search']['keywords']); 
 				} 
+				if(!empty($params['search']['status'])){ 
+					$this->db->where('status_lunas', $params['search']['status']); 
+				} 
 				
 				if(!empty($params['search']['tahun'])){ 
 					$this->db->where('tahun_akademik', $params['search']['tahun']); 
@@ -37,6 +40,57 @@
 					$result = $query->row_array(); 
 					}else{ 
 					$this->db->order_by('rb_tagihan.id_tagihan ', 'DESC'); 
+					if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+						$this->db->limit($params['limit'],$params['start']); 
+						}elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+						$this->db->limit($params['limit']); 
+					} 
+					
+					$query = $this->db->get(); 
+					$result = ($query->num_rows() > 0)?$query->result_array():FALSE; 
+				} 
+			} 
+			
+			// Return fetched data 
+			return $result; 
+		}
+		
+		function getPemasukan($params = array()){
+			// print_r($params);
+			$this->db->select('*'); 
+			$this->db->from('rb_bayar_tagihan'); 
+			
+			if(array_key_exists("where", $params)){ 
+				foreach($params['where'] as $key => $val){ 
+					$this->db->where($key, $val); 
+				} 
+			}
+			if(array_key_exists("search", $params)){ 
+				// if(!empty($params['search']['keywords'])){ 
+					// $this->db->where('id_kategori', $params['search']['keywords']); 
+				// } 
+				
+				if(!empty($params['search']['kategori'])){ 
+					$this->db->where('id_kategori', $params['search']['kategori']); 
+				} 
+				
+			}
+			
+			if(!empty($params['search']['sortBy'])){ 
+				$this->db->order_by('`rb_bayar_tagihan`.`id_bayar_tagihan `', $params['search']['sortBy']); 
+			}
+			
+			if(array_key_exists("returnType",$params) && $params['returnType'] == 'count'){ 
+				$result = $this->db->count_all_results(); 
+				}else{ 
+				if(array_key_exists("id", $params) || (array_key_exists("returnType", $params) && $params['returnType'] == 'single')){ 
+					if(!empty($params['id'])){ 
+						$this->db->where('rb_bayar_tagihan.id_bayar_tagihan ', $params['id']); 
+					} 
+					$query = $this->db->get(); 
+					$result = $query->row_array(); 
+					}else{ 
+					$this->db->order_by('rb_bayar_tagihan.id_bayar_tagihan ', 'DESC'); 
 					if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
 						$this->db->limit($params['limit'],$params['start']); 
 						}elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
