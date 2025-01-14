@@ -206,7 +206,7 @@
 							sweet('Peringatan!!!', response.message, 'warning', 'warning');
 							
 						}
-					},
+				
                     },error: function (xhr, ajaxOptions, thrownError) {
 						// Menangani error yang terjadi
 						$('body').loading('stop');
