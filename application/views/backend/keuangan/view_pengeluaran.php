@@ -84,7 +84,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modalFormLabel">Form Input Pengeluaran</h5>
+				<h5 class="modal-title" id="modalFormLabel">Form Pengeluaran</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -302,7 +302,6 @@
 						$('#kategori').val(data.id_kategori);
 						$('#keterangan').val(data.keterangan);
 						$('#jumlah').val(formatRupiah(data.jumlah));
-						$('#biayaModalLabel').text('Form Edit Pengeluaran');
 					}
 				});
 			});
