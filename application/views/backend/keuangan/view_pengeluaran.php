@@ -98,7 +98,7 @@
 						<input type="hidden" name="tipe" id="tipe" class="form-control">
 					</div>
 					<div class="mb-1">
-                        <label for="kategori" class="col-form-label">DARI KAS</label>
+                        <label for="kategori" class="col-form-label">SUMBER KAS</label>
 						<select name="kategori" id="kategori" class="form-select">
 							<!-- Options dynamically added here -->
 						</select>
