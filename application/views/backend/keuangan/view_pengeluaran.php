@@ -27,7 +27,7 @@
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
 								Tambah
 							</a>
-							 
+							
 						</div>
 					</div>
 					<div class="card-body">
@@ -54,7 +54,7 @@
 									</select>
 								</div>
 							</div>
-							 
+							
 							<div class="ms-auto text-muted">
 								<div class="d-none d-sm-inline-block">Search:</div>
 								<div class="ms-2 d-inline-block">
@@ -168,7 +168,7 @@
 				},
 				beforeSend: function(){
 					$('body').loading();
-					},
+				},
 				success: function(html){
 					$('#posts_content').html(html);
 					$('body').loading('stop');
@@ -198,20 +198,32 @@
                     success: function (response) {
                         if (response.status === 'success') {
                             // Menampilkan pesan sukses
-                            alert(response.message);
+							showNotif('bottom-right',data.title,response.message,'success');
+							searchData();
                             $('#modalForm').modal('hide');
                             $('#formPengeluaran')[0].reset();
 							} else {
 							sweet('Peringatan!!!', response.message, 'warning', 'warning');
-                               
+							
 						}
 					},
-                    error: function (xhr, status, error) {
-                        alert('Terjadi kesalahan: ' + error);
+                    },error: function (xhr, ajaxOptions, thrownError) {
+						// Menangani error yang terjadi
+						$('body').loading('stop');
+						$('#modalForm').modal('hide');
+						// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+						if (xhr.status === 401 || xhr.status === 403) {
+							// Menyembunyikan modal
+							// Menampilkan alert dengan pesan session kadaluarsa
+							alert_logout(base_url);
+							} else {
+							// Jika terjadi error selain session kadaluarsa
+							sweet('Peringatan!!!',thrownError,'warning','warning');
+						}
 					}
 				});
 			});
 		});
 	</script>
 	
-	<?php } ?>		
+<?php } ?>		

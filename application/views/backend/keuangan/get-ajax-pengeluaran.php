@@ -6,10 +6,8 @@
                   	<tr>
                         <th class="w-1 text-center">No</th>
                         <th class="w-15 text-left">Tanggal</th>
-                        <th class="w-15 text-left">Kategori</th>
-                        <th class="w-15 text-left">Rekening</th>
+                        <th class="w-15 text-left">Keterangan</th>
                         <th class="w-15 text-end">Jumlah</th>
-                        <th class="w-12 text-end">Lampiran</th>
                     </tr>
                 </thead>  
                 <tbody> 
@@ -17,21 +15,14 @@
                         $total = 0;
                         $no = 1;
                         foreach ($record as $row){
-                            $kode = encrypt_url($row['id_bayar_tagihan']);
-                            $total += $row['jumlah_bayar'];
-                            $icon = '<i class="fa fa-image" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
+                            $kode = encrypt_url($row['id']);
+                            $total += $row['jumlah'];
                         ?>
                         <tr>
                             <td><?=$no;?></td>
-                            <td><?=indo_date($row['tgl_bayar']);?></td>
-                            <td><?=getKategori($row['id_kategori']);?></td>
-                            <td><?=getRekening($row['id_bayar']);?></td>
-                            <td class="text-end"><?=rprp($row['jumlah_bayar']);?></td>
-                            <td align="right">
-                                <div class="btn-group btn-group-sm">
-                                    <?=$icon;?>
-                                </div>
-                            </td>
+                            <td><?=indo_date($row['tanggal']);?></td>
+                            <td><?=($row['keterangan']);?></td>
+                            <td class="text-end"><?=rprp($row['jumlah']);?></td>
                         </tr>
                         <?php $no++;
                         }
@@ -39,9 +30,8 @@
                     <tfoot>
                         <tr>
                             <td>#</td>
-                            <td colspan="3">Total Pemasukan</td>
+                            <td colspan="2">Total Pengeluaran</td>
                             <td class="text-end"><?=rprp($total);?></td>
-                            <td></td>
                         </tr>
                     </tfoot>
                 </tbody>  
