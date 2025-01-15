@@ -418,7 +418,7 @@
 		public function total_saldo() {
 			$this->db->select_sum('jumlah_bayar'); // Menjumlahkan jumlah_bayar
 			$this->db->from('rb_bayar_tagihan');  // Tabel yang digunakan
-			 
+			
 			// Eksekusi query dan ambil hasilnya
 			$query = $this->db->get();
 			
@@ -427,4 +427,61 @@
 			
 			return $result ? $result->jumlah_bayar : 0;  // Jika ada hasil, kembalikan total, jika tidak 0
 		}
-	}																															
+		
+		public function get_laporan($start_date = null, $end_date = null, $kategori = null) {
+			// Query untuk menggabungkan data dari tabel rb_bayar_tagihan dan rb_pengeluaran
+			$this->db->select('
+            rb_bayar_tagihan.id_bayar_tagihan,
+            rb_bayar_tagihan.id_kategori AS kategori_bayar,
+            rb_bayar_tagihan.id_tagihan,
+            rb_bayar_tagihan.jumlah_bayar,
+            rb_bayar_tagihan.tgl_bayar,
+            rb_bayar_tagihan.create_date,
+            rb_pengeluaran.id AS pengeluaran_id,
+            rb_pengeluaran.tanggal AS tanggal_pengeluaran,
+            rb_pengeluaran.keterangan AS keterangan_pengeluaran,
+            rb_pengeluaran.jumlah AS jumlah_pengeluaran
+			');
+			
+			$this->db->from('rb_bayar_tagihan');
+			
+			// Melakukan JOIN antara rb_bayar_tagihan dan rb_pengeluaran
+			$this->db->join('rb_pengeluaran', 'rb_bayar_tagihan.id_kategori = rb_pengeluaran.id_kategori', 'left');
+			
+			// Kondisi untuk filter berdasarkan tanggal jika diperlukan
+			if ($kategori) {
+				$this->db->where('rb_bayar_tagihan.id_kategori', $kategori);
+				$this->db->or_where('rb_pengeluaran.id_kategori', $kategori);
+			}
+			if ($start_date && $end_date) {
+				$this->db->where('rb_bayar_tagihan.tgl_bayar >=', $start_date);
+				$this->db->where('rb_bayar_tagihan.tgl_bayar <=', $end_date);
+			}
+			
+			// Eksekusi query
+			$query = $this->db->get();
+			
+			// Mengambil hasil query
+			$laporan = $query->result();
+			
+			// Menghitung total pembayaran dan total pengeluaran
+			$total_pembayaran = 0;
+			$total_pengeluaran = 0;
+			
+			foreach ($laporan as $row) {
+				$total_pembayaran += $row->jumlah_bayar;
+				$total_pengeluaran += $row->jumlah_pengeluaran;
+			}
+			
+			// Menghitung sisa saldo
+			$sisa_saldo = $total_pembayaran - $total_pengeluaran;
+			
+			// Menambahkan sisa saldo ke data yang dikembalikan
+			return [
+            'laporan' => $laporan,
+            'total_pembayaran' => $total_pembayaran,
+            'total_pengeluaran' => $total_pengeluaran,
+            'sisa_saldo' => $sisa_saldo
+			];
+		}
+	}																																	

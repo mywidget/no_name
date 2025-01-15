@@ -28,6 +28,25 @@
 			$this->thm->load('backend/template','backend/keuangan/view_tagihan',$data);
 		}
 		
+		public function detail_tagihan($id)
+        {
+			
+			cek_crud_akses('READ');
+			if($id){
+				$data['title'] = 'Detail Tagihan | '.$this->title;
+				$data['menu'] = getMenu($this->menu);
+				$id = decrypt_url($id);
+				$search = $this->model_app->edit('rb_tagihan', ['id_tagihan' => $id]);
+				if($search->num_rows()>0){
+					$data['favicon'] = tag_image('site_favicon');
+					$data['logo'] = tag_image('site_logo');
+					$data['cetak'] = $search->row();
+					$data['result'] = $this->model_app->view_where('rb_tagihan_detail', ['id_tagihan' => $id])->result();
+					$this->thm->load('backend/template','backend/keuangan/detail_tagihan',$data);
+				}
+			}
+		}
+		
 		public function pemasukan()
         {
 			cek_menu_akses();
@@ -465,7 +484,7 @@
 		// Menyimpan data pengeluaran
 		public function save_pengeluaran() {
 			// Validasi input
-			 
+			
 			$this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
 			$this->form_validation->set_rules('kategori', 'Kategori', 'required');
 			$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
@@ -521,4 +540,24 @@
 			}
 			return TRUE;
 		}
-	}																																																																													
+		
+		public function load_laporan() {
+			$start_date = $this->input->post('start_date');
+			$end_date = $this->input->post('end_date');
+			$kategori = $this->input->post('kategori');
+			
+			// Memanggil model untuk mendapatkan laporan
+			$data = $this->model_tagihan->get_laporan($start_date, $end_date,$kategori);
+			// dump($data);
+			$this->load->view('backend/keuangan/load_laporan', $data);
+		}
+		public function laporan() {
+			$data['title'] = 'Laporan | '.$this->title;
+			$data['menu'] = getMenu($this->menu);
+			// Mengambil inputan tanggal mulai dan tanggal selesai
+			
+			// dump($data['laporan']);
+			// Menampilkan laporan
+			$this->thm->load('backend/template','backend/keuangan/view_laporan',$data);
+		}
+	}																																																																																		

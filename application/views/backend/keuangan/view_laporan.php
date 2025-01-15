@@ -6,7 +6,7 @@
 					<?=$menu;?>
 				</div>
                 <h2 class="page-title">
-					Data Pemasukan
+					Data Laporan
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
@@ -31,29 +31,20 @@
 					</div>
 					<div class="card-body">
 						<div class="d-flex">
-							<div class="text-muted">
-								<div class="d-none d-sm-inline-block">Show</div>
-								<div class="mx-2 d-inline-block">
-									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchData()">
-										<option value="5">5</option>
-										<option value="10">10</option>
-										<option value="20">20</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-									</select>
-								</div>
-							</div> 
 							
 							<div class="text-muted">
-								<div class="d-none d-sm-inline-block">Sort</div>
+								<div class="d-none d-sm-inline-block">Awal</div>
 								<div class="mx-2 d-inline-block">
-									<select id="sortBy" class="form-control form-select w-1" onchange="searchData()" style="width:85px!important">
-										<option value="ASC">ASC</option>
-										<option value="DESC" selected>DESC</option>
-									</select>
+									<input type="date" name="start_date" id="start_date" class="form-control" required>
 								</div>
 							</div>
 							
+							<div class="text-muted">
+								<div class="d-none d-sm-inline-block">Akhir</div>
+								<div class="mx-2 d-inline-block">
+									<input type="date" name="end_date" id="end_date" class="form-control" required>
+								</div>
+							</div>
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Status</div>
 								<div class="mx-2 d-inline-block">
@@ -62,12 +53,15 @@
 									</select>
 								</div>
 							</div>
-							
 							<div class="ms-auto text-muted">
+								<div class="d-none d-sm-inline-block">Search:</div>
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
+										
 										<span class="input-group-text">
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Muat ulang" onclick="searchData();"><i class="ti ti-refresh fa-lg"></i>&nbsp;
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Cari Data" onclick="searchData();"><i class="ti ti-search fa-lg"></i>&nbsp;
+											</a>
+											<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear Pencarian">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
 											</a>
 										</span>
 									</div>
@@ -76,60 +70,36 @@
 						</div>
 					</div>
 					
-					<div class="pb-2" id="posts_content">
-					</div>
+					<div id="posts_content"></div>
 				</div><!-- /.card -->
 			</div>
 		</div>
 	</div>
 </div>
 
-<style>
-	.select2-container {
-	width: 100% !important;
-	padding: 0;
-	z-index:1050;
-	}
-	/* Tambahkan styling khusus untuk input di dalam SweetAlert */
-	.swal2-content{z-index:1050}
-	.swal2-input {
-	width: 100%;
-	padding: 10px;
-	margin: 5px 0;
-	font-size: 16px;
-	border-radius: 5px;
-	border: 1px solid #ccc;
-	}
-	input[readonly]
-	{
-    background-color:#ccc;
-	}
-	.modal-footer {
-	border-top: 1px solid #dee2e6; /* Menambahkan garis pada bagian atas footer modal */
-    }
-</style>
-
 <?php $this->RenderScript[] = function() { ?>
 	
 	<script>
 		
-		searchData();
-		function searchData(page_num)
+		// searchData();
+		function searchData()
 		{
 			
-			page_num = page_num?page_num:0;
-			var limit = $('#limits').val();
+			var start_date = $('#start_date').val();
+			var end_date = $('#end_date').val();
 			var kategori = $('#kategori').val();
+			
 			$.ajax({
 				type: 'POST',
-				url: base_url+'keuangan/ajax_list_pemasukan/'+page_num,
-				data:{page:page_num,
-					limit:limit,
-					kategori:kategori,
+				url: base_url+'keuangan/load_laporan/',
+				data:{start_date:start_date,
+					end_date:end_date,
+					kategori:kategori
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					// Menangani error yang terjadi
 					$('body').loading('stop');
+					$('#ModalBayar').modal('hide');
 					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
 					if (xhr.status === 401 || xhr.status === 403) {
 						// Menyembunyikan modal
@@ -151,10 +121,9 @@
 		}
 		
 		$(document).on('click','.clear',function(e){
-			$("#keywords").val('');
+			$("#start_date,#end_date").val('');
 			searchData();
 		});
-		
 		$(document).ready(function() {
 			// Ambil rekening untuk dropdown
 			$.ajax({
@@ -172,9 +141,8 @@
 					}
 				}
 			});
-
+			
 		});
-		 
 	</script>
 	
 <?php } ?>	

@@ -34,6 +34,7 @@
                             
                             $icon = '<i class="fa fa-print" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
                             $print = '<a href="/keuangan/cetak_tagihan/'.$kode.'" class="btn btn-secondary btn-sm active" target="_blank">'.$icon.'</a>';
+                            $detail = '<a href="/keuangan/detail_tagihan/'.$kode.'" class="btn btn-info btn-sm" target="_blank">Detail</a>';
                             
                             $sisa = $row['total_tagihan'] - $row['total_bayar'];
                             $total_tagihan +=$row['total_tagihan'];
@@ -53,6 +54,7 @@
                                 <div class="btn-group btn-group-sm">
                                     <?=$print;?>
                                     <?=$bayar;?>
+                                    <?=$detail;?>
                                 </div>
                             </td>
                         </tr>
