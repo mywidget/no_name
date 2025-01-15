@@ -263,7 +263,7 @@
 				[
 				'id_tagihan'=>$inserted_ids,
 				'id_kategori'=>1,
-				'title'=>'Biaya pendaftar',
+				'title'=>'Biaya pendaftaran',
 				'jumlah'=>1,
 				'harga'=>$data['total_bayar'],
 				],
@@ -278,7 +278,7 @@
 				$rb_bayar_tagihan[] = [
 				'id_kategori'=>1,
 				'id_tagihan'=>$inserted_ids,
-				'id_bayar'=>2,
+				'id_bayar'=>1,
 				'jumlah_bayar'=>$data['total_bayar'],
 				'id_user'=>$data['id_user'],
 				'tgl_bayar'=>date('Y-m-d'),

@@ -50,6 +50,8 @@
                                 $kode_kelas = $row['kelas'];
                                 
                             }
+                            $hapus_data = '<a class="btn btn-warning btn-sm flat" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-hapus" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus</a>';
+                             
                         ?>
                         <tr>
                             <td><input class="form-check-input m-0 align-middle case" type="checkbox" name="pilih[]" id="case<?=$i;?>" value="<?=$i;?>">
@@ -112,6 +114,7 @@
                                     <?=$status;?>
                                     <?=$print;?>
                                     
+                                    
                                     <button class="btn btn-danger btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Aksi
                                     </button>
@@ -129,8 +132,10 @@
                                         <?php if($row['status']=='Tidak Diterima'){ ?>
                                             <li><?=$hapus;?></li>
                                         <?php } ?>
+                                            
                                         <!--li><hr class="dropdown-divider"></li-->
                                     </ul>
+                                    <?=$hapus_data;?>
                                 </div>
                             </td>
                         </tr>

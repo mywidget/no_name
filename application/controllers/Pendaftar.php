@@ -708,7 +708,7 @@
 						}else{
 						$status_pendaftar = $current_status;
 					}
-					 
+					
 					$nama_unit = $this->model_pendaftar->nama_unit_byid($this->input->post('unit_sekolah',true));
 					
 					$input_data = [
@@ -781,7 +781,7 @@
 					$kuota = $kuota-1;
 					
 					$update_kuota = ['kuota'=>$kuota]; 
- 
+					
 					$input = $this->model_app->update('rb_psb_daftar',$input_data,['id'=>$id_pendaftar]);
 					if($input['status']==true)
 					{
@@ -1172,6 +1172,74 @@
 			->set_output(json_encode($data));
 		}
 		
+		function hapus_data(){
+			cek_input_post('GET');
+			
+			$id = $this->db->escape_str($this->input->post('id'),true);
+			$id = decrypt_url($id);
+			$where = array('id' => $id);
+			
+			$search = $this->model_app->edit('rb_psb_daftar', $where);
+			if($search->num_rows()>0){
+				$cek = $this->model_app->edit('rb_tagihan', ['id_siswa'=>$id]);
+				if($cek->num_rows()>0){
+					$row = $cek->row();
+					$_where = ['id_tagihan' => $row->id_tagihan];
+					$this->model_app->hapus('rb_tagihan',$_where);
+					$this->model_app->hapus('rb_bayar_tagihan',$_where);
+					$this->model_app->hapus('rb_tagihan_detail',$_where);
+				}
+				$res = $this->model_app->hapus('rb_psb_daftar',$where);
+				if($res==true){
+					$data = array('status'=>200,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
+					}else{
+					$data = array('status'=>400,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
+				}
+				
+				}else{
+				$data = array('status'=>500,'msg'=>'Data gagal dihapus');
+			}
+			
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($data));
+		}
+		
+		function hapus_data_ditolak(){
+			cek_input_post('GET');
+			
+			$id = $this->db->escape_str($this->input->post('id'),true);
+			$id = decrypt_url($id);
+			$where = array('id' => $id);
+			
+			$search = $this->model_app->edit('rb_psb_daftar', $where);
+			if($search->num_rows()>0){
+				$tahun_akademik = $search->row()->tahun_akademik;
+				$cek = $this->model_app->edit('rb_tagihan', ['id_siswa'=>$id]);
+				if($cek->num_rows()>0){
+					$row = $cek->row();
+					$total = $this->check_harga(3,$tahun_akademik);
+					$total_bayar = $row->total_tagihan - $total['amount'];
+					$_where = ['id_tagihan' => $row->id_tagihan,'id_kategori'=>3];
+					$res = $this->model_app->hapus('rb_tagihan_detail',$_where);
+					$this->model_app->update('rb_tagihan',['total_bayar'=>$total_bayar,'status_lunas'=>'Y'],['id_tagihan'=>$row->id_tagihan]);
+				}
+				$res = $this->model_app->hapus('rb_psb_daftar',$where);
+				if($res==true){
+					$data = array('status'=>200,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
+					}else{
+					$data = array('status'=>400,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
+				}
+				
+				}else{
+				$data = array('status'=>500,'msg'=>'Data gagal dihapus');
+			}
+			
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($data));
+		}
+		
 		function download($file=""){
 			$this->load->helper('download');
 			$opathFile = FCPATH.'upload/foto_dokumen/'.$file;
@@ -1323,9 +1391,9 @@
 			$spreadsheet = new Spreadsheet();
 			
 			$style_title = [
-            // Set font bold
-            'font' => ['bold' => true]
-		    ];
+			// Set font bold
+			'font' => ['bold' => true]
+			];
 			/* Excel Header */
 			$spreadsheet->setActiveSheetIndex(0)->setCellValue('A1', 'DATA PENERIMAAN SANTRI BARU');
 			$spreadsheet->setActiveSheetIndex(0)->mergeCells('A1:G1');
@@ -1537,11 +1605,11 @@
 			// $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 			// $writer->save('php://output');
 			header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
-            header('Cache-Control: max-age=0');
-            
-            $writer = new Xlsx($spreadsheet);
-            $writer->save('php://output');
+			header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
+			header('Cache-Control: max-age=0');
+			
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																
+	}																																																																																																																																																																					

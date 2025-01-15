@@ -34,7 +34,7 @@
 			cek_crud_akses('READ');
 			if($id){
 				$data['title'] = 'Detail Tagihan | '.$this->title;
-				$data['menu'] = getMenu($this->menu);
+				$data['menu'] = 'Keuangan';
 				$id = decrypt_url($id);
 				$search = $this->model_app->edit('rb_tagihan', ['id_tagihan' => $id]);
 				if($search->num_rows()>0){

@@ -158,6 +158,29 @@
 		}
 	}
 	
+	if ( ! function_exists('cekPendaftar'))
+	{
+		/**
+			* Code Cek user 
+			* 
+			@param int 
+			@return array
+		*/
+		function cekPendaftar($val)
+		{
+			$ci = & get_instance();
+			$sql_cek = $ci->db->query("SELECT * FROM rb_psb_daftar where id=".$val);
+			if($sql_cek->num_rows() >0)
+			{
+				$data = $sql_cek->row_array();
+				}else{
+				$data = '';
+			}
+	 
+			return $data;
+		}
+	}
+	
 	if ( ! function_exists('cek_tabel'))
 	{
 		/**

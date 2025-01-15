@@ -9,189 +9,72 @@
 					Detail Tagihan
 				</h2>
 			</div>
-			<div class="col-12 col-md-auto ms-auto d-print-none">
-				
+			<!-- Page title actions -->
+			<div class="col-auto ms-auto d-print-none">
+                <button type="button" class="btn btn-primary" onclick="javascript:window.print();">
+					<!-- Download SVG icon from http://tabler-icons.io/i/printer -->
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"></path><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"></path><path d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"></path></svg>
+					Print Tagihan
+				</button>
 			</div>
 		</div>
 	</div>
 </div>
+
 <div class="page-body">
 	<div class="container-xl">
-		<div class="row row-cards">
-            <div class="col-12">
-				<div class="card">
-					<div class="card-header">
-						<h3 class="card-title">Data pendaftar</h3>
+		<div class="card card-lg">
+			<div class="card-body">
+                <div class="row">
+					<div class="col-6">
+						<p class="h3"><?=tag_key('nama_sekolah');?></p>
+						<address>
+							<?=tag_key('site_addr');?><br>
+							<?=tag_key('site_phone');?><br>
+							<?=tag_key('site_mail');?><br>
+						</address>
 					</div>
-					<div class="card-body">
-						<div class="datagrid">
-							<div class="datagrid-item">
-								<div class="datagrid-title">Registrar</div>
-								<div class="datagrid-content">Third Party</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Nameservers</div>
-								<div class="datagrid-content">Third Party</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Port number</div>
-								<div class="datagrid-content">3306</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Expiration date</div>
-								<div class="datagrid-content">–</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Creator</div>
-								<div class="datagrid-content">
-									<div class="d-flex align-items-center">
-										<span class="avatar avatar-xs me-2 rounded" style="background-image: url(./static/avatars/000m.jpg)"></span>
-										Paweł Kuna
-									</div>
-								</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Age</div>
-								<div class="datagrid-content">15 days</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Edge network</div>
-								<div class="datagrid-content">
-									<span class="status status-green">
-										Active
-									</span>
-								</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Avatars list</div>
-								<div class="datagrid-content">
-									<div class="avatar-list avatar-list-stacked">
-										<span class="avatar avatar-xs rounded" style="background-image: url(./static/avatars/000m.jpg)"></span>
-										<span class="avatar avatar-xs rounded">JL</span>
-										<span class="avatar avatar-xs rounded" style="background-image: url(./static/avatars/002m.jpg)"></span>
-										<span class="avatar avatar-xs rounded" style="background-image: url(./static/avatars/003m.jpg)"></span>
-										<span class="avatar avatar-xs rounded" style="background-image: url(./static/avatars/000f.jpg)"></span>
-										<span class="avatar avatar-xs rounded">+3</span>
-									</div>
-								</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Checkbox</div>
-								<div class="datagrid-content">
-									<label class="form-check">
-										<input class="form-check-input" type="checkbox" checked="">
-										<span class="form-check-label">Click me</span>
-									</label>
-								</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Icon</div>
-								<div class="datagrid-content">
-									<!-- Download SVG icon from http://tabler-icons.io/i/check -->
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon text-green" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
-									Checked
-								</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Form control</div>
-								<div class="datagrid-content">
-									<input type="text" class="form-control form-control-flush" placeholder="Input placeholder">
-								</div>
-							</div>
-							<div class="datagrid-item">
-								<div class="datagrid-title">Longer description</div>
-								<div class="datagrid-content">
-									Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-								</div>
-							</div>
-						</div>
+					<div class="col-6 text-end">
+						<p class="h3"><?=cekPendaftar($cetak->id_siswa)['nama'];?></p>
+						<address>
+							<?=cekPendaftar($cetak->id_siswa)['unit_sekolah'];?><br>
+							<?=cekPendaftar($cetak->id_siswa)['nomor_hp'];?><br>
+							<?=cekPendaftar($cetak->id_siswa)['email'];?><br>
+						</address>
 					</div>
-					
-					<div class="card-body">
+					<div class="col-6 my-3">
+					<div class="text-secondary">KODE PENDAFTARAN</div>
+						<h1><?=$cetak->kode_daftar;?></h1>
+					</div>
+					<div class="col-6 my-3 text-end">
+					<div class="text-secondary">TOTAL TAGIHAN</div>
+						<h1><?=rprp($cetak->total_tagihan);?></h1>
+					</div>
+				</div>
+                <table class="table table-transparent table-responsive">
+					<thead>
+						<tr>
+							<th class="text-center" style="width: 1%"></th>
+							<td class="strong">Rincian</td>
+							<td class="strong text-end" >Amount</td>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
 						
-						
-						<div class="table-responsive">
-							<table class="table table-vcenter card-table table-striped">
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Title</th>
-										<th>Email</th>
-										<th>Role</th>
-										<th class="w-1"></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Maryjo Lebarree</td>
-										<td class="text-secondary">
-											Civil Engineer, Product Management
-										</td>
-										<td class="text-secondary"><a href="#" class="text-reset">mlebarree5@unc.edu</a></td>
-										<td class="text-secondary">
-											User
-										</td>
-										<td>
-											<a href="#">Edit</a>
-										</td>
-									</tr>
-									<tr>
-										<td>Egan Poetz</td>
-										<td class="text-secondary">
-											Research Nurse, Engineering
-										</td>
-										<td class="text-secondary"><a href="#" class="text-reset">epoetz6@free.fr</a></td>
-										<td class="text-secondary">
-											Admin
-										</td>
-										<td>
-											<a href="#">Edit</a>
-										</td>
-									</tr>
-									<tr>
-										<td>Kellie Skingley</td>
-										<td class="text-secondary">
-											Teacher, Services
-										</td>
-										<td class="text-secondary"><a href="#" class="text-reset">kskingley7@columbia.edu</a></td>
-										<td class="text-secondary">
-											User
-										</td>
-										<td>
-											<a href="#">Edit</a>
-										</td>
-									</tr>
-									<tr>
-										<td>Christabel Charlwood</td>
-										<td class="text-secondary">
-											Tax Accountant, Engineering
-										</td>
-										<td class="text-secondary"><a href="#" class="text-reset">ccharlwood8@nifty.com</a></td>
-										<td class="text-secondary">
-											Owner
-										</td>
-										<td>
-											<a href="#">Edit</a>
-										</td>
-									</tr>
-									<tr>
-										<td>Haskel Shelper</td>
-										<td class="text-secondary">
-											Staff Scientist, Legal
-										</td>
-										<td class="text-secondary"><a href="#" class="text-reset">hshelper9@woothemes.com</a></td>
-										<td class="text-secondary">
-											Admin
-										</td>
-										<td>
-											<a href="#">Edit</a>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div><!-- /.card -->
+						$no = 1;
+							foreach($result AS $row):
+						?>
+						<tr>
+							<td class="text-center"><?=$no;?></td>
+							<td>
+								<p class="strong mb-1"><?=getKategori($row->id_kategori);?></p>
+							</td>
+							<td class="text-end"><?=rprp($row->harga);?></td>
+						</tr>
+					    <?php $no++; endforeach;?>
+					</tbody></table>
+					<p class="text-secondary text-center mt-3"><?=tag_key('site_name');?></p>
 			</div>
 		</div>
 	</div>
