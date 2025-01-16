@@ -721,12 +721,13 @@
 			}
 			
 			// Menambahkan baris untuk total pemasukan
-		 
+			
 			$sheet->setCellValue('A' . $row, 'TOTAL');
 			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
 			$sheet->setCellValue('E' . $row, $totalPemasukan);
 			
 			// Menambahkan judul "Pengeluaran" setelah data pemasukan
+			$row++; // Membuat baris kosong untuk pemisah
 			$row++; // Membuat baris kosong untuk pemisah
 			$sheet->setCellValue('A' . $row, 'Pengeluaran');
 			$sheet->mergeCells('A' . $row . ':E' . $row); // Merge kolom A hingga E untuk "Pengeluaran"
@@ -756,10 +757,11 @@
 			}
 			$totalsaldo = $totalPemasukan - $totalPengeluaran;
 			// Menambahkan baris untuk total pengeluaran
-			 
+			
 			$sheet->setCellValue('A' . $row, 'TOTAL');
 			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
 			$sheet->setCellValue('E' . $row, $totalPengeluaran);
+			$row++; // Baris kosong untuk pemisah
 			$row++; // Baris kosong untuk pemisah
 			$sheet->setCellValue('A' . $row, 'TOTAL PEMASUKAN');
 			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
@@ -775,7 +777,10 @@
 			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
 			$sheet->setCellValue('E' . $row, $totalsaldo);
 			
-			
+			// Auto-size kolom A sampai E
+			foreach (range('A', 'E') as $columnID) {
+				$sheet->getColumnDimension($columnID)->setAutoSize(true);
+			}
 			// Output the file to browser
 			$writer = new Xlsx($spreadsheet);
 			$filename = 'laporan_pembayaran_pengeluaran.xlsx';
@@ -786,4 +791,4 @@
 			header('Cache-Control: max-age=0');
 			$writer->save('php://output');
 		}
-	}																																																																																																
+	}																																																																																																	
