@@ -135,7 +135,7 @@
 					$query = $this->db->get(); 
 					$result = $query->row_array(); 
 					}else{ 
-					$this->db->order_by('rb_unit.id', 'DESC'); 
+					$this->db->order_by('rb_unit.urutan', 'ASC'); 
 					if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
 						$this->db->limit($params['limit'],$params['start']); 
 						}elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
@@ -170,7 +170,7 @@
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
-				$this->db->order_by('`rb_kelas`.`id`', $params['search']['sortBy']); 
+				$this->db->order_by('`rb_kelas`.`urutan`', $params['search']['sortBy']); 
 			}
 			
 			if(array_key_exists("returnType",$params) && $params['returnType'] == 'count'){ 
@@ -183,7 +183,7 @@
 					$query = $this->db->get(); 
 					$result = $query->row_array(); 
 					}else{ 
-					$this->db->order_by('rb_kelas.id', 'DESC'); 
+					$this->db->order_by('rb_kelas.urutan', 'ASC'); 
 					if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
 						$this->db->limit($params['limit'],$params['start']); 
 						}elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
