@@ -24,7 +24,7 @@
 				<td><?= $row->tgl_bayar ?></td>
 				<td><?=($row->title);?></td>
 				<td><?= $row->nama ?></td>
-				<td class="text-end"><?= number_format($row->jumlah_bayar, 0, ',', '.') ?></td>
+				<td class="text-end"><?= rprp($row->jumlah_bayar) ?></td>
 			</tr>
 			<?php endforeach; ?>
 			<?php else: ?>
@@ -65,7 +65,7 @@
 				<td><?= $row->tanggal_pengeluaran ?></td>
 				<td><?=getKategori($row->id_kategori);?></td>
 				<td><?= $row->keterangan_pengeluaran ?></td>
-				<td class="text-end"><?= number_format($row->jumlah_pengeluaran, 0, ',', '.') ?></td>
+				<td class="text-end"><?= rprp($row->jumlah_pengeluaran) ?></td>
 			</tr>
 			<?php endforeach; ?>
 			<?php else: ?>
