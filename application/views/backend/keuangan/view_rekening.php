@@ -36,7 +36,7 @@
 							<thead>
 								<tr>
 									<th>No</th>
-									<th>Title</th>
+									<th>Nama Bank</th>
 									<th>Nomor Rekening</th>
 									<th>Pemilik</th>
 									<th>Status</th>
@@ -101,7 +101,7 @@
                 <form id="rekeningForm">
                     <input type="hidden" id="id_rekening" name="id_rekening">
                     <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
+                        <label for="title" class="form-label">Nama Bank</label>
                         <input type="text" class="form-control" id="title" name="title" required>
 					</div>
                     <div class="mb-3">
