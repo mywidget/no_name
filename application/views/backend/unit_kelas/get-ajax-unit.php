@@ -7,6 +7,7 @@
                         <th class="w-1 text-center">No</th>
                         <th class="w-15 text-left">Kode Unit</th>
                         <th class="w-15 text-left">Nama Unit</th>
+                        <th class="w-15 text-left">Urutan</th>
                         <th class="w-12 text-end">Aksi</th>
                     </tr>
                 </thead>  
@@ -23,7 +24,7 @@
                             <td><?=$no;?></td>
                             <td><?=$row['kode_jurusan'];?></td>
                             <td><?=$row['nama_jurusan'];?></td>
-                            
+                            <td><?=$row['urutan'];?></td>
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
                                     <a href='javascript:void(0);' class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#OpenModalUnit' data-id='<?=$kode;?>' data-mod='edit' class='openPopup text-info'><i class="ti ti-edit"></i>&nbsp;&nbsp;Edit</a>

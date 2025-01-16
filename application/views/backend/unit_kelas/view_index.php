@@ -172,6 +172,11 @@
 						</div>
 						 
 						<div class="form-group mb-1">
+							<label class="form-label" for="urutan">Urutan</label>
+							<input type="text" name="urutan_unit" class="form-control" id="urutan_unit" placeholder="urutan" value="" required="" autocomplete="off">
+						</div>
+						 
+						<div class="form-group mb-1">
 							<label class="form-label" for="aktif_unit">Aktif</label>
 							<select name="aktif_unit" id="aktif_unit" class="form-control form-select">
 								<option value="Ya">Ya</option>
@@ -320,6 +325,7 @@
 						$('#kode_unit').val(data.kode);
 						$('#nama_unit').val(data.nama);
 						$('#aktif_unit').val(data.aktif);
+						$('#urutan_unit').val(data.urutan);
 						$('body').loading('stop');
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
@@ -349,6 +355,13 @@
 				$("#nama_unit").addClass('form-control-warning');
 				showNotif('top-center','Input Data','Harus diisi','warning');
 				$("#nama_unit").focus();
+				return;
+			}
+			
+			if($("#urutan_unit").val()==''){
+				$("#urutan_unit").addClass('form-control-warning');
+				showNotif('top-center','Input Data','Harus diisi','warning');
+				$("#urutan_unit").focus();
 				return;
 			}
 			
@@ -463,6 +476,7 @@
 						$('#kode_kelas').val(data.kode);
 						$('#nama_kelas').val(data.nama);
 						$('#id_unit_kelas').val(data.unit);
+						$('#urutan').val(data.urutan);
 						$('#aktif_kelas').val(data.aktif);
 						$('body').loading('stop');
 					},
@@ -497,6 +511,13 @@
 				$("#nama_kelas").addClass('form-control-warning');
 				showNotif('top-center','Input Data','Harus diisi','warning');
 				$("#nama_kelas").focus();
+				return;
+			}
+			
+			if($("#urutan").val()==''){
+				$("#urutan").addClass('form-control-warning');
+				showNotif('top-center','Input Data','Harus diisi','warning');
+				$("#urutan").focus();
 				return;
 			}
 			

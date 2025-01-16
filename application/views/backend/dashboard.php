@@ -371,7 +371,7 @@
                     xaxis: {
                         categories: categories
                     },
-                    colors: ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF'], // Contoh warna berbeda untuk tiap unit
+                    colors: ['#00008c', '#0086b3', '#ff4c4d', '#d90000', '#8600b3'], // Contoh warna berbeda untuk tiap unit
                     title: {
                         text: 'Total Pendaftar per Unit dan Tahun Akademik'
                     }
@@ -394,7 +394,7 @@
     var chart;
     function loadChartData(tahun) {
         $.ajax({
-            url: '<?php echo site_url('dashboard/get_data_per_kelas'); ?>',
+            url: base_url+'home/get_data_per_kelas',
             method: 'POST',
             data:{tahun:tahun},
             dataType: 'json',

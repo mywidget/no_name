@@ -124,6 +124,7 @@
 					'id'=>$id,
 					'kode'=>$result->row()->kode_jurusan,
 					'nama'=>$result->row()->nama_jurusan,
+					'urutan'=>$result->row()->urutan_unit,
 					'aktif'=>$result->row()->aktif,
 					];
 					}else{
@@ -163,6 +164,16 @@
 				'is_unique'     => '%s sudah ada.'
 				)
 				),
+				array(
+				'field' => 'urutan_unit',
+				'label' => 'Urutan',
+				'rules' => 'required|trim|min_length[2]|is_unique[rb_unit.nama_jurusan]',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'min_length' => '%s minimal 2 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
 		
 				));
 				if ( $this->form_validation->run() ) 
@@ -170,6 +181,7 @@
 					$data_post 	= [
 					"kode_jurusan"	=> $this->input->post('kode_unit',TRUE),
 					"nama_jurusan"	=> $this->input->post('nama_unit',TRUE),
+					"urutan"	=> $this->input->post('urutan_unit',TRUE),
 					"aktif"	    => $this->input->post('aktif_unit',TRUE),
 					];
 					$insert = $this->model_app->input('rb_unit',$data_post);
@@ -371,6 +383,7 @@
 					'unit'=>$result->row()->id_unit,
 					'kode'=>$result->row()->kode_kelas,
 					'nama'=>$result->row()->nama_kelas,
+					'urutan'=>$result->row()->urutan,
 					'aktif'=>$result->row()->aktif,
 					];
 					}else{
@@ -421,6 +434,7 @@
 					"id_unit"	=> $this->input->post('unit_kelas',TRUE),
 					"kode_kelas"	=> $this->input->post('kode_kelas',TRUE),
 					"nama_kelas"	=> $this->input->post('nama_kelas',TRUE),
+					"urutan"	=> $this->input->post('urutan',TRUE),
 					"status"	    => $get_kode,
 					"aktif"	    => $this->input->post('aktif_kelas',TRUE),
 					];
@@ -480,6 +494,7 @@
 					"id_unit"	=> $this->input->post('unit_kelas',TRUE),
 					"kode_kelas"	=> $this->input->post('kode_kelas',TRUE),
 					"nama_kelas"	=> $this->input->post('nama_kelas',TRUE),
+					"urutan"	=> $this->input->post('urutan',TRUE),
 					"status"	    => $get_kode,
 					"aktif"	    => $this->input->post('aktif_kelas',TRUE),
 					];

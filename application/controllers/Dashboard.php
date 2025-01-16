@@ -1108,11 +1108,5 @@
 		}
 		
 		
-		// Fungsi untuk mengambil data jumlah pendaftar per kelas berdasarkan tahun akademik melalui AJAX
-		public function get_data_per_kelas() {
-			$tahun = $this->input->post('tahun',true);
-			// Ambil data berdasarkan tahun akademik yang dipilih
-			$data = $this->model_pendaftar->get_total_per_kelas($tahun);
-			echo json_encode($data);
-		}
+
 	}

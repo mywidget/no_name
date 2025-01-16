@@ -8,6 +8,7 @@
                         <th class="w-15 text-left">Kode Kelas</th>
                         <th class="w-15 text-left">Nama Kelas</th>
                         <th class="w-15 text-left">Nama Unit</th>
+                        <th class="w-15 text-left">urutan</th>
                         <th class="w-12 text-end">Aksi</th>
                     </tr>
                 </thead>  
@@ -25,6 +26,7 @@
                             <td><?=$row['kode_kelas'];?></td>
                             <td><?=$row['nama_kelas'];?></td>
                             <td><?=get_unit($row['id_unit']);?></td>
+                            <td><?=$row['urutan'];?></td>
                             
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
