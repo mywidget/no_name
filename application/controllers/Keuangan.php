@@ -712,7 +712,7 @@
 				$sheet->setCellValue('A' . $row, $index + 1);
 				$sheet->setCellValue('B' . $row, $item->tgl_bayar);
 				$sheet->setCellValue('C' . $row, $item->title);
-				$sheet->setCellValue('D' . $row, $item->nama);
+				$sheet->setCellValue('D' . $row, $item->nama .' ('.$item->rekening.')');
 				$sheet->setCellValue('E' . $row, $item->jumlah_bayar);
 				
 				// Menambahkan jumlah pemasukan ke total
