@@ -325,7 +325,7 @@
 							}else{
 							sweet('Peringatan!!!',data.message,'warning','warning');
 						}
-						searchBiaya();
+						searchData();
 						
 						$('body').loading('stop');　
 						},error: function(xhr, status, error) {

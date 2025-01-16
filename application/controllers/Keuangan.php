@@ -280,6 +280,28 @@
 			$this->thm->json_output($data);
 			
 		}
+		function hapus_pengeluaran(){
+			cek_input_post('GET');
+			cek_crud_akses('DELETE');
+			$id 	= decrypt_url($this->input->post('id',TRUE));
+			
+			$where = array('id' => $id);
+			$search = $this->model_app->edit('rb_pengeluaran', $where);
+			if($search->num_rows()>0){
+				$res = $this->model_app->hapus('rb_pengeluaran',$where);
+				if($res==true){
+					$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
+					}else{
+					$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
+				}
+				
+				}else{
+				$data = array('status'=>false,'msg'=>'Data gagal dihapus');
+			}
+			
+			$this->thm->json_output($data);
+			
+		}
 		function hapus_bayar(){
 			cek_input_post('GET');
 			cek_crud_akses('DELETE');
@@ -572,12 +594,23 @@
 			$data['title'] = 'Laporan | '.$this->title;
 			$data['menu'] = getMenu($this->menu);
 			// Mengambil inputan tanggal mulai dan tanggal selesai
-			
+			// $this->load->view('backend/keuangan/view_laporan');
 			// dump($data['laporan']);
 			// Menampilkan laporan
 			$this->thm->load('backend/template','backend/keuangan/view_laporan',$data);
 		}
-		
+		// Mendapatkan laporan
+		public function get_laporan() {
+			// Menangkap parameter dari Ajax
+			$start_date = $this->input->get('start_date');
+			$end_date = $this->input->get('end_date');
+			$kategori = $this->input->get('kategori');
+			
+			$laporan = $this->model_tagihan->get_laporan($start_date, $end_date, $kategori);
+			// dump($laporan);
+			// Mengembalikan data dalam format JSON
+			echo json_encode($laporan);
+		}
 		// Menampilkan daftar rekening
 		public function rekening() {
 			$data['title'] = 'Rekening | '.$this->title;
@@ -586,7 +619,7 @@
 			$this->thm->load('backend/template','backend/keuangan/view_rekening',$data);
 			
 		}
- 
+		
 		
 		public function get_rekenings() {
 			
@@ -643,4 +676,4 @@
 				echo json_encode(array('status' => false));
 			}
 		}
-	}																																																																																					
+	}																																																																																							

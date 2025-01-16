@@ -180,7 +180,7 @@
 			return $data;
 		}
 	}
-	if ( ! function_exists('cekIdPendaftar'))
+	if ( ! function_exists('cekIdTagihan'))
 	{
 		/**
 			* Code Cek user 

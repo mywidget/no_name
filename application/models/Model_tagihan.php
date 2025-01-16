@@ -434,64 +434,93 @@
 			
 			return $result ? $result->jumlah_bayar : 0;  // Jika ada hasil, kembalikan total, jika tidak 0
 		}
-		
+		 
 		public function get_laporan($start_date = null, $end_date = null, $kategori = null) {
 			// Query untuk menggabungkan data dari tabel rb_bayar_tagihan dan rb_pengeluaran
-			$this->db->select('
-            rb_bayar_tagihan.id_bayar_tagihan,
-            rb_bayar_tagihan.id_kategori AS kategori_bayar,
-            rb_bayar_tagihan.id_tagihan,
-            rb_bayar_tagihan.id_bayar,
-            rb_bayar_tagihan.jumlah_bayar,
-            rb_bayar_tagihan.tgl_bayar,
-            rb_bayar_tagihan.create_date,
-            rb_pengeluaran.id AS pengeluaran_id,
-            rb_pengeluaran.tanggal AS tanggal_pengeluaran,
-            rb_pengeluaran.keterangan AS keterangan_pengeluaran,
-            rb_pengeluaran.jumlah AS jumlah_pengeluaran
-			');
+			// $this->db->select('
+			// rb_bayar_tagihan.id_bayar_tagihan,
+			// rb_bayar_tagihan.id_kategori AS kategori_bayar,
+			// rb_bayar_tagihan.id_tagihan,
+			// rb_bayar_tagihan.id_bayar,
+			// rb_bayar_tagihan.jumlah_bayar,
+			// rb_bayar_tagihan.tgl_bayar,
+			// rb_bayar_tagihan.create_date
+			// ');
+			$this->db->select('rb_bayar_tagihan.id_bayar_tagihan,rb_bayar_tagihan.id_kategori,rb_psb_daftar.nama, rb_bayar_tagihan.id_tagihan, rb_kategori.title, rb_bayar_tagihan.tgl_bayar, rb_bayar_tagihan.jumlah_bayar, rb_rekening.title as rekening');
+			$this->db->from('rb_psb_daftar');
+			$this->db->join('rb_tagihan', 'rb_psb_daftar.id = rb_tagihan.id_siswa', 'inner');
+			$this->db->join('rb_bayar_tagihan', 'rb_tagihan.id_tagihan = rb_bayar_tagihan.id_bayar_tagihan', 'inner');
+			$this->db->join('rb_kategori', 'rb_bayar_tagihan.id_kategori = rb_kategori.id_kategori', 'inner');
+			$this->db->join('rb_rekening', 'rb_bayar_tagihan.id_bayar = rb_rekening.id_rekening', 'inner');
+			// $this->db->from('rb_bayar_tagihan');
 			
-			$this->db->from('rb_bayar_tagihan');
-			
-			// Melakukan JOIN antara rb_bayar_tagihan dan rb_pengeluaran
-			$this->db->join('rb_pengeluaran', 'rb_bayar_tagihan.id_kategori = rb_pengeluaran.id_kategori', 'left');
-			
-			// Kondisi untuk filter berdasarkan tanggal jika diperlukan
+			// Kondisi untuk filter berdasarkan kategori dan tanggal jika diperlukan
 			if ($kategori) {
 				$this->db->where('rb_bayar_tagihan.id_kategori', $kategori);
-				$this->db->or_where('rb_pengeluaran.id_kategori', $kategori);
 			}
 			if ($start_date && $end_date) {
 				$this->db->where('rb_bayar_tagihan.tgl_bayar >=', $start_date);
 				$this->db->where('rb_bayar_tagihan.tgl_bayar <=', $end_date);
 			}
 			
-			// Eksekusi query
+			// Eksekusi query untuk mendapatkan data pembayaran
 			$query = $this->db->get();
 			
-			// Mengambil hasil query
+			// Mengambil hasil query pembayaran
 			$laporan = $query->result();
 			
-			// Menghitung total pembayaran dan total pengeluaran
+			// Menghitung total pembayaran (hanya dari rb_bayar_tagihan)
 			$total_pembayaran = 0;
-			$total_pengeluaran = 0;
-			
 			foreach ($laporan as $row) {
 				$total_pembayaran += $row->jumlah_bayar;
+			}
+			
+			// Query untuk mendapatkan data pengeluaran
+			$this->db->select('
+			rb_pengeluaran.id AS pengeluaran_id,
+			rb_pengeluaran.id_kategori,
+			rb_pengeluaran.tanggal AS tanggal_pengeluaran,
+			rb_pengeluaran.keterangan AS keterangan_pengeluaran,
+			rb_pengeluaran.jumlah AS jumlah_pengeluaran
+			');
+			
+			$this->db->from('rb_pengeluaran');
+			
+			// Kondisi untuk filter berdasarkan kategori dan tanggal jika diperlukan
+			if ($kategori) {
+				$this->db->where('rb_pengeluaran.id_kategori', $kategori);
+			}
+			if ($start_date && $end_date) {
+				$this->db->where('rb_pengeluaran.tanggal >=', $start_date);
+				$this->db->where('rb_pengeluaran.tanggal <=', $end_date);
+			}
+			
+			// Eksekusi query untuk mendapatkan data pengeluaran
+			$query = $this->db->get();
+			
+			// Mengambil hasil query pengeluaran
+			$pengeluaran = $query->result();
+			
+			// Menghitung total pengeluaran
+			$total_pengeluaran = 0;
+			foreach ($pengeluaran as $row) {
 				$total_pengeluaran += $row->jumlah_pengeluaran;
 			}
 			
 			// Menghitung sisa saldo
 			$sisa_saldo = $total_pembayaran - $total_pengeluaran;
 			
-			// Menambahkan sisa saldo ke data yang dikembalikan
+			// Mengembalikan hasil laporan
 			return [
-            'laporan' => $laporan,
-            'total_pembayaran' => $total_pembayaran,
-            'total_pengeluaran' => $total_pengeluaran,
-            'sisa_saldo' => $sisa_saldo
+			'pemasukan' => $laporan,
+			'pengeluaran' => $pengeluaran,
+			'total_pembayaran' => $total_pembayaran,
+			'total_pengeluaran' => $total_pengeluaran,
+			'sisa_saldo' => $sisa_saldo
 			];
 		}
+		
+		
 		
 		// Menambahkan data rekening baru
 		public function add_rekening($data) {
@@ -528,4 +557,4 @@
 			return $this->db->delete('rb_rekening', ['id_rekening' => $id_rekening]);
 		}
 		
-	}																																					
+	}																																												
