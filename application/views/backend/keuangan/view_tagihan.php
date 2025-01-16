@@ -227,6 +227,7 @@
             <div class="modal-body">
                 <form id="kirimForm">
 					<input id="id-tagihan" name="id_tagihan" type="hidden" class="form-control" readonly>
+					<input id="nomor-wa" name="nomor" type="hidden" class="form-control" readonly>
                     <div class="mb-1 row">
                         <label for="template" class="col-4 col-form-label">DEVICE</label>
                         <div class="col-8">
@@ -243,14 +244,10 @@
 							</select>
 						</div>
 					</div>  
-                    <div class="mb-1 row">
-                        <div class="col-12 load-bayar"></div>
-					</div>
-					
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary" id="kirim_tagihan">KIRIM TAGIHAN</button>
+				<button type="button" class="btn btn-primary kirim_tagihan" id="kirim_tagihan">KIRIM TAGIHAN</button>
 				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">TUTUP</button>
 			</div>
 		</div>
@@ -555,6 +552,44 @@
 			});
 		});
 		
+		$(document).on('click','.kirim_tagihan',function(e){
+			var id = $("#id-tagihan").val();
+			$.ajax({
+				url: base_url + 'keuangan/kirim_tagihan',
+				data: $('#kirimForm').serialize(),
+				method: 'POST',
+				dataType:'json',
+				beforeSend: function () {
+					$('body').loading();　
+				},
+				success: function(data) {
+					$('#kirim-wa').modal('hide');
+					if(data.status==true){
+						showNotif('bottom-right',data.title,data.msg,'success');
+						
+						}else{
+						sweet('Peringatan!!!',data.msg,'warning','warning');
+					}
+					// searchData();
+					
+					$('body').loading('stop');　
+					},error: function (xhr, ajaxOptions, thrownError) {
+					// Menangani error yang terjadi
+					$('body').loading('stop');
+					$('#confirm-delete').modal('hide');
+					// Jika session kadaluarsa (misalnya server merespon dengan kode 401)
+					if (xhr.status === 401 || xhr.status === 403) {
+						// Menyembunyikan modal
+						// Menampilkan alert dengan pesan session kadaluarsa
+						alert_logout(base_url);
+						} else {
+						// Jika terjadi error selain session kadaluarsa
+						sweet('Peringatan!!!',thrownError,'warning','warning');
+					}
+				}
+			});
+		});
+		
 		$(document).on('click','.clear',function(e){
 			$("#keywords").val('');
 			searchData();
@@ -577,6 +612,7 @@
 			get_template();
 			get_device();
 			$('#id-tagihan').val($(e.relatedTarget).data('id'));
+			$('#nomor-wa').val($(e.relatedTarget).data('nomor'));
 		});
 		
 		function get_device()

@@ -174,17 +174,81 @@
 			return null; // Jika tidak ditemukan
 		}
 		
+		public function get_token()
+		{
+			$this->db->select('*');
+			$this->db->from('rb_device');
+			$this->db->where('device_status','connect');
+			$this->db->limit(1);
+			$query = $this->db->get(); 
+			$result = ($query->num_rows() > 0)?$query->row():FALSE; 
+			return $result;
+		}
+		
+		private function get_tagihan($id)
+		{
+			$this->db->select('*');
+			$this->db->from('rb_tagihan');
+			$this->db->where('id_tagihan',$id);
+			$query = $this->db->get(); 
+			$result = ($query->num_rows() > 0)?$query->row_array():FALSE; 
+			return $result;
+		}	
+		
+		private function get_detail_tagihan($id)
+		{
+			$this->db->select('*');
+			$this->db->from('rb_tagihan_detail');
+			$this->db->where('id_tagihan',$id);
+			$query = $this->db->get(); 
+			$detail =$query->result_array(); 
+			$break = "\n";
+			$result = '----------------------------------' . $break;
+			foreach ($detail  as $row) {
+				$result .= '*Jenis Tagihan :* ' . $row['title'] .
+				$break . '*Jumlah Tagihan :* ' . rprp($row['harga']) .
+				$break . '----------------------------------' . $break;
+			}
+			return $result;
+		}
+		
+		private function get_detail_bayar($id)
+		{
+			$this->db->select('*');
+			$this->db->from('rb_bayar_tagihan');
+			$this->db->where('id_tagihan',$id);
+			$query = $this->db->get(); 
+			$detail =$query->result_array(); 
+			$break = "\n";
+			$result = '----------------------------------' . $break;
+			foreach ($detail  as $row) {
+				$result .= '*Jenis Pembayaran :* ' . getKategori($row['id_kategori']) .
+				$break . '*Tanggal Bayar :* ' . dtime($row['tgl_bayar']) .
+				$break . '*Jumlah Bayar :* ' . rprp($row['jumlah_bayar']) .
+				$break . '*Bank Transfer:* ' . getRekening($row['id_bayar']) .
+				$break . '----------------------------------' . $break;
+			}
+			return $result;
+		}
+		
 		public function get_pesan($post)
 		{
+			// dump($post);
 			$this->db->select('deskripsi');
 			$this->db->from('rb_template_pesan');
-			$this->db->where('slug','PENDAFTARAN');
+			$this->db->where('id',$post['template']);
 			$this->db->where('aktif','Ya');
 			$query = $this->db->get(); 
 			
 			if($query->num_rows() > 0){ 
 				$row = $query->row();
-				$biaya = convert_to_number($post['biaya']);
+				$id_tagihan = decrypt_url($post['id_tagihan']);
+				$rows = $this->get_tagihan($id_tagihan);
+				$detail_tagihan = $this->get_detail_tagihan($id_tagihan);
+				$detail_bayar = $this->get_detail_bayar($id_tagihan);
+				$nama = cekPendaftar($rows['id_siswa'])['nama'];
+				 
+				$sisa = $rows['total_tagihan'] - $rows['total_bayar'];
 				$searchVal = array(
 				"{selamat}",
 				"{nama_sekolah}",
@@ -192,19 +256,16 @@
 				"{wa_sekolah}",
 				"{email_sekolah}",
 				"{alamat_sekolah}",
-				"{nomor_pendaftaran}",
-				"{tgl_pendaftaran}",
+				"{nomor_tagihan}",
+				"{tanggal_tagihan}",
 				"{nama_pendaftar}",
-				"{nik}",
-				"{nisn}",
-				"{email_pendaftar}",
-				"{unit}",
-				"{kelas}",
-				"{kamar}",
-				"{biaya}",
-				"{cetak_formulir}"
+				"{total_tagihan}",
+				"{total_bayar}",
+				"{sisa_tagihan}",
+				"{detail_tagihan}",
+				"{detail_bayar}"
 				);
-				$link = tag_key('site_url').'/cetak-formulir/'.encrypt_url($post['nik']);
+				$link = tag_key('site_url').'/detail-tagihan/'.encrypt_url($post['id_tagihan']);
 				// Array containing replace string from  search string
 				$replaceVal = array(
 				ucapan(),
@@ -213,17 +274,14 @@
 				info('whatsapp'),
 				info('site_mail'),
 				info('site_addr'),
-				$post['nik'],
-				date('Y-m-d'),
-				$post['nama'],
-				$post['nik'],
-				$post['nisn'],
-				$post['email'],
-				$post['unit_sekolah'],
-				$post['kelas'],
-				$post['kamar'],
-				rp($biaya),
-				$link
+				$rows['kode_daftar'],
+				dtime($rows['tgl_tagihan']),
+				$nama,
+				rprp($rows['total_tagihan']),
+				rprp($rows['total_bayar']),
+				rprp($sisa),
+				$detail_tagihan,
+				$detail_bayar
 				);
 				
 				// Function to replace string
@@ -434,7 +492,7 @@
 			
 			return $result ? $result->jumlah_bayar : 0;  // Jika ada hasil, kembalikan total, jika tidak 0
 		}
-		 
+		
 		public function get_laporan($start_date = null, $end_date = null, $kategori = null) {
 			// Query untuk menggabungkan data dari tabel rb_bayar_tagihan dan rb_pengeluaran
 			// $this->db->select('
@@ -557,4 +615,4 @@
 			return $this->db->delete('rb_rekening', ['id_rekening' => $id_rekening]);
 		}
 		
-	}																																												
+	}																																																	

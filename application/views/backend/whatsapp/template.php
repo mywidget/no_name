@@ -149,6 +149,13 @@
 									<li><small>{kamar} : KAMAR PILIHAN</small></li>
 									<li><small>{biaya} : BIAYA PENDAFTARAN</small></li>
 									<li><small>{cetak_formulir} : LINK CETAK FORMULIR PENDAFTARAN</small></li>
+									<li><small>{nomor_tagihan} : NOMOR TAGIHAN</small></li>
+									<li><small>{tanggal_tagihan} : TANGGAL TAGIHAN</small></li>
+									<li><small>{total_tagihan} : TOTAL TAGIHAN</small></li>
+									<li><small>{total_bayar} : TOTAL BAYAR</small></li>
+									<li><small>{sisa_tagihan} : SISA TAGIHAN</small></li>
+									<li><small>{detail_tagihan} : DETAIL TAGIHAN</small></li>
+									<li><small>{detail_bayar} : DETAIL PEMBAYARAN</small></li>
 								</ul>
 							</div>
 						</div>

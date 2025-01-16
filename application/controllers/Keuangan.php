@@ -2,6 +2,8 @@
 	defined('BASEPATH') or exit('No direct script access allowed');
 	use PhpOffice\PhpSpreadsheet\Spreadsheet;
 	use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+	use PHPUnit\Util\Json;
+	use Curl\Curl;
 	class Keuangan extends CI_Controller
 	{
 		public function __construct()
@@ -16,6 +18,7 @@
             $this->idlevel = $this->session->idlevel; 
             $this->menu = $this->uri->segment(1); 
 			$this->perPage = 10;
+			$this->curl = new Curl();
 		}
 		
 		public function tagihan()
@@ -392,6 +395,7 @@
 			{
 				$kategori = $this->model_tagihan->get_template('TAGIHAN');
 				echo json_encode($kategori);
+				
 			}
 		}
 		// Mengambil devide pesan
@@ -678,6 +682,33 @@
 			}
 		}
 		
+		// kirim_tagihan
+ 
+		public function kirim_tagihan()
+		{
+			$post = $this->input->post();
+			$token = $this->model_tagihan->get_token()->token;
+			$isi_pesan = $this->model_tagihan->get_pesan($post);
+			
+			$data_send = array(
+			'target' => $post['nomor'],
+			'message' => $isi_pesan,
+			'countryCode' => '62'
+			);
+			// dump($data_send);
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			$this->curl->setHeader('Authorization', $token);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post('https://api.fonnte.com/send', $data_send);
+			if ($this->curl->error) {
+				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+				} else {
+				$response = $this->curl->response;
+				$result = ['status' => true, 'msg' => (object)$response];
+			}
+			$this->thm->json_output($result);
+		}
 		
 		// Fungsi Export Laporan ke Excel
 		public function export_to_excel() {
@@ -791,4 +822,4 @@
 			header('Cache-Control: max-age=0');
 			$writer->save('php://output');
 		}
-	}																																																																																																	
+	}																																																																																																			
