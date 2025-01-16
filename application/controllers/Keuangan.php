@@ -1,6 +1,7 @@
 <?php
 	defined('BASEPATH') or exit('No direct script access allowed');
-	
+	use PhpOffice\PhpSpreadsheet\Spreadsheet;
+	use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 	class Keuangan extends CI_Controller
 	{
 		public function __construct()
@@ -676,4 +677,113 @@
 				echo json_encode(array('status' => false));
 			}
 		}
-	}																																																																																							
+		
+		
+		// Fungsi Export Laporan ke Excel
+		public function export_to_excel() {
+			// Menangkap parameter untuk laporan
+			$start_date = $this->input->get('start_date');
+			$end_date = $this->input->get('end_date');
+			$kategori = $this->input->get('kategori');
+			
+			// Mengambil data laporan
+			$laporan = $this->model_tagihan->get_laporan($start_date, $end_date, $kategori);
+			
+			// Membuat instance spreadsheet
+			$spreadsheet = new Spreadsheet();
+			$sheet = $spreadsheet->getActiveSheet();
+			
+			// Menambahkan judul "Pemasukan" di atas header
+			$sheet->setCellValue('A1', 'Pemasukan');
+			$sheet->mergeCells('A1:E1'); // Merge kolom A hingga E untuk "Pemasukan"
+			$sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+			
+			// Set header untuk pemasukan
+			$sheet->setCellValue('A2', 'No');
+			$sheet->setCellValue('B2', 'Tanggal');
+			$sheet->setCellValue('C2', 'Kategori');
+			$sheet->setCellValue('D2', 'Keterangan');
+			$sheet->setCellValue('E2', 'Jumlah');
+			
+			// Isi data pemasukan
+			$row = 3;
+			$totalPemasukan = 0; // Variabel untuk menyimpan total pemasukan
+			foreach ($laporan['pemasukan'] as $index => $item) {
+				$sheet->setCellValue('A' . $row, $index + 1);
+				$sheet->setCellValue('B' . $row, $item->tgl_bayar);
+				$sheet->setCellValue('C' . $row, $item->title);
+				$sheet->setCellValue('D' . $row, $item->nama);
+				$sheet->setCellValue('E' . $row, $item->jumlah_bayar);
+				
+				// Menambahkan jumlah pemasukan ke total
+				$totalPemasukan += $item->jumlah_bayar;
+				$row++;
+			}
+			
+			// Menambahkan baris untuk total pemasukan
+		 
+			$sheet->setCellValue('A' . $row, 'TOTAL');
+			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
+			$sheet->setCellValue('E' . $row, $totalPemasukan);
+			
+			// Menambahkan judul "Pengeluaran" setelah data pemasukan
+			$row++; // Membuat baris kosong untuk pemisah
+			$sheet->setCellValue('A' . $row, 'Pengeluaran');
+			$sheet->mergeCells('A' . $row . ':E' . $row); // Merge kolom A hingga E untuk "Pengeluaran"
+			$sheet->getStyle('A' . $row . ':E' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+			
+			// Set header untuk pengeluaran
+			$row++; // Menambah baris setelah judul "Pengeluaran"
+			$sheet->setCellValue('A' . $row, 'No');
+			$sheet->setCellValue('B' . $row, 'Tanggal');
+			$sheet->setCellValue('C' . $row, 'Kategori');
+			$sheet->setCellValue('D' . $row, 'Keterangan');
+			$sheet->setCellValue('E' . $row, 'Jumlah');
+			
+			// Isi data pengeluaran
+			$row++;
+			$totalPengeluaran = 0; // Variabel untuk menyimpan total pengeluaran
+			foreach ($laporan['pengeluaran'] as $index => $item) {
+				$sheet->setCellValue('A' . $row, $index + 1);
+				$sheet->setCellValue('B' . $row, $item->tanggal_pengeluaran);
+				$sheet->setCellValue('C' . $row, getKategori($item->id_kategori));
+				$sheet->setCellValue('D' . $row, $item->keterangan_pengeluaran);
+				$sheet->setCellValue('E' . $row, $item->jumlah_pengeluaran);
+				
+				// Menambahkan jumlah pengeluaran ke total
+				$totalPengeluaran += $item->jumlah_pengeluaran;
+				$row++;
+			}
+			$totalsaldo = $totalPemasukan - $totalPengeluaran;
+			// Menambahkan baris untuk total pengeluaran
+			 
+			$sheet->setCellValue('A' . $row, 'TOTAL');
+			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
+			$sheet->setCellValue('E' . $row, $totalPengeluaran);
+			$row++; // Baris kosong untuk pemisah
+			$sheet->setCellValue('A' . $row, 'TOTAL PEMASUKAN');
+			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
+			$sheet->setCellValue('E' . $row, $totalPemasukan);
+			
+			$row++; // Baris kosong untuk pemisah
+			$sheet->setCellValue('A' . $row, 'TOTAL PENGELUARAN');
+			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
+			$sheet->setCellValue('E' . $row, $totalPengeluaran);
+			
+			$row++; // Baris kosong untuk pemisah
+			$sheet->setCellValue('A' . $row, 'TOTAL SALDO');
+			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
+			$sheet->setCellValue('E' . $row, $totalsaldo);
+			
+			
+			// Output the file to browser
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'laporan_pembayaran_pengeluaran.xlsx';
+			
+			// Set headers untuk mendownload file
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="' . $filename . '"');
+			header('Cache-Control: max-age=0');
+			$writer->save('php://output');
+		}
+	}																																																																																																
