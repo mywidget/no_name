@@ -8,12 +8,12 @@
 			parent::__construct();
 			
 			cek_session_login(1);
+			$this->load->model('model_tagihan');
 			$this->title = tag_key('site_title');
 			$this->iduser = $this->session->iduser; 
             $this->level = $this->session->level; 
             $this->idlevel = $this->session->idlevel; 
             $this->menu = $this->uri->segment(1); 
-			$this->load->model('model_tagihan');
 			$this->perPage = 10;
 		}
 		
@@ -21,7 +21,6 @@
         {
 			cek_menu_akses();
 			cek_crud_akses('READ');
-			
 			$data['title'] = 'Tagihan | '.$this->title;
 			$data['menu'] = getMenu($this->menu);
 			
@@ -34,7 +33,7 @@
 			cek_crud_akses('READ');
 			if($id){
 				$data['title'] = 'Detail Tagihan | '.$this->title;
-				$data['menu'] = 'Keuangan';
+				$data['menu'] = getMenu($this->menu);
 				$id = decrypt_url($id);
 				$search = $this->model_app->edit('rb_tagihan', ['id_tagihan' => $id]);
 				if($search->num_rows()>0){
@@ -560,4 +559,70 @@
 			// Menampilkan laporan
 			$this->thm->load('backend/template','backend/keuangan/view_laporan',$data);
 		}
-	}																																																																																		
+		
+		// Menampilkan daftar rekening
+		public function rekening() {
+			$data['title'] = 'Rekening | '.$this->title;
+			$data['menu'] = getMenu($this->menu);
+			$data['rekenings'] = $this->model_tagihan->get_rekenings();
+			$this->thm->load('backend/template','backend/keuangan/view_rekening',$data);
+			
+		}
+ 
+		
+		public function get_rekenings() {
+			
+			$data = $this->model_tagihan->get_rekenings_datatable();
+			echo json_encode($data);
+		}
+		// Menambahkan rekening baru
+		public function add_rekening() {
+			$data = array(
+            'title' => $this->input->post('title'),
+            'nomor_rekening' => $this->input->post('nomor_rekening'),
+            'pemilik' => $this->input->post('pemilik'),
+            'aktif' => $this->input->post('aktif')
+			);
+			
+			$insert_id = $this->model_tagihan->add_rekening($data);
+			if ($insert_id) {
+				echo json_encode(array('status' => true, 'id' => $insert_id));
+				} else {
+				echo json_encode(array('status' => false));
+			}
+		}
+		
+		// Mengambil data rekening untuk edit
+		public function edit_rekening($id_rekening) {
+			$data = $this->model_tagihan->edit_rekening($id_rekening);
+			echo json_encode($data);
+		}
+		
+		// Mengupdate rekening
+		public function update_rekening() {
+			$id_rekening = $this->input->post('id_rekening');
+			$data = array(
+            'title' => $this->input->post('title'),
+            'nomor_rekening' => $this->input->post('nomor_rekening'),
+            'pemilik' => $this->input->post('pemilik'),
+            'aktif' => $this->input->post('aktif')
+			);
+			
+			$update = $this->model_tagihan->update_rekening($id_rekening, $data);
+			if ($update) {
+				echo json_encode(array('status' => true));
+				} else {
+				echo json_encode(array('status' => false));
+			}
+		}
+		
+		// Menghapus rekening
+		public function delete_rekening($id_rekening) {
+			$delete = $this->model_tagihan->delete_rekening($id_rekening);
+			if ($delete) {
+				echo json_encode(array('status' => true));
+				} else {
+				echo json_encode(array('status' => false));
+			}
+		}
+	}																																																																																					

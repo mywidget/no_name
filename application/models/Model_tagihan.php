@@ -484,4 +484,32 @@
             'sisa_saldo' => $sisa_saldo
 			];
 		}
-	}																																	
+		
+		// Menambahkan data rekening baru
+		public function add_rekening($data) {
+			$this->db->insert('rb_rekening', $data);
+			return $this->db->insert_id();
+		}
+		
+		// Mendapatkan daftar rekening
+		public function get_rekenings() {
+			return $this->db->get('rb_rekening')->result();
+		}
+		
+		// Mengambil data rekening berdasarkan id
+		public function edit_rekening($id_rekening) {
+			return $this->db->get_where('rb_rekening', ['id_rekening' => $id_rekening])->row();
+		}
+		
+		// Mengupdate data rekening
+		public function update_rekening($id_rekening, $data) {
+			$this->db->where('id_rekening', $id_rekening);
+			return $this->db->update('rb_rekening', $data);
+		}
+		
+		// Menghapus data rekening
+		public function delete_rekening($id_rekening) {
+			return $this->db->delete('rb_rekening', ['id_rekening' => $id_rekening]);
+		}
+	 
+	}																																				

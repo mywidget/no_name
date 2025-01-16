@@ -24,6 +24,7 @@
         {
 			cek_menu_akses();
 			cek_crud_akses('READ');
+			
 			$data['title'] = 'Data Device | '.$this->title;
 			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/whatsapp/view_index',$data);

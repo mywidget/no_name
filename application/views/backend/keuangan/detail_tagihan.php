@@ -39,7 +39,7 @@
 						<address>
 							<?=cekPendaftar($cetak->id_siswa)['unit_sekolah'];?><br>
 							<?=cekPendaftar($cetak->id_siswa)['nomor_hp'];?><br>
-							<?=cekPendaftar($cetak->id_siswa)['email'];?><br>
+							<?=strtolower(cekPendaftar($cetak->id_siswa)['email']);?><br>
 						</address>
 					</div>
 					<div class="col-6 my-3">
