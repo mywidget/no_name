@@ -1,5 +1,5 @@
 <div class="container">
-	<table class="table table-bordered">
+	<table class="table table-vcenter card-table table-striped">
 		<thead>
 			<tr>
 				<td colspan="5">PEMASUKAN</td>
@@ -36,11 +36,11 @@
 		<tfoot>
 			<tr>
 				<td colspan="4">TOTAL PEMASUKAN</td>
-				<td class="text-end"><?=rprp($total_pemasukan);?></td>
+				<td class="text-end strong"><?=rprp($total_pemasukan);?></td>
 			</tr>
 		</tfoot>
 	</table>
-	<table class="table table-bordered">
+	<table class="table table-vcenter card-table table-striped">
 		<thead>
 			<tr>
 				<td colspan="5">PENGELUARAN</td>
@@ -75,23 +75,26 @@
 			<?php endif; ?>
 		</tbody>
 		
-		<tfoot>
-			<tr>
-				<td colspan="5" class="text-end"><button class="btn btn-outline-primary" type="button"><strong>Total Pemasukan:</strong> Rp <?= number_format($total_pembayaran, 0, ',', '.') ?></button></td>
-			</tr>
-			<tr>
-				<td colspan="5" class="text-end"><button class="btn btn-outline-primary" type="button"><strong>Total Pengeluaran:</strong> Rp <?= number_format($total_pengeluaran, 0, ',', '.') ?></button></td>
-			</tr>
-			<tr>
-				<td colspan="5" class="text-end"><button class="btn btn-outline-primary" type="button"><strong>Sisa Saldo:</strong> Rp <?= number_format($sisa_saldo, 0, ',', '.') ?></button></td>
-			</tr>
-		</tfoot>
+		
 		<tfoot>
 			<tr>
 				<td colspan="4">TOTAL PENGELUARAN</td>
-				<td class="text-end"><?=rprp($total_pengeluaran);?></td>
+				<td class="text-end strong"><?=rprp($total_pengeluaran);?></td>
 			</tr>
 		</tfoot>
 	</table>
-	 
+	<table class="table table-vcenter card-table table-striped">
+		<tbody>
+			<tr>
+				<td colspan="5" class="text-end strong">TOTAL PEMASUKAN: <?=rprp($total_pembayaran);?></td>
+			</tr>
+			<tr>
+				<td colspan="5" class="text-end strong">TOTAL PENGELUARAN: <?=rprp($total_pengeluaran);?></td>
+			</tr>
+			<tr>
+				<td colspan="5" class="text-end strong">TOTAL SALDO: <?=rprp($sisa_saldo);?></td>
+			</tr>
+		</tbody>
+	</table>
+	
 </div>
