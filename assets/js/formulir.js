@@ -1,8 +1,9 @@
 $(document).ready(function () {
     
     const countryData = window.intlTelInputGlobals.getCountryData();
-    const input = document.querySelector("#telp");
     
+    const input = document.querySelector("#telp");
+ 
     const iti = window.intlTelInput(input, {
         initialCountry: "id",
         hiddenInput: () => "full_phone",
@@ -24,14 +25,47 @@ $(document).ready(function () {
             } else {
             // console.log(2)
             $("#form_simpan").prop("disabled", false);
-            $("#feedback-telp-edit").html('');
-            $("#feedback-telp-edit").removeClass("text-danger").addClass('text-success');
+            $("#feedback-telp").html('');
+            $("#feedback-telp").removeClass("text-danger").addClass('text-success');
             $("#telp").removeClass('is-invalid text-danger').addClass("is-valid text-success");
         }
     });
     // listen to the telephone input for changes
     input.addEventListener('countrychange', () => {
         $("#telp").change();
+    });
+    
+    const input2 = document.querySelector("#telp2");
+ 
+    const iti2 = window.intlTelInput(input2, {
+        initialCountry: "id",
+        hiddenInput: () => "full_phone_alternate",
+        utilsScript: base_url_assets + "/build/js/utils.js"
+    });
+    input2.addEventListener('keyup', function() {
+        $('input[name="full_phone_alternate"]').val(iti2.getNumber());
+        $('input[name="full_phone_alternate_country"]').val(iti2.getSelectedCountryData()['iso2']);
+        // console.log(iti.getSelectedCountryData())
+        
+    });
+    input2.addEventListener('blur', function() {
+        if (!iti2.isValidNumber()) {
+            $("#feedback-telp-2").html('Invalid nomor');
+            $("#feedback-telp").addClass("text-danger");
+            $("#telp2").addClass("is-invalid text-danger");
+            // $("#form_simpan").prop("disabled", true);
+            // console.log(1)
+            } else {
+            // console.log(2)
+            // $("#form_simpan").prop("disabled", false);
+            $("#feedback-telp-2").html('');
+            $("#feedback-telp-2").removeClass("text-danger").addClass('text-success');
+            $("#telp2").removeClass('is-invalid text-danger').addClass("is-valid text-success");
+        }
+    });
+    // listen to the telephone input for changes
+    input2.addEventListener('countrychange', () => {
+        $("#telp2").change();
     });
     
     new bootstrap.Modal('#kategori').show();
@@ -104,7 +138,7 @@ $('body').on("change","#form_unit",function(){
     var statusSantri = $('#statusPendidikan').val();
     load_kamar(id)
     load_biaya(id)
-    console.log(id)
+    // console.log(id)
     $.ajax({
         type: 'POST',
         url: base_url+ "dashboard/kelas",
@@ -425,7 +459,7 @@ Array.prototype.slice.call(forms)
                 $("#nikIbu").siblings('.invalid-tooltip').hide();
             }
             var response = grecaptcha.getResponse();
-            console.log(response)
+            // console.log(response)
             if (response.length == 0) {
                 swal.fire({
                     icon: 'error',
@@ -459,7 +493,7 @@ Array.prototype.slice.call(forms)
                                     const errors = response.message;
                                     setTimeout(() => {
                                         const firstErrorKey = Object.keys(errors)[0];
-                                        console.log(firstErrorKey)
+                                        // console.log(firstErrorKey)
                                         $(`#${firstErrorKey}`).focus();
                                     }, 500);
                                     

@@ -646,7 +646,7 @@
 		
 		public function proses()
 		{
-			
+			// dump($_POST);
 			if ( $this->input->is_ajax_request() ) 
 			{
 				
@@ -830,10 +830,17 @@
 							$this->thm->json_output($response);
 						}
 						$nama_unit = $this->model_formulir->nama_unit_byid($this->input->post('unit_sekolah',true));
+						//no hp
 						$full_phone = $this->input->post('full_phone');
 						$full_phone_country = $this->input->post('full_phone_country');
 						$number = PhoneNumber::parse($full_phone);
 						$nomor_personal = $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+						
+						//no hp altenatif
+						$full_phone_alternate = $this->input->post('full_phone_alternate');
+						$full_phone_alternate_country = $this->input->post('full_phone_alternate_country');
+						$number_alternate = PhoneNumber::parse($full_phone_alternate);
+						$nomor_personal_alternate = $number_alternate->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
 						
 						
 						$input_data = [
@@ -874,7 +881,7 @@
 						"pekerjaan_ibu"               => $this->input->post('pekerjaan_ibu',true),
 						"penghasilan_ortu"            => $this->input->post('penghasilan_ortu',true),
 						"nomor_hp"                    => clean($nomor_personal),
-						"no_hp_alternatif"            => clean($this->input->post('thnakademik',true)),
+						"no_hp_alternatif"                    => clean($nomor_personal_alternate),
 						"alamat"                      => $this->input->post('alamat',true),
 						"rt"                          => $this->input->post('rt',true),
 						"rw"                          => $this->input->post('rw',true),
