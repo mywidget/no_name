@@ -21,9 +21,9 @@
 			?>
 			<tr>
 				<th scope="row"><?= $index + 1 ?></th>
-				<td><?= $row->tgl_bayar ?></td>
+				<td><?= dtime($row->tgl_bayar) ?></td>
 				<td><?=($row->title);?></td>
-				<td><?= $row->nama ?></td>
+				<td><?= $row->nama ?> [<?=($row->rekening);?>]</td>
 				<td class="text-end"><?= rprp($row->jumlah_bayar) ?></td>
 			</tr>
 			<?php endforeach; ?>
@@ -62,7 +62,7 @@
 			?>
 			<tr>
 				<th scope="row"><?= $index + 1 ?></th>
-				<td><?= $row->tanggal_pengeluaran ?></td>
+				<td><?= dtime($row->tanggal_pengeluaran) ?></td>
 				<td><?=getKategori($row->id_kategori);?></td>
 				<td><?= $row->keterangan_pengeluaran ?></td>
 				<td class="text-end"><?= rprp($row->jumlah_pengeluaran) ?></td>
