@@ -710,7 +710,7 @@
 			$totalPemasukan = 0; // Variabel untuk menyimpan total pemasukan
 			foreach ($laporan['pemasukan'] as $index => $item) {
 				$sheet->setCellValue('A' . $row, $index + 1);
-				$sheet->setCellValue('B' . $row, $item->tgl_bayar);
+				$sheet->setCellValue('B' . $row, tgl_pengiriman($item->tgl_bayar));
 				$sheet->setCellValue('C' . $row, $item->title);
 				$sheet->setCellValue('D' . $row, $item->nama .' ('.$item->rekening.')');
 				$sheet->setCellValue('E' . $row, $item->jumlah_bayar);
@@ -746,7 +746,7 @@
 			$totalPengeluaran = 0; // Variabel untuk menyimpan total pengeluaran
 			foreach ($laporan['pengeluaran'] as $index => $item) {
 				$sheet->setCellValue('A' . $row, $index + 1);
-				$sheet->setCellValue('B' . $row, $item->tanggal_pengeluaran);
+				$sheet->setCellValue('B' . $row, tgl_pengiriman($item->tanggal_pengeluaran));
 				$sheet->setCellValue('C' . $row, getKategori($item->id_kategori));
 				$sheet->setCellValue('D' . $row, $item->keterangan_pengeluaran);
 				$sheet->setCellValue('E' . $row, $item->jumlah_pengeluaran);
