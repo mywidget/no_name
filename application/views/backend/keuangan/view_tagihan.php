@@ -217,6 +217,47 @@
 </div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="kirim-wa" tabindex="-1" aria-labelledby="ModalBayarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalBayarLabel">KIRIM TAGIHAN #<span class="tinvoice"></span></h5>
+			</div>
+            <div class="modal-body">
+                <form id="kirimForm">
+					<input id="id-tagihan" name="id_tagihan" type="hidden" class="form-control" readonly>
+                    <div class="mb-1 row">
+                        <label for="template" class="col-4 col-form-label">DEVICE</label>
+                        <div class="col-8">
+                            <select name="id_device" id="id_device" class="form-select">
+                                <!-- Options dynamically added here -->
+							</select>
+						</div>
+					</div>  
+                    <div class="mb-1 row">
+                        <label for="template" class="col-4 col-form-label">TEMPLATE PESAN</label>
+                        <div class="col-8">
+                            <select name="template" id="template" class="form-select">
+                                <!-- Options dynamically added here -->
+							</select>
+						</div>
+					</div>  
+                    <div class="mb-1 row">
+                        <div class="col-12 load-bayar"></div>
+					</div>
+					
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" id="kirim_tagihan">KIRIM TAGIHAN</button>
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">TUTUP</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <style>
 	.select2-container {
 	width: 100% !important;
@@ -532,11 +573,53 @@
 			$('#data-hapus').val($(e.relatedTarget).data('id'));
 		});
 		
+		$('#kirim-wa').on('show.bs.modal', function(e) {
+			get_template();
+			get_device();
+			$('#id-tagihan').val($(e.relatedTarget).data('id'));
+		});
+		
+		function get_device()
+		{
+			$.ajax({
+				url: base_url+"keuangan/get_device",
+				method: "GET",
+				dataType: "json",
+				success: function(data) {
+					if (data) {
+						var rekening = $('#id_device');
+						rekening.empty();
+						rekening.append('<option value="">Pilih device</option>');
+						$.each(data, function(index, item) {
+							rekening.append('<option value="' + item.id + '">' + item.device + '</option>');
+						});
+					}
+				}
+			});
+		}
+		function get_template()
+		{
+			$.ajax({
+				url: base_url+"keuangan/get_template",
+				method: "GET",
+				dataType: "json",
+				success: function(data) {
+					if (data) {
+						var template = $('#template');
+						template.empty();
+						template.append('<option value="">Pilih template</option>');
+						$.each(data, function(index, item) {
+							template.append('<option value="' + item.id + '">' + item.title + '</option>');
+						});
+					}
+				}
+			});
+		}
 		
 		$(document).ready(function() {
 			// Ambil rekening untuk dropdown
 			$.ajax({
-				url: "<?php echo site_url('keuangan/get_kategori'); ?>",
+				url: base_url+"keuangan/get_kategori",
 				method: "GET",
 				dataType: "json",
 				success: function(data) {
@@ -550,6 +633,7 @@
 					}
 				}
 			});
+			
 			$.ajax({
 				url: base_url+ 'psb/get_tahun_akademik',  
 				type: "GET",

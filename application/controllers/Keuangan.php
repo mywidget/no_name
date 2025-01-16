@@ -362,6 +362,24 @@
 				echo json_encode($kategori);
 			}
 		}
+		// Mengambil template pesan
+		public function get_template()
+		{
+			if ($this->input->is_ajax_request()) 
+			{
+				$kategori = $this->model_tagihan->get_template('TAGIHAN');
+				echo json_encode($kategori);
+			}
+		}
+		// Mengambil devide pesan
+		public function get_device()
+		{
+			if ($this->input->is_ajax_request()) 
+			{
+				$kategori = $this->model_tagihan->get_device();
+				echo json_encode($kategori);
+			}
+		}
 		
 		// Mengambil rekening untuk dropdown
 		public function get_rekening()

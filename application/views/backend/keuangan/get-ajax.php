@@ -35,7 +35,9 @@
                             $icon = '<i class="fa fa-print" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
                             $print = '<a href="/keuangan/cetak_tagihan/'.$kode.'" class="btn btn-secondary btn-sm active" target="_blank">'.$icon.'</a>';
                             $detail = '<a href="/keuangan/detail_tagihan/'.$kode.'" class="btn btn-info btn-sm" target="_blank">Detail</a>';
-                            
+                            //KIRIM TAGIHAN KE WA
+                             $send_wa = '<a class="btn btn-success" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#kirim-wa" href="#"><i class="fa fa-trash"></i>&nbsp;Kirim WA</a>';
+                             
                             $sisa = $row['total_tagihan'] - $row['total_bayar'];
                             $total_tagihan +=$row['total_tagihan'];
                             $total_bayar +=$row['total_bayar'];
@@ -54,6 +56,7 @@
                                 <div class="btn-group btn-group-sm">
                                     <?=$print;?>
                                     <?=$bayar;?>
+                                    <?=$send_wa;?>
                                     <?=$detail;?>
                                 </div>
                             </td>

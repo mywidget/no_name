@@ -180,6 +180,28 @@
 			return $data;
 		}
 	}
+	if ( ! function_exists('cekIdPendaftar'))
+	{
+		/**
+			* Code Cek user 
+			* 
+			@param int 
+			@return array
+		*/
+		function cekIdPendaftar($val)
+		{
+			$ci = & get_instance();
+			$sql_cek = $ci->db->query("SELECT id_tagihan FROM rb_bayar_tagihan where id=".$val);
+			if($sql_cek->num_rows() >0)
+			{
+				$data = $sql_cek->row()->id_tagihan;
+				}else{
+				$data = '';
+			}
+	 
+			return $data;
+		}
+	}
 	
 	if ( ! function_exists('cek_tabel'))
 	{

@@ -57,8 +57,15 @@
 		
 		function getPemasukan($params = array()){
 			// print_r($params);
-			$this->db->select('*'); 
-			$this->db->from('rb_bayar_tagihan'); 
+			// $this->db->select('*'); 
+			// $this->db->from('rb_bayar_tagihan'); 
+			$this->db->select('rb_bayar_tagihan.id_bayar_tagihan,rb_bayar_tagihan.id_kategori,rb_psb_daftar.nama, rb_bayar_tagihan.id_tagihan, rb_kategori.title, rb_bayar_tagihan.tgl_bayar, rb_bayar_tagihan.jumlah_bayar, rb_rekening.title as rekening');
+			$this->db->from('rb_psb_daftar');
+			$this->db->join('rb_tagihan', 'rb_psb_daftar.id = rb_tagihan.id_siswa', 'inner');
+			$this->db->join('rb_bayar_tagihan', 'rb_tagihan.id_tagihan = rb_bayar_tagihan.id_bayar_tagihan', 'inner');
+			$this->db->join('rb_kategori', 'rb_bayar_tagihan.id_kategori = rb_kategori.id_kategori', 'inner');
+			$this->db->join('rb_rekening', 'rb_bayar_tagihan.id_bayar = rb_rekening.id_rekening', 'inner');
+			// $this->db->group_by('rb_bayar_tagihan.id_tagihan');
 			
 			if(array_key_exists("where", $params)){ 
 				foreach($params['where'] as $key => $val){ 
@@ -434,6 +441,7 @@
             rb_bayar_tagihan.id_bayar_tagihan,
             rb_bayar_tagihan.id_kategori AS kategori_bayar,
             rb_bayar_tagihan.id_tagihan,
+            rb_bayar_tagihan.id_bayar,
             rb_bayar_tagihan.jumlah_bayar,
             rb_bayar_tagihan.tgl_bayar,
             rb_bayar_tagihan.create_date,
@@ -495,6 +503,14 @@
 		public function get_rekenings() {
 			return $this->db->get('rb_rekening')->result();
 		}
+		// Mendapatkan daftar device
+		public function get_device() {
+			return $this->db->get('rb_device')->result();
+		}
+		// Mendapatkan daftar rb_template_pesan
+		public function get_template($slug) {
+			return $this->db->get_where('rb_template_pesan', ['slug' => $slug])->result();
+		}
 		
 		// Mengambil data rekening berdasarkan id
 		public function edit_rekening($id_rekening) {
@@ -511,5 +527,5 @@
 		public function delete_rekening($id_rekening) {
 			return $this->db->delete('rb_rekening', ['id_rekening' => $id_rekening]);
 		}
-	 
-	}																																				
+		
+	}																																					

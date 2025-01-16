@@ -6,6 +6,7 @@
                   	<tr>
                         <th class="w-1 text-center">No</th>
                         <th class="w-15 text-left">Tanggal</th>
+                        <th class="w-15 text-left">pendaftar</th>
                         <th class="w-15 text-left">Kategori</th>
                         <th class="w-15 text-left">Rekening</th>
                         <th class="w-15 text-end">Jumlah</th>
@@ -24,8 +25,9 @@
                         <tr>
                             <td><?=$no;?></td>
                             <td><?=indo_date($row['tgl_bayar']);?></td>
-                            <td><?=getKategori($row['id_kategori']);?></td>
-                            <td><?=getRekening($row['id_bayar']);?></td>
+                            <td><?=($row['nama']);?></td>
+                            <td><?=($row['title']);?></td>
+                            <td><?=($row['rekening']);?></td>
                             <td class="text-end"><?=rprp($row['jumlah_bayar']);?></td>
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
@@ -39,7 +41,7 @@
                     <tfoot>
                         <tr>
                             <td>#</td>
-                            <td colspan="3">Total Pemasukan</td>
+                            <td colspan="4">Total Pemasukan</td>
                             <td class="text-end"><?=rprp($total);?></td>
                             <td></td>
                         </tr>

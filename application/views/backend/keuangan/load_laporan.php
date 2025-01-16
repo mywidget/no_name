@@ -6,6 +6,7 @@
 				<th scope="col">Kategori Pembayaran</th>
 				<th scope="col">Jumlah Bayar</th>
 				<th scope="col">Tanggal Bayar</th>
+				<th scope="col">Rekening</th>
 				<th scope="col">Tanggal Pengeluaran</th>
 				<th scope="col">Keterangan Pengeluaran</th>
 				<th scope="col">Jumlah Pengeluaran</th>
@@ -21,6 +22,7 @@
 				<td><?=getKategori($row->kategori_bayar);?></td>
 				<td><?= number_format($row->jumlah_bayar, 0, ',', '.') ?></td>
 				<td><?= $row->tgl_bayar ?></td>
+				<td><?= getRekening($row->id_bayar);?></td>
 				<td><?= $row->tanggal_pengeluaran ?></td>
 				<td><?= $row->keterangan_pengeluaran ?></td>
 				<td><?= number_format($row->jumlah_pengeluaran, 0, ',', '.') ?></td>
