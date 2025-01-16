@@ -37,8 +37,8 @@
                             $detail = '<a href="/keuangan/detail_tagihan/'.$kode.'" class="btn btn-info btn-sm" target="_blank">Detail</a>';
                             //KIRIM TAGIHAN KE WA
                             $nomor_wa = cekPendaftar($row['id_siswa'])['nomor_hp'];
-                             $send_wa = '<a class="btn btn-success" data-id="'.$kode.'" data-nomor="'.$nomor_wa.'" data-bs-toggle="modal" data-bs-target="#kirim-wa" href="#"><i class="fa fa-trash"></i>&nbsp;Kirim WA</a>';
-                             
+                            $send_wa = '<a class="btn btn-success" data-id="'.$kode.'" data-nomor="'.$nomor_wa.'" data-bs-toggle="modal" data-bs-target="#kirim-wa" href="#"><i class="fa fa-whatsapp"></i>&nbsp;Kirim WA</a>';
+                            
                             $sisa = $row['total_tagihan'] - $row['total_bayar'];
                             $total_tagihan +=$row['total_tagihan'];
                             $total_bayar +=$row['total_bayar'];
