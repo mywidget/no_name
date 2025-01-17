@@ -1,7 +1,7 @@
 <div id="posts_content">
     <?php if(!empty($record)){ ?>
-        <div class="table-responsive">
-            <table class="table card-table table-vcenter table-striped text-nowrap datatable">
+        <div class="table-responsive" style="min-height: 300px;">
+            <table class="table card-table table-vcenter table-striped text-nowrap datatable" >
                 <thead class="thead-dark">
                   	<tr>
                         <th class="w-1 text-center">No</th>
@@ -26,16 +26,16 @@
                                 $bayar = '<a class="btn btn-success" href="#"><i class="fa fa-check-circle"></i>&nbsp;&nbsp;Lunas</a>';
                                 }else{ 
                                 
-                                $bayar = '<a class="btn btn-info" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#ModalBayar" href="#"><i class="fa fa-money"></i>&nbsp;&nbsp;Bayar</a>';
+                                $bayar = '<a class="btn btn-info flat" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#ModalBayar" href="#"><i class="fa fa-money"></i>&nbsp;&nbsp;Bayar</a>';
                             }
                             $hapus = '<a class="btn btn-danger" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
                             
                             $icon = '<i class="fa fa-print" data-bs-toggle="tooltip" title="Tikda Aktif"></i>&nbsp;Cetak';
-                            $print = '<a href="/keuangan/cetak_tagihan/'.$kode.'" class="btn btn-secondary btn-sm active" target="_blank">'.$icon.'</a>';
-                            $detail = '<a href="/keuangan/detail_tagihan/'.$kode.'" class="btn btn-info btn-sm" target="_blank">Detail</a>';
+                            $print = '<a href="/keuangan/cetak_tagihan/'.$kode.'" class="dropdown-item" target="_blank">'.$icon.'</a>';
+                            $detail = '<a href="/keuangan/detail_tagihan/'.$kode.'" class="dropdown-item" target="_blank">Detail</a>';
                             //KIRIM TAGIHAN KE WA
                             $nomor_wa = cekPendaftar($row['id_siswa'])['nomor_hp'];
-                            $send_wa = '<a class="btn btn-success" data-id="'.$kode.'" data-nomor="'.$nomor_wa.'" data-bs-toggle="modal" data-bs-target="#kirim-wa" href="#"><i class="fa fa-whatsapp"></i>&nbsp;Kirim WA</a>';
+                            $send_wa = '<a class="dropdown-item" data-id="'.$kode.'" data-nomor="'.$nomor_wa.'" data-bs-toggle="modal" data-bs-target="#kirim-wa" href="#"><i class="fa fa-whatsapp"></i>&nbsp;Kirim WA</a>';
                             
                             $sisa = $row['total_tagihan'] - $row['total_bayar'];
                             $total_tagihan +=$row['total_tagihan'];
@@ -53,16 +53,29 @@
                                 <?=get_nama($row['id_siswa']);?>
                                 <div class="text-secondary"><?=$row['tahun_akademik'];?></div>
                             </td>
-                           
-                            <td class="text-end"><?=rprp($row['total_tagihan']);?></td>
-                            <td class="text-end"><?=rprp($row['total_bayar']);?></td>
-                            <td class="text-end"><?=rprp($sisa);?></td>
-                            <td align="right">
-                                <div class="btn-group btn-group-sm">
+                            
+                            <td class="text-end">
+                                <?=rprp($row['total_tagihan']);?>
+                                <div class="text-secondary">Pendaftaran + Biaya Masuk</div>
+                            </td>
+                            <td class="text-end"><?=rprp($row['total_bayar']);?>
+                                <div class="text-secondary">Pendaftaran & Biaya Masuk</div>
+                            </td>
+                            <td class="text-end"><?=rprp($sisa);?>
+                                <div class="text-secondary">Biaya Masuk</div>
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group flat">
                                     <?=$bayar;?>
-                                    <?=$print;?>
-                                    <?=$send_wa;?>
-                                    <?=$detail;?>
+                                    <button class="btn btn-danger flat dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Aksi
+                                    </button>
+                                    <ul class="dropdown-menu"  data-popper-placement="right-start" style="z-index:99999!important">
+                                        <li><?=$print;?></li>
+                                        <li><?=$send_wa;?></li>
+                                        <li><?=$detail;?></li>
+                                        <!--li><hr class="dropdown-divider"></li-->
+                                    </ul>
                                 </div>
                             </td>
                         </tr>
