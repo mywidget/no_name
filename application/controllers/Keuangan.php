@@ -738,7 +738,7 @@
 		}
 		public function cetak_pemasukan()
 		{
-			$data['title']       = 'Cetak pengeluaran';
+			$data['title']       = 'Cetak pemasukan';
 			$format = $this->input->post('pilihan');
 			if($format=='print'){
 				
@@ -764,13 +764,38 @@
 			}
 			
 		}
+		public function cetak_laporan_pengeluaran()
+		{
+			$data['title']       = 'Cetak pengeluaran';
+			$format = $this->input->post('pilihan');
+			if($format=='print'){
+				
+				$data['favicon'] = tag_image('site_favicon');
+				$data['logo'] = tag_image('site_logo');
+				
+				$tahun = $this->input->post('tahun');
+				if (!empty($tahun)) {
+					$conditions['search']['tahun'] = $tahun;
+				}
+				$conditions['returnType'] = 'count';
+				unset($conditions['returnType']);
+				$data['tahun'] = $tahun ? $tahun : date('Y');
+				$data['record'] = $this->model_tagihan->getPengeluaran($conditions);
+				// dump($data);
+				$this->load->view('backend/keuangan/cetak_laporan_pengeluaran', $data);
+				
+				}else{
+				$this->export_to_excel_pengeluaran();
+			}
+			
+		}
 		// Fungsi Export Laporan ke Excel
 		private function export_to_excel_pemasukan() {
 			// Menangkap parameter untuk laporan
-			$start_date = $this->input->get('start_date');
-			$end_date = $this->input->get('end_date');
-			$kategori = $this->input->get('kategori');
-			$tahun = $this->input->get('tahun');
+			$start_date = $this->input->post('start_date');
+			$end_date = $this->input->post('end_date');
+			$kategori = $this->input->post('kategori');
+			$tahun = $this->input->post('tahun');
 			
 			// Mengambil data laporan
 			$laporan = $this->model_tagihan->get_laporan($start_date, $end_date, $kategori,$tahun);
@@ -827,7 +852,69 @@
 			header('Content-Disposition: attachment;filename="' . $filename . '"');
 			header('Cache-Control: max-age=0');
 			$writer->save('php://output');
-		}// Fungsi Export Laporan ke Excel
+		}
+		
+		// Fungsi Export Laporan ke Excel
+		public function export_to_excel_pengeluaran() {
+			// Menangkap parameter untuk laporan
+			$start_date = $this->input->post('start_date');
+			$end_date = $this->input->post('end_date');
+			$kategori = $this->input->post('kategori');
+			$tahun = $this->input->post('tahun');
+			
+			// Mengambil data laporan
+			$laporan = $this->model_tagihan->get_laporan($start_date, $end_date, $kategori,$tahun);
+			
+			// Membuat instance spreadsheet
+			$spreadsheet = new Spreadsheet();
+			$sheet = $spreadsheet->getActiveSheet();
+			
+			// Menambahkan judul "Pemasukan" di atas header
+			$sheet->setCellValue('A1', 'Pengeluaran');
+			$sheet->mergeCells('A1:E1'); // Merge kolom A hingga E untuk "Pemasukan"
+			$sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+			
+			// Set header untuk pemasukan
+			$sheet->setCellValue('A2', 'No');
+			$sheet->setCellValue('B2', 'Tanggal');
+			$sheet->setCellValue('C2', 'Kategori');
+			$sheet->setCellValue('D2', 'Keterangan');
+			$sheet->setCellValue('E2', 'Jumlah');
+			
+			// Isi data pemasukan
+			$row = 3;
+			$totalPengeluaran = 0; // Variabel untuk menyimpan total pengeluaran
+			foreach ($laporan['pengeluaran'] as $index => $item) {
+				$sheet->setCellValue('A' . $row, $index + 1);
+				$sheet->setCellValue('B' . $row, tgl_pengiriman($item->tanggal_pengeluaran));
+				$sheet->setCellValue('C' . $row, getKategori($item->id_kategori));
+				$sheet->setCellValue('D' . $row, $item->keterangan_pengeluaran);
+				$sheet->setCellValue('E' . $row, $item->jumlah_pengeluaran);
+				
+				// Menambahkan jumlah pengeluaran ke total
+				$totalPengeluaran += $item->jumlah_pengeluaran;
+				$row++;
+			}
+		 
+			$sheet->setCellValue('A' . $row, 'TOTAL');
+			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
+			$sheet->setCellValue('E' . $row, $totalPengeluaran);
+			
+			// Auto-size kolom A sampai E
+			foreach (range('A', 'E') as $columnID) {
+				$sheet->getColumnDimension($columnID)->setAutoSize(true);
+			}
+			// Output the file to browser
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'laporan_pengeluaran.xlsx';
+			
+			// Set headers untuk mendownload file
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="' . $filename . '"');
+			header('Cache-Control: max-age=0');
+			$writer->save('php://output');
+		}
+		// Fungsi Export Laporan ke Excel
 		public function export_to_excel() {
 			// Menangkap parameter untuk laporan
 			$start_date = $this->input->get('start_date');
@@ -932,7 +1019,7 @@
 			}
 			// Output the file to browser
 			$writer = new Xlsx($spreadsheet);
-			$filename = 'laporan_pembayaran_pengeluaran.xlsx';
+			$filename = 'laporan_pemasukan_pengeluaran.xlsx';
 			
 			// Set headers untuk mendownload file
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -940,4 +1027,4 @@
 			header('Cache-Control: max-age=0');
 			$writer->save('php://output');
 		}
-	}																																																																																																								
+	}																																																																																																									

@@ -10,7 +10,7 @@
 		<meta name="author" content="">
 		<!-- Favicon icon -->
 		<link rel="icon" type="image/x-icon" href="<?= base_url('upload/'); ?><?=info('site_favicon');?>">
-		<title>Laporan pemasukan</title>
+		<title><?=$title;?></title>
 		<!-- Bootstrap Core CSS -->
 		<link href="<?=base_url();?>assets/print_style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Custom CSS -->
@@ -97,7 +97,7 @@
 			
 		</style>
 		<?php  
-			$tagihan = "LAPORAN PEMASUKAN";
+			$tagihan = "LAPORAN PENGELUARAN";
 			$text = "text-success";
 			
 			
@@ -138,9 +138,8 @@
 													<tr>
 														<th class="w-1 text-left">No</th>
 														<th class="w-15 text-left">Tanggal</th>
-														<th class="w-15 text-left">Pendaftar</th>
-														<th class="w-15 text-left">Kategori</th>
-														<th class="w-15 text-left">Rekening</th>
+														<th class="w-15 text-left">SUMBER KAS</th>
+														<th class="w-15 text-left">Keterangan</th>
 														<th class="w-15 text-right">Jumlah</th>
 													</tr>
 												</thead>
@@ -148,11 +147,10 @@
 													<?php $no = 1; foreach($record AS $row): ?>
 													<tr>
 														<td><?=$no++;?></td>
-														<td><?=dtime($row['tgl_bayar']);?></td>
-														<td><?=($row['nama']);?></td>
-														<td><?=($row['title']);?></td>
-														<td><?=($row['rekening']);?></td>
-														<td class="text-right"><?=rprp($row['jumlah_bayar']);?></td>
+														<td><?=dtime($row['tanggal']);?></td>
+														<td><?=getKategori($row['id_kategori']);?></td>
+														<td><?=($row['keterangan']);?></td>
+														<td class="text-right"><?=rprp($row['jumlah']);?></td>
 													</tr>
 													<?php endforeach;?>
 												</tbody>
@@ -211,4 +209,4 @@
 			</script>
 			
 		</body>
-	</html>											
+	</html>													
