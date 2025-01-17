@@ -522,6 +522,21 @@
 				}
 			}
 		}
+		public function cetak_pengeluaran($id="")
+		{
+			$data['title']       = 'Cetak pengeluaran';
+			if($id){
+				$id = decrypt_url($id);
+				$search = $this->model_app->edit('rb_pengeluaran', ['id' => $id]);
+				if($search->num_rows()>0){
+					$data['favicon'] = tag_image('site_favicon');
+					$data['logo'] = tag_image('site_logo');
+					$data['cetak'] = $search->row();
+					$data['result'] = $this->model_app->view_where('rb_pengeluaran', ['id' => $id])->row();
+					$this->load->view('backend/keuangan/cetak_pengeluaran', $data);
+				}
+			}
+		}
 		// Sunting data pengeluaran
 		public function edit_pengeluaran() {
 			if ($this->input->is_ajax_request()) 
