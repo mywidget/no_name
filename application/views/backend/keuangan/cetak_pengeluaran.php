@@ -10,7 +10,7 @@
 		<meta name="author" content="">
 		<!-- Favicon icon -->
 		<link rel="icon" type="image/x-icon" href="<?= base_url('upload/'); ?><?=info('site_favicon');?>">
-		<title>Tagihan</title>
+		<title>Laporan pengeluaran</title>
 		<!-- Bootstrap Core CSS -->
 		<link href="<?=base_url();?>assets/print_style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Custom CSS -->
