@@ -520,7 +520,7 @@
 			}
 			// Kondisi untuk filter berdasarkan tahun akademik
 			if ($tahun) {
-				$this->db->where('rb_tagihan.tgl_tagihan', $tahun);
+				$this->db->where('rb_tagihan.tahun_akademik', $tahun);
 			}
 			if ($start_date && $end_date) {
 				$this->db->where('rb_bayar_tagihan.tgl_bayar >=', $start_date);
