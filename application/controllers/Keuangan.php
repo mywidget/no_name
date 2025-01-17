@@ -754,7 +754,7 @@
 				}
 				$conditions['returnType'] = 'count';
 				unset($conditions['returnType']);
-				$data['tahun'] = $tahun ? $tahun : date('Y');
+				$data['tahun'] = $tahun ? $tahun : 'SEMUA';
 				$data['record'] = $this->model_tagihan->getPemasukan($conditions);
 				// dump($data);
 				$this->load->view('backend/keuangan/cetak_pemasukan', $data);
@@ -779,7 +779,7 @@
 				}
 				$conditions['returnType'] = 'count';
 				unset($conditions['returnType']);
-				$data['tahun'] = $tahun ? $tahun : date('Y');
+				$data['tahun'] = $tahun ? $tahun : 'SEMUA';
 				$data['record'] = $this->model_tagihan->getPengeluaran($conditions);
 				// dump($data);
 				$this->load->view('backend/keuangan/cetak_laporan_pengeluaran', $data);
