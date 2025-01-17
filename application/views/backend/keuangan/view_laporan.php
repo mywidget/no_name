@@ -92,7 +92,6 @@
 	<input type="hidden" name="akhir" id="tgl_akhir">
 	<input type="hidden" name="kategori" id="kategori_export">
 	<input type="hidden" name="tahun" id="tahun_export">
-    <button type="submit" name="export_excel" value="1">Export to Excel</button>
 </form>
 
 <?php $this->RenderScript[] = function() { ?>

@@ -500,16 +500,6 @@
 		}
 		
 		public function get_laporan($start_date = null, $end_date = null, $kategori = null, $tahun = null) {
-			// Query untuk menggabungkan data dari tabel rb_bayar_tagihan dan rb_pengeluaran
-			// $this->db->select('
-			// rb_bayar_tagihan.id_bayar_tagihan,
-			// rb_bayar_tagihan.id_kategori AS kategori_bayar,
-			// rb_bayar_tagihan.id_tagihan,
-			// rb_bayar_tagihan.id_bayar,
-			// rb_bayar_tagihan.jumlah_bayar,
-			// rb_bayar_tagihan.tgl_bayar,
-			// rb_bayar_tagihan.create_date
-			// ');
 			$this->db->select('rb_bayar_tagihan.id_bayar_tagihan,rb_bayar_tagihan.id_kategori,rb_psb_daftar.nama, rb_bayar_tagihan.id_tagihan, rb_kategori.title, rb_bayar_tagihan.tgl_bayar, rb_bayar_tagihan.jumlah_bayar, rb_rekening.title as rekening');
 			$this->db->from('rb_psb_daftar');
 			$this->db->join('rb_tagihan', 'rb_psb_daftar.id = rb_tagihan.id_siswa', 'inner');
@@ -557,6 +547,10 @@
 			// Kondisi untuk filter berdasarkan kategori dan tanggal jika diperlukan
 			if ($kategori) {
 				$this->db->where('rb_pengeluaran.id_kategori', $kategori);
+			}
+			// Kondisi untuk filter berdasarkan kategori dan tanggal jika diperlukan
+			if ($tahun) {
+				$this->db->where('rb_pengeluaran.tahun_akademik', $tahun);
 			}
 			if ($start_date && $end_date) {
 				$this->db->where('rb_pengeluaran.tanggal >=', $start_date);
