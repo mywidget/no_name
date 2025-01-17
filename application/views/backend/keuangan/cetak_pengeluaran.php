@@ -125,7 +125,7 @@
 											</address>
 										</div>
 										<div class="pull-right text-right">
-											<img src="<?=$logo;?>" height="80px" alt="" />
+											<img src="<?=$logo;?>" height="40px" alt="" />
 											<address>
 												<p class="m-t-5"><b><?=tag_key('letter_addr');?></b> , <?=date_full(today());?></p>
 											</address>
