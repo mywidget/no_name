@@ -129,6 +129,10 @@
 					$this->db->where('id_kategori', $params['search']['keywords']); 
 				} 
 				
+				if(!empty($params['search']['tahun'])){ 
+					$this->db->where('tahun_akademik', $params['search']['tahun']); 
+				} 
+				
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 

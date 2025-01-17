@@ -203,6 +203,11 @@
                 $conditions['search']['keywords'] = $keywords;
 			}
 			
+            $tahun = $this->input->post('tahun');
+            if (!empty($tahun)) {
+                $conditions['search']['tahun'] = $tahun;
+			}
+			
 			$limit = $this->input->post('limit');
             if (!empty($limit)) {
                 $conditions['search']['limit'] = $limit;
@@ -532,6 +537,7 @@
 		public function save_pengeluaran() {
 			// Validasi input
 			
+			$this->form_validation->set_rules('tahun_akademik', 'Tahun Akademik', 'required');
 			$this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
 			$this->form_validation->set_rules('kategori', 'Kategori', 'required');
 			$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
@@ -551,6 +557,7 @@
 				// Data valid, simpan ke database
 				$data = array(
 				'id_kategori' => $this->input->post('kategori'),
+				'tahun_akademik' => $this->input->post('tahun_akademik'),
 				'tanggal' => $this->input->post('tanggal'),
 				'keterangan' => $this->input->post('keterangan'),
 				'jumlah' => convert_to_number($this->input->post('jumlah')),
@@ -720,9 +727,10 @@
 			$start_date = $this->input->get('start_date');
 			$end_date = $this->input->get('end_date');
 			$kategori = $this->input->get('kategori');
-			
+			$tahun = $this->input->get('tahun');
+			dump($_POST);
 			// Mengambil data laporan
-			$laporan = $this->model_tagihan->get_laporan($start_date, $end_date, $kategori);
+			$laporan = $this->model_tagihan->get_laporan($start_date, $end_date, $kategori,$tahun);
 			
 			// Membuat instance spreadsheet
 			$spreadsheet = new Spreadsheet();

@@ -23,7 +23,7 @@
 					<div class="card-header">
 						<h3 class="card-title d-print-none">List Data</h3>
 						<div class="col-auto ms-auto d-print-none d-none" id="btn-print">
-							<a href="/keuangan/export_to_excel" class="btn btn-success" target="_blank">
+							<a href="javascript:void(0)" class="btn btn-success export_to_excel">
 								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M8 11h8v7h-8z" /><path d="M8 15h8" /><path d="M11 11v7" /></svg>
 								Export Laporan
 							</a>
@@ -87,6 +87,13 @@
 		</div>
 	</div>
 </div>
+<form method="POST" id="formExport" action="/keuangan/export_to_excel" target="_blank">
+	<input type="hidden" name="awal" id="tgl_awal">
+	<input type="hidden" name="akhir" id="tgl_akhir">
+	<input type="hidden" name="kategori" id="kategori_export">
+	<input type="hidden" name="tahun" id="tahun_export">
+    <button type="submit" name="export_excel" value="1">Export to Excel</button>
+</form>
 
 <?php $this->RenderScript[] = function() { ?>
 	
@@ -137,6 +144,17 @@
 		$(document).on('click','.clear',function(e){
 			$("#start_date,#end_date").val('');
 			searchData();
+		});
+		$(document).on('click','.export_to_excel',function(e){
+			var start_date = $('#start_date').val();
+			$('#tgl_awal').val(start_date);
+			var end_date = $('#end_date').val();
+			$('#tgl_akhir').val(end_date);
+			var kategori = $('#kategori').val();
+			$('#kategori_export').val(kategori);
+			var tahun = $('#tahun_akademik_filter').val();
+			$('#tahun_export').val(tahun);
+			$('#formExport').submit();
 		});
 		$(document).ready(function() {
 			$.ajax({
