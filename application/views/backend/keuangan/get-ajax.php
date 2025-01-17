@@ -5,14 +5,12 @@
                 <thead class="thead-dark">
                   	<tr>
                         <th class="w-1 text-center">No</th>
-                        <th class="w-15 text-left">Tanggal</th>
-                        <th class="w-15 text-left">Kode Pendaftar</th>
-                        <th class="w-15 text-left">Nama</th>
-                        <th class="w-15 text-left">Tahun Akademik</th>
+                        <th class="w-15 text-left">Tanggal | Kode Daftar</th>
+                        <th class="w-15 text-left">Nama | Tahun Akademik</th>
                         <th class="w-15 text-end">Total Tagihan</th>
                         <th class="w-15 text-end">Total Bayar</th>
                         <th class="w-15 text-end">Sisa Tagihan</th>
-                        <th class="w-12 text-end">Aksi</th>
+                        <th class="w-12 text-end">Bayar | Cetak | Kirim | Detail</th>
                     </tr>
                 </thead>  
                 <tbody> 
@@ -32,7 +30,7 @@
                             }
                             $hapus = '<a class="btn btn-danger" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
                             
-                            $icon = '<i class="fa fa-print" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
+                            $icon = '<i class="fa fa-print" data-bs-toggle="tooltip" title="Tikda Aktif"></i>&nbsp;Cetak';
                             $print = '<a href="/keuangan/cetak_tagihan/'.$kode.'" class="btn btn-secondary btn-sm active" target="_blank">'.$icon.'</a>';
                             $detail = '<a href="/keuangan/detail_tagihan/'.$kode.'" class="btn btn-info btn-sm" target="_blank">Detail</a>';
                             //KIRIM TAGIHAN KE WA
@@ -47,17 +45,22 @@
                         ?>
                         <tr>
                             <td><?=$no;?></td>
-                            <td><?=date_short($row['tgl_tagihan']);?></td>
-                            <td><?=$row['kode_daftar'];?></td>
-                            <td><?=get_nama($row['id_siswa']);?></td>
-                            <td><?=$row['tahun_akademik'];?></td>
+                            <td>
+                                <?=date_short($row['tgl_tagihan']);?>
+                                <div class="text-secondary"><?=$row['kode_daftar'];?></div>
+                            </td>
+                            <td>
+                                <?=get_nama($row['id_siswa']);?>
+                                <div class="text-secondary"><?=$row['tahun_akademik'];?></div>
+                            </td>
+                           
                             <td class="text-end"><?=rprp($row['total_tagihan']);?></td>
                             <td class="text-end"><?=rprp($row['total_bayar']);?></td>
                             <td class="text-end"><?=rprp($sisa);?></td>
                             <td align="right">
                                 <div class="btn-group btn-group-sm">
-                                    <?=$print;?>
                                     <?=$bayar;?>
+                                    <?=$print;?>
                                     <?=$send_wa;?>
                                     <?=$detail;?>
                                 </div>
@@ -69,7 +72,7 @@
                     <tfoot>
                         <tr>
                             <td>#</td>
-                            <td colspan="4">Total Tagihan</td>
+                            <td colspan="2">Total</td>
                             <td class="text-end"><?=rprp($total_tagihan);?></td>
                             <td class="text-end"><?=rprp($total_bayar);?></td>
                             <td class="text-end"><?=rprp($sisa_tagihan);?></td>
