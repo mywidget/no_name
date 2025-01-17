@@ -157,7 +157,10 @@
 				}else{
 				$limit = 5;
 			}
-			
+			$tahun = $this->input->post('tahun');
+            if (!empty($tahun)) {
+                $conditions['search']['tahun'] = $tahun;
+			}
 			
             // Get record count 
             $conditions['returnType'] = 'count';

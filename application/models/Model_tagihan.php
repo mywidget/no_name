@@ -80,7 +80,9 @@
 				if(!empty($params['search']['kategori'])){ 
 					$this->db->where('id_kategori', $params['search']['kategori']); 
 				} 
-				
+				if(!empty($params['search']['tahun'])){ 
+					$this->db->where('rb_tagihan.tahun_akademik', $params['search']['tahun']); 
+				} 
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -247,7 +249,7 @@
 				$detail_tagihan = $this->get_detail_tagihan($id_tagihan);
 				$detail_bayar = $this->get_detail_bayar($id_tagihan);
 				$nama = cekPendaftar($rows['id_siswa'])['nama'];
-				 
+				
 				$sisa = $rows['total_tagihan'] - $rows['total_bayar'];
 				$searchVal = array(
 				"{selamat}",
@@ -615,4 +617,4 @@
 			return $this->db->delete('rb_rekening', ['id_rekening' => $id_rekening]);
 		}
 		
-	}																																																	
+	}																																																		
