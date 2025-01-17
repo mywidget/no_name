@@ -24,7 +24,7 @@
 						<h3 class="card-title d-print-none">List Data</h3>
 						<div class="col-auto ms-auto d-print-none d-none" id="btn-print">
 							<a href="/keuangan/export_to_excel" class="btn btn-success" target="_blank">
-							 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M8 11h8v7h-8z" /><path d="M8 15h8" /><path d="M11 11v7" /></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M8 11h8v7h-8z" /><path d="M8 15h8" /><path d="M11 11v7" /></svg>
 								Export Laporan
 							</a>
 							<button type="button" class="btn btn-primary" onclick="javascript:window.print();">
@@ -50,10 +50,17 @@
 								</div>
 							</div>
 							<div class="text-muted">
-								<div class="d-none d-sm-inline-block">Status</div>
+								<div class="d-none d-sm-inline-block">Kategori</div>
 								<div class="mx-2 d-inline-block">
 									<select name="kategori" id="kategori" class="form-select" onchange="searchData()">
 										<!-- Options dynamically added here -->
+									</select>
+								</div>
+							</div>
+							<div class="text-muted">
+								<div class="mx-2 d-inline-block">
+									<select id="tahun_akademik_filter" class="form-control form-select w-5" style="width:200px!important" onchange="searchData()">
+										<option value="">Tahun Akademik</option>
 									</select>
 								</div>
 							</div>
@@ -92,6 +99,7 @@
 			var start_date = $('#start_date').val();
 			var end_date = $('#end_date').val();
 			var kategori = $('#kategori').val();
+			var tahun = $('#tahun_akademik_filter').val();
 			$('#btn-print').removeClass('d-none');
 			
 			$.ajax({
@@ -99,7 +107,8 @@
 				url: base_url+'keuangan/load_laporan/',
 				data:{start_date:start_date,
 					end_date:end_date,
-					kategori:kategori
+					kategori:kategori,
+					tahun:tahun,
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					// Menangani error yang terjadi
@@ -130,6 +139,20 @@
 			searchData();
 		});
 		$(document).ready(function() {
+			$.ajax({
+				url: base_url+ 'psb/get_tahun_akademik',  
+				type: "GET",
+				dataType: "json",
+				success: function(data) {
+					var dropdown = $('#tahun_akademik_filter');
+					dropdown.empty(); // Kosongkan dropdown terlebih dahulu
+					dropdown.append('<option value="">Pilih Tahun Akademik</option>'); // Option default
+					
+					$.each(data, function(index, item) {
+						dropdown.append('<option value="' + item.id_tahun_akademik + '">' + item.nama_tahun + '</option>');
+					});
+				}
+			});
 			// Ambil rekening untuk dropdown
 			$.ajax({
 				url: base_url+"keuangan/get_kategori",

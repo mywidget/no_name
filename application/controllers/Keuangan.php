@@ -592,9 +592,10 @@
 			$start_date = $this->input->post('start_date');
 			$end_date = $this->input->post('end_date');
 			$kategori = $this->input->post('kategori');
+			$tahun = $this->input->post('tahun');
 			
 			// Memanggil model untuk mendapatkan laporan
-			$data = $this->model_tagihan->get_laporan($start_date, $end_date,$kategori);
+			$data = $this->model_tagihan->get_laporan($start_date, $end_date,$kategori,$tahun);
 			// dump($data);
 			$this->load->view('backend/keuangan/load_laporan', $data);
 		}

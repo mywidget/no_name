@@ -495,7 +495,7 @@
 			return $result ? $result->jumlah_bayar : 0;  // Jika ada hasil, kembalikan total, jika tidak 0
 		}
 		
-		public function get_laporan($start_date = null, $end_date = null, $kategori = null) {
+		public function get_laporan($start_date = null, $end_date = null, $kategori = null, $tahun = null) {
 			// Query untuk menggabungkan data dari tabel rb_bayar_tagihan dan rb_pengeluaran
 			// $this->db->select('
 			// rb_bayar_tagihan.id_bayar_tagihan,
@@ -517,6 +517,10 @@
 			// Kondisi untuk filter berdasarkan kategori dan tanggal jika diperlukan
 			if ($kategori) {
 				$this->db->where('rb_bayar_tagihan.id_kategori', $kategori);
+			}
+			// Kondisi untuk filter berdasarkan tahun akademik
+			if ($tahun) {
+				$this->db->where('rb_tagihan.tgl_tagihan', $tahun);
 			}
 			if ($start_date && $end_date) {
 				$this->db->where('rb_bayar_tagihan.tgl_bayar >=', $start_date);
