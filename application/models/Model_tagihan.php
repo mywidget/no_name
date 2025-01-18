@@ -59,10 +59,10 @@
 			// print_r($params);
 			// $this->db->select('*'); 
 			// $this->db->from('rb_bayar_tagihan'); 
-			$this->db->select('rb_bayar_tagihan.id_bayar_tagihan,rb_bayar_tagihan.id_kategori,rb_psb_daftar.nama, rb_bayar_tagihan.id_tagihan, rb_kategori.title, rb_bayar_tagihan.tgl_bayar, rb_bayar_tagihan.jumlah_bayar, rb_rekening.title as rekening');
+			$this->db->select('rb_bayar_tagihan.id_bayar_tagihan,rb_bayar_tagihan.id_kategori,rb_psb_daftar.nama, rb_bayar_tagihan.id_tagihan, rb_kategori.title, rb_bayar_tagihan.tgl_bayar, rb_bayar_tagihan.jumlah_bayar,rb_bayar_tagihan.lampiran, rb_rekening.title as rekening');
 			$this->db->from('rb_psb_daftar');
 			$this->db->join('rb_tagihan', 'rb_psb_daftar.id = rb_tagihan.id_siswa', 'inner');
-			$this->db->join('rb_bayar_tagihan', 'rb_tagihan.id_tagihan = rb_bayar_tagihan.id_bayar_tagihan', 'inner');
+			$this->db->join('rb_bayar_tagihan', 'rb_tagihan.id_tagihan = rb_bayar_tagihan.id_bayar_tagihan', 'right');
 			$this->db->join('rb_kategori', 'rb_bayar_tagihan.id_kategori = rb_kategori.id_kategori', 'inner');
 			$this->db->join('rb_rekening', 'rb_bayar_tagihan.id_bayar = rb_rekening.id_rekening', 'inner');
 			// $this->db->group_by('rb_bayar_tagihan.id_tagihan');

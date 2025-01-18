@@ -39,8 +39,10 @@
         <!-- Bootstrap theme -->
         <script src="<?= base_url('assets/'); ?>backend/jquery/jquery.min.js" type="text/javascript"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+         
         <!-- Tabler Core -->
         <script src="<?= base_url('assets/'); ?>backend/libs/daterangepicker/moment.min.js" type="text/javascript"></script>
+        
         <script src="<?= base_url('assets/'); ?>backend/libs/jQuery-slimScroll/jquery.slimscroll.js" type="text/javascript"></script>
         <script src="<?=base_url('assets/');?>backend/js/validation.min.js" type="text/javascript"></script>
         <script src="<?=base_url();?>assets/js/shortcut.js" defer></script>
@@ -51,6 +53,7 @@
         <script src="<?= base_url('assets/'); ?>backend/libs/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
         <script src="<?= base_url('assets/'); ?>backend/libs/daterangepicker/daterangepicker.js"></script>
          <script src="<?= base_url('assets/'); ?>backend/libs/jquery.loading/jquery.loading.js"></script>
+         
         <script>
             var my_ip = "<?=$_SERVER['SERVER_NAME']; ?>";
             var base_url = '<?=base_url(); ?>';
@@ -214,6 +217,7 @@
         
        <!--script src="https://cdn.tiny.cloud/1/idl3cu7ft4vqd894w7n1pmou866f612eo65mpfqg4xnqc8qe/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script-->
+      
         <script src="<?= base_url('assets/'); ?>backend/libs/sweetalert2/sweetalert2.min.js"></script>
         
         <script src="//cdn.jsdelivr.net/npm/litepicker-polyfills-ie11/dist/index.js" defer></script>

@@ -21,6 +21,7 @@
                             $kode = encrypt_url($row['id_bayar_tagihan']);
                             $total += $row['jumlah_bayar'];
                             $icon = '<i class="fa fa-image" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
+                            $gambar = base_url().'upload/lampiran/'.$row['lampiran'];
                         ?>
                         <tr>
                             <td><?=$no;?></td>
@@ -30,9 +31,11 @@
                             <td><?=($row['rekening']);?></td>
                             <td class="text-end"><?=rprp($row['jumlah_bayar']);?></td>
                             <td align="right">
-                                <div class="btn-group btn-group-sm">
-                                    <?=$icon;?>
-                                </div>
+                                <a data-fslightbox="gallery" href="<?=$gambar;?>">
+                                    <div class="btn-group btn-group-sm">
+                                        <?=$icon;?>
+                                    </div>
+                                </a>
                             </td>
                         </tr>
                         <?php $no++;
@@ -49,7 +52,7 @@
                 </tbody>  
             </table>  
         </div>
-         <div class="card-footer bg-transparent">
+        <div class="card-footer bg-transparent">
             <?php echo $this->ajax_pagination->create_links(); ?>
         </div>
         <?php }else{ ?>
@@ -59,4 +62,5 @@
             </tr>
         </table>
     <?php } ?>
-    </div>
+</div>
+<script src="<?=base_url();?>assets/backend/js/fslightbox.js" defer></script>
