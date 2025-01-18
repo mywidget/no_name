@@ -90,7 +90,7 @@
             if (!empty($limit)) {
                 $conditions['search']['limit'] = $limit;
 				}else{
-				$limit = 5;
+				$limit = $this->perPage;
 			}
 			$status = $this->input->post('status');
             if (!empty($status)) {
@@ -158,7 +158,7 @@
             if (!empty($limit)) {
                 $conditions['search']['limit'] = $limit;
 				}else{
-				$limit = 5;
+				$limit = $this->perPage;
 			}
 			
 			
@@ -212,7 +212,7 @@
             if (!empty($limit)) {
                 $conditions['search']['limit'] = $limit;
 				}else{
-				$limit = 5;
+				$limit = $this->perPage;
 			}
 			
 			
