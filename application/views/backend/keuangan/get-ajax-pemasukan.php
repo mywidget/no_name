@@ -20,7 +20,7 @@
                         foreach ($record as $row){
                             $kode = encrypt_url($row['id_bayar_tagihan']);
                             $total += $row['jumlah_bayar'];
-                            $icon = '<i class="fa fa-image" data-bs-toggle="tooltip" title="Tikda Aktif"></i>';
+                            $icon = '<i class="fa fa-image" data-bs-toggle="tooltip" title="Lampiran Bukti Transfer"></i>';
                             $gambar = base_url().'upload/lampiran/'.$row['lampiran'];
                         ?>
                         <tr>
