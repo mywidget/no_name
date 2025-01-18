@@ -158,6 +158,26 @@
 		}
 	}
 	
+	if ( ! function_exists('get_nama'))
+	{
+		/**
+			* get_nama
+			* 
+			@param int 
+			@return string
+		*/
+		function get_nama($id)
+		{
+			$ci = & get_instance();
+			$cek = $ci->model_app->pilih_where('nama','rb_psb_daftar',['id'=>$id]);
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row()->nama; 	
+				}else{
+				return false; 
+			}
+		}
+	}		
 	if ( ! function_exists('cekPendaftar'))
 	{
 		/**

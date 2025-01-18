@@ -255,6 +255,7 @@
 				$response = [
 				'status'=>true,
 				'id'=>$id,
+				'id_siswa'=>$result->row()->id_siswa,
 				'total_dibayar'=>$result->row()->total_bayar,
 				'total_tagihan'=>$result->row()->total_tagihan,
 				'sisa'=>$sisa
@@ -319,7 +320,7 @@
 			cek_crud_akses('DELETE');
 			$id 	 = decrypt_url($this->input->post('id',TRUE));
 			$tagihan = decrypt_url($this->input->post('tagihan',TRUE));
-			
+			// dump($tagihan);
 			$where = array('id_bayar_tagihan' => $id);
 			$search = $this->model_app->edit('rb_bayar_tagihan', $where);
 			if($search->num_rows()>0){
@@ -334,9 +335,9 @@
 				$this->cek_total_bayar($tagihan,$jumlah_bayar);
 				$res = $this->model_app->hapus('rb_bayar_tagihan',$where);
 				if($res==true){
-					$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus','id'=>encrypt_url($tagihan));
+					$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus','id'=>encrypt_url($tagihan),'jumlah_bayar'=>$jumlah_bayar);
 					}else{
-					$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus','id'=>0);
+					$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus','id'=>0,'jumlah_bayar'=>0);
 				}
 				
 				}else{
@@ -472,6 +473,7 @@
 						echo json_encode(['status' => false, 'message' => $this->upload->display_errors()]);
 						} else {
 						$id_tagihan = decrypt_url($this->input->post('id_tagihan',TRUE));
+						$id_siswa = decrypt_url($this->input->post('id_siswa',TRUE));
 						$total_tagihan = convert_to_number($this->input->post('total_tagihan',TRUE));
 						$total_dibayar = convert_to_number($this->input->post('total_dibayar',TRUE));
 						$sisa_tagihan = convert_to_number($this->input->post('sisa_tagihan',TRUE));
@@ -485,6 +487,7 @@
 							$status = 'Y';
 						}
 						$data = [
+						'id_siswa' => $this->input->post('id_siswa'),
 						'id_kategori' => $this->input->post('kategori'),
 						'id_tagihan'  => $id_tagihan,
 						'id_bayar'    => $this->input->post('rekening'),
@@ -625,10 +628,7 @@
 		public function laporan() {
 			$data['title'] = 'Laporan | '.$this->title;
 			$data['menu'] = getMenu($this->menu);
-			// Mengambil inputan tanggal mulai dan tanggal selesai
-			// $this->load->view('backend/keuangan/view_laporan');
-			// dump($data['laporan']);
-			// Menampilkan laporan
+			
 			$this->thm->load('backend/template','backend/keuangan/view_laporan',$data);
 		}
 		// Mendapatkan laporan
@@ -764,6 +764,31 @@
 			}
 			
 		}
+		public function cetak_laporan_tagihan()
+		{
+			$data['title']       = 'Cetak Laporan Tagihan';
+			$format = $this->input->post('pilihan');
+			if($format=='print'){
+				
+				$data['favicon'] = tag_image('site_favicon');
+				$data['logo'] = tag_image('site_logo');
+				
+				$tahun = $this->input->post('tahun');
+				if (!empty($tahun)) {
+					$conditions['search']['tahun'] = $tahun;
+				}
+				$conditions['returnType'] = 'count';
+				unset($conditions['returnType']);
+				$data['tahun'] = $tahun ? $tahun : 'SEMUA';
+				$data['record'] = $this->model_tagihan->getTagihan($conditions);
+				// dump($data);
+				$this->load->view('backend/keuangan/cetak_laporan_tagihan', $data);
+				
+				}else{
+				$this->export_to_excel_tagihan();
+			}
+			
+		}
 		public function cetak_laporan_pengeluaran()
 		{
 			$data['title']       = 'Cetak pengeluaran';
@@ -823,7 +848,7 @@
 			foreach ($laporan['pemasukan'] as $index => $item) {
 				$sheet->setCellValue('A' . $row, $index + 1);
 				$sheet->setCellValue('B' . $row, tgl_pengiriman($item->tgl_bayar));
-				$sheet->setCellValue('C' . $row, $item->nama);
+				$sheet->setCellValue('C' . $row, get_nama($item->id_siswa));
 				$sheet->setCellValue('D' . $row, $item->title);
 				$sheet->setCellValue('E' . $row, $item->rekening);
 				$sheet->setCellValue('F' . $row, $item->jumlah_bayar);
@@ -854,6 +879,80 @@
 			$writer->save('php://output');
 		}
 		
+		// Fungsi Export Laporan ke Excel
+		public function export_to_excel_tagihan() {
+			// Menangkap parameter untuk laporan
+			
+			$tahun = $this->input->post('tahun');
+			if (!empty($tahun)) {
+				$conditions['search']['tahun'] = $tahun;
+			}
+			$conditions['returnType'] = 'count';
+			unset($conditions['returnType']);
+			
+			$laporan = $this->model_tagihan->getTagihan($conditions);
+			
+			// Membuat instance spreadsheet
+			$spreadsheet = new Spreadsheet();
+			$sheet = $spreadsheet->getActiveSheet();
+			// dump($laporan);
+			// Menambahkan judul "Pemasukan" di atas header
+			$sheet->setCellValue('A1', 'Laporan Tagihan');
+			$sheet->mergeCells('A1:H1'); // Merge kolom A hingga E untuk "Pemasukan"
+			$sheet->getStyle('A1:H1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+			
+			// Set header untuk pemasukan
+			$sheet->setCellValue('A2', 'No')
+			->setCellValue('B2', 'Tanggal')
+			->setCellValue('C2', 'Kode Daftar')
+			->setCellValue('D2', 'Nama')
+			->setCellValue('E2', 'Tahun Akademik')
+			->setCellValue('F2', 'Total Tagihan')
+			->setCellValue('G2', 'Total Bayar')
+			->setCellValue('H2', 'Sisa Tagihan');
+			
+			
+			// Isi data pemasukan
+			$row = 3;
+			$total_tagihan = $total_bayar = $sisa_tagihan = 0;
+			foreach ($laporan as $index => $item) {
+				$sisa = $item['total_tagihan'] - $item['total_bayar'];
+				$total_tagihan +=$item['total_tagihan'];
+				$total_bayar +=$item['total_bayar'];
+				$sisa_tagihan +=$sisa;
+				$sheet->setCellValue('A' . $row, $index + 1)
+				->setCellValue('B' . $row, $item['tgl_tagihan'])
+				->setCellValue('C' . $row, $item['kode_daftar'])
+				->setCellValue('D' . $row, get_nama($item['id_siswa']))
+				->setCellValue('E' . $row, $item['tahun_akademik'])
+				->setCellValue('F' . $row, $item['total_tagihan'])
+				->setCellValue('G' . $row, $item['total_bayar'])
+				->setCellValue('H' . $row, $sisa);
+				// Menambahkan jumlah pengeluaran ke total
+				// $totalPengeluaran += $item->jumlah_pengeluaran;
+				$row++;
+			}
+			
+			$sheet->setCellValue('A' . $row, 'TOTAL');
+			$sheet->mergeCells('A' . $row . ':E' . $row); // Merge kolom A hingga D untuk "TOTAL"
+			$sheet->setCellValue('F' . $row, $total_tagihan);
+			$sheet->setCellValue('G' . $row, $total_bayar);
+			$sheet->setCellValue('H' . $row, $sisa_tagihan);
+			
+			// Auto-size kolom A sampai E
+			foreach (range('A', 'H') as $columnID) {
+				$sheet->getColumnDimension($columnID)->setAutoSize(true);
+			}
+			// Output the file to browser
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'laporan_tagihan.xlsx';
+			
+			// Set headers untuk mendownload file
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="' . $filename . '"');
+			header('Cache-Control: max-age=0');
+			$writer->save('php://output');
+		}
 		// Fungsi Export Laporan ke Excel
 		public function export_to_excel_pengeluaran() {
 			// Menangkap parameter untuk laporan
@@ -895,7 +994,7 @@
 				$totalPengeluaran += $item->jumlah_pengeluaran;
 				$row++;
 			}
-		 
+			
 			$sheet->setCellValue('A' . $row, 'TOTAL');
 			$sheet->mergeCells('A' . $row . ':D' . $row); // Merge kolom A hingga D untuk "TOTAL"
 			$sheet->setCellValue('E' . $row, $totalPengeluaran);
@@ -948,7 +1047,7 @@
 				$sheet->setCellValue('A' . $row, $index + 1);
 				$sheet->setCellValue('B' . $row, tgl_pengiriman($item->tgl_bayar));
 				$sheet->setCellValue('C' . $row, $item->title);
-				$sheet->setCellValue('D' . $row, $item->nama .' ('.$item->rekening.')');
+				$sheet->setCellValue('D' . $row, get_nama($item->id_siswa) .' ('.$item->rekening.')');
 				$sheet->setCellValue('E' . $row, $item->jumlah_bayar);
 				
 				// Menambahkan jumlah pemasukan ke total
@@ -1027,4 +1126,4 @@
 			header('Cache-Control: max-age=0');
 			$writer->save('php://output');
 		}
-	}																																																																																																									
+	}																																																																																																														

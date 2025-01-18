@@ -23,7 +23,7 @@
 				<th scope="row"><?= $index + 1 ?></th>
 				<td><?= dtime($row->tgl_bayar) ?></td>
 				<td><?=($row->title);?></td>
-				<td><?= $row->nama ?> [<?=($row->rekening);?>]</td>
+				<td><?= get_nama($row->id_siswa) ?> [<?=($row->rekening);?>]</td>
 				<td class="text-end"><?= rprp($row->jumlah_bayar) ?></td>
 			</tr>
 			<?php endforeach; ?>

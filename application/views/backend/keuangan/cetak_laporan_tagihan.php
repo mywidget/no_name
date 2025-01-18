@@ -10,7 +10,7 @@
 		<meta name="author" content="">
 		<!-- Favicon icon -->
 		<link rel="icon" type="image/x-icon" href="<?= base_url('upload/'); ?><?=info('site_favicon');?>">
-		<title><?=$title?></title>
+		<title><?=$title;?></title>
 		<!-- Bootstrap Core CSS -->
 		<link href="<?=base_url();?>assets/print_style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Custom CSS -->
@@ -97,7 +97,7 @@
 			
 		</style>
 		<?php  
-			$tagihan = "LAPORAN PEMASUKAN";
+			$tagihan = "LAPORAN TAGIHAN";
 			$text = "text-success";
 			
 			
@@ -136,26 +136,55 @@
 											<table class="table table-striped" style="margin-bottom: 5px;">
 												<thead style="font-size:12px">
 													<tr>
-														<th class="w-1 text-left">No</th>
-														<th class="w-15 text-left">Tanggal</th>
-														<th class="w-15 text-left">Pendaftar</th>
-														<th class="w-15 text-left">Kategori</th>
-														<th class="w-15 text-left">Rekening</th>
-														<th class="w-15 text-right">Jumlah</th>
+														<th class="w-1 text-center">No</th>
+														<th class="w-15 text-left">Tanggal | Kode_Daftar</th>
+														<th class="w-15 text-left">Nama | Tahun_Akademik</th>
+														<th class="w-15 text-right">Total</th>
+														<th class="w-15 text-right">Bayar</th>
+														<th class="w-15 text-right">Sisa</th>
 													</tr>
 												</thead>
 												<tbody style="font-size:12px">
-													<?php $no = 1; foreach($record AS $row): ?>
+													<?php $no = 1; 
+														$total_tagihan = $total_bayar = $sisa_tagihan = 0;
+														foreach($record AS $row): 
+														$sisa = $row['total_tagihan'] - $row['total_bayar'];
+														$total_tagihan +=$row['total_tagihan'];
+														$total_bayar +=$row['total_bayar'];
+														$sisa_tagihan +=$sisa;
+													?>
 													<tr>
 														<td><?=$no++;?></td>
-														<td><?=dtime($row['tgl_bayar']);?></td>
-														<td><?=get_nama($row['id_siswa']);?></td>
-														<td><?=($row['title']);?></td>
-														<td><?=($row['rekening']);?></td>
-														<td class="text-right"><?=rprp($row['jumlah_bayar']);?></td>
+														<td><?=dtime($row['tgl_tagihan']);?>
+															<div class="text-secondary"><?=$row['kode_daftar'];?></div>
+														</td>
+														<td>
+															<?=get_nama($row['id_siswa']);?>
+															<div class="text-secondary"><?=$row['tahun_akademik'];?></div>
+														</td>
+														
+														<td class="text-right">
+															<?=rprp($row['total_tagihan']);?>
+															<div class="text-secondary">Pendaftaran + Biaya Masuk</div>
+														</td>
+														<td class="text-right"><?=rprp($row['total_bayar']);?>
+															<div class="text-secondary">Pendaftaran & Biaya Masuk</div>
+														</td>
+														<td class="text-right"><?=rprp($sisa);?>
+															<div class="text-secondary">Biaya Masuk</div>
+														</td>
 													</tr>
 													<?php endforeach;?>
 												</tbody>
+												<tfoot style="font-size:12px">
+													<tr>
+														<td>#</td>
+														<td colspan="2">Total</td>
+														<td class="text-right"><?=rprp($total_tagihan);?></td>
+														<td class="text-right"><?=rprp($total_bayar);?></td>
+														<td class="text-right"><?=rprp($sisa_tagihan);?></td>
+													</tr>
+												</tfoot>
 											</table>
 										</div>
 									</div>
@@ -211,4 +240,4 @@
 			</script>
 			
 		</body>
-	</html>											
+	</html>																			

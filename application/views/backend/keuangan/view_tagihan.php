@@ -80,7 +80,8 @@
 										<span class="input-group-text">
 											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Cari Data" onclick="searchData();"><i class="ti ti-search fa-lg"></i>&nbsp;
 											</a>
-											<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear Pencarian">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;
+											<a href="#" class="link-secondary clear" data-bs-toggle="tooltip" aria-label="Clear Pencarian" title="Clear Pencarian">&nbsp;<i class="ti ti-x fa-lg"></i>&nbsp;|<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block cetak_laporan" data-bs-toggle="tooltip" aria-label="Cari Data" title="Cetak laporan" ><i class="ti ti-printer fa-lg"></i>&nbsp;Cetak
+											</a>
 											</a>
 										</span>
 									</div>
@@ -150,6 +151,7 @@
             <div class="modal-body">
                 <form id="bayarForm">
 					<input id="id_tagihan" name="id_tagihan" type="hidden" class="form-control" readonly>
+					<input id="id_siswa" name="id_siswa" type="hidden" class="form-control" readonly>
 					<div class="mb-1 row">
                         <label for="tanggal_bayar" class="col-4 col-form-label">TANGGAL BAYAR</label>
                         <div class="col-8">
@@ -255,6 +257,34 @@
 </div>
 
 
+<div class="modal modal-blur fade" id="ModalCetak" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-status bg-danger"></div>
+			<div class="modal-body text-center py-4">
+				<!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+				<svg class="icons" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" /><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" /><path d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z" /></svg>
+				<h3>Pilih Format</h3>
+				<form method="POST" id="formExport" action="/keuangan/cetak_laporan_tagihan" target="_blank">
+					<div class="mx-2 d-inline-block">
+						<select name="pilihan" id="pilihan" class="form-control form-select w-100"style="width:150px!important">
+							<option value="print">PRINT</option>
+							<option value="export" >EXCEL</option>
+						</select>
+					</div>
+					<input type="hidden" name="kategori_cetak" id="kategori_cetak">
+					<input type="hidden" name="tahun_cetak" id="tahun_cetak">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-danger" data-bs-dismiss="modal" type="button">Batal</button> 
+				<button class="btn btn-success cetak_data" id="pilih-format" type="button">Cetak</button> 
+			</div>
+		</div>
+	</div>
+</div>
+
 <style>
 	.select2-container {
 	width: 100% !important;
@@ -283,7 +313,28 @@
 <?php $this->RenderScript[] = function() { ?>
 	
 	<script>
+		$(document).on('click','.cetak_data',function(e){
+			$("#formExport").submit();
+			
+		});
+		$(document).on('change','#pilihan',function(e){
+			var id = $(this).val();
+			if(id=='print')
+			{
+				$("#pilih-format").html('Cetak');
+				}else{
+				$("#pilih-format").html('Export');
+			}
+		});
 		
+		$(document).on('click','.cetak_laporan',function(e){
+			$("#ModalCetak").modal('show');
+			var kategori = $('#kategori').val();
+			var tahun = $('#tahun_akademik_filter').val();
+			$('#kategori_cetak').val(kategori);
+			$('#tahun_cetak').val(tahun);
+			
+		});
 		searchData();
 		function searchData(page_num)
 		{
@@ -384,6 +435,7 @@
 		
 		function load_modal(id) {
 			$('#ModalBayar').modal('show');
+			load_bayar(id);
 			$.ajax({
 				url: base_url+"keuangan/bayar_tagihan",
 				type: "POST",
@@ -399,6 +451,7 @@
 				success: function(data) {
 					if(data.status==true){
 						$('#id_tagihan').val(data.id);
+						$('#id_siswa').val(data.id_siswa);
 						$('#total_tagihan').val(formatRupiah(data.total_tagihan));
 						$('#total_dibayar').val(formatRupiah(data.total_dibayar));
 						$('#sisa_tagihan').val(formatRupiah(data.sisa));
@@ -487,6 +540,7 @@
 						load_bayar(data.id)
 						// Jika data diterima dengan sukses
 						$('#id_tagihan').val(data.id);
+						$('#id_siswa').val(data.id_siswa);
 						$('#total_tagihan').val(formatRupiah(data.total_tagihan));
 						$('#total_dibayar').val(formatRupiah(data.total_dibayar));
 						$('#sisa_tagihan').val(formatRupiah(data.sisa));

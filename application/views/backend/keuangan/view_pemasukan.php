@@ -108,7 +108,6 @@
 							<option value="export" >EXCEL</option>
 						</select>
 					</div>
-					<input type="hidden" name="kategori_cetak" id="kategori_cetak">
 					<input type="hidden" name="tahun_cetak" id="tahun_cetak">
 				</form>
 			</div>
@@ -209,9 +208,7 @@
 		
 		$(document).on('click','.cetak_laporan',function(e){
 			$("#ModalCetak").modal('show');
-			var kategori = $('#kategori').val();
 			var tahun = $('#tahun_akademik_filter').val();
-			$('#kategori_cetak').val(kategori);
 			$('#tahun_cetak').val(tahun);
 			
 		});

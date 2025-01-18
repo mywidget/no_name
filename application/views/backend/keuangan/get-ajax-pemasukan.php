@@ -26,7 +26,7 @@
                         <tr>
                             <td><?=$no;?></td>
                             <td><?=indo_date($row['tgl_bayar']);?></td>
-                            <td><?=($row['nama']);?></td>
+                            <td><?=get_nama($row['id_siswa']);?></td>
                             <td><?=($row['title']);?></td>
                             <td><?=($row['rekening']);?></td>
                             <td class="text-end"><?=rprp($row['jumlah_bayar']);?></td>
