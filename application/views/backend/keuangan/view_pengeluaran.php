@@ -36,7 +36,6 @@
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
 									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchData()">
-										<option value="5">5</option>
 										<option value="10">10</option>
 										<option value="20">20</option>
 										<option value="50">50</option>
