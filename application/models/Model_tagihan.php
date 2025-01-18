@@ -345,6 +345,7 @@
 				]
 				];
 				$rb_bayar_tagihan[] = [
+				'id_siswa'=>$data['id_siswa'],
 				'id_kategori'=>1,
 				'id_tagihan'=>$inserted_ids,
 				'id_bayar'=>1,
@@ -400,6 +401,7 @@
 			]
 			];
 			$rb_bayar_tagihan[] = [
+			'id_siswa'=>decrypt_url($this->input->post('id_pendaftar',true)),
 			'id_kategori'=>1,
 			'id_tagihan'=>$inserted_ids,
 			'id_bayar'=>1,
@@ -615,4 +617,4 @@
 			return $this->db->delete('rb_rekening', ['id_rekening' => $id_rekening]);
 		}
 		
-	}																																																		
+	}																																																			
