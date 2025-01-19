@@ -674,7 +674,7 @@
 		function getKecamatan($id)
 		{
 			$ci = & get_instance();
-			$cek = $ci->model_app->pilih_where('name','t_villages',['id'=>$id]);
+			$cek = $ci->model_app->pilih_where('name','t_districts',['id'=>$id]);
 			if($cek->num_rows() > 0)
 			{
 				return $cek->row()->name; 	
@@ -694,7 +694,7 @@
 		function getKelurahan($id)
 		{
 			$ci = & get_instance();
-			$cek = $ci->model_app->pilih_where('name','t_districts',['id'=>$id]);
+			$cek = $ci->model_app->pilih_where('name','t_villages',['id'=>$id]);
 			if($cek->num_rows() > 0)
 			{
 				return $cek->row()->name; 	
