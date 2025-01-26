@@ -820,7 +820,7 @@
 				
 				$this->form_validation->set_rules(array(
 				array(
-				'field' => 'email_daftar',
+				'field' => 'email',
 				'label' => 'Email',
 				'rules' => 'required|trim|min_length[10]|is_unique[rb_psb_daftar.email]',
 				'errors' => array(
@@ -830,7 +830,7 @@
 				)
 				),
 				array(
-				'field' => 'nik_daftar',
+				'field' => 'nik',
 				'label' => 'NIK',
 				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik]',
 				'errors' => array(
@@ -842,7 +842,7 @@
 				),
 				
 				array(
-				'field' => 'nisn_daftar',
+				'field' => 'nisn',
 				'label' => 'NISN',
 				'rules' => 'required|trim|numeric|min_length[10]|max_length[10]|is_unique[rb_psb_daftar.nisn]',
 				'errors' => array(
@@ -982,21 +982,9 @@
 					}
 					$nama_unit = $this->model_formulir->nama_unit_byid($this->input->post('unit_sekolah',true));
 					//no hp
-					$full_phone = $this->input->post('full_phone');
-					$full_phone_country = $this->input->post('full_phone_country');
-					$number = PhoneNumber::parse($full_phone);
-					$nomor_personal = $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
-					if(!empty($this->input->post('no_hp_alternatif'))){
-						//no hp altenatif
-						$full_phone_alternate = $this->input->post('full_phone_alternate');
-						$full_phone_alternate_country = $this->input->post('full_phone_alternate_country');
-						$number_alternate = PhoneNumber::parse($full_phone_alternate);
-						$nomor_personal_alternate = $number_alternate->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
-						}else{
-						$nomor_personal_alternate = '';
-					}
 					
-					
+					$nomor_personal = $this->input->post('nomor_hp') // 044 668 18 00 nomor_hp
+					$nomor_personal_alternate = ''$this->input->post('no_hp_alternatif');
 					$input_data = [
 					"kode_daftar"              	  => $this->input->post('nik',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
@@ -1948,4 +1936,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																									
+	}																																																																																																																																																																										
