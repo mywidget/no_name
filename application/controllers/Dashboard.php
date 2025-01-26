@@ -728,7 +728,7 @@
 					$recaptcha = $this->recaptcha($check);
 					
 					if($recaptcha['success']==true){
-						$nik = $this->input->post('nik',true);
+						$nik = $this->input->post('nik_daftar',true);
 						$nik_ayah = $this->input->post('nik_ayah',true);
 						$nik_ibu = $this->input->post('nik_ibu',true);
 						$tanggal_lahir = $this->input->post('tanggal_lahir',true);
