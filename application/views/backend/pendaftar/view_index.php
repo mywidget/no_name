@@ -1059,37 +1059,15 @@
 									}
 								});
 								} else {
-								// const total = response.reduce((acc, { billAmount }) => acc + Number(billAmount), 0);
-								// $('#total').text(formatRupiah(response.amount));
-								// $('#rincian').html(rincianPembayaran(response));
-								swal.fire({
-									title: 'Konfirmasi',
-									buttonsStyling: false,
-									showCancelButton: false,
-									reverseButtons: true,
-									html: rulesConfirmElement,
-									confirmButtonText: 'Tutup',
-									cancelButtonText: 'Periksa Data',
-									customClass: {
-										...sweetAlertButtonClass,
-										confirmButton: 'btn btn-success rounded-pill flex-grow-1',
-										cancelButton: 'btn btn-outline-success rounded-pill flex-grow-1',
-										actions: 'w-100 px-4 gap-2',
-										title: 'fs-4',
-									},
-								})
-								.then((result) => {
-									if (result.isConfirmed) {
-										$('input').val('') 
-										$('select').val('') 
-										$('#formulir').hide(); 
-										$('#sukses').removeClass('d-none'); 
-										$('#sukses').show(); 
-										// location.reload(); 
-										} else {
-										location.reload(); 
-									}
-								});
+								$('body').loading('stop');
+								if(response.status==true){
+									showNotif('bottom-right',response.title,response.message,'success');
+									$("#OpenModalPendaftar").modal('hide');
+									}else{
+									showNotif('bottom-right',response.title,response.message,'error');
+								}
+								
+								searchPengguna();
 							}
 						},
 						complete: () => {

@@ -73,7 +73,7 @@
 				<label for="nik" class="form-label m-0"><small> NIK </small></label>
 			</div>
 			<div class="col-sm-9 col-md-8 col-lg-8 position-relative">
-				<input type="text" id="nik" name="nik" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  required>
+				<input type="text" id="nik" name="nik" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off" value="<?=$record->nik;?>"  required>
 				<div class="invalid-tooltip" id="nik-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
 			</div>
 		</div>
@@ -634,29 +634,7 @@
 	</div>
 </ol>
 <script>
-	$('#nik').keypress(validateNumber);
-	$('#nisn').keypress(validateNumber);
-	$('#nokk').keypress(validateNumber);
-	$('#nikAyah').keypress(validateNumber);
-	$('#nikIbu').keypress(validateNumber);
-	$("input").on("keypress",function() {
-		var maxLength = $(this).attr("maxlength");
-		if(maxLength){
-			$(this).prop("type", "number");
-			if ($(this).val().length==maxLength) {
-				$(".search-input").css("color", "green");
-				} else {
-				$(".search-input").css("color", "red");
-			}
-			if($(this).val().length >= maxLength) {
-				$(this).prop("type", "text");
-				// $(this).attr('maxlength',maxLength)
-				// alert("You can't write more than " + maxLength +" chacters")
-			}
-		}
-	});
-	// $('#nik').keyup(function () {
-	
+ 
 	// });
 	function validateNumber(event) {
 		var key = window.event ? event.keyCode : event.which;
@@ -842,7 +820,7 @@
 	$("input").on("keypress",function() {
 		var maxLength = $(this).attr("maxlength");
 		if(maxLength){
-			$(this).prop("type", "number");
+			$(this).prop("type", "text");
 			if ($(this).val().length==maxLength) {
 				$(".search-input").css("color", "green");
 				} else {

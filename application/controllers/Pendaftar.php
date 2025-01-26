@@ -285,33 +285,33 @@
 				$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
 				
 				$data['record'] = (object)[
-				'email'=>'',
-				'nama'=>'',
-				'jenis_kelamin'=>'',
-				'tempat_lahir'=>'',
-				'tanggal_lahir'=>'',
-				'nik'=>'',
+				'email'=>'rangkasku@gmail.com',
+				'nama'=>'Munajat',
+				'jenis_kelamin'=>'Laki-laki',
+				'tempat_lahir'=>'Lebak',
+				'tanggal_lahir'=>'2000-01-01',
+				'nik'=>'7242749127481794',
 				'saudara_pp'=>'',
 				'status_keluarga'=>'Anak Kandung',
 				'anak_ke'=>'',
 				'dari'=>'',
 				's_pendidikan'=>'Baru',
-				'nama_sekolah_asal'=>'',
-				'alamat_sekolah'=>'',
-				'nisn'=>'',
+				'nama_sekolah_asal'=>'SMPN 5',
+				'alamat_sekolah'=>'Rangkasbitung',
+				'nisn'=>'8392489284',
 				'no_kip'=>'',
-				'no_kk'=>'',
-				'nama_ayah'=>'',
-				'nik_ayah'=>'',
-				'nama_ibu'=>'',
-				'nik_ibu'=>'',
-				'nomor_hp'=>'',
+				'no_kk'=>'7242749127481794',
+				'nama_ayah'=>'Adam',
+				'nik_ayah'=>'7242749127481794',
+				'nama_ibu'=>'Hawa',
+				'nik_ibu'=>'7242749127481794',
+				'nomor_hp'=>'089611274798',
 				'no_hp_alternatif'=>'',
-				'alamat'=>'',
-				'rt'=>'',
-				'rw'=>'',
-				'dusun'=>'',
-				'kode_pos'=>'',
+				'alamat'=>'serang',
+				'rt'=>'1',
+				'rw'=>'1',
+				'dusun'=>'Kemanisan',
+				'kode_pos'=>'42113',
 				'jenis_penyakit'=>'',
 				'sejak'=>'',
 				'tindakan_pengobatan'=>'',
@@ -320,7 +320,20 @@
 				$this->load->view('backend/pendaftar/form_add', $data, false);
 			}
 		}
-		
+		private function kuota_kamar($id)
+		{
+			
+			$kuota = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
+			$response =$kuota->kuota;
+			return $response;	
+		}
+		private function kuota_terpakai($id)
+		{
+			
+			$kuota = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
+			$response =$kuota->terpakai;
+			return $response;	
+		}
 		function edit_data(){
 			
 			if ($this->input->is_ajax_request()) 
@@ -852,41 +865,50 @@
 				'is_unique'     => '%s sudah ada.'
 				)
 				),
-				// array(
-				// 'field' => 'no_kk',
-				// 'label' => ' Nomor Kartu Keluarga ',
-				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.no_kk]',
-				// 'errors' => array(
-				// 'required' => '%s. Harus di isi',
-				// 'numeric' => '%s. Harus angka',
-				// 'min_length' => '%s minimal 16 digit.',
-				// 'is_unique'     => '%s sudah ada.'
-				// )
-				// ),
+				array(
+				'field' => 'no_kk',
+				'label' => ' Nomor Kartu Keluarga ',
+				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.no_kk]',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
 				
-				// array(
-				// 'field' => 'nik_ayah',
-				// 'label' => ' NIK Ayah',
-				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ayah]',
-				// 'errors' => array(
-				// 'required' => '%s. Harus di isi',
-				// 'numeric' => '%s. Harus angka',
-				// 'min_length' => '%s minimal 16 digit.',
-				// 'is_unique'     => '%s sudah ada.'
-				// )
-				// ),
+				array(
+				'field' => 'nik_ayah',
+				'label' => ' NIK Ayah',
+				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ayah]',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
 				
-				// array(
-				// 'field' => 'nik_ibu',
-				// 'label' => ' NIK Ibu',
-				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ibu]',
-				// 'errors' => array(
-				// 'required' => '%s. Harus di isi',
-				// 'numeric' => '%s. Harus angka',
-				// 'min_length' => '%s minimal 16 digit.',
-				// 'is_unique'     => '%s sudah ada.'
-				// )
-				// ),
+				array(
+				'field' => 'nik_ibu',
+				'label' => ' NIK Ibu',
+				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ibu]',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				
+				array(
+				'field' => 'kamar',
+				'label' => 'Kamar harus dipilih',
+				'rules' => 'required|trim',
+				'errors' => array(
+				'required' => '%s. Harus di dipilih',
+				)
+				),
 				
 				));
 				
@@ -898,6 +920,7 @@
 					$nik_ibu = $this->input->post('nik_ibu',true);
 					$tanggal_lahir = $this->input->post('tanggal_lahir',true);
 					$cek_nik = cek_nik($nik,$nik_ayah,$nik_ibu);
+					$kirim_pesan = $this->input->post('kirim_pesan',true);
 					if($cek_nik['status']===true){
 						$response['status'] = false;
 						$response['message'] = $cek_nik['msg'];
@@ -1066,13 +1089,17 @@
 					{
 						
 						$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
-						$this->send_notif($post);
+						if($kirim_pesan=='Ya'){
+							$this->send_notif($post);
+						}
 						$this->session->set_userdata(["pendaftaran" => 'sukses','nik'=>$nik]);
 						$response['status'] = true;
 						$response['nik'] = $this->input->post('nik',true);
+						$response['title'] = 'Input data';
 						$response['message'] = 'Berhasil';
 						}else{
 						$response['status'] = false;
+						$response['title'] = 'Input data';
 						$response['message'] = 'Gagal';
 					}
 					// dump($input_data);
@@ -1082,6 +1109,7 @@
 				else
 				{
 					$response['status'] = false;
+					$response['title'] = 'Input data';
 					$response['type'] = 'error';
 					$response['message']= validation_errors();
 					$this->thm->json_output($response);
@@ -1355,9 +1383,11 @@
 						$this->send_notif($post);
 						$response['status'] = true;
 						$response['nik'] = $this->input->post('nik',true);
+						$response['title'] = 'Input data';
 						$response['message'] = 'Berhasil';
 						}else{
 						$response['status'] = false;
+						$response['title'] = 'Input data';
 						$response['message'] = 'Gagal';
 					}
 					// dump($input_data);
@@ -1367,6 +1397,7 @@
 				{
 					$response['status'] = false;
 					$response['type'] = 'error';
+					$response['title'] = 'Input data';
 					$response['message']= validation_errors();
 					$this->thm->json_output($response);
 				}
@@ -1461,13 +1492,6 @@
 			
 		}
 		
-		private function kuota_kamar($id)
-		{
-			
-			$kuota = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
-			$response =$kuota->kuota;
-			return $response;	
-		}
 		
 		function hapus_pendaftar(){
 			cek_input_post('GET');
@@ -1936,4 +1960,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																										
+	}																																																																																																																																																																												
