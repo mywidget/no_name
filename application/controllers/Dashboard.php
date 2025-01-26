@@ -654,9 +654,8 @@
 				array(
 				'field' => 'email_daftar',
 				'label' => 'Email',
-				'rules' => 'required|trim|min_length[10]|is_unique[rb_psb_daftar.email]',
+				'rules' => 'trim|min_length[10]|is_unique[rb_psb_daftar.email]',
 				'errors' => array(
-				'required' => '%s. Harus di isi',
 				'min_length' => '%s minimal 10 digit.',
 				'is_unique'     => '%s sudah ada.'
 				)
@@ -664,9 +663,8 @@
 				array(
 				'field' => 'nik_daftar',
 				'label' => 'NIK',
-				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik]',
+				'rules' => 'trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik]',
 				'errors' => array(
-				'required' => '%s. Harus di isi',
 				'numeric' => '%s. Harus angka',
 				'min_length' => '%s minimal 16 digit.',
 				'is_unique'     => '%s sudah ada.'
@@ -676,49 +674,45 @@
 				array(
 				'field' => 'nisn_daftar',
 				'label' => 'NISN',
-				'rules' => 'required|trim|numeric|min_length[10]|max_length[10]|is_unique[rb_psb_daftar.nisn]',
+				'rules' => 'trim|numeric|min_length[10]|max_length[10]|is_unique[rb_psb_daftar.nisn]',
 				'errors' => array(
-				'required' => '%s. Harus di isi',
 				'min_length' => '%s minimal 10 digit.',
 				'numeric' => '%s Harus angka.',
 				'is_unique'     => '%s sudah ada.'
 				)
 				),
-				// array(
-				// 'field' => 'no_kk',
-				// 'label' => ' Nomor Kartu Keluarga ',
-				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.no_kk]',
-				// 'errors' => array(
-				// 'required' => '%s. Harus di isi',
-				// 'numeric' => '%s. Harus angka',
-				// 'min_length' => '%s minimal 16 digit.',
-				// 'is_unique'     => '%s sudah ada.'
-				// )
-				// ),
+				array(
+				'field' => 'no_kk',
+				'label' => ' Nomor Kartu Keluarga ',
+				'rules' => 'trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.no_kk]',
+				'errors' => array(
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
 				
-				// array(
-				// 'field' => 'nik_ayah',
-				// 'label' => ' NIK Ayah',
-				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ayah]',
-				// 'errors' => array(
-				// 'required' => '%s. Harus di isi',
-				// 'numeric' => '%s. Harus angka',
-				// 'min_length' => '%s minimal 16 digit.',
-				// 'is_unique'     => '%s sudah ada.'
-				// )
-				// ),
+				array(
+				'field' => 'nik_ayah',
+				'label' => ' NIK Ayah',
+				'rules' => 'trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ayah]',
+				'errors' => array(
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
 				
-				// array(
-				// 'field' => 'nik_ibu',
-				// 'label' => ' NIK Ibu',
-				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ibu]',
-				// 'errors' => array(
-				// 'required' => '%s. Harus di isi',
-				// 'numeric' => '%s. Harus angka',
-				// 'min_length' => '%s minimal 16 digit.',
-				// 'is_unique'     => '%s sudah ada.'
-				// )
-				// ),
+				array(
+				'field' => 'nik_ibu',
+				'label' => ' NIK Ibu',
+				'rules' => 'trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ibu]',
+				'errors' => array(
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
 				
 				));
 				
