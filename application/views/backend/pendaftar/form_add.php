@@ -634,6 +634,38 @@
 	</div>
 </ol>
 <script>
+	$('#nik').keypress(validateNumber);
+	$('#nisn').keypress(validateNumber);
+	$('#nokk').keypress(validateNumber);
+	$('#nikAyah').keypress(validateNumber);
+	$('#nikIbu').keypress(validateNumber);
+	$("input").on("keypress",function() {
+		var maxLength = $(this).attr("maxlength");
+		if(maxLength){
+			$(this).prop("type", "number");
+			if ($(this).val().length==maxLength) {
+				$(".search-input").css("color", "green");
+				} else {
+				$(".search-input").css("color", "red");
+			}
+			if($(this).val().length >= maxLength) {
+				$(this).prop("type", "text");
+				// $(this).attr('maxlength',maxLength)
+				// alert("You can't write more than " + maxLength +" chacters")
+			}
+		}
+	});
+	// $('#nik').keyup(function () {
+	
+	// });
+	function validateNumber(event) {
+		var key = window.event ? event.keyCode : event.which;
+		if (event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 37 || event.keyCode === 39) {
+			return true;
+			} else if (key < 48 || key > 57) {
+			return false;
+		} else return true;
+	};
 	$('#form_unit').attr('disabled',false);
 	$("#pekerjaanAyah").filter(function () {
 		$.ajax({
