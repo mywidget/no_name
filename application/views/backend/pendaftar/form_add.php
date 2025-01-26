@@ -6,7 +6,7 @@
 	<div class="container p-0 form-scrollable">
 		<div class="row align-items-center ">
 			<div class="col-sm-3 col-md-3 col-lg-4">
-				<label for="email" class="form-label m-0"><small>Tahun Akademik</small></label>
+				<label for="thnakademik" class="form-label m-0"><small>Tahun Akademik</small></label>
 			</div>
 			<div class="col-sm-9 col-md-8 col-lg-8 position-relative">
 				<select name="thnakademik" id="thnakademik" class="form-control form-select" required>
