@@ -839,7 +839,7 @@
 						
 						
 						$input_data = [
-						"kode_daftar"              	  => $this->input->post('nik',true),
+						"kode_daftar"              	  => $this->input->post('nik_daftar',true),
 						"tahun_akademik"              => $this->input->post('thnakademik',true),
 						"email"                       => $this->input->post('email_daftar',true),
 						"nama"                        => $this->input->post('nama',true),
