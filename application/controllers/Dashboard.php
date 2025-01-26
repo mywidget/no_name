@@ -75,7 +75,7 @@
 			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
 			$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
 			$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
-			$this->session->set_userdata(['pendaftaran'=>'sukses', 'nik'=>1402124911110001]);
+			// $this->session->set_userdata(['pendaftaran'=>'sukses', 'nik'=>]);
 			$this->thm->load('frontend/template','frontend/formulir',$data);
 		}
 		
@@ -652,7 +652,7 @@
 				
 				$this->form_validation->set_rules(array(
 				array(
-				'field' => 'email',
+				'field' => 'email_daftar',
 				'label' => 'Email',
 				'rules' => 'required|trim|min_length[10]|is_unique[rb_psb_daftar.email]',
 				'errors' => array(
@@ -662,7 +662,7 @@
 				)
 				),
 				array(
-				'field' => 'nik',
+				'field' => 'nik_daftar',
 				'label' => 'NIK',
 				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik]',
 				'errors' => array(
@@ -674,7 +674,7 @@
 				),
 				
 				array(
-				'field' => 'nisn',
+				'field' => 'nisn_daftar',
 				'label' => 'NISN',
 				'rules' => 'required|trim|numeric|min_length[10]|max_length[10]|is_unique[rb_psb_daftar.nisn]',
 				'errors' => array(

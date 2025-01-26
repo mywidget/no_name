@@ -3,7 +3,7 @@
     // $email          ='rangkasku@gmail.com';
     // $nama           ='Munajat';
     // $tempat_lahir   ='Lebak';
-    // $tgl_lahir      ='2000-01-01';
+    $tgl_lahir      ='2000-01-01';
     // $nik            ='1205175502120004';
     // $nama_sekolah   ='SMPN 5';
     // $alamat_sekolah ='Rangkasbitung';
@@ -23,26 +23,6 @@
     
     $selected = 'selected';
     
-    $email          ='';
-    $nama           ='';
-    $tempat_lahir   ='';
-    $tgl_lahir      ='';
-    $nik            ='';
-    $nama_sekolah   ='';
-    $alamat_sekolah ='';
-    $nisn           ='';
-    $no_kk          ='';
-    $nama_ayah      ='';
-    $nik_ayah       ='';
-    $nama_ibu       ='';
-    $nik_ibu        ='';
-    $anak_Ke        ='';
-    $dari           ='';
-    $nomor_hp       ='';
-    $alamat         ='';
-    $rt         ='';
-    $dusun         ='';
-    $kodepos         ='';
     if(!empty($tahun['nama_tahun'])){
         $nama_tahun = $tahun['nama_tahun'];
         $id_tahun_akademik = $tahun['id_tahun_akademik'];
@@ -66,7 +46,7 @@
                         <label for="email" class="form-label m-0"><small>Email Aktif</small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="email" name="email" id="email" class="form-control" autocomplete="off" autofocus="" value="<?=$email;?>" required="">
+                        <input type="email" name="email_daftar" id="email" class="form-control" autocomplete="off" autofocus="" required="">
                         <div class="invalid-tooltip" id="email-feedback">Email wajib diisi</div>
                     </div>
                 </div>
@@ -75,7 +55,7 @@
                         <label for="nama" class="form-label m-0"><small> Nama lengkap </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="nama" id="nama" class="form-control" autocomplete="off" value="<?=$nama;?>" required="">
+                        <input type="text" name="nama" id="nama" class="form-control" autocomplete="off" required="">
                         <div class="invalid-tooltip" id="nama-feedback">Nama wajib diisi</div>
                     </div>
                 </div>
@@ -97,7 +77,7 @@
                         <label for="birthPlace" class="form-label m-0"><small> Tempat lahir </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="tempat_lahir" id="birthPlace" class="form-control" value="<?=$tempat_lahir;?>" required="">
+                        <input type="text" name="tempat_lahir" id="birthPlace" class="form-control" required="">
                         <div class="invalid-tooltip">Tempat lahir wajib diisi</div>
                     </div>
                 </div>
@@ -115,7 +95,7 @@
                         <label for="nik" class="form-label m-0"><small> NIK </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" id="nik" name="nik" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"   value="<?=$nik;?>"  required>
+                        <input type="number" id="nik" name="nik_daftar" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  required>
                         <div class="invalid-tooltip" id="nik-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -150,7 +130,7 @@
                         <label for="anakKe" class="form-label m-0"><small> Anak ke </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="anak_ke" id="anakKe" onkeyup="formatNumber(this)" class="form-control" value="<?=$anak_Ke;?>" required="">
+                        <input type="number" name="anak_ke" id="anakKe" onkeyup="formatNumber(this)" class="form-control"  required="">
                         <div class="invalid-tooltip">Anak ke Wajib diisi</div>
                     </div>
                 </div>
@@ -159,7 +139,7 @@
                         <label for="jumlahSaudara" class="form-label m-0"><small> Dari </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="dari" id="jumlahSaudara" onkeyup="formatNumber(this)" class="form-control" value="<?=$dari;?>" required="">
+                        <input type="number" name="dari" id="jumlahSaudara" onkeyup="formatNumber(this)" class="form-control" required="">
                         <div class="invalid-tooltip">Jumlah saudara harus diisi</div>
                     </div>
                 </div>
@@ -278,7 +258,7 @@
                         <label for="nama_sekolah_asal" class="form-label m-0"><small> Nama sekolah asal </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="nama_sekolah_asal" id="asalSekolah" class="form-control" value="<?=$nama_sekolah;?>" required="">
+                        <input type="text" name="nama_sekolah_asal" id="asalSekolah" class="form-control"  required="">
                         <div class="invalid-tooltip">Nama sekolah asal wajib diisi</div>
                     </div>
                 </div>
@@ -295,7 +275,7 @@
                         <label for="nisn" class="form-label m-0"><small> NISN </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nisn" id="nisn" minlength="10" maxlength="10" class="form-control search-input" autocomplete="off"  value="<?=$nisn;?>" pattern="^\d{10}$" required>  
+                        <input type="number" name="nisn_daftar" id="nisn" minlength="10" maxlength="10" class="form-control search-input" autocomplete="off"  value="<?=$nisn;?>" pattern="^\d{10}$" required>  
                         <div class="invalid-tooltip">NISN wajib diisi</div>
                         <div class="invalid-feedback"></div>
                     </div>
@@ -460,7 +440,7 @@
                         <label for="telp" class="form-label m-0"><small> Nomor Handphone </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6">
-                        <input type="tel" name="nomor_hp" id="telp" class="form-control" value="<?=$nomor_hp;?>" required="" style="width:100%!important">
+                        <input type="tel" name="nomor_hp" id="telp" class="form-control" required="" style="width:100%!important">
                         <div class="invalid-tooltip" id="feedback-telp">Format Harus angka</div>
                     </div>
                 </div>
@@ -484,7 +464,7 @@
                         <label for="alamat" class="form-label m-0"><small> Alamat </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="alamat" id="alamat" class="form-control" required="" placeholder="" value="<?=$alamat;?>" >
+                        <input type="text" name="alamat" id="alamat" class="form-control" required="" placeholder="" >
                         <div class="invalid-tooltip">Alamat Wajib diisi</div>
                     </div>
                 </div>
@@ -493,12 +473,12 @@
                         <label for="rt" class="form-label m-0"><small> RT RW </small></label>
                     </div>
                     <div class="col-5 col-sm-3 col-md-3 col-lg-2 position-relative">
-                        <input type="number" value="<?=$rt;?>" name="rt" id="rt" class="form-control" placeholder="RT" required="">
+                        <input type="number" name="rt" id="rt" class="form-control" placeholder="RT" required="">
                         <div class="invalid-tooltip">RT Wajib diisi</div>
                     </div>
                     <div class="col-auto">/</div>
                     <div class="col-5 col-sm-3 col-md-3 col-lg-2 position-relative">
-                        <input type="number" value="<?=$rt;?>" name="rw" id="rw" class="form-control" placeholder="RW" required="">
+                        <input type="number" name="rw" id="rw" class="form-control" placeholder="RW" required="">
                         <div class="invalid-tooltip">RW Wajib diisi</div>
                     </div>
                 </div>
@@ -507,7 +487,7 @@
                         <label for="dusun" class="form-label m-0"><small> Dusun </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6">
-                        <input type="text" value="<?=$dusun;?>" name="dusun" id="dusun" class="form-control" required>
+                        <input type="text" name="dusun" id="dusun" class="form-control" required>
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -515,7 +495,7 @@
                         <label for="kodepos" class="form-label m-0"><small> Kode pos </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" value="<?=$kodepos;?>" name="kode_pos" id="kodepos" class="form-control" required="">
+                        <input type="number" name="kode_pos" id="kodepos" class="form-control" required="">
                         <div class="invalid-tooltip">Kode pos harus berupa 5 digit angka</div>
                     </div>
                 </div>
@@ -782,7 +762,7 @@
                         <div id="nt-form" style="display: none;">
                             <div class="mb-3">
                                 <label for="nt-noin" class="form-label mb-1">Nomor Induk Santri</label>
-                                <input type="number" class="form-control" id="nt-noin" placeholder="Masukkan nomor induk santri yang terdaftar" value="<?=$nik;?>">
+                                <input type="number" class="form-control" id="nt-noin" placeholder="Masukkan nomor induk santri yang terdaftar" >
                             </div>
                             <div class="mb-3">
                                 <label for="nt-tgllhr" class="form-label mb-1">Tanggal Lahir</label>
@@ -790,7 +770,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="nt-namaibu" class="form-label mb-1">Nama Ibu Kandung</label>
-                                <input type="text" value="<?=$nama_ibu;?>"  class="form-control" id="nt-namaibu" placeholder="Masukkan nama ibu yang terdaftar">
+                                <input type="text" class="form-control" id="nt-namaibu" placeholder="Masukkan nama ibu yang terdaftar">
                             </div>
                             <div class="d-flex">
                                 <strong class="me-2">Catatan&nbsp;:</strong>
