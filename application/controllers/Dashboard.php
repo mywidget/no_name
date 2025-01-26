@@ -684,41 +684,41 @@
 				'is_unique'     => '%s sudah ada.'
 				)
 				),
-				array(
-				'field' => 'no_kk',
-				'label' => ' Nomor Kartu Keluarga ',
-				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.no_kk]',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 16 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
+				// array(
+				// 'field' => 'no_kk',
+				// 'label' => ' Nomor Kartu Keluarga ',
+				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.no_kk]',
+				// 'errors' => array(
+				// 'required' => '%s. Harus di isi',
+				// 'numeric' => '%s. Harus angka',
+				// 'min_length' => '%s minimal 16 digit.',
+				// 'is_unique'     => '%s sudah ada.'
+				// )
+				// ),
 				
-				array(
-				'field' => 'nik_ayah',
-				'label' => ' NIK Ayah',
-				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ayah]',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 16 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
+				// array(
+				// 'field' => 'nik_ayah',
+				// 'label' => ' NIK Ayah',
+				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ayah]',
+				// 'errors' => array(
+				// 'required' => '%s. Harus di isi',
+				// 'numeric' => '%s. Harus angka',
+				// 'min_length' => '%s minimal 16 digit.',
+				// 'is_unique'     => '%s sudah ada.'
+				// )
+				// ),
 				
-				array(
-				'field' => 'nik_ibu',
-				'label' => ' NIK Ibu',
-				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ibu]',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 16 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
+				// array(
+				// 'field' => 'nik_ibu',
+				// 'label' => ' NIK Ibu',
+				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ibu]',
+				// 'errors' => array(
+				// 'required' => '%s. Harus di isi',
+				// 'numeric' => '%s. Harus angka',
+				// 'min_length' => '%s minimal 16 digit.',
+				// 'is_unique'     => '%s sudah ada.'
+				// )
+				// ),
 				
 				));
 				
