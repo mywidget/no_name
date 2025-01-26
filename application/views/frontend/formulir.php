@@ -267,7 +267,7 @@
                         <label for="alamatSekolah" class="form-label m-0"><small> Alamat sekolah asal </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="alamat_sekolah" id="alamatSekolah" value="<?=$alamat_sekolah;?>" class="form-control">
+                        <input type="text" name="alamat_sekolah" id="alamatSekolah" class="form-control">
                     </div>
                 </div>
                 <div class="row align-items-center mt-2">
@@ -275,7 +275,7 @@
                         <label for="nisn" class="form-label m-0"><small> NISN </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nisn_daftar" id="nisn" minlength="10" maxlength="10" class="form-control search-input" autocomplete="off"  value="<?=$nisn;?>" pattern="^\d{10}$" required>  
+                        <input type="number" name="nisn_daftar" id="nisn" minlength="10" maxlength="10" class="form-control search-input" autocomplete="off" pattern="^\d{10}$" required>  
                         <div class="invalid-tooltip">NISN wajib diisi</div>
                         <div class="invalid-feedback"></div>
                     </div>
@@ -299,7 +299,7 @@
                         <label for="nokk" class="form-label m-0"><small> Nomor Kartu Keluarga </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="no_kk" id="nokk" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  value="<?=$no_kk;?>" required>  
+                        <input type="number" name="no_kk" id="nokk" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  required>  
                         <div class="invalid-tooltip">Nomor KK wajib diisi</div>
                     </div>
                 </div>
@@ -309,7 +309,7 @@
                         <label for="namaAyah" class="form-label m-0"><small> Nama Ayah </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="nama_ayah" id="namaAyah" class="form-control" value="<?=$nama_ayah;?>" required="">
+                        <input type="text" name="nama_ayah" id="namaAyah" class="form-control"  required="">
                         <div class="invalid-tooltip">Nama Ayah wajib diisi</div>
                     </div>
                 </div>
@@ -318,7 +318,7 @@
                         <label for="nikAyah" class="form-label m-0"><small> NIK Ayah </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nik_ayah" id="nikAyah" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off" value="<?=$nik_ayah;?>" onkeyup="formatNumber(this)" required>  
+                        <input type="number" name="nik_ayah" id="nikAyah" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off" onkeyup="formatNumber(this)" required>  
                         <div class="invalid-tooltip" id="nikAyah-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
@@ -366,7 +366,7 @@
                         <label for="namaIbu" class="form-label m-0"><small> Nama Ibu </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="text" name="nama_ibu" id="namaIbu" class="form-control" value="<?=$nama_ibu;?>" required="">
+                        <input type="text" name="nama_ibu" id="namaIbu" class="form-control" required="">
                         <div class="invalid-tooltip">Nama Ibu wajib diisi</div>
                     </div>
                 </div>
@@ -375,7 +375,7 @@
                         <label for="nikIbu" class="form-label m-0"><small> NIK Ibu </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nik_ibu" id="nikIbu" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  value="<?=$nik_ibu;?>" required>  
+                        <input type="number" name="nik_ibu" id="nikIbu" minlength="16" maxlength="16" class="form-control search-input" autocomplete="off"  required>  
                         <div class="invalid-tooltip" id="nikIbu-feedback"> Masukkan NIK yang valid. NIK harus terdiri dari 16 digit </div>
                     </div>
                 </div>
