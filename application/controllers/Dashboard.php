@@ -53,7 +53,7 @@
 				$data['row'] = $this->model_app->view_where('rb_pages',['seo'=>'pendaftaran-sukses','aktif'=>'Ya'])->row();
 				$data['menu'] = $this->model_data->get_categories();
 				$data['deskripsi'] = get_pesan_sukses($data['row']->deskripsi);
-				 
+				
 				$this->thm->load('frontend/template','frontend/sukses',$data);
 				
 				$this->session->unset_userdata(array('pendaftaran', 'nik'));
@@ -827,12 +827,15 @@
 						$full_phone_country = $this->input->post('full_phone_country');
 						$number = PhoneNumber::parse($full_phone);
 						$nomor_personal = $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
-						
-						//no hp altenatif
-						$full_phone_alternate = $this->input->post('full_phone_alternate');
-						$full_phone_alternate_country = $this->input->post('full_phone_alternate_country');
-						$number_alternate = PhoneNumber::parse($full_phone_alternate);
-						$nomor_personal_alternate = $number_alternate->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+						if(!empty($this->input->post('no_hp_alternatif'))){
+							//no hp altenatif
+							$full_phone_alternate = $this->input->post('full_phone_alternate');
+							$full_phone_alternate_country = $this->input->post('full_phone_alternate_country');
+							$number_alternate = PhoneNumber::parse($full_phone_alternate);
+							$nomor_personal_alternate = $number_alternate->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+							}else{
+							$nomor_personal_alternate = '';
+						}
 						
 						
 						$input_data = [
@@ -1100,5 +1103,5 @@
 		}
 		
 		
-
+		
 	}
