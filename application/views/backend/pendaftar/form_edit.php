@@ -803,7 +803,6 @@
 						if(response.status==false){
 							$("#form_kamar").append("<option value='loading'>loading</option>");
 							$("#form_kamar").attr("disabled", true);
-							$("#form_kamar").attr("disabled", true);
 							return;
 						}
 						$("#form_kamar option[value='loading']").remove();

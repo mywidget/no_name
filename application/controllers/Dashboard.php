@@ -901,7 +901,7 @@
 						$post = $this->input->post();
 						$nama = $this->input->post('nama',true);
 						$nomor = $this->input->post('nomor_hp',true);
-						$nik = $this->input->post('nik',true);
+						$nik = $this->input->post('nik_daftar',true);
 						
 						$nama_kamar = $this->input->post('kamar',true);
 						$kuota = $this->kuota_kamar($nama_kamar);

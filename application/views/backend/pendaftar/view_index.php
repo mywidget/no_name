@@ -707,7 +707,7 @@
 		$('#OpenModalPendaftar').on('show.bs.modal', function(e) {
 			var id = $(e.relatedTarget).data('id');
 			var mod = $(e.relatedTarget).data('mod');
-	 
+			
 			$.ajax({
 				type: 'POST',
 				url: base_url + "pendaftar/tambah_pendaftar",
@@ -741,10 +741,10 @@
 		// this.blur();
 		// });
 		$(document).on('change','#gender',function(){
-		// $('body').on("change","#gender",function(){
+			// $('body').on("change","#gender",function(){
 			// var status = $("#statusPendidikan").val();
 			// $("#statusPendidikan").val(status).change();
-			 
+			
 			$("#form_unit").attr('disabled',false);
 		});
 		
@@ -765,7 +765,7 @@
 					$("#form_unit").attr("disabled", true);
 				},
 				success: function (response) {
-						$("#form_unit").attr("disabled", false);
+					$("#form_unit").attr("disabled", false);
 					if(response.status==false){
 						$("#form_unit").append("<option value='loading'>loading</option>");
 						$("#form_unit").attr("disabled", true);
@@ -840,7 +840,7 @@
 			});
 			
 		}
-		 
+		
 		function load_kamar(id)
 		{
 			
@@ -855,6 +855,7 @@
 					$("#form_kamar").empty();
 				},
 				success: function(response) {
+					$("#form_kamar").attr("disabled", false);
 					var len = response.length;
 					$("#form_kamar").append("<option value='0'>Pilih Kamar</option>");
 					for (var i = 0; i < len; i++) {
@@ -964,7 +965,7 @@
 				}
 			});
 		});
-		 
+		
 		var forms = document.querySelectorAll('.needs-validation')
 		
 		// Loop over them and prevent submission
@@ -1100,6 +1101,6 @@
 				form.classList.add('was-validated')
 			}, false)
 		})
-		 
+		
 	</script>        
 <?php } ?>			
