@@ -812,6 +812,295 @@
 				}
 			}
 		}
+		public function proses()
+		{
+			// dump($_POST);
+			if ( $this->input->is_ajax_request() ) 
+			{
+				
+				$this->form_validation->set_rules(array(
+				array(
+				'field' => 'email_daftar',
+				'label' => 'Email',
+				'rules' => 'required|trim|min_length[10]|is_unique[rb_psb_daftar.email]',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'min_length' => '%s minimal 10 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				array(
+				'field' => 'nik_daftar',
+				'label' => 'NIK',
+				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik]',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'numeric' => '%s. Harus angka',
+				'min_length' => '%s minimal 16 digit.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				
+				array(
+				'field' => 'nisn_daftar',
+				'label' => 'NISN',
+				'rules' => 'required|trim|numeric|min_length[10]|max_length[10]|is_unique[rb_psb_daftar.nisn]',
+				'errors' => array(
+				'required' => '%s. Harus di isi',
+				'min_length' => '%s minimal 10 digit.',
+				'numeric' => '%s Harus angka.',
+				'is_unique'     => '%s sudah ada.'
+				)
+				),
+				// array(
+				// 'field' => 'no_kk',
+				// 'label' => ' Nomor Kartu Keluarga ',
+				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.no_kk]',
+				// 'errors' => array(
+				// 'required' => '%s. Harus di isi',
+				// 'numeric' => '%s. Harus angka',
+				// 'min_length' => '%s minimal 16 digit.',
+				// 'is_unique'     => '%s sudah ada.'
+				// )
+				// ),
+				
+				// array(
+				// 'field' => 'nik_ayah',
+				// 'label' => ' NIK Ayah',
+				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ayah]',
+				// 'errors' => array(
+				// 'required' => '%s. Harus di isi',
+				// 'numeric' => '%s. Harus angka',
+				// 'min_length' => '%s minimal 16 digit.',
+				// 'is_unique'     => '%s sudah ada.'
+				// )
+				// ),
+				
+				// array(
+				// 'field' => 'nik_ibu',
+				// 'label' => ' NIK Ibu',
+				// 'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik_ibu]',
+				// 'errors' => array(
+				// 'required' => '%s. Harus di isi',
+				// 'numeric' => '%s. Harus angka',
+				// 'min_length' => '%s minimal 16 digit.',
+				// 'is_unique'     => '%s sudah ada.'
+				// )
+				// ),
+				
+				));
+				
+				if ( $this->form_validation->run() ) 
+				{
+					
+					$nik = $this->input->post('nik',true);
+					$nik_ayah = $this->input->post('nik_ayah',true);
+					$nik_ibu = $this->input->post('nik_ibu',true);
+					$tanggal_lahir = $this->input->post('tanggal_lahir',true);
+					$cek_nik = cek_nik($nik,$nik_ayah,$nik_ibu);
+					if($cek_nik['status']===true){
+						$response['status'] = false;
+						$response['message'] = $cek_nik['msg'];
+						$this->thm->json_output($response);
+					}
+					$selisih_tgl = usia_daftar($tanggal_lahir,tanggal());
+					// dump($selisih_tgl);
+					if(!empty($_FILES['fotoSantri']['name']))
+					{
+						$new_name = $nik.'_'.$_FILES["fotoSantri"]['name'];
+						$config['file_name']        = $new_name;
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
+						$config['max_size']		 = tag_key('file_size');
+						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+						$config['encrypt_name']  = FALSE; //enkripsi nama file
+						$this->upload->initialize($config);
+						if ($this->upload->do_upload('fotoSantri'))
+						{
+							$gbr = $this->upload->data();
+							$photo_santri = $gbr['file_name'];
+							$this->_create_foto($nik,$gbr['file_name']);
+							}else{
+							$response['status'] = false;
+							$response['message'] = $this->upload->display_errors();
+							$this->thm->json_output($response);
+						}
+						}else{
+						$response['status'] = false;
+						$response['message'] = 'Foto santri mash kosong';
+						$this->thm->json_output($response);
+					}
+					//foto KK
+					if(!empty($_FILES['fotoKk']['name']))
+					{
+						$new_name = $nik.'_'.$_FILES["fotoKk"]['name'];
+						$config['file_name']        = $new_name;
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
+						$config['max_size']		 = tag_key('file_size');
+						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+						$config['encrypt_name']  = FALSE; //enkripsi nama file
+						$this->upload->initialize($config);
+						if ($this->upload->do_upload('fotoKk'))
+						{
+							$gbr = $this->upload->data();
+							$photo_kk = $gbr['file_name'];
+							$this->_create_kk($nik,$gbr['file_name']);
+							}else{
+							$response['status'] = false;
+							$response['message'] = $this->upload->display_errors();
+							$this->thm->json_output($response);
+						}
+						}else{
+						$response['status'] = false;
+						$response['message'] = 'Foto KK mash kosong';
+						$this->thm->json_output($response);
+					}
+					
+					//foto bukti transfer
+					if(!empty($_FILES['fotobukti']['name']))
+					{
+						$new_name = $nik.'_'.time().'_'.$_FILES["fotobukti"]['name'];
+						$config['file_name']        = $new_name;
+						$config['upload_path']   = './upload/foto_dokumen'; //path folder
+						$config['max_size']		 = tag_key('file_size');
+						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+						$config['file_ext_tolower'] = TRUE;
+						$config['encrypt_name']  = FALSE;
+						$this->upload->initialize($config);
+						if ($this->upload->do_upload('fotobukti'))
+						{
+							$gbr = $this->upload->data();
+							$lampiran = $gbr['file_name'];
+							}else{
+							$response['status'] = false;
+							$response['message'] = $this->upload->display_errors();
+							$this->thm->json_output($response);
+						}
+						}else{
+						$response['status'] = false;
+						$response['message'] = 'Foto KK mash kosong';
+						$this->thm->json_output($response);
+					}
+					$nama_unit = $this->model_formulir->nama_unit_byid($this->input->post('unit_sekolah',true));
+					//no hp
+					$full_phone = $this->input->post('full_phone');
+					$full_phone_country = $this->input->post('full_phone_country');
+					$number = PhoneNumber::parse($full_phone);
+					$nomor_personal = $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+					if(!empty($this->input->post('no_hp_alternatif'))){
+						//no hp altenatif
+						$full_phone_alternate = $this->input->post('full_phone_alternate');
+						$full_phone_alternate_country = $this->input->post('full_phone_alternate_country');
+						$number_alternate = PhoneNumber::parse($full_phone_alternate);
+						$nomor_personal_alternate = $number_alternate->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+						}else{
+						$nomor_personal_alternate = '';
+					}
+					
+					
+					$input_data = [
+					"kode_daftar"              	  => $this->input->post('nik',true),
+					"tahun_akademik"              => $this->input->post('thnakademik',true),
+					"email"                       => $this->input->post('email',true),
+					"nama"                        => $this->input->post('nama',true),
+					"jenis_kelamin"               => $this->input->post('jenis_kelamin',true),
+					"tempat_lahir"                => $this->input->post('tempat_lahir',true),
+					"tanggal_lahir"               => $this->input->post('tanggal_lahir',true),
+					"nik"                         => $this->input->post('nik',true),
+					"saudara_pp"                  => $this->input->post('saudara_pp',true),
+					"status_keluarga"             => $this->input->post('status_keluarga',true),
+					"anak_ke"                     => $this->input->post('anak_ke',true),
+					"dari"                        => $this->input->post('dari',true),
+					"s_pendidikan"                => $this->input->post('s_pendidikan',true),
+					"id_unit"                	  => $this->input->post('unit_sekolah',true),
+					"unit_sekolah"                => $nama_unit,
+					"kelas"                       => $this->input->post('kelas',true),
+					"biaya_daftar"                => convert_to_number($this->input->post('biaya',true)),
+					"status_sekolah"              => $this->input->post('status_sekolah',true),
+					"kamar"                       => $this->input->post('kamar',true),
+					"ijasah_terakhir"             => $this->input->post('ijasah_terakhir',true),
+					"nama_sekolah_asal"           => $this->input->post('nama_sekolah_asal',true),
+					"alamat_sekolah"              => $this->input->post('alamat_sekolah',true),
+					"nisn"                        => $this->input->post('nisn',true),
+					"no_kip"                      => $this->input->post('no_kip',true),
+					"no_kk"                       => $this->input->post('no_kk',true),
+					"nama_ayah"                   => $this->input->post('nama_ayah',true),
+					"nik_ayah"                    => $this->input->post('nik_ayah',true),
+					"kondisi_ayah"                => $this->input->post('kondisi_ayah',true),
+					"pendidikan_terakhir_ayah"    => $this->input->post('pendidikan_terakhir_ayah',true),
+					"pekerjaan_ayah"              => $this->input->post('pekerjaan_ayah',true),
+					"nama_ibu"                    => $this->input->post('nama_ibu',true),
+					"nik_ibu"                     => $this->input->post('nik_ibu',true),
+					"kondisi_ibu"                 => $this->input->post('kondisi_ibu',true),
+					"pendidikan_terakhir_ibu"     => $this->input->post('pendidikan_terakhir_ibu',true),
+					"pekerjaan_ibu"               => $this->input->post('pekerjaan_ibu',true),
+					"penghasilan_ortu"            => $this->input->post('penghasilan_ortu',true),
+					"nomor_hp"                    => clean($nomor_personal),
+					"no_hp_alternatif"            => clean($nomor_personal_alternate),
+					"alamat"                      => $this->input->post('alamat',true),
+					"rt"                          => $this->input->post('rt',true),
+					"rw"                          => $this->input->post('rw',true),
+					"dusun"                       => $this->input->post('dusun',true),
+					"kode_pos"                    => $this->input->post('kode_pos',true),
+					"provinsi"                    => $this->input->post('prov',true),
+					"kabupaten"                   => $this->input->post('kab',true),
+					"kecamatan"				      => $this->input->post('kec',true),
+					"kelurahan"                   => $this->input->post('kel',true),
+					"jenis_penyakit"              => $this->input->post('jenis_penyakit',true),
+					"sejak"                       => $this->input->post('sejak',true),
+					"tindakan_pengobatan"         => $this->input->post('tindakan_pengobatan',true),
+					"kondisi_sekarang"            => $this->input->post('kondisi_sekarang',true),
+					"ukuran_seragam_baju"         => $this->input->post('ukuran_seragam_baju',true),
+					"ukuran_celana_rok"           => $this->input->post('ukuran_celana_rok',true),
+					"foto"        			      => $photo_santri,
+					"foto_kk"        		      => $photo_kk,
+					"fotobukti"       		      => $lampiran
+					];
+					$biaya=convert_to_number($this->input->post('biaya',true));
+					
+					$post = $this->input->post();
+					$nama = $this->input->post('nama',true);
+					$nomor = $this->input->post('nomor_hp',true);
+					$nik = $this->input->post('nik',true);
+					
+					$nama_kamar = $this->input->post('kamar',true);
+					$kuota = $this->kuota_kamar($nama_kamar);
+					
+					$kuota = $kuota-1;
+					
+					$kuota_terpakai = $this->kuota_terpakai($nama_kamar);
+					$kuota_terpakai = $kuota_terpakai + 1;
+					$update_kuota = ['kuota'=>$kuota,'terpakai'=>$kuota_terpakai]; 
+					
+					
+					
+					$input = $this->model_app->input('rb_psb_daftar',$input_data);
+					if($input['status']==true)
+					{
+						
+						$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
+						$this->send_notif($post);
+						$this->session->set_userdata(["pendaftaran" => 'sukses','nik'=>$nik]);
+						$response['status'] = true;
+						$response['nik'] = $this->input->post('nik',true);
+						$response['message'] = 'Berhasil';
+						}else{
+						$response['status'] = false;
+						$response['message'] = 'Gagal';
+					}
+					// dump($input_data);
+					$this->thm->json_output($response);
+					
+				}
+				else
+				{
+					$response['status'] = false;
+					$response['type'] = 'error';
+					$response['message']= validation_errors();
+					$this->thm->json_output($response);
+				}
+				
+			}
+		}
 		
 		public function simpan_pendaftar_baru()
 		{
@@ -1095,7 +1384,54 @@
 				}
 			}
 		}
+		function _create_foto($nik,$file_name){
+			// Image resizing config
+			$config = array(
+			
+			// Image Small
+			array(
+			'image_library' => 'GD2',
+			'source_image'  => './upload/foto_dokumen/'.$file_name,
+			'maintain_ratio'=> FALSE,
+			'width'         => 300,
+			'height'        => 400,
+			'new_image'     => './upload/foto_dokumen/foto_300x400_'.$nik.'_'.$file_name
+			));
+			
+			$this->load->library('image_lib', $config[0]);
+			foreach ($config as $item){
+				$this->image_lib->initialize($item);
+				if(!$this->image_lib->resize())
+				{
+					return false;
+				}
+				$this->image_lib->clear();
+			}
+		}
 		
+		function _create_kk($nik,$file_name){
+			// Image resizing config
+			$config = array(
+			array(
+			'image_library' => 'GD2',
+			'source_image'  => './upload/foto_dokumen/'.$file_name,
+			'maintain_ratio'=> FALSE,
+			'width'         => 1024,
+			'height'        => 576,
+			'new_image'     => './upload/foto_dokumen/kk_1024x576_'.$nik.'_'.$file_name
+			)
+			);
+			
+			$this->load->library('image_lib', $config[0]);
+			foreach ($config as $item){
+				$this->image_lib->initialize($item);
+				if(!$this->image_lib->resize())
+				{
+					return false;
+				}
+				$this->image_lib->clear();
+			}
+		}
 		private function send_notif($post)
 		{
 			$token = $this->model_formulir->get_token()->token;
@@ -1612,4 +1948,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																					
+	}																																																																																																																																																																									

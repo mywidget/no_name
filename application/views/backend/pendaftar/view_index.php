@@ -1030,7 +1030,7 @@
 						dataType: 'json',
 						processData: false,
 						contentType: false,
-						url: base_url+ "dashboard/proses",
+						url: base_url+"pendaftar/proses",
 						success: (response) => {
 							// console.log(response)
 							if (response.status === false) {
