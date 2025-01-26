@@ -984,7 +984,7 @@
 					//no hp
 					
 					$nomor_personal = $this->input->post('nomor_hp') // 044 668 18 00 nomor_hp
-					$nomor_personal_alternate = ''$this->input->post('no_hp_alternatif');
+					$nomor_personal_alternate = $this->input->post('no_hp_alternatif');
 					$input_data = [
 					"kode_daftar"              	  => $this->input->post('nik',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
