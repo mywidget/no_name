@@ -1023,7 +1023,7 @@
 					}
 					
 					const formData = new FormData($(this)[0]);
-					$('button:submit', this).html(spinner).prop('disabled', true);
+					$('button:submit', this).html('Submit').prop('disabled', true);
 					
 					$.ajax({
 						type: 'POST',
