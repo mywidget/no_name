@@ -3,7 +3,7 @@ $(document).ready(function () {
     const countryData = window.intlTelInputGlobals.getCountryData();
     
     const input = document.querySelector("#telp");
- 
+    
     const iti = window.intlTelInput(input, {
         initialCountry: "id",
         hiddenInput: () => "full_phone",
@@ -36,7 +36,7 @@ $(document).ready(function () {
     });
     
     const input2 = document.querySelector("#telp2");
- 
+    
     const iti2 = window.intlTelInput(input2, {
         initialCountry: "id",
         hiddenInput: () => "full_phone_alternate",
@@ -168,10 +168,6 @@ $('body').on("change","#gender",function(){
     $("#statusPendidikan").val(status).change();
 });
 
-$('body').on("change","#statusPendidikan",function(){
-    var form_unit = $("#form_unit").val();
-    $("#form_unit").val(form_unit).change();
-});
 function load_biaya(id_unit){
     
     var thnakademik = $("#thnakademik").val();
@@ -403,6 +399,60 @@ $('#image').change(function(){
     }
 });
 
+
+$('body').on("change","#nik",function(){
+    var nik = $("#nik").val().length;
+    if(parseInt(nik) < 16){
+        $("#nik").addClass('is-invalid');
+        $("#nik").siblings('.invalid-tooltip').text('NIK harus 16 digit');
+        $("#nik").focus();
+        return;
+        }else{
+        $("#nik").removeClass('is-invalid').addClass('is-valid');
+        $("#nik").siblings('.invalid-tooltip').hide();
+    }
+});
+
+$('body').on("change","#nisn",function(){
+    var nisn = $("#nisn").val().length;
+    if(parseInt(nisn) < 10){
+        $("#nisn").addClass('is-invalid');
+        $("#nisn").siblings('.invalid-tooltip').text('NISN harus 10 digit');
+        $("#nisn").focus();
+        return;
+        }else{
+        $("#nisn").removeClass('is-invalid').addClass('is-valid');
+        $("#nisn").siblings('.invalid-tooltip').hide();
+    }
+});
+
+$('body').on("change","#nikAyah",function(){
+    var nikAyah = $("#nikAyah").val().length;
+    if(parseInt(nikAyah) < 16){
+        $("#nikAyah").addClass('is-invalid');
+        $("#nikAyah").siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit');
+        $("#nikAyah").focus();
+        return;
+        }else{
+        $("#nikAyah").removeClass('is-invalid').addClass('is-valid');
+        $("#nikAyah").siblings('.invalid-tooltip').hide();
+    }
+});
+
+$('body').on("change","#nikIbu",function(){
+    var nikIbu = $("#nikIbu").val().length;
+    if(parseInt(nikIbu) < 16){
+        $("#nikIbu").addClass('is-invalid');
+        $("#nikIbu").siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit');
+        $("#nikIbu").focus();
+        return;
+        }else{
+        $("#nikIbu").removeClass('is-invalid').addClass('is-valid');
+        $("#nikIbu").siblings('.invalid-tooltip').hide();
+    }
+});
+
+
 var forms = document.querySelectorAll('.needs-validation')
 
 // Loop over them and prevent submission
@@ -419,7 +469,7 @@ Array.prototype.slice.call(forms)
             var nikAyah = $("#nikAyah").val().length;
             var nikIbu = $("#nikIbu").val().length;
             
-            if(nik != 16){
+            if(parseInt(nik) < 16){
                 $("#nik").addClass('is-invalid');
                 $("#nik").siblings('.invalid-tooltip').text('NIK harus 16 digit');
                 $("#nik").focus();
@@ -429,7 +479,7 @@ Array.prototype.slice.call(forms)
                 $("#nik").siblings('.invalid-tooltip').hide();
             }
             
-            if(nisn != 10){
+            if(parseInt(nisn) < 10){
                 $("#nisn").addClass('is-invalid');
                 $("#nisn").siblings('.invalid-tooltip').text('NISN harus 10 digit');
                 $("#nisn").focus();
@@ -439,7 +489,7 @@ Array.prototype.slice.call(forms)
                 $("#nisn").siblings('.invalid-tooltip').hide();
             }
             
-            if(nikAyah != 16){
+            if(parseInt(nikAyah) < 16){
                 $("#nikAyah").addClass('is-invalid');
                 $("#nikAyah").siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit');
                 $("#nikAyah").focus();
@@ -449,7 +499,7 @@ Array.prototype.slice.call(forms)
                 $("#nikAyah").siblings('.invalid-tooltip').hide();
             }
             
-            if(nikIbu != 16){
+            if(parseInt(nikIbu) < 16){
                 $("#nikIbu").addClass('is-invalid');
                 $("#nikIbu").siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit');
                 $("#nikIbu").focus();
@@ -549,7 +599,7 @@ Array.prototype.slice.call(forms)
         form.classList.add('was-validated')
     }, false)
 })
- 
+
 function redirectToPage() {
     window.location.href = base_url+'pendaftaran-sukses';
 }
