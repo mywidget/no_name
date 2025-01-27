@@ -339,7 +339,7 @@
 			}
 		}
 	}
-	  
+	
 	function getIpAddress()
 	{
 		$ipAddress = '';
@@ -411,7 +411,7 @@
 		return $row;
 	}
 	
-	 
+	
 	function autoNumbers($awalan, $digit)
 	{
 		// Mendapatkan instance CodeIgniter
@@ -599,6 +599,22 @@
 				}else{
 				return false; 
 			}
+		}
+	}		
+	
+	if ( ! function_exists('getKuotaKamar'))
+	{
+		/**
+			* Code device 
+			* 
+			@param int 
+			@return string
+		*/
+		function getKuotaKamar($strsum,$where)
+		{
+			$ci = & get_instance();
+			return $ci->model_app->sum_data($strsum,'rb_kamar',$where);
+			 
 		}
 	}		
 	

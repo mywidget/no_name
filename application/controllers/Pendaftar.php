@@ -34,7 +34,7 @@
 			cek_crud_akses('READ');
 			$data['title'] = 'Data Pendaftar | '.$this->title;
 			$data['tahun'] = $this->model_app->view('rb_tahun_akademik')->result();
-			$data['unit'] = $this->model_app->view_where('rb_unit',['aktif'=>'Ya'])->result();
+			$data['unit'] = $this->model_app->view_where_ordering('rb_unit',['aktif'=>'Ya'],'urutan','ASC')->result();
 			$data['kelas'] = $this->model_app->view_where('rb_kelas',['status'=>1,'aktif'=>'Ya'])->result();
 			$data['menu'] = getMenu($this->menu);
 			$status = $this->input->get('status',true);

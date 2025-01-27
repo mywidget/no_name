@@ -263,8 +263,8 @@
 			$this->db->select_sum($strsum);
 			$this->db->where($where);
 			$query = $this->db->get($table);  
-			$result = ($query->num_rows() > 0)?$query->row():FALSE; 
-			return $result->$strsum;
+			$result = ($query->num_rows() > 0)?$query->row()->$strsum:0; 
+			return $result;
 		}
 		public function sum_data_group($strsum,$table,$where,$group){
 			$this->db->select_sum($strsum);
