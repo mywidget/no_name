@@ -661,7 +661,7 @@
 				)
 				),
 				array(
-				'field' => 'nik_daftar',
+				'field' => 'nik',
 				'label' => 'NIK',
 				'rules' => 'trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik]',
 				'errors' => array(
@@ -728,7 +728,7 @@
 					$recaptcha = $this->recaptcha($check);
 					
 					if($recaptcha['success']==true){
-						$nik = $this->input->post('nik_daftar',true);
+						$nik = $this->input->post('nik',true);
 						$nik_ayah = $this->input->post('nik_ayah',true);
 						$nik_ibu = $this->input->post('nik_ibu',true);
 						$tanggal_lahir = $this->input->post('tanggal_lahir',true);
@@ -833,14 +833,14 @@
 						
 						
 						$input_data = [
-						"kode_daftar"              	  => $this->input->post('nik_daftar',true),
+						"kode_daftar"              	  => $this->input->post('nik',true),
 						"tahun_akademik"              => $this->input->post('thnakademik',true),
 						"email"                       => $this->input->post('email_daftar',true),
 						"nama"                        => $this->input->post('nama',true),
 						"jenis_kelamin"               => $this->input->post('jenis_kelamin',true),
 						"tempat_lahir"                => $this->input->post('tempat_lahir',true),
 						"tanggal_lahir"               => $this->input->post('tanggal_lahir',true),
-						"nik"                         => $this->input->post('nik_daftar',true),
+						"nik"                         => $this->input->post('nik',true),
 						"saudara_pp"                  => $this->input->post('saudara_pp',true),
 						"status_keluarga"             => $this->input->post('status_keluarga',true),
 						"anak_ke"                     => $this->input->post('anak_ke',true),
@@ -895,7 +895,7 @@
 						$post = $this->input->post();
 						$nama = $this->input->post('nama',true);
 						$nomor = $this->input->post('nomor_hp',true);
-						$nik = $this->input->post('nik_daftar',true);
+						$nik = $this->input->post('nik',true);
 						
 						$nama_kamar = $this->input->post('kamar',true);
 						$kuota = $this->kuota_kamar($nama_kamar);
