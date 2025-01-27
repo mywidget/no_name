@@ -1057,7 +1057,7 @@
 				$val['nisn'],
 				$val['email'],
 				$val['unit_sekolah'],
-				$val['kelas'],
+				getNamaKelas($val['kelas']),
 				$val['kamar'],
 				$link
 				);
