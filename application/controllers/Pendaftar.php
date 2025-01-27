@@ -789,11 +789,20 @@
 					$nik = $this->input->post('nik',true);
 					
 					$nama_kamar = $this->input->post('kamar',true);
-					$kuota = $this->kuota_kamar($nama_kamar);
 					
-					$kuota = $kuota-1;
 					
-					$update_kuota = ['kuota'=>$kuota]; 
+					
+					if($status_pendaftar=='Tidak Diterima'){
+						$kuota_kamar = $this->kuota_kamar($nama_kamar);
+						$kuota_kamar = $kuota_kamar + 1;
+						
+						$kuota_terpakai = $this->kuota_terpakai($nama_kamar);
+						$kuota_terpakai = $kuota_terpakai - 1;
+						
+						$update_kuota = ['kuota'=>$kuota_kamar,'terpakai'=>$kuota_terpakai]; 
+						$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
+					}
+					
 					
 					$input = $this->model_app->update('rb_psb_daftar',$input_data,['id'=>$id_pendaftar]);
 					if($input['status']==true)
@@ -801,7 +810,7 @@
 						if($kirim_pesan=='Ya'){
 							$this->send_notif($post);
 						}
-						// $this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
+						
 						// $this->send_notif($post);
 						$response['status'] = true;
 						$response['title'] = 'Update Data';
@@ -1960,4 +1969,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																												
+	}																																																																																																																																																																																
