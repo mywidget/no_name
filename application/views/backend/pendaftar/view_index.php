@@ -31,20 +31,18 @@
 							<div class="card-body">
 								<div class="row align-items-center">
 									<div class="col-auto">
-										<span class="bg-primary text-white avatar">
-										<svg  xmlns="http://www.w3.org/2000/svg"  width="30"  height="30"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
+										<span class="bg-primary text-white avatar" style="width:60px;height:60px">
+										<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
 										</span>
 									</div>
 									<div class="col">
-										<div class="font-weight-medium">
-											Kuota Kamar <?=$row->kode_jurusan;?> <span class="badge bg-blue"><?=getKuotaKamar('kuota',['id_unit'=>$row->id]);?></span>
+										<div class="font-weight-medium py-2">
+											KUOTA KAMAR <?=$row->kode_jurusan;?> <span class="badge bg-blue"><?=getKuotaKamar('kuota',['id_unit'=>$row->id]);?></span>
 										</div>
 										<div class="text-secondary">
-											<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-man"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8c1.628 0 3.2 .787 4.707 2.293a1 1 0 0 1 -1.414 1.414c-.848 -.848 -1.662 -1.369 -2.444 -1.587l-.849 5.944v4.936a1 1 0 0 1 -2 0v-4h-2v4a1 1 0 0 1 -2 0v-4.929l-.85 -5.951c-.781 .218 -1.595 .739 -2.443 1.587a1 1 0 1 1 -1.414 -1.414c1.506 -1.506 3.08 -2.293 4.707 -2.293z" /><path d="M12 1a3 3 0 1 1 -3 3l.005 -.176a3 3 0 0 1 2.995 -2.824" /></svg> <span class="badge bg-cyan"><?=getKuotaKamar('kuota',['id_unit'=>$row->id,'gender'=>'Laki-laki']);?></span>  <span class="badge bg-red"><?=getKuotaKamar('terpakai',['id_unit'=>$row->id,'gender'=>'Laki-laki']);?> </span>
+											<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-man"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8c1.628 0 3.2 .787 4.707 2.293a1 1 0 0 1 -1.414 1.414c-.848 -.848 -1.662 -1.369 -2.444 -1.587l-.849 5.944v4.936a1 1 0 0 1 -2 0v-4h-2v4a1 1 0 0 1 -2 0v-4.929l-.85 -5.951c-.781 .218 -1.595 .739 -2.443 1.587a1 1 0 1 1 -1.414 -1.414c1.506 -1.506 3.08 -2.293 4.707 -2.293z" /><path d="M12 1a3 3 0 1 1 -3 3l.005 -.176a3 3 0 0 1 2.995 -2.824" /></svg> <span class="badge bg-cyan"><?=getKuotaKamar('kuota',['id_unit'=>$row->id,'gender'=>'Laki-laki']);?></span>  <span class="badge bg-red"><?=getKuotaKamar('terpakai',['id_unit'=>$row->id,'gender'=>'Laki-laki']);?> </span> <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-woman"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 16v5" /><path d="M14 16v5" /><path d="M8 16h8l-2 -7h-4z" /><path d="M5 11c1.667 -1.333 3.333 -2 5 -2" /><path d="M19 11c-1.667 -1.333 -3.333 -2 -5 -2" /><path d="M12 4m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg> <span class="badge bg-cyan"><?=getKuotaKamar('kuota',['id_unit'=>$row->id,'gender'=>'Perempuan']);?></span> <span class="badge bg-red"><?=getKuotaKamar('terpakai',['id_unit'=>$row->id,'gender'=>'Perempuan']);?></span> 
 										</div>
-										<div class="text-secondary">
-											<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-woman"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 16v5" /><path d="M14 16v5" /><path d="M8 16h8l-2 -7h-4z" /><path d="M5 11c1.667 -1.333 3.333 -2 5 -2" /><path d="M19 11c-1.667 -1.333 -3.333 -2 -5 -2" /><path d="M12 4m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg> <span class="badge bg-cyan"><?=getKuotaKamar('kuota',['id_unit'=>$row->id,'gender'=>'Perempuan']);?></span> <span class="badge bg-red"><?=getKuotaKamar('terpakai',['id_unit'=>$row->id,'gender'=>'Perempuan']);?></span> 
-										</div>
+										 
 									</div>
 								</div>
 							</div>
