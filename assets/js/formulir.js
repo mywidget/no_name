@@ -210,6 +210,7 @@ function load_kamar(id)
                 $("#form_kamar").append("<option value='0'>Pilih Kamar</option>");
                 for (var i = 0; i < len; i++) {
                     var id = response[i]['id'];
+                    
                     var name = response[i]['name'];
                     $("#form_kamar").append("<option value='" + id + "'>" + name + "</option>");
                 }
@@ -232,6 +233,11 @@ $('body').on("change","#form_kamar",function(){
         },
         success: function(response) {
             var teg = response.id;
+            if(teg==0){
+                alert('Maaf Kuota kamar kosong, pilih yang lain');
+                $("#form_kamar").val(0);
+                return
+            }
             var name = response.name;
             $("#form_kuota").append("<option value='" + teg + "'>" + name + "</option>");
         }
@@ -451,7 +457,6 @@ $('body').on("change","#nikIbu",function(){
         $("#nikIbu").siblings('.invalid-tooltip').hide();
     }
 });
-
 
 var forms = document.querySelectorAll('.needs-validation')
 
