@@ -428,7 +428,7 @@
 				$gender = $this->input->post('gender',true);
 				$response=[];
 				if(!empty($gender)){
-					$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'gender'=>$gender,'aktif'=>'Ya'])->result();
+					$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'gender'=>$gender,'kuota >'=>0,'aktif'=>'Ya'])->result();
 					// dump($kamar);
 					foreach($kamar AS $val){
 						$response[] = ['id'=>($val->nama_kamar),
