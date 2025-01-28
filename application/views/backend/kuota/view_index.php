@@ -10,7 +10,7 @@
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
-				 
+				
 			</div>
 		</div>
 	</div>
@@ -130,7 +130,12 @@
 						
 						<div class="form-group mb-1">
 							<label class="form-label" for="kuota">Kuota Kamar</label>
-							<input type="text" name="kuota" class="form-control" id="kuota" placeholder="kuota" value="" required="">
+							<input type="number" name="kuota" class="form-control" id="kuota" placeholder="kuota" value="" min="0" required="">
+						</div>
+						
+						<div class="form-group mb-1">
+							<label class="form-label" for="kuota_terpakai">Kuota Terpakai</label>
+							<input type="number" name="kuota_terpakai" class="form-control" id="kuota_terpakai" placeholder="kuota Terpakai" value="0" min="0" required="">
 						</div>
 						
 						
@@ -165,7 +170,7 @@
 <?php $this->RenderScript[] = function() { ?>
 	
 	<script>
-		
+		 
 		searchData();
 		function searchData(page_num)
 		{
@@ -215,6 +220,8 @@
 						$('#id_unit').val(data.id_unit);
 						$('#nama_kamar').val(data.nama);
 						$('#kuota').val(data.kuota);
+						$('#kuota_terpakai').val(data.kuota_terpakai);
+						$('#gender').val(data.gender);
 						$('#aktif').val(data.aktif);
 						$('body').loading('stop');
 					},
@@ -227,6 +234,8 @@
 				
 				$("#myModalLabel").html("Tambah Kuota")
 				$('#type').val('new');
+				$('#kuota_terpakai').val(0);
+				$('#kuota_terpakai').attr('readonly',true);
 			}
 			
 		});
@@ -312,6 +321,8 @@
 			$("#keywords").val('');
 			searchData();
 		});
+		
+		
 		
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$('#data-hapus').val($(e.relatedTarget).data('id'));

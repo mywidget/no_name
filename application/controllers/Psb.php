@@ -893,7 +893,9 @@
 					'id'			=>$id,
 					'id_unit'		=>$result->row()->id_unit,
 					'nama'			=>$result->row()->nama_kamar,
-					"kuota"	=> $result->row()->kuota,
+					"kuota"			=> $result->row()->kuota,
+					"kuota_terpakai"=> $result->row()->terpakai,
+					"gender"	=> $result->row()->gender,
 					'aktif'			=>$result->row()->aktif,
 					];
 					
@@ -978,6 +980,7 @@
 				"id_unit"	=> $this->input->post('id_unit',TRUE),
 				"nama_kamar"	=> $this->input->post('nama_kamar',TRUE),
 				"kuota"	=> $this->input->post('kuota',TRUE),
+				"terpakai"	=> $this->input->post('kuota_terpakai',TRUE),
 				"gender"	=> $this->input->post('gender',TRUE),
 				"aktif"	    => $this->input->post('aktif',TRUE),
 				];
