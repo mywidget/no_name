@@ -616,5 +616,8 @@
 		public function delete_rekening($id_rekening) {
 			return $this->db->delete('rb_rekening', ['id_rekening' => $id_rekening]);
 		}
-		
-	}																																																			
+		public function get_tagihan_data() {
+			$query = $this->db->get('tagihan_pembayaran');
+			return $query->result_array();
+		}
+	}																																																				

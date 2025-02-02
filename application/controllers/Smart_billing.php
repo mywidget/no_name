@@ -29,7 +29,7 @@
 			$data['menu'] = getMenu($this->menu);
 			
 			$data['tagihan'] = $this->Model_tagihan->get_tagihan_data();
-			dump($data['tagihan']);
+			dump($data);
 			// $this->thm->load('backend/template','backend/unit_kelas/view_index',$data);
 		}
 		
