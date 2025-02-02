@@ -614,7 +614,7 @@
 		{
 			$ci = & get_instance();
 			return $ci->model_app->sum_data($strsum,'rb_kamar',$where);
-			 
+			
 		}
 	}		
 	
@@ -761,4 +761,39 @@
 			
 			return $pesan;
 		}
+	}
+	
+	if ( ! function_exists('debugLog'))
+	{
+		function debugLog($o) {
+			// Get the CodeIgniter instance
+			$CI =& get_instance();
+			
+			// Define the log file path using CodeIgniter's application path
+			$log_directory = APPPATH . 'logs/';  // You can change this to your custom log directory if needed
+			$log_file = $log_directory . 'debug-h2h-' . date("Y-m-d") . '.log.txt';
+			
+			// Capture the current timestamp and the variable output using var_dump
+			ob_start();
+			var_dump(date("Y-m-d H:i:s"));
+			var_dump($o);
+			$log_content = ob_get_contents();
+			ob_end_clean();
+			
+			// Open the log file and write the log content
+			if ( ! file_exists($log_directory)) {
+				mkdir($log_directory, 0777, true);  // Create the log directory if it doesn't exist
+			}
+			
+			// Write to the file (append mode)
+			$file = fopen($log_file, "a");
+			if ($file) {
+				fputs($file, "$log_content\n");
+				fflush($file);
+				fclose($file);
+				} else {
+				log_message('error', 'Unable to open the log file: ' . $log_file); // Log error if the file couldn't be opened
+			}
+		}
+		
 	}
