@@ -50,7 +50,7 @@
 				}else{
 				$limit = $this->perPage;
 			}
-			  
+			
             // Get record count 
             $conditions['returnType'] = 'count';
             $totalRec = $this->model_tagihan->getBilling($conditions);
@@ -448,5 +448,48 @@
 			exit();
 		}
 		
+		public function process_reversal() {
+			// Get the raw POST data (JSON input)
+			$input = json_decode(file_get_contents('php://input'), true);
+			// Check if the input is valid
+			if (is_array($input)) {
+				// Log the incoming data
+				debugLog($input);
+				
+				// Extract data from the input
+				$kodeBank = $input['kodeBank'];
+				$kodeChannel = $input['kodeChannel'];
+				$kodeTerminal = $input['kodeTerminal'];
+				$nomorPembayaran = $input['nomorPembayaran'];
+				$idTagihan = $input['idTagihan'];
+				$tanggalTransaksi = $input['tanggalTransaksi'];
+				$tanggalTransaksiAsal = $input['tanggalTransaksiAsal'];
+				$idTransaksi = $input['idTransaksi'];
+				$totalNominal = $input['totalNominal'];
+				$nomorJurnalPembukuan = $input['nomorJurnalPembukuan'];
+				
+				// Here we are denying reversal for simplicity
+				$response = json_encode(array(
+                'rc' => 'ERR-REVERSAL-DENIED',
+                'msg' => 'Reversal ditolak. Pembayaran sudah update ke DB di ' . $this->biller_name
+				));
+				
+				// Log the response
+				debugLog('RESPONSE: ' . $response);
+				// Output the response
+				echo $response;
+				} else {
+				// Invalid input
+				$response = json_encode(array(
+                'rc' => 'ERR-INVALID-INPUT',
+                'msg' => 'Invalid input received'
+				));
+				
+				// Log the response
+				debugLog('RESPONSE: ' . $response);
+				// Output the response
+				echo $response;
+			}
+		}
 		
-	}	
+	}			
