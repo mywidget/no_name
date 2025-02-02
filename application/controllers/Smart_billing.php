@@ -12,7 +12,7 @@
 			
 			$this->title = tag_key('site_title');
 			
-			 $this->load->model('Model_tagihan');
+			$this->load->model('model_tagihan');
 			$this->menu = $this->uri->segment(1); 
 			$this->perPage = 10;
 		}
@@ -28,11 +28,54 @@
 			$data['title'] = 'Smart billing BSI | '.$this->title;
 			$data['menu'] = getMenu($this->menu);
 			
-			$data['tagihan'] = $this->Model_tagihan->get_tagihan_data();
-			dump($data);
-			// $this->thm->load('backend/template','backend/unit_kelas/view_index',$data);
+			// $data['tagihan'] = $this->model_tagihan->get_tagihan_data();
+			$this->thm->load('backend/template','backend/keuangan/view_billing',$data);
 		}
-		
+		function ajax_list()
+        {
+            // Define offset 
+            $page = $this->input->post('page');
+            if (!$page) {
+                $offset = 0;
+                } else {
+                $offset = $page;
+			}
+            $keywords = $this->input->post('keywords');
+            if (!empty($keywords)) {
+                $conditions['search']['keywords'] = $keywords;
+			}
+			$limit = $this->input->post('limit');
+            if (!empty($limit)) {
+                $conditions['search']['limit'] = $limit;
+				}else{
+				$limit = $this->perPage;
+			}
+			  
+            // Get record count 
+            $conditions['returnType'] = 'count';
+            $totalRec = $this->model_tagihan->getBilling($conditions);
+            
+            // Pagination configuration 
+            $config['target']      = '#posts_content';
+            $config['base_url']    = base_url('smart_billing/ajax_list');
+            $config['total_rows']  = $totalRec;
+            $config['per_page']    = $limit;
+            $config['link_func']   = 'searchData';
+            
+            // Initialize pagination library 
+            $this->ajax_pagination->initialize($config);
+            
+            // Get records 
+            $conditions['start'] = $offset;
+            $conditions['limit'] = $limit;
+			
+            unset($conditions['returnType']);
+            $data['tagihan'] = $this->model_tagihan->getBilling($conditions);
+			
+            // Load the data list view 
+			$this->load->view('backend/keuangan/get-ajax-billing',$data);
+			
+		}
 		public function inquiry()
         {
 			$allowed_collecting_agents	= array('BSM');
@@ -406,4 +449,4 @@
 		}
 		
 		
-	}
+	}	
