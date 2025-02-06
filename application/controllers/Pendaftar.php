@@ -1496,8 +1496,7 @@
 				'message' => $isi_pesan,
 				'countryCode' => '62'
 				);
-				// dump($token);
-				
+				 
 				$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 				$this->curl->setDefaultJsonDecoder($assoc = true);
 				$this->curl->setHeader('Authorization', $token);
