@@ -26,6 +26,7 @@
 			$this->curl = new Curl();
 			$this->menu = $this->uri->segment(1); 
 			$this->perPage = 10;
+			$this->url_send = 'https://api.pospercetakan.my.id';
 		}
 		
 		public function index()
@@ -1462,26 +1463,52 @@
 		}
 		private function send_notif($post)
 		{
-			$token = $this->model_formulir->get_token()->token;
-			$isi_pesan = $this->model_formulir->get_pesan($post);
-			$data_send = array(
-			'target' => $post['nomor_hp'],
-			'message' => $isi_pesan,
-			'countryCode' => '62'
-			);
-			// dump($token);
-			
-			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
-			$this->curl->setDefaultJsonDecoder($assoc = true);
-			$this->curl->setHeader('Authorization', $token);
-			$this->curl->setHeader('Content-Type', 'application/json');
-			$this->curl->post('https://api.fonnte.com/send', $data_send);
-			if ($this->curl->error) {
-				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
-				} else {
-				$response = $this->curl->response;
-				$result = ['status' => true, 'msg' => (object)$response];
-				$this->report_pesan($response,$isi_pesan,$post['nik']);
+			$status = $this->model_formulir->get_token();
+			if($status->id_pengaturan==1){
+				if($status->device_status=='Connected'){
+					$isi_pesan = $this->model_formulir->get_pesan_pendaftaran($post);
+					$_data= [
+					"token"  	=>$status->device,
+					"number"  	=> $post['nomor'],
+					"text" 		=> $isi_pesan
+					];
+					$url_pesan = "backend-send-text";
+					
+					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+					$this->curl->setDefaultJsonDecoder($assoc = true);
+					$this->curl->setHeader('x-api-key', $status->token);
+					$this->curl->setHeader('Content-Type', 'application/json');
+					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
+					if ($this->curl->error) {
+						$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+						} else {
+						$result = ['status' => true, 'title'=>'Kirim Formulir','msg' => 'Berhasil dikirim'];
+					}
+					} else {
+					$result = ['status' => false, 'title'=>'Kirim Formulir', 'msg' => 'Device Disconected'];
+				}
+				}else{
+				$token = $this->model_formulir->get_token()->token;
+				$isi_pesan = $this->model_formulir->get_pesan($post);
+				$data_send = array(
+				'target' => $post['nomor_hp'],
+				'message' => $isi_pesan,
+				'countryCode' => '62'
+				);
+				// dump($token);
+				
+				$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+				$this->curl->setDefaultJsonDecoder($assoc = true);
+				$this->curl->setHeader('Authorization', $token);
+				$this->curl->setHeader('Content-Type', 'application/json');
+				$this->curl->post('https://api.fonnte.com/send', $data_send);
+				if ($this->curl->error) {
+					$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+					} else {
+					$response = $this->curl->response;
+					$result = ['status' => true, 'msg' => (object)$response];
+					$this->report_pesan($response,$isi_pesan,$post['nik']);
+				}
 			}
 		}
 		
@@ -1969,4 +1996,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																
+	}																																																																																																																																																																																		
