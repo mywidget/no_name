@@ -1464,12 +1464,13 @@
 		private function send_notif($post)
 		{
 			$status = $this->model_formulir->get_token();
+			 
 			if($status->id_pengaturan==1){
 				if($status->device_status=='Connected'){
-					$isi_pesan = $this->model_formulir->get_pesan_pendaftaran($post);
+					$isi_pesan = $this->model_formulir->get_pesan($post);
 					$_data= [
 					"token"  	=>$status->device,
-					"number"  	=> $post['nomor'],
+					"number"  	=> $post['nomor_hp'],
 					"text" 		=> $isi_pesan
 					];
 					$url_pesan = "backend-send-text";

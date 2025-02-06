@@ -21,9 +21,11 @@
 		
 		public function get_token()
 		{
+			$wa_aktif = tag_key('wa_aktif');
+			 
 			$this->db->select('*');
 			$this->db->from('rb_device');
-			$this->db->where('id_pengaturan',tag_key('wa_aktif'));
+			$this->db->where('id_pengaturan',$wa_aktif);
 			$this->db->limit(1);
 			$query = $this->db->get(); 
 			$result = ($query->num_rows() > 0)?$query->row():FALSE; 
@@ -163,4 +165,4 @@
 			$result = ($query->num_rows() > 0)?$query->row()->nama_jurusan:NULL; 
 			return $result; 
 		}
-	}																																																																		
+	}																																																																			
