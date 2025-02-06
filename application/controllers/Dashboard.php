@@ -15,6 +15,7 @@
 			$this->load->model('model_formulir');
 			$this->load->model('model_pendaftar');
 			$this->title = tag_key('site_title');
+			$this->url_send = 'https://api.pospercetakan.my.id';
 		}
 		
 		public function index()
@@ -972,7 +973,31 @@
 		private function send_notif($post)
 		{
 			$status = $this->model_formulir->get_token();
-			if($status!=false){
+			if($status->id_pengaturan==1){
+				if($status->device_status=='Connected'){
+					$isi_pesan = $this->model_formulir->get_pesan_pendaftaran($post);
+					$_data= [
+					"token"  	=>$status->device,
+					"number"  	=> $post['nomor'],
+					"text" 		=> $isi_pesan
+					];
+					$url_pesan = "backend-send-text";
+					
+					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+					$this->curl->setDefaultJsonDecoder($assoc = true);
+					$this->curl->setHeader('x-api-key', $status->token);
+					$this->curl->setHeader('Content-Type', 'application/json');
+					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
+					if ($this->curl->error) {
+						$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+						} else {
+						$result = ['status' => true, 'title'=>'Kirim Formulir','msg' => 'Berhasil dikirim'];
+					}
+					} else {
+					$result = ['status' => false, 'title'=>'Kirim Formulir', 'msg' => 'Device Disconected'];
+				}
+				}else{
+				
 				$token = $this->model_formulir->get_token()->token;
 				$isi_pesan = $this->model_formulir->get_pesan_pendaftaran($post);
 				$data_send = array(

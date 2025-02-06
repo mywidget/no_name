@@ -13,7 +13,7 @@
 			}
 			if(array_key_exists("search", $params)){ 
 				if(!empty($params['search']['keywords'])){ 
-					$this->db->like('device', $params['search']['keywords']); 
+					$this->db->like('rb_device', $params['search']['keywords']); 
 				} 
 				
 				
@@ -237,4 +237,24 @@
 			$result = $query->result();
 			return $result;
 		}
-	}																																																												
+		public function check_device_exists($device)
+		{
+			$device = hp62($device);
+			$this->db->where('device', $device);
+			$this->db->where('id_pengaturan', 1);
+			$query = $this->db->get('rb_device'); // Misal tabelnya bernama 'users'
+			if ($query->num_rows() > 0) {
+				return FALSE; // Email sudah terdaftar
+			}
+			return TRUE; // Email belum terdaftar
+		}
+		// Cek apakah title sudah ada di database (untuk validasi saat update)
+		public function is_device_unique($device, $id = NULL) {
+			$this->db->where('device', $device);
+			if ($id) {
+				$this->db->where('id !=', $id); // Pastikan tidak memeriksa ID yang sama
+			}
+			$query = $this->db->get('rb_device');
+			return $query->num_rows() == 0;
+		}
+	}																																																													

@@ -19,6 +19,7 @@
             $this->menu = $this->uri->segment(1); 
 			$this->perPage = 10;
 			$this->curl = new Curl();
+			$this->url_send = 'https://api.pospercetakan.my.id';
 		}
 		
 		public function tagihan()
@@ -714,28 +715,57 @@
 		public function kirim_tagihan()
 		{
 			$post = $this->input->post();
-			$token = $this->model_tagihan->get_token()->token;
-			$isi_pesan = $this->model_tagihan->get_pesan($post);
+			 
 			
-			$data_send = array(
-			'target' => $post['nomor'],
-			'message' => $isi_pesan,
-			'countryCode' => '62'
-			);
-			// dump($data_send);
-			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
-			$this->curl->setDefaultJsonDecoder($assoc = true);
-			$this->curl->setHeader('Authorization', $token);
-			$this->curl->setHeader('Content-Type', 'application/json');
-			$this->curl->post('https://api.fonnte.com/send', $data_send);
-			if ($this->curl->error) {
-				$result = ['status' => false, 'msg' => $this->curl->errorMessage];
-				} else {
-				$response = $this->curl->response;
-				$result = ['status' => true, 'msg' => (object)$response];
+			$isi_pesan = $this->model_tagihan->get_pesan($post);
+			 
+			$row = $this->model_app->view_where('rb_device', ['id' => $post['id_device']])->row();
+			if($row->id_pengaturan==1){
+				if($row->device_status=='Connected'){
+					$_data= [
+					"token"  	=>$row->device,
+					"number"  	=> $post['nomor'],
+					"text" 	=> $isi_pesan
+					];
+					$url_pesan = "backend-send-text";
+					
+					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+					$this->curl->setDefaultJsonDecoder($assoc = true);
+					$this->curl->setHeader('x-api-key', $row->token);
+					$this->curl->setHeader('Content-Type', 'application/json');
+					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
+					if ($this->curl->error) {
+						$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+						} else {
+						$result = ['status' => true, 'title'=>'Kirim tagihan','msg' => 'Berhasil dikirim'];
+					}
+					} else {
+					$result = ['status' => false, 'title'=>'Kirim tagihan','target' => hp62($nomor_tujuan), 'msg' => 'Device Disconected'];
+				}
+				}else{
+				 
+				$data_send = array(
+				'target' => $post['nomor'],
+				'message' => $isi_pesan,
+				'countryCode' => '62'
+				);
+				// dump($data_send);
+				$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+				$this->curl->setDefaultJsonDecoder($assoc = true);
+				$this->curl->setHeader('Authorization', $row->token);
+				$this->curl->setHeader('Content-Type', 'application/json');
+				$this->curl->post('https://api.fonnte.com/send', $data_send);
+				if ($this->curl->error) {
+					$result = ['status' => false, 'title'=>'Kirim tagihan','msg' => $this->curl->errorMessage];
+					} else {
+					$response = $this->curl->response;
+					$result = ['status' => true, 'title'=>'Kirim tagihan','msg' => (object)$response];
+				}
 			}
 			$this->thm->json_output($result);
 		}
+		
+		
 		public function cetak_pemasukan()
 		{
 			$data['title']       = 'Cetak pemasukan';
@@ -1126,4 +1156,4 @@
 			header('Cache-Control: max-age=0');
 			$writer->save('php://output');
 		}
-	}																																																																																																														
+	}																																																																																																																		

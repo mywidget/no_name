@@ -642,7 +642,7 @@
 		}
 		// Mendapatkan daftar device
 		public function get_device() {
-			return $this->db->get('rb_device')->result();
+			return $this->db->get_where('rb_device', ['id_pengaturan' => tag_key('wa_aktif')])->result();
 		}
 		// Mendapatkan daftar rb_template_pesan
 		public function get_template($slug) {

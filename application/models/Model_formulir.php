@@ -23,7 +23,7 @@
 		{
 			$this->db->select('*');
 			$this->db->from('rb_device');
-			$this->db->where('device_status','connect');
+			$this->db->where('id_pengaturan',tag_key('wa_aktif'));
 			$this->db->limit(1);
 			$query = $this->db->get(); 
 			$result = ($query->num_rows() > 0)?$query->row():FALSE; 

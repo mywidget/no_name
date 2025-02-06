@@ -69,6 +69,37 @@
 	</div>
 </div>
 
+
+<div class="modal fade" id="addDevice" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable" role="document" id="loading-status">
+		<div class="modal-content flat">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalScrollableTitle">Form Add</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="form-add" method="post">
+					<input type='hidden' name='id' id='id_device' value='0'>
+					<input type='hidden' name='type_add' id="type_add">
+					<div class="form-group mb-1">
+						<label>Site API</label>
+						<select name="load_pengaturan" id="load_pengaturan" class="form-control" data-valueKey="id"
+						data-displayKey="name" required>
+						</select>
+					</div>
+					<div id="load_form"></div>
+				</form>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" name="submit" class="btn btn-info save_data">Simpan</button>
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Batal</button> 
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <div class="modal modal-blur fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -384,117 +415,295 @@
 		$(document).on('click','.add_device',function(e){
 			e.preventDefault();
 			var id = $(this).attr('data-id');
-			$.ajax({
-				url: base_url + 'whatsapp/add_device',
-				method: 'POST',
-				data:{tipe:'get',id:id},
-				dataType: "json",
-				beforeSend: function () {
-					$('body').loading();
-				},
-				success: function(data) {
-					$('body').loading('stop');
-					if(data.id==0 && data.status==false)
-					{
-						$("#type_device").val('add');
-						$('#addDevice').modal('show');
-						return;
-					}
-					
-					if(data.id==0 && data.status==200)
-					{
-						showNotif('bottom-right','Device Status',data.msg,'error');
-						searchData();
-						}else{
-						$("#type_device").val('edit');
-						$("#exampleModalScrollableTitle").html('Form Edit');
-					}
-					
-					if(data.status==200 && data.id !=""){
-						$('#addDevice').modal('show');
-						$('#id_device').val(data.id);
-						$('#token_api').val(data.token);
-						}else{
-						showNotif('bottom-right','Device Status',data.msg,'error');
-					}
-					
-					
-					},error: function(xhr, status, error) {
-					showNotif('bottom-right','Update',error,'error');
-					$('body').loading('stop');
-				}
-			});
+			$("#load_form").empty();
+			$('#type_add').val('add');
+			$('#addDevice').modal('show');
+			load_pengaturan(0)
 		});
-		
-		$(document).on('click','.save_data',function(e){
-			e.preventDefault();
-			var type_device = $("#type_device").val();
-			var id = $("#id_device").val();
-			var token = $("#token_api").val();
+		function load_pengaturan(id_pengaturan)
+	{
+		$.ajax({
+			url: base_url + "whatsapp/pengaturan",
+			type: 'POST',
 			
-			if(token==''){
-				$("#token_api").focus();
-				return;
+			dataType: 'json',
+			beforeSend: function () {
+				$("#load_pengaturan").append("<option value='loading'>loading</option>");
+				$("#load_pengaturan").empty();
+			},
+			success: function (response) {
+				$("#load_pengaturan").append("<option value='0'>Pilih</option>");
+				var len = response.length;
+				for (var i = 0; i < len; i++) {
+					var id = response[i]['id'];
+					var name = response[i]['name'];
+					if(id==id_pengaturan){
+						$("#load_pengaturan").append("<option value='" + id + "' selected>" + name + "</option>");
+						}else{
+						$("#load_pengaturan").append("<option value='" + id + "'>" + name + "</option>");
+					}
+					
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				sweet('Peringatan!!!',thrownError,'warning','warning');
 			}
+		});
+	}
+	
+	$("#load_pengaturan").change(function () {
+		var id = $(this).val();
+		var type_add = $('#type_add').val();
+		$.ajax({
+			url: base_url + "whatsapp/get_form_device",
+			type: "post",
+			data: {id:id,type_add:type_add},
+			dataType: "html",
+			success: function (response) {
+				$("#load_form").html(response);
+			}
+		});
+	});
+	
+	$(document).on('click','.edit_device',function(e){
+		e.preventDefault();
+		$('#addDevice').modal('show');
+		var id = $(this).attr('data-id');
+		var idp = $(this).attr('data-idp');
+		load_pengaturan(idp)
+		$.ajax({
+			url: base_url + 'whatsapp/get_form_edit_device',
+			method: 'POST',
+			data:{type:'get',id:id,idp:idp},
+			beforeSend: function () {
+                $('body').loading();
+			},
+			success: function(response) 
+			{
+				$("#load_form").html(response);
+				$('body').loading('stop');
+			},
+			error: function(xhr, status, error) 
+			{
+				showNotif('bottom-right','Update',error,'error');
+				$('body').loading('stop');
+			}
+		});
+	});
+	
+	$(document).on('click','.save_data',function(e){
+		e.preventDefault();
+		// var type_device = $("#type_add").val();
+		
+		var formData = $('#form-add').serialize();
+		$.ajax({
+			url: base_url + 'whatsapp/add_device',
+			method: 'POST',
+			data:formData,
+			dataType: "json",
+			beforeSend: function () {
+                $('body').loading();
+			},
+			success: function(data) {
+				
+				if(data.status==true){
+					showNotif('bottom-right','Update Device',data.msg,'success');
+					$('#addDevice').modal('hide');
+					$('#token_api').val('');
+					}else{
+					showNotif('bottom-right','Device Status',data.msg,'error');
+				}
+				searchData();
+				
+				$('body').loading('stop');
+				},error: function(xhr, status, error) {
+                showNotif('bottom-right','Update',error,'error');
+				$('body').loading('stop');
+			}
+		});
+	});
+	
+	$(document).on('click','.cek_status',function(e){
+		e.preventDefault();
+		var token = $(this).attr('token-id');
+		var id_pengaturan = $(this).attr('idp');
+		
+		$.ajax({
+			url: base_url + 'whatsapp/cek_status_device',
+			method: 'POST',
+			data:{token:token,id_pengaturan:id_pengaturan},
+			dataType: "json",
+			beforeSend: function(){
+                $('body').loading();
+			},
+			success: function(data) {
+				// console.log(data);
+				if(data.device_status=='connect'){
+					showNotif('bottom-right','Device','Conected','success');
+					}else{
+					showNotif('bottom-right','Device','Not Conected','error');
+				}
+				searchData()
+				$('body').loading('stop');
+				},error: function(xhr, status, error) {
+				showNotif('bottom-right','Update',error,'error');
+				$('body').loading('stop');
+			}
+		});
+	});
+	
+	
+	$(document).on('click','.cek_status_app',function(e){
+		e.preventDefault();
+		var token = $(this).attr('token-id');
+		var id_pengaturan = $(this).attr('idp');
+		var device = $(this).attr('device-id');
+		
+		$.ajax({
+			url: base_url + 'whatsapp/cek_status_device',
+			method: 'POST',
+			data:{token:token,device:device,id_pengaturan:id_pengaturan},
+			dataType: "json",
+			beforeSend: function(){
+                $('body').loading();
+			},
+			success: function(data) {
+				// console.log(data);
+				if(data.message=='Connected'){
+					showNotif('bottom-right','Device','Conected','success');
+					}else{
+					showNotif('bottom-right','Device',data.message,'error');
+				}
+				searchData()
+				$('body').loading('stop');
+				},error: function(xhr, status, error) {
+				showNotif('bottom-right','Update',error,'error');
+				$('body').loading('stop');
+			},
+			error: function (res, status, httpMessage) {
+				$('body').loading('stop');
+				if (res.status == 401) {
+					sweet_login(httpMessage, "warning", base_url);
+					} else {
+					sweet("Peringatan!!!", httpMessage, "warning", "warning");
+				}
+			}
+		});
+	});
+		// $(document).on('click','.add_device',function(e){
+			// e.preventDefault();
+			// var id = $(this).attr('data-id');
+			// $.ajax({
+				// url: base_url + 'whatsapp/add_device',
+				// method: 'POST',
+				// data:{tipe:'get',id:id},
+				// dataType: "json",
+				// beforeSend: function () {
+					// $('body').loading();
+				// },
+				// success: function(data) {
+					// $('body').loading('stop');
+					// if(data.id==0 && data.status==false)
+					// {
+						// $("#type_device").val('add');
+						// $('#addDevice').modal('show');
+						// return;
+					// }
+					
+					// if(data.id==0 && data.status==200)
+					// {
+						// showNotif('bottom-right','Device Status',data.msg,'error');
+						// searchData();
+						// }else{
+						// $("#type_device").val('edit');
+						// $("#exampleModalScrollableTitle").html('Form Edit');
+					// }
+					
+					// if(data.status==200 && data.id !=""){
+						// $('#addDevice').modal('show');
+						// $('#id_device').val(data.id);
+						// $('#token_api').val(data.token);
+						// }else{
+						// showNotif('bottom-right','Device Status',data.msg,'error');
+					// }
+					
+					
+					// },error: function(xhr, status, error) {
+					// showNotif('bottom-right','Update',error,'error');
+					// $('body').loading('stop');
+				// }
+			// });
+		// });
+		
+		// $(document).on('click','.save_data',function(e){
+			// e.preventDefault();
+			// var type_device = $("#type_device").val();
+			// var id = $("#id_device").val();
+			// var token = $("#token_api").val();
 			
-			$.ajax({
-				url: base_url + 'whatsapp/add_device',
-				method: 'POST',
-				data:{tipe:type_device,id:id,token:token},
-				dataType: "json",
-				beforeSend: function () {
-					$('body').loading();
-				},
-				success: function(data) {
+			// if(token==''){
+				// $("#token_api").focus();
+				// return;
+			// }
+			
+			// $.ajax({
+				// url: base_url + 'whatsapp/add_device',
+				// method: 'POST',
+				// data:{tipe:type_device,id:id,token:token},
+				// dataType: "json",
+				// beforeSend: function () {
+					// $('body').loading();
+				// },
+				// success: function(data) {
 					
-					if(data.status==200){
-						showNotif('bottom-right','Update Device',data.msg,'success');
-						$('#addDevice').modal('hide');
-						$('#token_api').val('');
-						searchData();
-						}else{
-						showNotif('bottom-right','Device Status',data.msg,'error');
-					}
+					// if(data.status==200){
+						// showNotif('bottom-right','Update Device',data.msg,'success');
+						// $('#addDevice').modal('hide');
+						// $('#token_api').val('');
+						// searchData();
+						// }else{
+						// showNotif('bottom-right','Device Status',data.msg,'error');
+					// }
 					
-					$('body').loading('stop');
-					},error: function(xhr, status, error) {
-					showNotif('bottom-right','Update',error,'error');
-					$('body').loading('stop');
-				}
-			});
-		});
+					// $('body').loading('stop');
+					// },error: function(xhr, status, error) {
+					// showNotif('bottom-right','Update',error,'error');
+					// $('body').loading('stop');
+				// }
+			// });
+		// });
 		
-		$(document).on('click','.register',function(e){
-			window.open('https://pospercetakan.my.id/harga', '_blank');
-		});
+		// $(document).on('click','.register',function(e){
+			// window.open('https://pospercetakan.my.id/harga', '_blank');
+		// });
 		
 		
-		$(document).on('click','.hapus_data',function(e){
-			var id = $("#data-hapus").val();
-			$.ajax({
-				url: base_url + 'whatsapp/add_device',
-				data: {tipe:'hapus',id:id},
-				method: 'POST',
-				dataType:'json',
-				beforeSend: function () {
-					$('body').loading();　
-				},
-				success: function(data) {
-					$('#confirm-delete').modal('hide');
-					if(data.status==true){
-						showNotif('bottom-right',data.title,data.msg,'success');
-						}else{
-						sweet('Peringatan!!!',data.msg,'warning','warning');
-					}
-					searchData();
+		// $(document).on('click','.hapus_data',function(e){
+			// var id = $("#data-hapus").val();
+			// $.ajax({
+				// url: base_url + 'whatsapp/add_device',
+				// data: {tipe:'hapus',id:id},
+				// method: 'POST',
+				// dataType:'json',
+				// beforeSend: function () {
+					// $('body').loading();　
+				// },
+				// success: function(data) {
+					// $('#confirm-delete').modal('hide');
+					// if(data.status==true){
+						// showNotif('bottom-right',data.title,data.msg,'success');
+						// }else{
+						// sweet('Peringatan!!!',data.msg,'warning','warning');
+					// }
+					// searchData();
 					
-					$('body').loading('stop');　
-					},error: function(xhr, status, error) {
-					showNotif('bottom-right','Update',error,'error');
-					$('body').loading('stop');　
-				}
-			});
-		});
+					// $('body').loading('stop');　
+					// },error: function(xhr, status, error) {
+					// showNotif('bottom-right','Update',error,'error');
+					// $('body').loading('stop');　
+				// }
+			// });
+		// });
 		
 		$(document).on('click','.clear',function(e){
 			$("#keywords").val('');

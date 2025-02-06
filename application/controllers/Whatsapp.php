@@ -18,6 +18,9 @@
 			$this->perPage = 10;
 			$this->menu = $this->uri->segment(1); 
 			$this->curl = new Curl();
+			$this->url_api = 'https://server.pospercetakan.my.id';
+			$this->url_send = 'https://api.pospercetakan.my.id';
+			$this->api_key = tag_key('api_key_wa');
 		}
 		
 		public function device()
@@ -30,6 +33,46 @@
 			$this->thm->load('backend/template','backend/whatsapp/view_index',$data);
 		}
 		
+		public function pengaturan()
+		{
+			$result= $this->model_app->view('pengaturan_device')->result_array();
+			foreach($result as $row)
+			{
+				$data[] = array("id"=>$row['id'],"name"=>$row['title'],"url"=>$row['url_api'],"aktif"=>$row['aktif']);
+			}
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($data));
+			
+		}
+		
+		public function get_form_device()
+		{
+			$id = $this->input->post('id');
+			$type_add = $this->input->post('type_add');
+			if($type_add=='add' AND $id > 0){
+				$row= $this->model_app->view_where('pengaturan_device',['id'=>$id])->row_array();
+				if($row['id']==1){
+					$this->load->view('backend/whatsapp/form_add_app'); 
+					}else{
+					$this->load->view('backend/whatsapp/form_add_fonnte'); 
+				}
+			}
+		}
+		public function get_form_edit_device()
+		{
+			$id = decrypt_url($this->input->post('id'));
+			$idp = $this->input->post('idp');
+			
+			$row= $this->model_app->view_where('pengaturan_device',['id'=>$idp])->row_array();
+			$data['device']= $this->model_app->view_where('rb_device',['id'=>$id])->row();
+			if($row['id']==1){
+				$this->load->view('backend/whatsapp/form_edit_app',$data,false); 
+				}else{
+				$this->load->view('backend/whatsapp/form_edit_fonnte',$data); 
+			}
+			
+		}
 		public function template()
         {
 			cek_menu_akses();
@@ -595,7 +638,7 @@
 				$target = $row->target;
 				$message = $row->message;
 				$this->send_message($target,$message);
-				 
+				
 				$data = array('status'=>true,'title'=>'Kirim ulang','msg'=>'Data berhasil dikirim');
 				}else{
 				$data = array('status'=>false,'title'=>'Kirim ulang','msg'=>'Data gagal dikirim');
@@ -608,7 +651,7 @@
 		private function send_message($target,$message)
 		{
 			$token = $this->model_formulir->get_token()->token;
-			 
+			
 			$data_send = array(
 			'target' => $target,
 			'message' => $message,
@@ -629,7 +672,7 @@
 			}
 			return $result;
 		}
-		 
+		
 		/**
 			* cek_status
 			*
@@ -656,13 +699,60 @@
 			->set_output(json_encode($data));
 		}
 		/**
-			* cek_status
+			* cek_status_device
 			*
 			* @return void
 		*/
 		public function cek_status_device()
 		{
-			$token = ($this->input->post('token'));
+			$id = $this->input->post('id_pengaturan');
+			if($id==1){
+				$device = $this->input->post('device');
+				$token = $this->cek_token($device);
+				$data = $this->cek_status_device_app($token,$device);
+				}else{
+				$token = $this->input->post('token');
+				$data = $this->cek_status_device_fonnte($token);
+			}
+			
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($data));
+		}
+		
+		private function cek_status_device_app($token,$device)
+		{
+			
+			$data = [
+			'APP-API-KEY' => $token,
+			'device' => $device
+			];
+			
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			//$this->curl->setHeader('x-api-key', $this->api_key);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post($this->url_api.'/api/cek_device', $data);
+			
+			if($this->curl->error){
+				$arr = $this->curl->errorMessage;
+				}else{
+				$arr = $this->curl->response;
+				$this->update_device_status($arr);
+			}
+			
+			return $arr;
+			
+		}
+		
+		private function update_device_status($params = []){
+			$update = $this->model_app->update('rb_device',['device_status'=>$params['message']],['device'=>$params['device']]);
+			
+		}
+		private function cek_status_device_fonnte($token)
+		{
+			
+			
 			$result = $this->fonnte('https://api.fonnte.com/device',$token);
 			
 			if ($result['status'] == true) {
@@ -676,12 +766,13 @@
 			if ($result['status'] == false) {
 				$data = ['status' => false, 'msg' => $result['msg']];
 			}
-			$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($data));
+			return $data;
 		}
-		
-		
+		private function cek_token($device)
+		{
+			
+			return $this->model_app->view_where('rb_device', ['id_pengaturan'=>1,'device' => $device])->row()->token;
+		}
 		/**
 			* scan_qr
 			*
@@ -815,70 +906,63 @@
 		*/
 		public function add_device()
 		{
-			$id = decrypt_url($this->input->post('id'));
-			$tipe = $this->input->post('tipe');
-			$token = $this->input->post('token');
-			
-			if($tipe=='get' AND $id==0)
-			{
-				$response = ['status'=>false,'id'=>0];
-			}
-			
-			if($tipe=='get' AND $id > 0)
-			{
-				
-				$cek = $this->model_app->view_where('rb_device', ['id' => $id]);
-				if ($cek->num_rows() > 0) {
-					$response = ['status'=>200,'id'=>encrypt_url($cek->row()->id),'token'=>maskString($cek->row()->token)];
-					} else {
-					$response = ['status'=>false,'token'=>'','msg'=>'Gagal'];
-				}
-			}
+			$id = $this->input->post('id');
+			$tipe = $this->input->post('type_add');
+			$id_pengaturan = $this->input->post('id_pengaturan') ? $this->input->post('id_pengaturan') : $this->input->post('load_pengaturan');
 			
 			if($tipe=='add')
 			{
 				
-				$cek = $this->model_app->view_where('rb_device', ['token' => $token]);
-				if ($cek->num_rows() > 0) {
-					$response = ['status'=>false,'msg'=>'Token Sudah ada'];
-					} else {
-					$input = $this->model_app->input('rb_device', ['token' => $token]);
-					if($input['status']=='ok')
-					{
-						$response = ['status'=>200,'msg'=>'Berhasil di simpan'];
-						$this->get_data_fonnte($token);
-						}else{
-						$response = ['status'=>false,'msg'=>'Gagal di simpan'];
-					}
+				cek_crud_akses(7);//create
+				if($id_pengaturan==1){
+					$response = $this->add_post();
+					}else{
+					$response = $this->add_post_fonnte();
 				}
+				
 			}
-			
+			// dump($response);
 			if($tipe=='edit' AND $id > 0)
 			{
-				$cek = $this->model_app->view_where('rb_device', ['token'=>$token,'id !=' => $id]);
-				if ($cek->num_rows() > 0) {
-					$response = ['status'=>false,'msg'=>'Token Sudah ada'];
-					}else{
-					$update = $this->model_app->update('rb_device', ['token'=>$token], ['id' => $id]);
+				
+				cek_crud_akses(9,'json');//update
+				// dump($_POST);
+				if($id_pengaturan==1){
+					$nama_device = $this->input->post('nama_device');
+					$nomor_device = $this->input->post('nomor_device');
+					$update = $this->model_app->update('rb_device', ['name'=>$nama_device,'device'=>$nomor_device], ['id' => $id]);
 					if($update['status']=='ok')
 					{
 						$response = ['status'=>200,'msg'=>'Berhasil di update'];
-						$this->get_data_fonnte($token);
+						// $this->get_data_fonnte($token);
 						}else{
 						$response = ['status'=>false,'msg'=>'Gagal di update'];
 					}
 				}
+				if($id_pengaturan==2){
+					$token_api = $this->input->post('token_api');
+					$update = $this->model_app->update('rb_device', ['token'=>$token_api], ['id' => $id]);
+					if($update['status']=='ok')
+					{
+						$response = ['status'=>200,'msg'=>'Berhasil di update'];
+						$this->get_data_fonnte($token_api);
+						}else{
+						$response = ['status'=>false,'msg'=>'Gagal di update'];
+					}
+				}
+				
 			}
 			
 			if($tipe=='hapus' AND $id > 0)
 			{
+				cek_crud_akses(10,'json');//delete
 				
 				$cek = $this->model_app->view_where('rb_device', ['id' => $id]);
 				if ($cek->num_rows() > 0) {
 					$hapus = $this->model_app->hapus('rb_device', array('id' => $id));
 					if($hapus['status']=='ok')
 					{
-						$response = ['status'=>true,'msg'=>'Berhasil di hapus'];
+						$response = ['status'=>200,'msg'=>'Berhasil di hapus'];
 						}else{
 						$response = ['status'=>false,'msg'=>'Gagal di hapus'];
 					}
@@ -891,7 +975,155 @@
 			->set_content_type('application/json')
 			->set_output(json_encode($response));
 		}
+		// Menambahkan post
+		private function add_post() {
+			// Validasi form
+			$this->form_validation->set_rules('nama_device', 'nama_device', 'required');
+			$this->form_validation->set_rules('nomor_device', 'nomor_device', 'required|callback_check_device_exists');
+			
+			if ($this->form_validation->run() == FALSE) {
+				// Jika validasi gagal
+				$response = ['status'=>'error','msg'=>validation_errors()];
+				} else {
+				$token = $this->api_key;
+				$id_pengaturan = $this->input->post('id_pengaturan');
+				$nama_device = $this->input->post('nama_device');
+				$nomor_device = hp62($this->input->post('nomor_device'));
+				$input = $this->model_app->input('rb_device', ['id_pengaturan'=>$id_pengaturan,'token'=>$token,'name' => $nama_device,'device' => $nomor_device]);
+				if($input['status']=='ok')
+				{
+					$this->tambah_device_app($token,$nomor_device);
+					$response = ['status'=>true,'title'=>'Simpan device','msg'=>'Berhasil di simpan'];
+					} else {
+					$response = ['status'=>false,'title'=>'Simpan device','msg'=>'Gagal di simpan'];
+				}
+			}
+			return $response;
+		}
+		/**
+			* tambah_device_app
+			*
+			* @param  mixed $url
+			* @return array
+		*/
+		private function tambah_device_app($token="",$device="")
+		{
+			$data = [
+			'APP-API-KEY' => $token,
+			'device' => $device
+			];
+			
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post($this->url_api.'/api/add_device', $data);
+			
+			if($this->curl->error){
+				$arr = $this->curl->errorMessage;
+				}else{
+				$arr = $this->curl->response;
+			}
+			
+			return $arr;
+		}
+		// hapus post
+		private function hapus_post($id_pengaturan,$device) {
+			
+			$token = $this->api_key;
+			
+			if($id_pengaturan==1)
+			{
+				$this->hapus_device_app($token,$device);
+				$response = ['status'=>true,'title'=>'Hapus device','msg'=>'Berhasil di Hapus'];
+				return $response;
+			}
+			
+		}
+		/**
+			* hapus_device_app
+			*
+			* @param  mixed $url
+			* @return array
+		*/
+		private function hapus_device_app($token="",$device="")
+		{
+			$data = [
+			'APP-API-KEY' => $token,
+			'device' => $device
+			];
+			
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post($this->url_api.'/api/hapus_device', $data);
+			
+			if($this->curl->error){
+				$arr = $this->curl->errorMessage;
+				}else{
+				$arr = $this->curl->response;
+			}
+			
+			return $arr;
+		}
 		
+		// Callback untuk cek email
+		public function check_device_exists($nomor_device)
+		{
+			
+			if ($this->model_whatsapp->check_device_exists($nomor_device) == FALSE) {
+				$this->form_validation->set_message('check_device_exists', 'Device sudah terdaftar.');
+				return FALSE;
+			}
+			return TRUE;
+		}
+		// Fungsi callback untuk validasi unique title saat update
+		public function check_unique_device($device) {
+			$id = $this->input->post('id');
+			if ($this->model_whatsapp->is_device_unique($device, $id)) {
+				return TRUE;
+				} else {
+				$this->form_validation->set_message('check_unique_device', 'The title must be unique.');
+				return FALSE;
+			}
+		}
+		// Menambahkan post
+		private function add_post_fonnte() {
+			// Validasi form
+			
+			$this->form_validation->set_rules('token_api', 'Token', 'required|is_unique[device.token]');
+			
+			if ($this->form_validation->run() == FALSE) {
+				// Jika validasi gagal
+				$response = ['status'=>'error','msg'=>validation_errors()];
+				} else {
+				$token = $this->input->post('token_api');
+				$input = $this->model_app->input('device', ['token' => $token]);
+				if($input['status']=='ok')
+				{
+					$this->get_data_fonnte($token);
+					$response = ['status'=>true,'msg'=>'Berhasil di simpan'];
+					} else {
+					$response = ['status'=>false,'msg'=>'Gagal di simpan'];
+				}
+			}
+			return $response;
+		}
+		/**
+			* cek_pengaturan
+			*
+			* @return void
+		*/
+		public function cek_pengaturan($id)
+		{
+			
+			$result = $this->model_app->view_where('pengaturan_device',['id'=>$id]);
+			
+			return false;
+			if ($result->num_rows() > 0) {
+				return true;
+			}
+			
+		}
 		/**
 			* cek_status
 			*
@@ -1072,5 +1304,21 @@
 			$kirim = json_encode($data);
 			return $kirim;
 		}
-		
-	}																																																													
+		/**
+			* scan_qr
+			*
+			* @return void
+		*/
+		public function scanqr_app($id)
+		{
+			$data['title'] = 'Device | ' . $this->title;
+			$data['api_key'] = $this->api_key;
+			$data['url_send'] = $this->url_send;
+			$data['menu'] = getMenu($this->menu);
+			$cek = $this->model_app->view_where('rb_device', ['id' => decrypt_url($id)]);
+			if ($cek->num_rows() > 0) {
+				$data['row'] = $cek->row();
+				$this->thm->load('backend/template','backend/whatsapp/device_scan',$data);
+			}
+		}
+	}	
