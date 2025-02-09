@@ -1569,6 +1569,9 @@
 					$this->report_pesan($response,$isi_pesan,$post['nik']);
 				}
 			}
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
 		}
 		
 		private function send_notif($post)
@@ -2105,4 +2108,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																						
+	}																																																																																																																																																																																							

@@ -744,13 +744,8 @@
 					
 				},
 				success: function(response) {
-					console.log(response.msg.status)
-					if(response.msg.status==true && response.msg.active==true){
-						$('#nomor_hp').addClass('is-valid');
-						$('.valid-feedback').html('Nomor terdaftar').show();
-						}else{
-						$('#nomor_hp').addClass('is-invalid');
-						$('.invalid-feedback').html('Nomor Wa Tidak terdaftar');
+					if(response.status==true){
+						$("#OpenModalFormulir").modal('hide');
 					}
 				}
 			});
