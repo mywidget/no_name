@@ -120,6 +120,7 @@
                                     </button>
                                     <ul class="dropdown-menu"  data-popper-placement="right-start">
                                     <li><?=$edit;?></li>
+                                        <li><a class="dropdown-item"  href="javascript:void(0)" onclick="kirim_formulir('<?=$kode;?>','<?=$row['nomor_hp'];?>')"><i class="fa fa-whatsapp" ></i>&nbsp;&nbsp;Kirim Formulir</a></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Foto Pendaftar</a></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto_kk'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran KK</a></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['fotobukti'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Bukti Transfer</a></li>

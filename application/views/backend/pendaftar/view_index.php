@@ -32,7 +32,7 @@
 								<div class="row align-items-center">
 									<div class="col-auto">
 										<span class="bg-primary text-white avatar" style="width:60px;height:60px">
-										<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
+											<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
 										</span>
 									</div>
 									<div class="col">
@@ -42,7 +42,7 @@
 										<div class="text-secondary">
 											<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-man"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8c1.628 0 3.2 .787 4.707 2.293a1 1 0 0 1 -1.414 1.414c-.848 -.848 -1.662 -1.369 -2.444 -1.587l-.849 5.944v4.936a1 1 0 0 1 -2 0v-4h-2v4a1 1 0 0 1 -2 0v-4.929l-.85 -5.951c-.781 .218 -1.595 .739 -2.443 1.587a1 1 0 1 1 -1.414 -1.414c1.506 -1.506 3.08 -2.293 4.707 -2.293z" /><path d="M12 1a3 3 0 1 1 -3 3l.005 -.176a3 3 0 0 1 2.995 -2.824" /></svg> <span class="badge bg-cyan"><?=getKuotaKamar('kuota',['id_unit'=>$row->id,'gender'=>'Laki-laki']);?></span>  <span class="badge bg-red"><?=getKuotaKamar('terpakai',['id_unit'=>$row->id,'gender'=>'Laki-laki']);?> </span> <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-woman"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 16v5" /><path d="M14 16v5" /><path d="M8 16h8l-2 -7h-4z" /><path d="M5 11c1.667 -1.333 3.333 -2 5 -2" /><path d="M19 11c-1.667 -1.333 -3.333 -2 -5 -2" /><path d="M12 4m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg> <span class="badge bg-cyan"><?=getKuotaKamar('kuota',['id_unit'=>$row->id,'gender'=>'Perempuan']);?></span> <span class="badge bg-red"><?=getKuotaKamar('terpakai',['id_unit'=>$row->id,'gender'=>'Perempuan']);?></span> 
 										</div>
-										 
+										
 									</div>
 								</div>
 							</div>
@@ -268,6 +268,41 @@
 	</div>
 </div>
 
+<div class="modal modal-blur fade" id="OpenModalFormulir" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myModalLabel">Kirim Formulir</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label for="cek_nomor" class="form-label mt-2"><small>Nomor Pendaftar </small></label>
+					<div class="input-group mb-2">
+						<input type="text" id="nomor_hp" name="nomor_hp" class="form-control" readonly>
+						<button type="button" class="btn cek_nomor" type="button">Cek Nomor</button>
+						<div class="invalid-feedback"></div>
+						<div class="valid-feedback"></div>
+					</div>
+					
+					<input id="kode_formulir" name="kode_formulir" class="form-control mt-3" type="hidden" readonly>
+				</div>
+				<!--div class="form-group">
+					<label for="template_pesan_kirim" class="form-label mt-2"><small>Template pesan</small></label>
+					
+					<select name="template_pesan_kirim" id="template_pesan_kirim" class="form-select" disabled="">
+					</select>
+					
+				</div-->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success kirim_formulir_pendaftaran">Kirim</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- Modal Export Excel -->
 <div id="modalExport" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -328,6 +363,8 @@
 		$('.form-scrollable').slimScroll({
 			height: '500px'
 		});
+		
+		
 		searchPengguna();
 		function searchPengguna(page_num){
 			page_num = page_num?page_num:0;
@@ -668,6 +705,88 @@
 				$("#template_pesan").attr("disabled", true);
 			}
 		});
+		
+		$('body').on("click",".cek_nomor",function(){
+			var nomor = $('#nomor_hp').val();
+			
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/cek_nomor",
+				data:{nomor:nomor},
+				dataType : "json",
+				beforeSend: function(){
+					
+				},
+				success: function(response) {
+					console.log(response.msg.status)
+					if(response.msg.status==true){
+						$('#nomor_hp').addClass('is-valid');
+						$('.valid-feedback').html('Nomor terdaftar').show();
+						}else{
+						$('#nomor_hp').addClass('is-invalid');
+						$('.invalid-feedback').html('Nomor Wa Tidak terdaftar');
+					}
+				}
+			});
+			
+		});
+		$(document).on('click','.kirim_formulir_pendaftaran',function(e){
+			var nomor = $('#nomor_hp').val();
+			var kode = $('#kode_formulir').val();
+			var template = $('#template_pesan_kirim').val();
+			
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/kirim_formulir",
+				data:{kode:kode,nomor:nomor,template:template},
+				dataType : "json",
+				beforeSend: function(){
+					
+				},
+				success: function(response) {
+					console.log(response.msg.status)
+					if(response.msg.status==true && response.msg.active==true){
+						$('#nomor_hp').addClass('is-valid');
+						$('.valid-feedback').html('Nomor terdaftar').show();
+						}else{
+						$('#nomor_hp').addClass('is-invalid');
+						$('.invalid-feedback').html('Nomor Wa Tidak terdaftar');
+					}
+				}
+			});
+			
+		});
+		function kirim_formulir(kode,nomor){
+			template_pesan_kirim()
+			$('.valid-feedback').hide();
+			$('.invalid-feedback').hide();
+			$("#OpenModalFormulir").modal('show');
+			$('#kode_formulir').val(kode);
+			$('#nomor_hp').val(nomor);
+		}
+		function template_pesan_kirim(){
+			
+			$.ajax({
+				type: 'POST',
+				url: base_url+ "pendaftar/load_pesan",
+				dataType : "json",
+				beforeSend: function(){
+					$("#template_pesan_kirim").empty();
+					$("#template_pesan_kirim").append("<option value=''>Pilih</option>");
+				},
+				success: function(response) {
+					$("#template_pesan_kirim").attr("disabled", false);
+					var msize = response.length;
+					var i = 0;
+					for (; i < msize; i++) {
+						var teg = response[i]["id"];
+						var name = response[i]["name"];
+						$("#template_pesan_kirim").append("<option value='" + teg + "'>" + name + "</option>");
+					}
+				}
+			});
+		}
+		
 		
 		$('body').on("change","#sort_tahun",function(){
 			var tahun = $(this).val();

@@ -1461,10 +1461,119 @@
 				$this->image_lib->clear();
 			}
 		}
+		public function cek_nomor()
+		{
+			$status = $this->model_formulir->get_token();
+			if($status->id_pengaturan==1){
+				if($status->device_status=='Connected'){
+					$nomor = $this->input->post('nomor',true);
+					$_data= [
+					"token"  	=>$status->device,
+					"number"  	=> $nomor
+					];
+					$url_pesan = "backend-check-number";
+					// dump($_data);
+					
+					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+					$this->curl->setDefaultJsonDecoder($assoc = true);
+					$this->curl->setHeader('x-api-key', $status->token);
+					$this->curl->setHeader('Content-Type', 'application/json');
+					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
+					if ($this->curl->error) {
+						$result = ['status' => false, 'title'=>'Cek Nomor','msg' => $this->curl->errorMessage];
+						} else {
+						$result = ['status' => true, 'title'=>'Cek Nomor','msg' => $this->curl->response];
+					}
+					} else {
+					$result = ['status' => false, 'title'=>'Cek Nomor', 'msg' => 'Device Disconected'];
+				}
+				}else{
+				$token = $this->model_formulir->get_token()->token;
+				$isi_pesan = $this->model_formulir->get_pesan($post);
+				$data_send = array(
+				'target' => $post['nomor_hp'],
+				'message' => $isi_pesan,
+				'countryCode' => '62'
+				);
+				
+				$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+				$this->curl->setDefaultJsonDecoder($assoc = true);
+				$this->curl->setHeader('Authorization', $token);
+				$this->curl->setHeader('Content-Type', 'application/json');
+				$this->curl->post('https://api.fonnte.com/send', $data_send);
+				if ($this->curl->error) {
+					$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+					} else {
+					$response = $this->curl->response;
+					$result = ['status' => true, 'msg' => (object)$response];
+				}
+			}
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
+		}
+		public function kirim_formulir()
+		{
+			$id = decrypt_url($this->input->post('kode',true));
+			$nomor = $this->input->post('nomor',true);
+			$template = $this->input->post('template',true);
+			$post = $this->model_app->view_where('rb_psb_daftar',['id'=>$id])->row_array();
+			$this->send_notif_pesan($post);
+		}
+		
+		private function send_notif_pesan($post)
+		{
+			$status = $this->model_formulir->get_token();
+			if($status->id_pengaturan==1){
+				if($status->device_status=='Connected'){
+					$isi_pesan = $this->model_formulir->get_pesan_admin($post);
+					$_data= [
+					"token"  	=>$status->device,
+					"number"  	=> $post['nomor_hp'],
+					"text" 		=> $isi_pesan
+					];
+					$url_pesan = "backend-send-text";
+					
+					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+					$this->curl->setDefaultJsonDecoder($assoc = true);
+					$this->curl->setHeader('x-api-key', $status->token);
+					$this->curl->setHeader('Content-Type', 'application/json');
+					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
+					if ($this->curl->error) {
+						$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+						} else {
+						$result = ['status' => true, 'title'=>'Kirim Formulir','msg' => 'Berhasil dikirim'];
+					}
+					} else {
+					$result = ['status' => false, 'title'=>'Kirim Formulir', 'msg' => 'Device Disconected'];
+				}
+				}else{
+				$token = $this->model_formulir->get_token()->token;
+				$isi_pesan = $this->model_formulir->get_pesan($post);
+				$data_send = array(
+				'target' => $post['nomor_hp'],
+				'message' => $isi_pesan,
+				'countryCode' => '62'
+				);
+				
+				$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+				$this->curl->setDefaultJsonDecoder($assoc = true);
+				$this->curl->setHeader('Authorization', $token);
+				$this->curl->setHeader('Content-Type', 'application/json');
+				$this->curl->post('https://api.fonnte.com/send', $data_send);
+				if ($this->curl->error) {
+					$result = ['status' => false, 'msg' => $this->curl->errorMessage];
+					} else {
+					$response = $this->curl->response;
+					$result = ['status' => true, 'msg' => (object)$response];
+					$this->report_pesan($response,$isi_pesan,$post['nik']);
+				}
+			}
+		}
+		
 		private function send_notif($post)
 		{
 			$status = $this->model_formulir->get_token();
-			 
 			if($status->id_pengaturan==1){
 				if($status->device_status=='Connected'){
 					$isi_pesan = $this->model_formulir->get_pesan($post);
@@ -1496,7 +1605,7 @@
 				'message' => $isi_pesan,
 				'countryCode' => '62'
 				);
-				 
+				
 				$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 				$this->curl->setDefaultJsonDecoder($assoc = true);
 				$this->curl->setHeader('Authorization', $token);
@@ -1996,4 +2105,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																		
+	}																																																																																																																																																																																						

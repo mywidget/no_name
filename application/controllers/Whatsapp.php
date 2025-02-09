@@ -32,7 +32,7 @@
 			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/whatsapp/view_index',$data);
 		}
-		
+		 
 		public function pengaturan()
 		{
 			$result= $this->model_app->view('pengaturan_device')->result_array();
