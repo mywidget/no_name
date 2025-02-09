@@ -113,6 +113,7 @@
 								<div class="d-none d-sm-inline-block">Status</div>
 								<div class="mx-2 d-inline-block">
 									<select id="status" name="status" class="form-control form-select" style="width:100px!important" onchange="searchPengguna()">
+										<option value="">Semua</option>
 										<option value="Baru" <?php echo ($filter == 'Baru') ? 'selected' : ''; ?>>Baru</option>
 										<option value="Pindahan" <?php echo ($filter == 'Pindahan') ? 'selected' : ''; ?>>Pindahan</option>
 									</select>
