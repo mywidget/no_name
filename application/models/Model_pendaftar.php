@@ -49,7 +49,7 @@
 				} 
 				
 				if(!empty($params['search']['status'])){ 
-					$this->db->where('status_sekolah', $params['search']['status']); 
+					$this->db->where('s_pendidikan', $params['search']['status']); 
 				} 
 				if(!empty($params['search']['sortUnit'])){ 
 					$this->db->like('unit_sekolah', $params['search']['sortUnit']); 

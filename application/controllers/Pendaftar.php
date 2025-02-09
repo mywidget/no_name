@@ -103,9 +103,11 @@
 			
 			$diterima = $this->input->post('diterima');
 			if (!empty($diterima)) {
-				$conditions['where'] = ['s_pendidikan'=>$diterima
+				$conditions['where'] = ['s_pendidikan'=>'Baru',
+				'status'=>$diterima
 				];
-				 
+				}else{
+				$conditions['where'] = ['s_pendidikan'=>'Baru'];
 			}
 			
 			
