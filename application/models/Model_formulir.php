@@ -34,6 +34,7 @@
 		
 		public function get_pesan_pendaftaran($post)
 		{
+		 
 			$this->db->select('deskripsi');
 			$this->db->from('rb_template_pesan');
 			$this->db->where('slug','PENDAFTARAN');
@@ -140,8 +141,8 @@
 				$post['nik'],
 				$post['nisn'],
 				$post['email'],
-				$post['unit_sekolah'],
-				$post['kelas'],
+				get_unit($post['unit_sekolah']),
+				getNamaKelas($post['kelas']),
 				$post['kamar'],
 				rp($biaya),
 				$link
