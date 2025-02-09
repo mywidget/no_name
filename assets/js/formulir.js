@@ -409,7 +409,7 @@ $('#image').change(function(){
 $('body').on("change","#nik",function(){
     var nik = $("#nik").val().length;
     if(parseInt(nik) < 16){
-        $("#nik").addClass('is-invalid');
+        $("#nik").addClass('is-invalid').removeClass('is-valid');
         $("#nik").siblings('.invalid-tooltip').text('NIK harus 16 digit').show();
         $("#nik").focus();
         return;
@@ -422,7 +422,7 @@ $('body').on("change","#nik",function(){
 $('body').on("change","#nisn",function(){
     var nisn = $("#nisn").val().length;
     if(parseInt(nisn) < 10 || parseInt(nisn) > 12){
-        $("#nisn").addClass('is-invalid');
+        $("#nisn").addClass('is-invalid').removeClass('is-valid');
         $("#nisn").siblings('.invalid-tooltip').text('NISN minimal 10 digit maksimal 12 digit').show();
         $(".search-input").css("color", "red");
         $("#nisn").focus();
@@ -437,7 +437,7 @@ $('body').on("change","#nisn",function(){
 $('body').on("change","#nikAyah",function(){
     var nikAyah = $("#nikAyah").val().length;
     if(parseInt(nikAyah) < 16){
-        $("#nikAyah").addClass('is-invalid');
+        $("#nikAyah").addClass('is-invalid').removeClass('is-valid');
         $("#nikAyah").siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit').show();
         $("#nikAyah").focus();
         return;
@@ -450,7 +450,7 @@ $('body').on("change","#nikAyah",function(){
 $('body').on("change","#nikIbu",function(){
     var nikIbu = $("#nikIbu").val().length;
     if(parseInt(nikIbu) < 16){
-        $("#nikIbu").addClass('is-invalid');
+        $("#nikIbu").addClass('is-invalid').removeClass('is-valid');
         $("#nikIbu").siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit').show();
         $("#nikIbu").focus();
         return;
