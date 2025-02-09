@@ -776,7 +776,7 @@
 			$unit = $this->input->post('unit');
 			$kelas = $this->input->post('kelas');
 			if(!empty($status)){
-				$this->db->where('status_sekolah', $status);
+				$this->db->where('s_pendidikan', $status);
 			}
 			if(!empty($unit)){
 				$this->db->where('unit_sekolah', $unit);
@@ -787,7 +787,7 @@
 			/* Query */
 			$this->db->select("*");
 			$this->db->where('tahun_akademik', $filter);
-			$this->db->where('s_pendidikan', 'Baru');
+			// $this->db->where('s_pendidikan', 'Baru');
 			$this->db->order_by('nama', 'ASC'); 
 			$query = $this->db->get('rb_psb_daftar');
 			return $query->result_array();
