@@ -275,8 +275,8 @@
                         <label for="nisn" class="form-label m-0"><small> NISN </small></label>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-6 position-relative">
-                        <input type="number" name="nisn_daftar" id="nisn" minlength="10" maxlength="10" class="form-control search-input" autocomplete="off" pattern="^\d{10}$" required>  
-                        <div class="invalid-tooltip">NISN wajib diisi</div>
+                        <input type="number" name="nisn_daftar" id="nisn" minlength="10" class="form-control search-input" autocomplete="off" pattern="^\d{11}$" required>  
+                        <div class="invalid-tooltip">NISN wajib diisi minimal 10 maksimal 12 digit</div>
                         <div class="invalid-feedback"></div>
                     </div>
                 </div>

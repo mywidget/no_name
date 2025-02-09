@@ -675,7 +675,7 @@
 				array(
 				'field' => 'nisn_daftar',
 				'label' => 'NISN',
-				'rules' => 'trim|numeric|min_length[10]|max_length[10]|is_unique[rb_psb_daftar.nisn]',
+				'rules' => 'trim|numeric|min_length[10]|max_length[11]|is_unique[rb_psb_daftar.nisn]',
 				'errors' => array(
 				'min_length' => '%s minimal 10 digit.',
 				'numeric' => '%s Harus angka.',

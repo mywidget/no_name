@@ -658,7 +658,7 @@
 				array(
 				'field' => 'nisn',
 				'label' => 'NISN',
-				'rules' => 'required|trim|numeric|min_length[10]|max_length[10]|callback__cek_edit_nisn['.$nisn.']',
+				'rules' => 'required|trim|numeric|min_length[10]|max_length[11]|callback__cek_edit_nisn['.$nisn.']',
 				'errors' => array(
 				'required' => '%s. Harus di isi',
 				'min_length' => '%s minimal 10 digit.',
