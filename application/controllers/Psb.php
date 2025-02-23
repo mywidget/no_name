@@ -124,7 +124,7 @@
 					'id'=>$id,
 					'kode'=>$result->row()->kode_jurusan,
 					'nama'=>$result->row()->nama_jurusan,
-					'urutan'=>$result->row()->urutan_unit,
+					'urutan'=>$result->row()->urutan,
 					'aktif'=>$result->row()->aktif,
 					];
 					}else{
@@ -212,8 +212,8 @@
 			
 			if($type=='edit'){
 				$postid 	= decrypt_url($this->input->post('id_unit',TRUE));
-				$kode_unit 	= decrypt_url($this->input->post('kode_unit',TRUE));
-				$nama_unit 	= decrypt_url($this->input->post('nama_unit',TRUE));
+				$kode_unit 	= ($this->input->post('kode_unit',TRUE));
+				$nama_unit 	= ($this->input->post('nama_unit',TRUE));
 				
 				$this->form_validation->set_rules(array(array(
 				'field' => 'kode_unit',
