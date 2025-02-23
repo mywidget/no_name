@@ -484,7 +484,7 @@
 			$cek = $this->db->where("BINARY kode_jurusan = '$val'", NULL, FALSE)->get('rb_unit');
 			if (
 			$cek->num_rows() == 1 && 
-			$cek->row_array()['id'] == $id || 
+			$cek->row->id == $id || 
 			$cek->num_rows() != 1
 			) 
 			{
