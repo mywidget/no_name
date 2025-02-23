@@ -651,7 +651,7 @@
 			if ( $this->input->is_ajax_request() ) 
 			{
 				$saudara_pp = $this->input->post('saudara_pp',true);
-				if(empty($saudara_pp)){
+				if(!empty($saudara_pp)){
 					$this->form_validation->set_rules(array(
 					array(
 					'field' => 'email_daftar',
