@@ -49,6 +49,7 @@
                             <td colspan="4">Total Pemasukan</td>
                             <td class="text-end"><?=rprp($total);?></td>
                             <td></td>
+                            <td></td>
                         </tr>
                     </tfoot>
                 </tbody>  
