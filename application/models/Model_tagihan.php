@@ -124,10 +124,10 @@
 				// } 
 				
 				if(!empty($params['search']['kategori'])){ 
-					$this->db->where('id_kategori', $params['search']['kategori']); 
+					$this->db->where('rb_bayar_tagihan.id_kategori', $params['search']['kategori']); 
 				} 
 				if(!empty($params['search']['tahun'])){ 
-					$this->db->where('rb_tagihan.tahun_akademik', $params['search']['tahun']); 
+					$this->db->where('rb_bayar_tagihan.tahun_akademik', $params['search']['tahun']); 
 				} 
 			}
 			

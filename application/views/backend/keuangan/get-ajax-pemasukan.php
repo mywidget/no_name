@@ -46,7 +46,7 @@
                     <tfoot>
                         <tr>
                             <td>#</td>
-                            <td colspan="4">Total Pemasukan</td>
+                            <td colspan="4">Total Pemasukan perhalaman</td>
                             <td class="text-end"><?=rprp($total);?></td>
                             <td></td>
                             <td></td>

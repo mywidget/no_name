@@ -61,13 +61,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="text-muted">
-								<div class="mx-2 d-inline-block">
-									<select id="tahun_akademik_filter" class="form-control form-select w-5" style="width:200px!important" onchange="searchData()">
-										<option value="">Tahun Akademik</option>
-									</select>
-								</div>
-							</div>
+							 
 							<div class="ms-auto text-muted">
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
@@ -159,14 +153,13 @@
 			page_num = page_num?page_num:0;
 			var limit = $('#limits').val();
 			var kategori = $('#kategori').val();
-			var tahun = $('#tahun_akademik_filter').val();
+			// var tahun = $('#tahun_akademik_filter').val();
 			$.ajax({
 				type: 'POST',
 				url: base_url+'keuangan/ajax_list_pemasukan/'+page_num,
 				data:{page:page_num,
 					limit:limit,
-					kategori:kategori,
-					tahun:tahun,
+					kategori:kategori
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					// Menangani error yang terjadi
