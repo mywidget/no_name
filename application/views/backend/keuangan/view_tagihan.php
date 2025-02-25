@@ -585,7 +585,7 @@
 						}else{
 						sweet('Peringatan!!!',data.msg,'warning','warning');
 					}
-					// searchData();
+					searchData();
 					
 					$('body').loading('stop');　
 					},error: function (xhr, ajaxOptions, thrownError) {
