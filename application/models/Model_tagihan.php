@@ -13,7 +13,7 @@
 			}
 			if(array_key_exists("search", $params)){ 
 				if(!empty($params['search']['keywords'])){ 
-					$this->db->like('nomor_tagihan', $params['search']['keywords']); 
+					$this->db->like('kode_daftar', $params['search']['keywords']); 
 				} 
 				if(!empty($params['search']['status'])){ 
 					$this->db->where('status_lunas', $params['search']['status']); 
@@ -211,17 +211,17 @@
 			return $result; 
 		}
 		// Fungsi untuk memeriksa status pendaftar
-		public function check_status($id_pendaftar)
+		public function check_status($id_siswa)
 		{
 			// Query untuk mendapatkan status berdasarkan ID pendaftar
-			$this->db->select('status');
-			$this->db->from('rb_psb_daftar');
-			$this->db->where('id', $id_pendaftar);
+			$this->db->select('id_siswa');
+			$this->db->from('rb_tagihan');
+			$this->db->where('id_siswa', $id_siswa);
 			$query = $this->db->get();
 			
 			// Cek jika data ditemukan
 			if ($query->num_rows() > 0) {
-				return $query->row()->status;
+				return $query->row()->id_siswa;
 			}
 			return null; // Jika tidak ditemukan
 		}
