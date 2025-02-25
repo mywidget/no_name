@@ -116,7 +116,7 @@
 				$sampai = date_replace_slash($date['sampai']);
 				$conditions["search"]["dari"] = $dari;
 				$conditions["search"]["sampai"] = $sampai;
-				 
+				
 			}
 			
 			// Get record count 
@@ -635,88 +635,135 @@
 				$nik_ayah = $this->input->post('nik_ayah',true);
 				$nik_ibu = $this->input->post('nik_ibu',true);
 				$kirim_pesan = $this->input->post('kirim_pesan',true);
-				
-				$this->form_validation->set_rules(array(
-				array(
-				'field' => 'email',
-				'label' => 'Email',
-				'rules' => 'required|trim|min_length[10]|callback__cek_edit_email['.$email.']',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'min_length' => '%s minimal 10 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
-				array(
-				'field' => 'nik',
-				'label' => 'NIK',
-				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik['.$nik.']',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 16 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
-				
-				array(
-				'field' => 'nisn',
-				'label' => 'NISN',
-				'rules' => 'required|trim|numeric|min_length[10]|max_length[11]|callback__cek_edit_nisn['.$nisn.']',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'min_length' => '%s minimal 10 digit.',
-				'numeric' => '%s Harus angka.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
-				array(
-				'field' => 'no_kk',
-				'label' => ' Nomor Kartu Keluarga ',
-				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nokk['.$no_kk.']',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 16 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
-				
-				array(
-				'field' => 'nik_ayah',
-				'label' => ' NIK Ayah',
-				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik_ayah['.$nik_ayah.']',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 16 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
-				
-				array(
-				'field' => 'nik_ibu',
-				'label' => ' NIK Ibu',
-				'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik_ibu['.$nik_ibu.']',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				'numeric' => '%s. Harus angka',
-				'min_length' => '%s minimal 16 digit.',
-				'is_unique'     => '%s sudah ada.'
-				)
-				),
-				
-				array(
-				'field' => 'kamar',
-				'label' => 'Kuota kamar',
-				'rules' => 'required|trim',
-				'errors' => array(
-				'required' => '%s. Harus di isi',
-				)
-				),
-				
-				));
-				
+				$saudara_pp = $this->input->post('saudara_pp',true);
+				if(!empty($saudara_pp)){
+					$this->form_validation->set_rules(array(
+					array(
+					'field' => 'email',
+					'label' => 'Email',
+					'rules' => 'required|trim|min_length[10]|callback__cek_edit_email['.$email.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'min_length' => '%s minimal 10 digit.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					array(
+					'field' => 'nik',
+					'label' => 'NIK',
+					'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik['.$nik.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'numeric' => '%s. Harus angka',
+					'min_length' => '%s minimal 16 digit.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					
+					array(
+					'field' => 'nisn',
+					'label' => 'NISN',
+					'rules' => 'required|trim|numeric|min_length[10]|max_length[11]|callback__cek_edit_nisn['.$nisn.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'min_length' => '%s minimal 10 digit.',
+					'numeric' => '%s Harus angka.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					  
+					array(
+					'field' => 'kamar',
+					'label' => 'Kuota kamar',
+					'rules' => 'required|trim',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					)
+					),
+					
+					));
+					}else{
+					$this->form_validation->set_rules(array(
+					array(
+					'field' => 'email',
+					'label' => 'Email',
+					'rules' => 'required|trim|min_length[10]|callback__cek_edit_email['.$email.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'min_length' => '%s minimal 10 digit.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					array(
+					'field' => 'nik',
+					'label' => 'NIK',
+					'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik['.$nik.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'numeric' => '%s. Harus angka',
+					'min_length' => '%s minimal 16 digit.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					
+					array(
+					'field' => 'nisn',
+					'label' => 'NISN',
+					'rules' => 'required|trim|numeric|min_length[10]|max_length[11]|callback__cek_edit_nisn['.$nisn.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'min_length' => '%s minimal 10 digit.',
+					'numeric' => '%s Harus angka.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					array(
+					'field' => 'no_kk',
+					'label' => ' Nomor Kartu Keluarga ',
+					'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nokk['.$no_kk.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'numeric' => '%s. Harus angka',
+					'min_length' => '%s minimal 16 digit.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					
+					array(
+					'field' => 'nik_ayah',
+					'label' => ' NIK Ayah',
+					'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik_ayah['.$nik_ayah.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'numeric' => '%s. Harus angka',
+					'min_length' => '%s minimal 16 digit.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					
+					array(
+					'field' => 'nik_ibu',
+					'label' => ' NIK Ibu',
+					'rules' => 'required|trim|numeric|min_length[16]|max_length[16]|callback__cek_edit_nik_ibu['.$nik_ibu.']',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					'numeric' => '%s. Harus angka',
+					'min_length' => '%s minimal 16 digit.',
+					'is_unique'     => '%s sudah ada.'
+					)
+					),
+					
+					array(
+					'field' => 'kamar',
+					'label' => 'Kuota kamar',
+					'rules' => 'required|trim',
+					'errors' => array(
+					'required' => '%s. Harus di isi',
+					)
+					),
+					
+					));
+				}
 				if ( $this->form_validation->run() ) 
 				{
 					$current_status = $this->model_tagihan->check_status($id_pendaftar);
@@ -2133,4 +2180,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																										
+	}																																																																																																																																																																																											
