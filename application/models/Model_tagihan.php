@@ -69,8 +69,8 @@
 					$this->db->like('nomor_siswa', $params['search']['keywords']); 
 					$this->db->or_like('nama', $params['search']['keywords']); 
 				} 
-				 
-				 
+				
+				
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -129,6 +129,9 @@
 				if(!empty($params['search']['tahun'])){ 
 					$this->db->where('rb_bayar_tagihan.tahun_akademik', $params['search']['tahun']); 
 				} 
+				if (!empty($params['search']['dari']) and !empty($params['search']['sampai'])) {
+                    $this->db->where('rb_bayar_tagihan.tgl_bayar BETWEEN "'.date('Y-m-d', strtotime($params['search']['dari'])).'" and "'.date('Y-m-d', strtotime($params['search']['sampai'])).'"');
+				}
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -668,4 +671,4 @@
 			$query = $this->db->get('tagihan_pembayaran');
 			return $query->result_array();
 		}
-	}																																																				
+	}																																																					

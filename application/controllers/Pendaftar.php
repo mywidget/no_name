@@ -116,11 +116,7 @@
 				$sampai = date_replace_slash($date['sampai']);
 				$conditions["search"]["dari"] = $dari;
 				$conditions["search"]["sampai"] = $sampai;
-				if(strtotime($dari)==strtotime($sampai)){
-					$data['tanggal']	= 'TANGGAL : '.$date['dari'];
-					}else{
-					$data['tanggal']	= 'PEROIDE : '.$date['dari'].' - '.$date['sampai'];
-				}
+				 
 			}
 			
 			// Get record count 

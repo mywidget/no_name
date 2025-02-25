@@ -61,7 +61,12 @@
 									</select>
 								</div>
 							</div>
-							 
+							<div class="text-muted">
+								<div class="d-none d-sm-inline-block">Tanggal</div>
+								<div class="mx-2 d-inline-block">
+									<input type="text" name="daterange" id="filter-tanggal" class="form-control filter-tanggal" onchange="searchData();" />
+								</div>
+							</div>
 							<div class="ms-auto text-muted">
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
@@ -145,7 +150,58 @@
 <?php $this->RenderScript[] = function() { ?>
 	
 	<script>
-		
+		jQuery(document).ready(function () {
+			var week = moment().startOf('isoWeek');
+			var start = moment().startOf("month");
+			var end = moment();
+			$('.filter-tanggal').daterangepicker({
+				opens: 'right',
+				ranges: {
+					'Hari ini': [moment(), moment()],
+					'Kemarin': [moment().subtract('days', 1), moment()],
+					'Minggu Ini': [moment().startOf('isoWeek'), moment()],
+					'7 Hari Terakhir': [moment().subtract('days', 6), moment()],
+					'Bulan ini': [moment().startOf('month'), moment()],
+					'Bulan sebelumnya': [moment().subtract('days', 29), moment()],
+					'Tahun ini': [moment().startOf('year'), moment()],
+					
+				},
+				"dateLimit": {
+					"days": 365
+				},
+				showDropdowns: true,
+				"linkedCalendars": false,
+				"startDate": start,
+				"endDate": end,
+				"maxDate": end,
+				locale: {
+					customRangeLabel: 'Pilih Tanggal',
+					format: 'DD/MM/YYYY',
+					applyLabel: 'Pilih',
+					separator: " - ",
+					"monthNames": [
+					"Januari",
+					"Februari",
+					"Maret",
+					"April",
+					"Mei",
+					"Juni",
+					"Juli",
+					"Agustus",
+					"September",
+					"Oktober",
+					"November",
+					"Desember"
+					],
+				}
+			},	function(startDate, endDate, label) 
+			{
+				start = startDate.format('DD-MM-YYYY');
+				end = endDate.format('DD-MM-YYYY');
+				
+				
+			})
+		});
 		searchData();
 		function searchData(page_num)
 		{
@@ -153,13 +209,15 @@
 			page_num = page_num?page_num:0;
 			var limit = $('#limits').val();
 			var kategori = $('#kategori').val();
+			var periode = $('#filter-tanggal').val();
 			// var tahun = $('#tahun_akademik_filter').val();
 			$.ajax({
 				type: 'POST',
 				url: base_url+'keuangan/ajax_list_pemasukan/'+page_num,
 				data:{page:page_num,
 					limit:limit,
-					kategori:kategori
+					kategori:kategori,
+					periode:periode
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					// Menangani error yang terjadi
@@ -245,5 +303,5 @@
 		});
 		
 	</script>
- 
+	
 <?php } ?>	

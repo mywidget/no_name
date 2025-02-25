@@ -162,7 +162,15 @@
 				$limit = $this->perPage;
 			}
 			
-			
+			$periode = $this->input->post('periode');
+			if (!empty($periode)) {
+				$date = date_ranges($periode);
+				$dari = date_replace_slash($date['dari']);
+				$sampai = date_replace_slash($date['sampai']);
+				$conditions["search"]["dari"] = $dari;
+				$conditions["search"]["sampai"] = $sampai;
+				
+			}
             // Get record count 
             $conditions['returnType'] = 'count';
             $totalRec = $this->model_tagihan->getPemasukan($conditions);
@@ -416,7 +424,7 @@
 				$kategori = $this->model_tagihan->get_device();
 				echo json_encode($kategori);
 			}
-		}
+			}
 		
 		// Mengambil rekening untuk dropdown
 		public function get_rekening()
@@ -715,10 +723,10 @@
 		public function kirim_tagihan()
 		{
 			$post = $this->input->post();
-			 
+			
 			
 			$isi_pesan = $this->model_tagihan->get_pesan($post);
-			 
+			
 			$row = $this->model_app->view_where('rb_device', ['id' => $post['id_device']])->row();
 			if($row->id_pengaturan==1){
 				if($row->device_status=='Connected'){
@@ -743,7 +751,7 @@
 					$result = ['status' => false, 'title'=>'Kirim tagihan','target' => hp62($nomor_tujuan), 'msg' => 'Device Disconected'];
 				}
 				}else{
-				 
+				
 				$data_send = array(
 				'target' => $post['nomor'],
 				'message' => $isi_pesan,
@@ -1156,4 +1164,4 @@
 			header('Cache-Control: max-age=0');
 			$writer->save('php://output');
 		}
-	}																																																																																																																		
+	}																																																																																																																			

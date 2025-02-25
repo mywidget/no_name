@@ -419,12 +419,7 @@
 			{
 				start = startDate.format('DD-MM-YYYY');
 				end = endDate.format('DD-MM-YYYY');
-				// console.log(start)
-				// current_url = document.location.href;
-				// new_url = new URL(current_url);
-				// new_url.searchParams.set('daterange', start + ' - ' + end);
-				// history.pushState({}, null, new_url);
-				
+ 
 				
 			})
 		});
