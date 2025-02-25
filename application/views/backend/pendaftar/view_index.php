@@ -10,6 +10,7 @@
 				</h2>
 			</div>
 			<div class="col-12 col-md-auto ms-auto d-print-none">
+				
                 <div class="btn-list">
 					<button class="btn btn-secondary export" id="export" data-bs-toggle="tooltip" data-bs-placement="left" title="" data-id="0" data-mod="export" disabled>
 						<i class="ti ti-file-spreadsheet fa-lg"></i>
@@ -51,16 +52,25 @@
 					<?php endforeach;?>
 				</div>
 			</div>
-            <div class="col-12">
+			<div class="col-12">
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">List Data Pendaftar</h3>
 						<div class="card-actions">
-							<a href="javascript:void(0)" class="btn btn-primary OpenModalPendaftar" data-bs-toggle="modal" data-bs-target="#OpenModalPendaftar" aria-label="Tambah Pendaftar" data-id="0" data-mod="add">
-								<!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
-								Tambah
-							</a>
+							<div class="d-flex">
+								<div class="text-muted">
+									<div class="d-none d-sm-inline-block">Tanggal</div>
+									<div class="mx-2 d-inline-block">
+										<input type="text" name="daterange" id="date-filter" class="form-control date-filter" onchange="searchPengguna();" />
+									</div>
+								</div>
+								
+								<a href="javascript:void(0)" class="btn btn-primary OpenModalPendaftar" data-bs-toggle="modal" data-bs-target="#OpenModalPendaftar" aria-label="Tambah Pendaftar" data-id="0" data-mod="add">
+									<!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+									Tambah
+								</a>
+							</div>
 						</div>
 						<div class="card-actions" id="update_status" style="display:none">
 							<div class="text-muted">
@@ -361,6 +371,63 @@
 	$this->RenderScript[] = function() {
 	?>
 	<script>
+		jQuery(document).ready(function () {
+			var week = moment().startOf('isoWeek');
+			var start = moment().startOf("month");
+			var end = moment();
+			$('.date-filter').daterangepicker({
+				opens: 'right',
+				ranges: {
+					'Hari ini': [moment(), moment()],
+					'Kemarin': [moment().subtract('days', 1), moment()],
+					'Minggu Ini': [moment().startOf('isoWeek'), moment()],
+					'7 Hari Terakhir': [moment().subtract('days', 6), moment()],
+					'Bulan ini': [moment().startOf('month'), moment()],
+					'Bulan sebelumnya': [moment().subtract('days', 29), moment()],
+					'Tahun ini': [moment().startOf('year'), moment()],
+					
+				},
+				"dateLimit": {
+					"days": 365
+				},
+				showDropdowns: true,
+				"linkedCalendars": false,
+				"startDate": start,
+				"endDate": end,
+				"maxDate": end,
+				locale: {
+					customRangeLabel: 'Pilih Tanggal',
+					format: 'DD/MM/YYYY',
+					applyLabel: 'Pilih',
+					separator: " - ",
+					"monthNames": [
+					"Januari",
+					"Februari",
+					"Maret",
+					"April",
+					"Mei",
+					"Juni",
+					"Juli",
+					"Agustus",
+					"September",
+					"Oktober",
+					"November",
+					"Desember"
+					],
+				}
+			},	function(startDate, endDate, label) 
+			{
+				start = startDate.format('DD-MM-YYYY');
+				end = endDate.format('DD-MM-YYYY');
+				// console.log(start)
+				// current_url = document.location.href;
+				// new_url = new URL(current_url);
+				// new_url.searchParams.set('daterange', start + ' - ' + end);
+				// history.pushState({}, null, new_url);
+				
+				
+			})
+		});
 		$('.form-scrollable').slimScroll({
 			height: '500px'
 		});
@@ -376,6 +443,7 @@
 			var status = $('#status').val();
 			var sortUnit = $('#sortUnit').val();
 			var sortKelas = $('#sortKelas').val();
+			var periode = $('#date-filter').val();
 			var diterima = filter_status;
 			$.ajax({
 				type: 'POST',
@@ -388,7 +456,8 @@
 					status:status,
 					sortUnit:sortUnit,
 					sortKelas:sortKelas,
-					diterima:diterima
+					diterima:diterima,
+					periode:periode,
 				},
 				beforeSend: function(){
 					$('body').loading();

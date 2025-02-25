@@ -109,7 +109,19 @@
 				}else{
 				$conditions['where'] = ['s_pendidikan'=>'Baru'];
 			}
-			
+			$periode = $this->input->post('periode');
+			if (!empty($periode)) {
+				$date = date_ranges($periode);
+				$dari = date_replace_slash($date['dari']);
+				$sampai = date_replace_slash($date['sampai']);
+				$conditions["search"]["dari"] = $dari;
+				$conditions["search"]["sampai"] = $sampai;
+				if(strtotime($dari)==strtotime($sampai)){
+					$data['tanggal']	= 'TANGGAL : '.$date['dari'];
+					}else{
+					$data['tanggal']	= 'PEROIDE : '.$date['dari'].' - '.$date['sampai'];
+				}
+			}
 			
 			// Get record count 
 			$conditions['returnType'] = 'count';

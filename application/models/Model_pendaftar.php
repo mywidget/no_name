@@ -57,6 +57,9 @@
 				if(!empty($params['search']['sortKelas'])){ 
 					$this->db->where('kelas', $params['search']['sortKelas']); 
 				} 
+				if (!empty($params['search']['dari']) and !empty($params['search']['sampai'])) {
+                    $this->db->where('tanggal_daftar BETWEEN "'.date('Y-m-d', strtotime($params['search']['dari'])).'" and "'.date('Y-m-d', strtotime($params['search']['sampai'])).'"');
+				}
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -103,7 +106,7 @@
 			}
 			return null; // Jika tidak ditemukan
 		}
-		 
+		
 		function getUnit($params = array()){
 			// print_r($params);
 			$this->db->select('*'); 
@@ -421,7 +424,7 @@
 						$this->db->limit($params['limit'],$params['start']); 
 						}elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
 						$this->db->limit($params['limit']); 
-					} 
+						} 
 					
 					$query = $this->db->get(); 
 					$result = ($query->num_rows() > 0)?$query->result_array():FALSE; 
@@ -823,11 +826,11 @@
 				if(!empty($params['search']['tahun'])){ 
 					$this->db->where('b.id_tahun_akademik', $params['search']['tahun']); 
 				} 
-			 
+				
 				if(!empty($params['search']['sortUnit'])){ 
 					$this->db->like('b.id_unit', $params['search']['sortUnit']); 
 				} 
-				 
+				
 			}
 			
 			if(!empty($params['search']['sortBy'])){ 
@@ -936,4 +939,4 @@
 			$query = $this->db->get('rb_biaya');
 			return $query->row();
 		}
-	}																		
+	}																			

@@ -784,6 +784,17 @@
 		}
 		return $_str;
 	}
+	function date_ranges($var){
+        //d/m/y to Y-m-d
+		$string = explode('-',$var);    
+		$date = ['dari'=>$string[0],'sampai'=>$string[1]];
+        return $date;
+	}
+	function date_replace_slash($var){
+        $date = str_replace('/', '-', $var);
+        $date = date('Y-m-d', strtotime($date));
+        return $date; //d/m/y to Y-m-d
+    }
 	
 	function copyYear($copyYear='')
 	{
@@ -856,4 +867,4 @@
 			}
 		}
 		return $hp;
-	}	
+	}		
