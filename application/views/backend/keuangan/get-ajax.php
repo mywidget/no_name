@@ -28,7 +28,7 @@
                                 
                                 $bayar = '<a class="btn btn-info flat" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#ModalBayar" href="#"><i class="fa fa-money"></i>&nbsp;&nbsp;Bayar</a>';
                             }
-                            $hapus = '<a class="btn btn-danger" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
+                            $hapus = '<a class="dropdown-item" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Data</a>';
                             
                             $icon = '<i class="fa fa-print" data-bs-toggle="tooltip" title="Tikda Aktif"></i>&nbsp;Cetak';
                             $print = '<a href="/keuangan/cetak_tagihan/'.$kode.'" class="dropdown-item" target="_blank">'.$icon.'</a>';
@@ -74,6 +74,7 @@
                                         <li><?=$print;?></li>
                                         <li><?=$send_wa;?></li>
                                         <li><?=$detail;?></li>
+                                        <li><?=$hapus;?></li>
                                         <!--li><hr class="dropdown-divider"></li-->
                                     </ul>
                                 </div>

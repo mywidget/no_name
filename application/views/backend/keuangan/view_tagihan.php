@@ -487,7 +487,7 @@
 				success: function(data) {
 					if(data.status==true){
 						showNotif('bottom-right',data.title,data.msg,'success');
-						load_modal(data.id)
+						// load_modal(data.id)
 						}else{
 						sweet('Peringatan!!!',data.msg,'warning','warning');
 					}

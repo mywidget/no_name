@@ -276,11 +276,11 @@
 			cek_crud_akses('DELETE');
 			$id 	= decrypt_url($this->input->post('id',TRUE));
 			
-			$where = array('id' => $id);
-			$search = $this->model_app->edit('rb_pages', $where);
+			$where = array('id_tagihan' => $id);
+			$search = $this->model_app->edit('rb_tagihan', $where);
 			if($search->num_rows()>0){
 				$row = $search->row_array();
-				$res = $this->model_app->hapus('rb_pages',$where);
+				$res = $this->model_app->hapus('rb_tagihan',$where);
 				if($res==true){
 					$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
 					}else{
