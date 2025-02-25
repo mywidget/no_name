@@ -11,6 +11,7 @@
                         <th class="w-15 text-left">Rekening</th>
                         <th class="w-15 text-end">Jumlah</th>
                         <th class="w-12 text-end">Lampiran</th>
+                        <th class="w-12 text-end">#</th>
                     </tr>
                 </thead>  
                 <tbody> 
@@ -37,6 +38,7 @@
                                     </div>
                                 </a>
                             </td>
+                            <td><?=($row['id_bayar_tagihan']);?></td>
                         </tr>
                         <?php $no++;
                         }
