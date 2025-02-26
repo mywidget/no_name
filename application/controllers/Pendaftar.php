@@ -767,7 +767,8 @@
 				if ( $this->form_validation->run() ) 
 				{
 					$current_status = $this->model_tagihan->check_status($id_pendaftar);
-					if ($current_status == $id_pendaftar) {
+					// dump($current_status);
+					if ($current_status == false) {
 						$this->model_tagihan->input_tagihan();
 					}
 					$status_pendaftar = $this->input->post('status_pendaftar',true);
