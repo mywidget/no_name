@@ -23,6 +23,7 @@
                             $total += $row['jumlah_bayar'];
                             $icon = '<i class="fa fa-image" data-bs-toggle="tooltip" title="Lampiran Bukti Transfer"></i>';
                             $gambar = base_url().'upload/lampiran/'.$row['lampiran'];
+                            $hapus = '<a class="btn btn-danger btn-sm" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-delete" href="#"><i class="fa fa-trash"></i>&nbsp;Hapus </a>';
                         ?>
                         <tr>
                             <td><?=$no;?></td>
@@ -38,7 +39,9 @@
                                     </div>
                                 </a>
                             </td>
-                            <td><?=($row['id_bayar_tagihan']);?></td>
+                           <td align="right">
+                                <?=$hapus;?>
+                            </td>
                         </tr>
                         <?php $no++;
                         }

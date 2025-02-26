@@ -324,6 +324,28 @@
 			$this->thm->json_output($data);
 			
 		}
+		function hapus_uang_masuk(){
+			cek_input_post('GET');
+			cek_crud_akses('DELETE');
+			$id 	= decrypt_url($this->input->post('id',TRUE));
+			
+			$where = array('id_bayar_tagihan' => $id);
+			$search = $this->model_app->edit('rb_bayar_tagihan', $where);
+			if($search->num_rows()>0){
+				$res = $this->model_app->hapus('rb_bayar_tagihan',$where);
+				if($res==true){
+					$data = array('status'=>true,'title'=>'Hapus data','msg'=>'Data berhasil dihapus');
+					}else{
+					$data = array('status'=>false,'title'=>'Hapus data','msg'=>'Data gagal dihapus');
+				}
+				
+				}else{
+				$data = array('status'=>false,'msg'=>'Data gagal dihapus');
+			}
+			
+			$this->thm->json_output($data);
+			
+		}
 		function hapus_bayar(){
 			cek_input_post('GET');
 			cek_crud_akses('DELETE');
