@@ -767,11 +767,11 @@
 				if ( $this->form_validation->run() ) 
 				{
 					$current_status = $this->model_tagihan->check_status($id_pendaftar);
+					$status_pendaftar = $this->input->post('status_pendaftar',true);
 					// dump($current_status);
-					if ($current_status == false) {
+					if ($current_status == false AND $status_pendaftar != 'Tidak Diterima') {
 						$this->model_tagihan->input_tagihan();
 					}
-					$status_pendaftar = $this->input->post('status_pendaftar',true);
 					
 					$nama_unit = $this->model_pendaftar->nama_unit_byid($this->input->post('unit_sekolah',true));
 					
