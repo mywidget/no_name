@@ -769,7 +769,7 @@
 					$current_status = $this->model_tagihan->check_status($id_pendaftar);
 					$status_pendaftar = $this->input->post('status_pendaftar',true);
 					// dump($current_status);
-					if ($current_status == false AND $status_pendaftar != 'Tidak Diterima') {
+					if ($current_status == false) {
 						$this->model_tagihan->input_tagihan();
 					}
 					
