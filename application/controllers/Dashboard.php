@@ -76,6 +76,7 @@
 			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
 			$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
 			$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
+			$data['gelombang'] = $this->model_app->view_where('rb_gelombang',['aktif'=>'Y'])->row();
 			// $this->session->set_userdata(['pendaftaran'=>'sukses', 'nik'=>]);
 			$this->thm->load('frontend/template','frontend/formulir',$data);
 		}
@@ -869,6 +870,7 @@
 					
 					$input_data = [
 					"kode_daftar"              	  => $this->input->post('nik',true),
+					"id_gelombang"                => $this->input->post('id_gelombang',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
 					"email"                       => $this->input->post('email_daftar',true),
 					"nama"                        => $this->input->post('nama',true),

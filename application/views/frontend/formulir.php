@@ -1,5 +1,15 @@
 <?php
-    
+    $today = strtotime(date('Y-m-d'));
+    $tgl_mulai = strtotime($gelombang->tgl_mulai);
+    $tgl_selesai = strtotime($gelombang->tgl_selesai);
+ 
+    if($today >= $tgl_mulai AND $today <= $tgl_selesai){
+        $buka = true;
+        $deskripsi = '';
+        }else{
+        $buka = false;
+        $deskripsi = $gelombang->deskripsi;
+    }
     // $email          ='rangkasku@gmail.com';
     // $nama           ='Munajat';
     // $tempat_lahir   ='Lebak';
@@ -30,6 +40,9 @@
         $nama_tahun = '';
         $id_tahun_akademik = '';
     }
+    
+    if($buka){
+        
 ?>
 
 <main class="container" id="formulir">
@@ -41,6 +54,7 @@
             </h5>
             <div class="container p-0">
                 <input type="hidden" name="thnakademik" id="thnakademik" class="form-control" value="<?=$id_tahun_akademik;?>" required>
+                <input type="hidden" name="id_gelombang" id="id_gelombang" class="form-control" value="<?=$gelombang->id_gelombang;?>" required>
                 <div class="row align-items-center">
                     <div class="col-sm-3 col-md-3 col-lg-2">
                         <label for="email" class="form-label m-0"><small>Email Aktif</small></label>
@@ -793,7 +807,12 @@
         .iti.iti--allow-dropdown { width: 100% }
     </style>
     <!--modal end-->
-    <?php
+    <?php }else{ ?>
+    <main class="container" id="formulir">
+    <h4 class="mt-5 mb-4 db-primary text-center">Pendaftaran Santri Baru <?=$gelombang->title;?></h4>
+    <?=$deskripsi;?>
+    </main>
+    <?php }
         $this->RenderScript[] = function() {
         ?>
         <script src="https://www.google.com/recaptcha/api.js"></script>
@@ -835,4 +854,4 @@
         </script>
         <?php    
         }
-    ?>                                                                                                                                                                                                                                                                        
+    ?>
