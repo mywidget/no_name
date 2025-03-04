@@ -671,7 +671,7 @@
 					'is_unique'     => '%s sudah ada.'
 					)
 					),
-					  
+					
 					array(
 					'field' => 'kamar',
 					'label' => 'Kuota kamar',
@@ -1298,6 +1298,7 @@
 				
 				if ( $this->form_validation->run() ) 
 				{
+					$id_gelombang = $this->model_app->view_where('rb_gelombang',['aktif'=>'Y'])->row()->id_gelombang;
 					$nik = $this->input->post('nik',true);
 					$nik_ayah = $this->input->post('nik_ayah',true);
 					$nik_ibu = $this->input->post('nik_ibu',true);
@@ -1393,6 +1394,7 @@
 					
 					
 					$input_data = [
+					"id_gelombang"                => $id_gelombang,
 					"kode_daftar"              	  => $this->input->post('nik',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
 					"email"                       => $this->input->post('email',true),
@@ -2181,4 +2183,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																											
+	}																																																																																																																																																																																												
