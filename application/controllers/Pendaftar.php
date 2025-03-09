@@ -776,7 +776,7 @@
 					$nama_unit = $this->model_pendaftar->nama_unit_byid($this->input->post('unit_sekolah',true));
 					
 					$input_data = [
-					"kode_daftar"              	  => 'PSB-'.$this->input->post('nik',true),
+					"kode_daftar"              	  => $this->input->post('nik',true),
 					"tahun_akademik"              => $this->input->post('thnakademik',true),
 					"email"                       => $this->input->post('email',true),
 					"nama"                        => $this->input->post('nama',true),
