@@ -389,18 +389,30 @@ $('#image').change(function(){
     }
 });
 
-
-$('body').on("input", "#nik", function(){
-    let nik = $(this).val().replace(/[^0-9]/g, ''); // Hanya angka
-    $(this).val(nik); // Perbarui input agar hanya angka
+document.getElementById('nik').addEventListener('keypress', function (event) {
+    let key = String.fromCharCode(event.which);
     
-    if(nik.length !== 16){
+    if (!/^[0-9]$/.test(key)) {
+        event.preventDefault();
+    }
+    
+    if (this.value.length >= 16) {
+        event.preventDefault();
+    }
+});
+ $('body').on("input", "#nik", function(){
+    let nikLength = $(this).val().replace(/[^0-9]/g, '').length; // Pastikan hanya angka yang dihitung
+    let errorMessage = "NIK harus 16";
+    
+    if(nikLength < 16 ){
         $(this).addClass('is-invalid').removeClass('is-valid');
-        $(this).siblings('.invalid-tooltip').text('NIK harus 16 digit').show();
+        $(this).siblings('.invalid-tooltip').text(errorMessage).show();
+        $(".search-input").css("color", "red");
         } else {
         $(this).removeClass('is-invalid').addClass('is-valid');
         $(this).siblings('.invalid-tooltip').hide();
-    }
+        $(".search-input").css("color", "green");
+        }
 });
 
 document.getElementById('nisn').addEventListener('keypress', function (event) {
@@ -414,6 +426,7 @@ document.getElementById('nisn').addEventListener('keypress', function (event) {
         event.preventDefault();
     }
 });
+
 $('body').on("input", "#nisn", function(){
     let nisnLength = $(this).val().replace(/[^0-9]/g, '').length; // Pastikan hanya angka yang dihitung
     let errorMessage = "NISN minimal 10 digit dan maksimal 12 digit";
@@ -429,6 +442,17 @@ $('body').on("input", "#nisn", function(){
     }
 });
 
+document.getElementById('nikAyah').addEventListener('keypress', function (event) {
+    let key = String.fromCharCode(event.which);
+    
+    if (!/^[0-9]$/.test(key)) {
+        event.preventDefault();
+    }
+    
+    if (this.value.length >= 16) {
+        event.preventDefault();
+    }
+});
 $('body').on("input", "#nikAyah", function(){
     let nikAyah = $(this).val().replace(/[^0-9]/g, ''); // Pastikan hanya angka
     $(this).val(nikAyah); // Mengupdate input agar hanya angka
@@ -442,7 +466,17 @@ $('body').on("input", "#nikAyah", function(){
     }
 });
 
-
+document.getElementById('nikIbu').addEventListener('keypress', function (event) {
+    let key = String.fromCharCode(event.which);
+    
+    if (!/^[0-9]$/.test(key)) {
+        event.preventDefault();
+    }
+    
+    if (this.value.length >= 16) {
+        event.preventDefault();
+    }
+});
 $('body').on("input", "#nikIbu", function(){
     let nikIbu = $(this).val().replace(/[^0-9]/g, ''); // Hanya angka
     $(this).val(nikIbu); // Perbarui nilai input agar hanya angka
