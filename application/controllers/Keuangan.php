@@ -179,11 +179,11 @@
             $totalRec = $this->model_tagihan->getPemasukan($conditions);
             
             // Pagination configuration 
-            $config['target']      = '#posts_content';
+            $config['target']      = '#posts_content_pemasukan';
             $config['base_url']    = base_url('keuangan/ajax_list_pemasukan');
             $config['total_rows']  = $totalRec;
             $config['per_page']    = $limit;
-            $config['link_func']   = 'searchData';
+            $config['link_func']   = 'searchPemasukan';
             
             // Initialize pagination library 
             $this->ajax_pagination->initialize($config);

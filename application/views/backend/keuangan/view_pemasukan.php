@@ -34,7 +34,7 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Show</div>
 								<div class="mx-2 d-inline-block">
-									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchData()">
+									<select id="limits" name="limits" class="form-control form-select" style="width:70px!important" onchange="searchPemasukan()">
 										<option value="10">10</option>
 										<option value="20">20</option>
 										<option value="50">50</option>
@@ -46,7 +46,7 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Sort</div>
 								<div class="mx-2 d-inline-block">
-									<select id="sortBy" class="form-control form-select w-1" onchange="searchData()" style="width:85px!important">
+									<select id="sortBy" class="form-control form-select w-1" onchange="searchPemasukan()" style="width:85px!important">
 										<option value="ASC">ASC</option>
 										<option value="DESC" selected>DESC</option>
 									</select>
@@ -56,7 +56,7 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Status</div>
 								<div class="mx-2 d-inline-block">
-									<select name="kategori" id="kategori" class="form-select" onchange="searchData()">
+									<select name="kategori" id="kategori" class="form-select" onchange="searchPemasukan()">
 										<!-- Options dynamically added here -->
 									</select>
 								</div>
@@ -64,14 +64,14 @@
 							<div class="text-muted">
 								<div class="d-none d-sm-inline-block">Tanggal</div>
 								<div class="mx-2 d-inline-block">
-									<input type="text" name="daterange" id="filter-tanggal" class="form-control filter-tanggal" onchange="searchData();" />
+									<input type="text" name="daterange" id="filter-tanggal" class="form-control filter-tanggal" onchange="searchPemasukan();" />
 								</div>
 							</div>
 							<div class="ms-auto text-muted">
 								<div class="ms-2 d-inline-block">
 									<div class="input-group">
 										<span class="input-group-text">
-											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Muat ulang" onclick="searchData();"><i class="ti ti-refresh fa-lg"></i>&nbsp;Refresh&nbsp;
+											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" aria-label="Cari Data" title="Muat ulang" onclick="searchPemasukan();"><i class="ti ti-refresh fa-lg"></i>&nbsp;Refresh&nbsp;
 											</a>|
 											<a href="javascript:void(0)" class="link-secondary ms-2 d-none d-sm-inline-block cetak_laporan" data-bs-toggle="tooltip" aria-label="Cari Data" title="Cetak laporan" ><i class="ti ti-printer fa-lg"></i>&nbsp;Cetak
 											</a>
@@ -82,7 +82,7 @@
 						</div>
 					</div>
 					
-					<div class="pb-2" id="posts_content">
+					<div class="pb-2" id="posts_content_pemasukan">
 					</div>
 				</div><!-- /.card -->
 			</div>
@@ -223,8 +223,8 @@
 				
 			})
 		});
-		searchData();
-		function searchData(page_num)
+		searchPemasukan();
+		function searchPemasukan(page_num)
 		{
 			
 			page_num = page_num?page_num:0;
@@ -257,7 +257,7 @@
 					$('body').loading();
 				},
 				success: function(html){
-					$('#posts_content').html(html);
+					$('#posts_content_pemasukan').html(html);
 					$('body').loading('stop');
 				}
 			});
@@ -265,7 +265,7 @@
 		
 		$(document).on('click','.clear',function(e){
 			$("#keywords").val('');
-			searchData();
+			searchPemasukan();
 		});
 		$(document).on('change','#pilihan',function(e){
 			var id = $(this).val();
@@ -342,7 +342,7 @@
 						}else{
 						sweet('Peringatan!!!',data.message,'warning','warning');
 					}
-					searchData();
+					searchPemasukan();
 					
 					$('body').loading('stop');　
 					},error: function(xhr, status, error) {
