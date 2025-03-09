@@ -353,15 +353,15 @@
 		{
 			if ( $this->input->is_ajax_request() ) 
 			{
-				$id = $this->input->post('id',true);
-				$status = $this->input->post('status',true);
+				$id = decrypt_url($this->input->post('id',true));
+				$status = decrypt_url($this->input->post('status',true));
 				
 				$where = ['id_unit'=>$id,'aktif'=>'Ya'];
 				$kelas = $this->model_app->view_where_ordering('rb_kelas',$where,'nama_kelas','ASC')->result();
 				$response = [];
 				foreach($kelas AS $val)
 				{
-					$response[] = ['id'=>$val->id,
+					$response[] = ['id'=>encrypt_url($val->id),
 					'name'=>$val->kode_kelas.' - '.$val->nama_kelas
 					];
 				}
@@ -377,10 +377,10 @@
 		{
 			if ( $this->input->is_ajax_request() ) 
 			{
-				$id = $this->input->post('id',true);
+				$id = decrypt_url($this->input->post('id',true));
 				
-				$id_tahun_akademik = $this->input->post('thnakademik',true);
-				$status = $this->input->post('status',true);
+				$id_tahun_akademik = decrypt_url($this->input->post('thnakademik',true));
+				$status = decrypt_url($this->input->post('status',true));
 				$cek_kategori = $this->cek_kategori($status);
 				
 				if($cek_kategori==TRUE){
@@ -389,9 +389,10 @@
 					$id_kategori =0;
 				}
 				$query = $this->model_app->view_where('rb_biaya',['id_unit'=>$id,'id_kategori'=>$id_kategori,'id_tahun_akademik'=>$id_tahun_akademik]);
+				
 				if($query->num_rows() > 0){
 					$biaya = $query->row();
-					$response = ['id'=>$biaya->amount,
+					$response = ['id'=>encrypt_url($biaya->amount),
 					'name'=>rprp($biaya->amount)
 					];
 					}else{
@@ -422,14 +423,14 @@
 		{
 			if ( $this->input->is_ajax_request() ) 
 			{
-				$id = $this->input->post('id',true);
-				$gender = $this->input->post('gender',true);
+				$id = decrypt_url($this->input->post('id',true));
+				$gender = decrypt_url($this->input->post('gender',true));
 				$response=[];
 				if(!empty($gender)){
 					$kamar = $this->model_app->view_where('rb_kamar',['id_unit'=>$id,'gender'=>$gender,'kuota >'=>0,'aktif'=>'Ya'])->result();
 					// dump($kamar);
 					foreach($kamar AS $val){
-						$response[] = ['id'=>($val->nama_kamar),
+						$response[] = ['id'=>encrypt_url($val->nama_kamar),
 						'name'=>($val->nama_kamar)
 						];
 					}
@@ -446,11 +447,11 @@
 		{
 			if ( $this->input->is_ajax_request() ) 
 			{
-				$id = $this->input->post('id',true);
+				$id = decrypt_url($this->input->post('id',true));
 				
 				$biaya = $this->model_app->view_where('rb_kamar',['nama_kamar'=>$id])->row();
 				
-				$response = ['id'=>($biaya->kuota),
+				$response = ['id'=>encrypt_url($biaya->kuota),
 				'name'=>($biaya->kuota)
 				];
 				
@@ -642,11 +643,74 @@
 			}
 		}
 		
+		private function check_empty_param($param) {
+			if (empty($param)) {
+				$response['status'] = false;
+				$response['type'] = 'error';
+				$response['message'] = 'Request error';
+				$this->thm->json_output($response);
+			}
+		}
+		
 		public function proses()
 		{
 			// dump($_POST);
 			if ( $this->input->is_ajax_request() ) 
 			{
+				// Mendekripsi dan memeriksa setiap parameter
+				$thnakademik = decrypt_url($this->input->post('thnakademik', true));
+				$this->check_empty_param($thnakademik);
+				
+				$jenis_kelamin = decrypt_url($this->input->post('jenis_kelamin', true));
+				$this->check_empty_param($jenis_kelamin);
+				
+				$status_sekolah = decrypt_url($this->input->post('status_sekolah', true));
+				$this->check_empty_param($status_sekolah);
+				
+				$unit_sekolah = decrypt_url($this->input->post('unit_sekolah', true));
+				$this->check_empty_param($unit_sekolah);
+				
+				$kelas = decrypt_url($this->input->post('kelas', true));
+				$this->check_empty_param($kelas);
+				
+				$biaya = decrypt_url($this->input->post('biaya', true));
+				$this->check_empty_param($biaya);
+				
+				$kamar = decrypt_url($this->input->post('kamar', true));
+				$this->check_empty_param($kamar);
+				
+				$kuota = decrypt_url($this->input->post('kuota', true));
+				$this->check_empty_param($kuota);
+				
+				$pendidikan_terakhir_ayah = decrypt_url($this->input->post('pendidikan_terakhir_ayah', true));
+				$this->check_empty_param($pendidikan_terakhir_ayah);
+				
+				$pekerjaan_ayah = decrypt_url($this->input->post('pekerjaan_ayah', true));
+				$this->check_empty_param($pekerjaan_ayah);
+				
+				$pendidikan_terakhir_ibu = decrypt_url($this->input->post('pendidikan_terakhir_ibu', true));
+				$this->check_empty_param($pendidikan_terakhir_ibu);
+				
+				$pekerjaan_ibu = decrypt_url($this->input->post('pekerjaan_ibu', true));
+				$this->check_empty_param($pekerjaan_ibu);
+				
+				$input_nama = $this->input->post('nama', true);
+				
+				if (!preg_match('/^[a-zA-Z]+$/', $input_nama)) {
+					// Jika input mengandung karakter selain huruf (misalnya angka atau simbol)
+					$response['status'] = false;
+					$response['type'] = 'error';
+					$response['message'] = 'Nama hanya boleh terdiri dari huruf';
+					$this->thm->json_output($response);
+				}
+				if (strlen($input_nama) > 20) {
+					// Nama terlalu panjang
+					$response['status'] = false;
+					$response['type'] = 'error';
+					$response['message'] = 'Nama terlalu panjang';
+					$this->thm->json_output($response);
+				}
+				 
 				$saudara_pp = $this->input->post('saudara_pp',true);
 				if(!empty($saudara_pp)){
 					$this->form_validation->set_rules(array(
@@ -659,6 +723,34 @@
 					'is_unique'     => '%s sudah ada.'
 					)
 					),
+					
+					array(
+					'field' => 'nama',
+					'label' => 'Nama',
+					'trim|required|regex_match[/^[a-zA-Z\s]+$/]',
+					'errors' => array(
+					'regex_match' => 'Nama hanya boleh berisi huruf dan spasi.',
+					)
+					),
+					
+					array(
+					'field' => 'nama_ayah',
+					'label' => 'Nama Ayah',
+					'trim|required|regex_match[/^[a-zA-Z\s]+$/]',
+					'errors' => array(
+					'regex_match' => 'Nama hanya boleh berisi huruf dan spasi.',
+					)
+					),
+					
+					array(
+					'field' => 'nama_ibu',
+					'label' => 'Nama Ibu',
+					'trim|required|regex_match[/^[a-zA-Z\s]+$/]',
+					'errors' => array(
+					'regex_match' => 'Nama hanya boleh berisi huruf dan spasi.',
+					)
+					),
+					
 					array(
 					'field' => 'nik',
 					'label' => 'NIK',
@@ -692,6 +784,34 @@
 					'is_unique'     => '%s sudah ada.'
 					)
 					),
+					
+					array(
+					'field' => 'nama',
+					'label' => 'Nama',
+					'trim|required|regex_match[/^[a-zA-Z\s]+$/]',
+					'errors' => array(
+					'regex_match' => 'Nama hanya boleh berisi huruf dan spasi.',
+					)
+					),
+					
+					array(
+					'field' => 'nama_ayah',
+					'label' => 'Nama Ayah',
+					'trim|required|regex_match[/^[a-zA-Z\s]+$/]',
+					'errors' => array(
+					'regex_match' => 'Nama hanya boleh berisi huruf dan spasi.',
+					)
+					),
+					
+					array(
+					'field' => 'nama_ibu',
+					'label' => 'Nama Ibu',
+					'trim|required|regex_match[/^[a-zA-Z\s]+$/]',
+					'errors' => array(
+					'regex_match' => 'Nama hanya boleh berisi huruf dan spasi.',
+					)
+					),
+					
 					array(
 					'field' => 'nik',
 					'label' => 'NIK',
@@ -766,200 +886,197 @@
 						$tanggal_lahir = $this->input->post('tanggal_lahir',true);
 						$cek_nik = cek_nik($nik,$nik_ayah,$nik_ibu);
 						if($cek_nik['status']===true){
-						$response['status'] = false;
-						$response['message'] = $cek_nik['msg'];
-						$this->thm->json_output($response);
-					}
-					$selisih_tgl = usia_daftar($tanggal_lahir,tanggal());
-					// dump($selisih_tgl);
-					if(!empty($_FILES['fotoSantri']['name']))
-					{
-						$new_name = $nik.'_'.$_FILES["fotoSantri"]['name'];
-						$config['file_name']        = $new_name;
-						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = tag_key('file_size');
-						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
-						$config['encrypt_name']  = FALSE; //enkripsi nama file
-						$this->upload->initialize($config);
-						if ($this->upload->do_upload('fotoSantri'))
-						{
-							$gbr = $this->upload->data();
-							$photo_santri = $gbr['file_name'];
-							$this->_create_foto($nik,$gbr['file_name']);
-							}else{
 							$response['status'] = false;
-							$response['message'] = $this->upload->display_errors();
+							$response['message'] = $cek_nik['msg'];
 							$this->thm->json_output($response);
 						}
-						}else{
-						$response['status'] = false;
-						$response['message'] = 'Foto santri mash kosong';
-						$this->thm->json_output($response);
-					}
-					//foto KK
-					if(!empty($_FILES['fotoKk']['name']))
-					{
-						$new_name = $nik.'_'.$_FILES["fotoKk"]['name'];
-						$config['file_name']        = $new_name;
-						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = tag_key('file_size');
-						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
-						$config['encrypt_name']  = FALSE; //enkripsi nama file
-						$this->upload->initialize($config);
-						if ($this->upload->do_upload('fotoKk'))
-						{
-							$gbr = $this->upload->data();
-							$photo_kk = $gbr['file_name'];
-							$this->_create_kk($nik,$gbr['file_name']);
-							}else{
-							$response['status'] = false;
-							$response['message'] = $this->upload->display_errors();
-							$this->thm->json_output($response);
-						}
-						}else{
-						$response['status'] = false;
-						$response['message'] = 'Foto KK mash kosong';
-						$this->thm->json_output($response);
-					}
-					
-					//foto bukti transfer
-					if(!empty($_FILES['fotobukti']['name']))
-					{
-						$new_name = $nik.'_'.time().'_'.$_FILES["fotobukti"]['name'];
-						$config['file_name']        = $new_name;
-						$config['upload_path']   = './upload/foto_dokumen'; //path folder
-						$config['max_size']		 = tag_key('file_size');
-						$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
-						$config['file_ext_tolower'] = TRUE;
-						$config['encrypt_name']  = FALSE;
-						$this->upload->initialize($config);
-						if ($this->upload->do_upload('fotobukti'))
-						{
-							$gbr = $this->upload->data();
-							$lampiran = $gbr['file_name'];
-							}else{
-							$response['status'] = false;
-							$response['message'] = $this->upload->display_errors();
-							$this->thm->json_output($response);
-						}
-						}else{
-						$response['status'] = false;
-						$response['message'] = 'Foto KK mash kosong';
-						$this->thm->json_output($response);
-					}
-					$nama_unit = $this->model_formulir->nama_unit_byid($this->input->post('unit_sekolah',true));
-					//no hp
-					$full_phone = $this->input->post('full_phone');
-					$full_phone_country = $this->input->post('full_phone_country');
-					$number = PhoneNumber::parse($full_phone);
-					$nomor_personal = $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
-					if(!empty($this->input->post('no_hp_alternatif'))){
-						//no hp altenatif
-						$full_phone_alternate = $this->input->post('full_phone_alternate');
-						$full_phone_alternate_country = $this->input->post('full_phone_alternate_country');
-						$number_alternate = PhoneNumber::parse($full_phone_alternate);
-						$nomor_personal_alternate = $number_alternate->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
-						}else{
-						$nomor_personal_alternate = '';
-					}
-					
-					
-					$input_data = [
-					"kode_daftar"              	  => $this->input->post('nik',true),
-					"id_gelombang"                => $this->input->post('id_gelombang',true),
-					"tahun_akademik"              => $this->input->post('thnakademik',true),
-					"email"                       => $this->input->post('email_daftar',true),
-					"nama"                        => $this->input->post('nama',true),
-					"jenis_kelamin"               => $this->input->post('jenis_kelamin',true),
-					"tempat_lahir"                => $this->input->post('tempat_lahir',true),
-					"tanggal_lahir"               => $this->input->post('tanggal_lahir',true),
-					"nik"                         => $this->input->post('nik',true),
-					"saudara_pp"                  => $this->input->post('saudara_pp',true),
-					"status_keluarga"             => $this->input->post('status_keluarga',true),
-					"anak_ke"                     => $this->input->post('anak_ke',true),
-					"dari"                        => $this->input->post('dari',true),
-					"s_pendidikan"                => $this->input->post('s_pendidikan',true),
-					"id_unit"                	  => $this->input->post('unit_sekolah',true),
-					"unit_sekolah"                => $nama_unit,
-					"kelas"                       => $this->input->post('kelas',true),
-					"biaya_daftar"                => convert_to_number($this->input->post('biaya',true)),
-					"status_sekolah"              => $this->input->post('status_sekolah',true),
-					"kamar"                       => $this->input->post('kamar',true),
-					"ijasah_terakhir"             => $this->input->post('ijasah_terakhir',true),
-					"nama_sekolah_asal"           => $this->input->post('nama_sekolah_asal',true),
-					"alamat_sekolah"              => $this->input->post('alamat_sekolah',true),
-					"nisn"                        => $this->input->post('nisn_daftar',true),
-					"no_kip"                      => $this->input->post('no_kip',true),
-					"no_kk"                       => $this->input->post('no_kk',true),
-					"nama_ayah"                   => $this->input->post('nama_ayah',true),
-					"nik_ayah"                    => $this->input->post('nik_ayah',true),
-					"kondisi_ayah"                => $this->input->post('kondisi_ayah',true),
-					"pendidikan_terakhir_ayah"    => $this->input->post('pendidikan_terakhir_ayah',true),
-					"pekerjaan_ayah"              => $this->input->post('pekerjaan_ayah',true),
-					"nama_ibu"                    => $this->input->post('nama_ibu',true),
-					"nik_ibu"                     => $this->input->post('nik_ibu',true),
-					"kondisi_ibu"                 => $this->input->post('kondisi_ibu',true),
-					"pendidikan_terakhir_ibu"     => $this->input->post('pendidikan_terakhir_ibu',true),
-					"pekerjaan_ibu"               => $this->input->post('pekerjaan_ibu',true),
-					"penghasilan_ortu"            => $this->input->post('penghasilan_ortu',true),
-					"nomor_hp"                    => clean($nomor_personal),
-					"no_hp_alternatif"            => clean($nomor_personal_alternate),
-					"alamat"                      => $this->input->post('alamat',true),
-					"rt"                          => $this->input->post('rt',true),
-					"rw"                          => $this->input->post('rw',true),
-					"dusun"                       => $this->input->post('dusun',true),
-					"kode_pos"                    => $this->input->post('kode_pos',true),
-					"provinsi"                    => $this->input->post('prov',true),
-					"kabupaten"                   => $this->input->post('kab',true),
-					"kecamatan"				      => $this->input->post('kec',true),
-					"kelurahan"                   => $this->input->post('kel',true),
-					"jenis_penyakit"              => $this->input->post('jenis_penyakit',true),
-					"sejak"                       => $this->input->post('sejak',true),
-					"tindakan_pengobatan"         => $this->input->post('tindakan_pengobatan',true),
-					"kondisi_sekarang"            => $this->input->post('kondisi_sekarang',true),
-					"ukuran_seragam_baju"         => $this->input->post('ukuran_seragam_baju',true),
-					"ukuran_celana_rok"           => $this->input->post('ukuran_celana_rok',true),
-					"foto"        			      => $photo_santri,
-					"foto_kk"        		      => $photo_kk,
-					"fotobukti"       		      => $lampiran
-					];
-					$biaya=convert_to_number($this->input->post('biaya',true));
-					
-					$post = $this->input->post();
-					$nama = $this->input->post('nama',true);
-					$nomor = $this->input->post('nomor_hp',true);
-					$nik = $this->input->post('nik',true);
-					
-					$nama_kamar = $this->input->post('kamar',true);
-					$kuota = $this->kuota_kamar($nama_kamar);
-					
-					$kuota = $kuota-1;
-					
-					$kuota_terpakai = $this->kuota_terpakai($nama_kamar);
-					$kuota_terpakai = $kuota_terpakai + 1;
-					$update_kuota = ['kuota'=>$kuota,'terpakai'=>$kuota_terpakai]; 
-					
-					
-					
-					$input = $this->model_app->input('rb_psb_daftar',$input_data);
-					if($input['status']==true)
-					{
 						
-						$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$nama_kamar]);
+						$selisih_tgl = usia_daftar($tanggal_lahir,tanggal());
+						if(!empty($_FILES['fotoSantri']['name']))
+						{
+							$new_name = $nik.'_'.$_FILES["fotoSantri"]['name'];
+							$config['file_name']        = $new_name;
+							$config['upload_path']   = './upload/foto_dokumen'; //path folder
+							$config['max_size']		 = tag_key('file_size');
+							$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+							$config['encrypt_name']  = FALSE; //enkripsi nama file
+							$this->upload->initialize($config);
+							if ($this->upload->do_upload('fotoSantri'))
+							{
+								$gbr = $this->upload->data();
+								$photo_santri = $gbr['file_name'];
+								$this->_create_foto($nik,$gbr['file_name']);
+								}else{
+								$response['status'] = false;
+								$response['message'] = $this->upload->display_errors();
+								$this->thm->json_output($response);
+							}
+							}else{
+							$response['status'] = false;
+							$response['message'] = 'Foto santri mash kosong';
+							$this->thm->json_output($response);
+						}
+						//foto KK
+						if(!empty($_FILES['fotoKk']['name']))
+						{
+							$new_name = $nik.'_'.$_FILES["fotoKk"]['name'];
+							$config['file_name']        = $new_name;
+							$config['upload_path']   = './upload/foto_dokumen'; //path folder
+							$config['max_size']		 = tag_key('file_size');
+							$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+							$config['encrypt_name']  = FALSE; //enkripsi nama file
+							$this->upload->initialize($config);
+							if ($this->upload->do_upload('fotoKk'))
+							{
+								$gbr = $this->upload->data();
+								$photo_kk = $gbr['file_name'];
+								$this->_create_kk($nik,$gbr['file_name']);
+								}else{
+								$response['status'] = false;
+								$response['message'] = $this->upload->display_errors();
+								$this->thm->json_output($response);
+							}
+							}else{
+							$response['status'] = false;
+							$response['message'] = 'Foto KK mash kosong';
+							$this->thm->json_output($response);
+						}
+						
+						//foto bukti transfer
+						if(!empty($_FILES['fotobukti']['name']))
+						{
+							$new_name = $nik.'_'.time().'_'.$_FILES["fotobukti"]['name'];
+							$config['file_name']        = $new_name;
+							$config['upload_path']   = './upload/foto_dokumen'; //path folder
+							$config['max_size']		 = tag_key('file_size');
+							$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+							$config['file_ext_tolower'] = TRUE;
+							$config['encrypt_name']  = FALSE;
+							$this->upload->initialize($config);
+							if ($this->upload->do_upload('fotobukti'))
+							{
+								$gbr = $this->upload->data();
+								$lampiran = $gbr['file_name'];
+								}else{
+								$response['status'] = false;
+								$response['message'] = $this->upload->display_errors();
+								$this->thm->json_output($response);
+							}
+							}else{
+							$response['status'] = false;
+							$response['message'] = 'Foto KK mash kosong';
+							$this->thm->json_output($response);
+						}
+						$nama_unit = $this->model_formulir->nama_unit_byid($unit_sekolah);
+						//no hp
+						$full_phone = $this->input->post('full_phone');
+						$full_phone_country = $this->input->post('full_phone_country');
+						$number = PhoneNumber::parse($full_phone);
+						$nomor_personal = $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+						if(!empty($this->input->post('no_hp_alternatif'))){
+							//no hp altenatif
+							$full_phone_alternate = $this->input->post('full_phone_alternate');
+							$full_phone_alternate_country = $this->input->post('full_phone_alternate_country');
+							$number_alternate = PhoneNumber::parse($full_phone_alternate);
+							$nomor_personal_alternate = $number_alternate->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+							}else{
+							$nomor_personal_alternate = '';
+						}
+						
+						$input_data = [
+						"kode_daftar"              	  => $this->input->post('nik',true),
+						"id_gelombang"                => $this->input->post('id_gelombang',true),
+						"tahun_akademik"              => $thnakademik,
+						"email"                       => $this->input->post('email_daftar',true),
+						"nama"                        => $this->input->post('nama',true),
+						"jenis_kelamin"               => $jenis_kelamin,
+						"tempat_lahir"                => $this->input->post('tempat_lahir',true),
+						"tanggal_lahir"               => $this->input->post('tanggal_lahir',true),
+						"nik"                         => $this->input->post('nik',true),
+						"saudara_pp"                  => $this->input->post('saudara_pp',true),
+						"status_keluarga"             => $this->input->post('status_keluarga',true),
+						"anak_ke"                     => $this->input->post('anak_ke',true),
+						"dari"                        => $this->input->post('dari',true),
+						"s_pendidikan"                => $this->input->post('s_pendidikan',true),
+						"id_unit"                	  => $unit_sekolah,
+						"unit_sekolah"                => $nama_unit,
+						"kelas"                       => $kelas,
+						"biaya_daftar"                => convert_to_number($biaya),
+						"status_sekolah"              => $status_sekolah,
+						"kamar"                       => $kamar,
+						"ijasah_terakhir"             => $this->input->post('ijasah_terakhir',true),
+						"nama_sekolah_asal"           => $this->input->post('nama_sekolah_asal',true),
+						"alamat_sekolah"              => $this->input->post('alamat_sekolah',true),
+						"nisn"                        => $this->input->post('nisn_daftar',true),
+						"no_kip"                      => $this->input->post('no_kip',true),
+						"no_kk"                       => $this->input->post('no_kk',true),
+						"nama_ayah"                   => $this->input->post('nama_ayah',true),
+						"nik_ayah"                    => $this->input->post('nik_ayah',true),
+						"kondisi_ayah"                => $this->input->post('kondisi_ayah',true),
+						"pendidikan_terakhir_ayah"    => $pendidikan_terakhir_ayah,
+						"pekerjaan_ayah"              => $pekerjaan_ayah,
+						"nama_ibu"                    => $this->input->post('nama_ibu',true),
+						"nik_ibu"                     => $this->input->post('nik_ibu',true),
+						"kondisi_ibu"                 => $this->input->post('kondisi_ibu',true),
+						"pendidikan_terakhir_ibu"     => $pendidikan_terakhir_ibu,
+						"pekerjaan_ibu"               => $pekerjaan_ibu,
+						"penghasilan_ortu"            => $this->input->post('penghasilan_ortu',true),
+						"nomor_hp"                    => clean($nomor_personal),
+						"no_hp_alternatif"            => clean($nomor_personal_alternate),
+						"alamat"                      => $this->input->post('alamat',true),
+						"rt"                          => $this->input->post('rt',true),
+						"rw"                          => $this->input->post('rw',true),
+						"dusun"                       => $this->input->post('dusun',true),
+						"kode_pos"                    => $this->input->post('kode_pos',true),
+						"provinsi"                    => $this->input->post('prov',true),
+						"kabupaten"                   => $this->input->post('kab',true),
+						"kecamatan"				      => $this->input->post('kec',true),
+						"kelurahan"                   => $this->input->post('kel',true),
+						"jenis_penyakit"              => $this->input->post('jenis_penyakit',true),
+						"sejak"                       => $this->input->post('sejak',true),
+						"tindakan_pengobatan"         => $this->input->post('tindakan_pengobatan',true),
+						"kondisi_sekarang"            => $this->input->post('kondisi_sekarang',true),
+						"ukuran_seragam_baju"         => $this->input->post('ukuran_seragam_baju',true),
+						"ukuran_celana_rok"           => $this->input->post('ukuran_celana_rok',true),
+						"foto"        			      => $photo_santri,
+						"foto_kk"        		      => $photo_kk,
+						"fotobukti"       		      => $lampiran
+						];
+						$biaya=convert_to_number($this->input->post('biaya',true));
+						
+						$post = $this->input->post();
+						$nama = $this->input->post('nama',true);
+						$nomor = $this->input->post('nomor_hp',true);
+						$nik = $this->input->post('nik',true);
+						
+						$kuota = $this->kuota_kamar($kamar);
+						
+						$kuota = $kuota-1;
+						
+						$kuota_terpakai = $this->kuota_terpakai($kamar);
+						$kuota_terpakai = $kuota_terpakai + 1;
+						$update_kuota = ['kuota'=>$kuota,'terpakai'=>$kuota_terpakai]; 
 						$this->send_notif($post);
-						$this->session->set_userdata(["pendaftaran" => 'sukses','nik'=>$nik]);
-						$response['status'] = true;
-						$response['nik'] = $this->input->post('nik',true);
-						$response['message'] = 'Berhasil';
+						exit;
+						$input = $this->model_app->input('rb_psb_daftar',$input_data);
+						if($input['status']==true)
+						{
+							
+							$this->model_app->update('rb_kamar',$update_kuota,['nama_kamar'=>$kamar]);
+							$this->send_notif($post);
+							$this->session->set_userdata(["pendaftaran" => 'sukses','nik'=>$nik]);
+							$response['status'] = true;
+							$response['nik'] = $this->input->post('nik',true);
+							$response['message'] = 'Berhasil';
+							}else{
+							$response['status'] = false;
+							$response['message'] = 'Gagal';
+						}
+						// dump($input_data);
+						$this->thm->json_output($response);
 						}else{
 						$response['status'] = false;
-						$response['message'] = 'Gagal';
-					}
-					// dump($input_data);
-					$this->thm->json_output($response);
-					}else{
-					$response['status'] = false;
-					$response['message'] = '';
+						$response['message'] = '';
 					}
 				}
 				else
@@ -1013,6 +1130,7 @@
 					"number"  	=> $post['nomor_hp'],
 					"text" 		=> $isi_pesan
 					];
+					dump($_data);
 					$url_pesan = "backend-send-text";
 					
 					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);

@@ -243,11 +243,6 @@ $('body').on("change","#form_kamar",function(){
         }
     });
 });
-// $('#form_prov').on('change', function () {
-// const provinsi = $(this).val();
-// $('#form_prov, #kecamatan, #kelurahan').val(null);
-// $.getJSON(`/dashboard/kabupatens/${provinsi}`, (kabupaten) => generateSelectOption('#form_kab', kabupaten));
-// });
 
 $("#form_prov").filter(function () {
     $.ajax({
@@ -280,6 +275,10 @@ $("#form_prov").filter(function () {
 // ambil data kabupaten ketika data memilih provinsi
 $('body').on("change","#form_prov",function(){
     var id = $(this).val();
+    if (!id) { // Jika ID kosong, jangan lanjutkan
+        $("#form_kab").empty().append("<option value=''>Pilih</option>").prop("disabled", true);
+        return;
+    }
     $.ajax({
         type: 'POST',
         url: base_url+ "dashboard/kabupaten",
@@ -307,6 +306,10 @@ $('body').on("change","#form_prov",function(){
 
 $('body').on("change","#form_kab",function(){
     var id = $(this).val();
+    if (!id) { // Jika ID kosong, jangan lanjutkan
+        $("#form_kec").empty().append("<option value=''>Pilih</option>").prop("disabled", true);
+        return;
+    }
     $.ajax({
         type: 'POST',
         url: base_url+ "dashboard/kecamatan",
@@ -331,29 +334,36 @@ $('body').on("change","#form_kab",function(){
 });
 
 
-$('body').on("change","#form_kec",function(){
+$('#form_kec').on("change", function(){
     var id = $(this).val();
+    
+    if (!id) { // Jika ID kosong, jangan lanjutkan
+        $("#form_des").empty().append("<option value=''>Pilih</option>").prop("disabled", true);
+        return;
+    }
+    
     $.ajax({
         type: 'POST',
-        url: base_url+ "dashboard/desa",
-        data: {id:id},
-        dataType : "json",
+        url: base_url + "dashboard/desa",
+        data: {id: id},
+        dataType: "json",
         beforeSend: function(){
-            $("#form_des").empty();
-            $("#form_des").append("<option value=''>Pilih</option>");
+            $("#form_des").empty().append("<option value=''>Memuat...</option>").prop("disabled", true);
         },
         success: function(response) {
-            $("#form_des").attr("disabled", false);
-            var msize = response.length;
-            var i = 0;
-            for (; i < msize; i++) {
-                var teg = response[i]["id"];
-                var name = response[i]["name"];
-                $("#form_des").append("<option value='" + teg + "'>" + name + "</option>");
+            if (response.length > 0) {
+                let options = response.map(item => `<option value="${item.id}">${item.name}</option>`).join("");
+                $("#form_des").html("<option value=''>Pilih</option>" + options).prop("disabled", false);
+                } else {
+                $("#form_des").html("<option value=''>Tidak ada data</option>").prop("disabled", true);
             }
+        },
+        error: function() {
+            $("#form_des").html("<option value=''>Terjadi kesalahan</option>").prop("disabled", true);
         }
     });
 });
+
 
 $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
     const id = $(this).attr('id');
@@ -361,34 +371,8 @@ $('#fotoSantri, #fotoKk, #fotobukti').change(function () {
     $(this).removeClass('is-invalid');
     
     if (foto) {
-        // const maxImageSize = id == 'fotoKk' ? 1000 * 1024 : `${file_size}` * 1024;
-        // if (foto.size > maxImageSize) {
-        // $(this).val('')
-        // .addClass('is-invalid')
-        // .siblings('.invalid-feedback')
-        // .text(`Ukuran foto terlalu besar mohon gunakan foto dengan ukuran maximal ${id == 'fotoKk' ? '1 MB' : file_size + ' KB'}`
-        // );
-        // $(`#${id}Preview`).attr('src', '#');
-        // $(`#${id}PreviewContainer`).hide();
         
-        // // return;
-        // }
-        
-        // const expectedAspectRatio = id == 'fotoKk' ? 16 / 9 : 3 / 4;
         const img = new Image();
-        
-        // img.onload = () => {
-        // const aspectRatio = img.width / img.height;
-        // if (Math.abs(aspectRatio - expectedAspectRatio) > 0.01) {
-        // $(this)
-        // .addClass('is-invalid')
-        // .siblings('.invalid-feedback')
-        // .text(`Ukuran foto akan di crop dengan ukuran ${
-        // id == 'fotoKk' ? '16:9' : '3:4'
-        // } silahkan ubah jika tidak sesuai`
-        // );
-        // }
-        // };
         
         img.src = URL.createObjectURL(foto);
         $(`#${id}Preview`).attr('src', URL.createObjectURL(foto));
@@ -406,206 +390,225 @@ $('#image').change(function(){
 });
 
 
-$('body').on("change","#nik",function(){
-    var nik = $("#nik").val().length;
-    if(parseInt(nik) < 16){
-        $("#nik").addClass('is-invalid').removeClass('is-valid');
-        $("#nik").siblings('.invalid-tooltip').text('NIK harus 16 digit').show();
-        $("#nik").focus();
-        return;
-        }else{
-        $("#nik").removeClass('is-invalid').addClass('is-valid');
-        $("#nik").siblings('.invalid-tooltip').hide();
+$('body').on("input", "#nik", function(){
+    let nik = $(this).val().replace(/[^0-9]/g, ''); // Hanya angka
+    $(this).val(nik); // Perbarui input agar hanya angka
+    
+    if(nik.length !== 16){
+        $(this).addClass('is-invalid').removeClass('is-valid');
+        $(this).siblings('.invalid-tooltip').text('NIK harus 16 digit').show();
+        } else {
+        $(this).removeClass('is-invalid').addClass('is-valid');
+        $(this).siblings('.invalid-tooltip').hide();
     }
 });
 
-$('body').on("change","#nisn",function(){
-    var nisn = $("#nisn").val().length;
-    if(parseInt(nisn) < 10 || parseInt(nisn) > 12){
-        $("#nisn").addClass('is-invalid').removeClass('is-valid');
-        $("#nisn").siblings('.invalid-tooltip').text('NISN minimal 10 digit maksimal 12 digit').show();
+document.getElementById('nisn').addEventListener('keypress', function (event) {
+    let key = String.fromCharCode(event.which);
+    
+    if (!/^[0-9]$/.test(key)) {
+        event.preventDefault();
+    }
+    
+    if (this.value.length >= 12) {
+        event.preventDefault();
+    }
+});
+$('body').on("input", "#nisn", function(){
+    let nisnLength = $(this).val().replace(/[^0-9]/g, '').length; // Pastikan hanya angka yang dihitung
+    let errorMessage = "NISN minimal 10 digit dan maksimal 12 digit";
+    
+    if(nisnLength < 10 || nisnLength > 12){
+        $(this).addClass('is-invalid').removeClass('is-valid');
+        $(this).siblings('.invalid-tooltip').text(errorMessage).show();
         $(".search-input").css("color", "red");
-        $("#nisn").focus();
-        return;
-        }else{
-        $("#nisn").removeClass('is-invalid').addClass('is-valid');
-        $("#nisn").siblings('.invalid-tooltip').hide();
+        } else {
+        $(this).removeClass('is-invalid').addClass('is-valid');
+        $(this).siblings('.invalid-tooltip').hide();
         $(".search-input").css("color", "green");
     }
 });
 
-$('body').on("change","#nikAyah",function(){
-    var nikAyah = $("#nikAyah").val().length;
-    if(parseInt(nikAyah) < 16){
-        $("#nikAyah").addClass('is-invalid').removeClass('is-valid');
-        $("#nikAyah").siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit').show();
-        $("#nikAyah").focus();
-        return;
-        }else{
-        $("#nikAyah").removeClass('is-invalid').addClass('is-valid');
-        $("#nikAyah").siblings('.invalid-tooltip').hide();
+$('body').on("input", "#nikAyah", function(){
+    let nikAyah = $(this).val().replace(/[^0-9]/g, ''); // Pastikan hanya angka
+    $(this).val(nikAyah); // Mengupdate input agar hanya angka
+    
+    if(nikAyah.length !== 16){
+        $(this).addClass('is-invalid').removeClass('is-valid');
+        $(this).siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit').show();
+        } else {
+        $(this).removeClass('is-invalid').addClass('is-valid');
+        $(this).siblings('.invalid-tooltip').hide();
     }
 });
 
-$('body').on("change","#nikIbu",function(){
-    var nikIbu = $("#nikIbu").val().length;
-    if(parseInt(nikIbu) < 16){
-        $("#nikIbu").addClass('is-invalid').removeClass('is-valid');
-        $("#nikIbu").siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit').show();
-        $("#nikIbu").focus();
-        return;
-        }else{
-        $("#nikIbu").removeClass('is-invalid').addClass('is-valid');
-        $("#nikIbu").siblings('.invalid-tooltip').hide();
+
+$('body').on("input", "#nikIbu", function(){
+    let nikIbu = $(this).val().replace(/[^0-9]/g, ''); // Hanya angka
+    $(this).val(nikIbu); // Perbarui nilai input agar hanya angka
+    
+    if(nikIbu.length !== 16){
+        $(this).addClass('is-invalid').removeClass('is-valid');
+        $(this).siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit').show();
+        } else {
+        $(this).removeClass('is-invalid').addClass('is-valid');
+        $(this).siblings('.invalid-tooltip').hide();
     }
 });
 
-var forms = document.querySelectorAll('.needs-validation')
 
-// Loop over them and prevent submission
-Array.prototype.slice.call(forms)
-.forEach(function (form) {
-    form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-            }else{
+
+document.getElementById('nama').addEventListener('input', function () {
+    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+});
+
+document.getElementById('namaAyah').addEventListener('input', function () {
+    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+});
+
+document.getElementById('namaIbu').addEventListener('input', function () {
+    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+});
+document.getElementById('birthPlace').addEventListener('input', function () {
+    this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '');
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var forms = document.querySelectorAll('.needs-validation');
+    
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
             event.preventDefault();
-            var nik = $("#nik").val().length;
-            var nisn = $("#nisn").val().length;
-            var nikAyah = $("#nikAyah").val().length;
-            var nikIbu = $("#nikIbu").val().length;
             
-            if(parseInt(nik) < 16){
-                $("#nik").addClass('is-invalid');
-                $("#nik").siblings('.invalid-tooltip').text('NIK harus 16 digit').show();
-                $("#nik").focus();
+            if (!form.checkValidity()) {
+                event.stopPropagation();
+                form.classList.add('was-validated');
+                
+                // Fokus pada elemen input pertama yang tidak valid
+                const firstInvalidElement = form.querySelector(':invalid');
+                if (firstInvalidElement) {
+                    firstInvalidElement.focus();
+                }
+                
                 return;
-                }else{
-                $("#nik").removeClass('is-invalid').addClass('is-valid');
-                $("#nik").siblings('.invalid-tooltip').hide();
             }
             
-            if(parseInt(nisn) < 10 || parseInt(nisn) > 12){
-                $("#nisn").addClass('is-invalid');
-                $("#nisn").siblings('.invalid-tooltip').text('NISN minimal 10 digit maksimal 12 digit').show();
-                $("#nisn").focus();
-                return;
-                }else{
-                $("#nisn").removeClass('is-invalid').addClass('is-valid');
-                $("#nisn").siblings('.invalid-tooltip').hide();
+            // Fungsi validasi input
+            function validateInput(id, minLength, errorMessage) {
+                let input = $("#" + id);
+                let length = input.val().length;
+                
+                if (length < minLength) {
+                    input.addClass('is-invalid').removeClass('is-valid');
+                    input.siblings('.invalid-tooltip').text(errorMessage).show();
+                    input.focus();
+                    return false;
+                    } else {
+                    input.removeClass('is-invalid').addClass('is-valid');
+                    input.siblings('.invalid-tooltip').hide();
+                    return true;
+                }
             }
             
-            if(parseInt(nikAyah) < 16){
-                $("#nikAyah").addClass('is-invalid');
-                $("#nikAyah").siblings('.invalid-tooltip').text('NIK Ayah harus 16 digit').show();
-                $("#nikAyah").focus();
-                return;
-                }else{
-                $("#nikAyah").removeClass('is-invalid').addClass('is-valid');
-                $("#nikAyah").siblings('.invalid-tooltip').hide();
-            }
+            // Validasi panjang NIK & NISN
+            if (!validateInput("nik", 16, "NIK harus 16 digit")) return;
+            if (!validateInput("nisn", 10, "NISN minimal 10 digit")) return;
+            if (!validateInput("nikAyah", 16, "NIK Ayah harus 16 digit")) return;
+            if (!validateInput("nikIbu", 16, "NIK Ibu harus 16 digit")) return;
             
-            if(parseInt(nikIbu) < 16){
-                $("#nikIbu").addClass('is-invalid');
-                $("#nikIbu").siblings('.invalid-tooltip').text('NIK Ibu harus 16 digit').show();
-                $("#nikIbu").focus();
-                return;
-                }else{
-                $("#nikIbu").removeClass('is-invalid').addClass('is-valid');
-                $("#nikIbu").siblings('.invalid-tooltip').hide();
-            }
-            var response = grecaptcha.getResponse();
-            // console.log(response)
-            if (response.length == 0) {
-                swal.fire({
+            // Validasi Google reCAPTCHA
+            let response = grecaptcha.getResponse();
+            if (response.length === 0) {
+                Swal.fire({
                     icon: 'error',
-                    title: 'error',
-                    html:'error recaptha',
+                    title: 'Error',
+                    html: 'Error reCAPTCHA',
                     confirmButtonText: 'OK',
                 });
-                } else {
-                const formData = new FormData($(this)[0]);
-                $('button:submit', this).html(spinner).prop('disabled', true);
-                
-                $.ajax({
-                    type: 'POST',
-                    data: formData,
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    url: base_url+ "dashboard/proses",
-                    success: (response) => {
-                        // console.log(response)
-                        if (response.status === false) {
-                            // alerts()
-                            swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                html: response.message,
-                                confirmButtonText: 'OK',
-                            })
-                            .then(() => {
-                                if (response.message) {
-                                    const errors = response.message;
-                                    setTimeout(() => {
-                                        const firstErrorKey = Object.keys(errors)[0];
-                                        // console.log(firstErrorKey)
-                                        $(`#${firstErrorKey}`).focus();
-                                    }, 500);
-                                    
-                                    for (const key in errors) {
-                                        $(`#${key}`).addClass('is-invalid');
-                                        $(`#${key}`).siblings('.invalid-feedback').text(errors[key]);
-                                        $(`#${key}`).siblings('.invalid-tooltip').text(errors[key]);
-                                    }
-                                }
-                            });
-                            } else {
-                            // const total = response.reduce((acc, { billAmount }) => acc + Number(billAmount), 0);
-                            // $('#total').text(formatRupiah(response.amount));
-                            // $('#rincian').html(rincianPembayaran(response));
-                            swal.fire({
-                                title: 'Konfirmasi',
-                                buttonsStyling: false,
-                                showCancelButton: false,
-                                reverseButtons: true,
-                                html: rulesConfirmElement,
-                                confirmButtonText: 'Tutup',
-                                cancelButtonText: 'Periksa Data',
-                                customClass: {
-                                    ...sweetAlertButtonClass,
-                                    confirmButton: 'btn btn-success rounded-pill flex-grow-1',
-                                    cancelButton: 'btn btn-outline-success rounded-pill flex-grow-1',
-                                    actions: 'w-100 px-4 gap-2',
-                                    title: 'fs-4',
-                                },
-                            })
-                            .then((result) => {
-                                if (result.isConfirmed) {
-                                    $('input').val('') 
-                                    $('select').val('') 
-                                    $('#formulir').hide(); 
-                                    $('#nomor_pendaftaran').html(response.nik); 
-                                    $('#sukses').removeClass('d-none'); 
-                                    $('#sukses').show(); 
-                                    redirectToPage(); 
-                                    } else {
-                                    location.reload(); 
-                                }
-                            });
-                        }
-                    },
-                    complete: () => {
-                        $('button:submit', this).text('Submit Formulir').prop('disabled', false);
-                    },
-                });
+                return;
             }
-        }
-        
-        form.classList.add('was-validated')
-    }, false)
-})
+            
+            // Kirim data via AJAX
+            const formData = new FormData(form);
+            let submitButton = $('button:submit', form);
+            submitButton.html('<span class="spinner-border spinner-border-sm"></span> Mengirim...').prop('disabled', true);
+            
+            $.ajax({
+                type: 'POST',
+                url: base_url + "dashboard/proses",
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.status === false) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            html: response.message,
+                            confirmButtonText: 'OK',
+                            }).then(() => {
+                            if (response.message) {
+                                const errors = response.message;
+                                setTimeout(() => {
+                                    const firstErrorKey = Object.keys(errors)[0];
+                                    $("#" + firstErrorKey).focus();
+                                }, 500);
+                                
+                                for (const key in errors) {
+                                    $("#" + key).addClass('is-invalid');
+                                    $("#" + key).siblings('.invalid-tooltip').text(errors[key]);
+                                }
+                            }
+                        });
+                        } else {
+                        Swal.fire({
+                            title: 'Konfirmasi',
+                            buttonsStyling: false,
+                            showCancelButton: false,
+                            reverseButtons: true,
+                            html: rulesConfirmElement,
+                            confirmButtonText: 'Tutup',
+                            cancelButtonText: 'Periksa Data',
+                            customClass: {
+                                ...sweetAlertButtonClass,
+                                confirmButton: 'btn btn-success rounded-pill flex-grow-1',
+                                cancelButton: 'btn btn-outline-success rounded-pill flex-grow-1',
+                                actions: 'w-100 px-4 gap-2',
+                                title: 'fs-4',
+                            },
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('input, select').val('');
+                                $('#formulir').hide();
+                                $('#nomor_pendaftaran').html(response.nik);
+                                $('#sukses').removeClass('d-none').show();
+                                redirectToPage();
+                                } else {
+                                location.reload();
+                            }
+                        });
+                    }
+                },
+                complete: function () {
+                    submitButton.text('Submit Formulir').prop('disabled', false);
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan saat mengirim data!',
+                    });
+                    submitButton.text('Submit Formulir').prop('disabled', false);
+                }
+            });
+            
+            form.classList.add('was-validated');
+        }, false);
+    });
+});
+
 
 function redirectToPage() {
     window.location.href = base_url+'pendaftaran-sukses';
