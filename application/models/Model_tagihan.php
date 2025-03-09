@@ -3,9 +3,9 @@
 		
 		function getTagihan($params = array()){
 			// print_r($params);
-			$this->db->select('*'); 
+			$this->db->select('rb_psb_daftar.nama,rb_tagihan.*'); 
 			$this->db->from('rb_tagihan'); 
-			
+			$this->db->join('rb_psb_daftar', 'rb_tagihan.id_siswa = rb_psb_daftar.id', 'left');
 			if(array_key_exists("where", $params)){ 
 				foreach($params['where'] as $key => $val){ 
 					$this->db->where($key, $val); 
@@ -13,14 +13,16 @@
 			}
 			if(array_key_exists("search", $params)){ 
 				if(!empty($params['search']['keywords'])){ 
-					$this->db->like('kode_daftar', $params['search']['keywords']); 
+					$this->db->like('rb_tagihan.kode_daftar', $params['search']['keywords']); 
+					$this->db->or_like('rb_psb_daftar.nama', $params['search']['keywords']); 
 				} 
+				 
 				if(!empty($params['search']['status'])){ 
 					$this->db->where('status_lunas', $params['search']['status']); 
 				} 
 				
 				if(!empty($params['search']['tahun'])){ 
-					$this->db->where('tahun_akademik', $params['search']['tahun']); 
+					$this->db->where('rb_tagihan.tahun_akademik', $params['search']['tahun']); 
 				} 
 				
 			}
