@@ -86,10 +86,18 @@
                     <tfoot>
                         <tr>
                             <td>#</td>
-                            <td colspan="2">Total</td>
+                            <td colspan="2">Total Perhalaman</td>
                             <td class="text-end"><?=rprp($total_tagihan);?></td>
                             <td class="text-end"><?=rprp($total_bayar);?></td>
                             <td class="text-end"><?=rprp($sisa_tagihan);?></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>#</td>
+                            <td colspan="2">Total Keseluruhan</td>
+                            <td class="text-end"><?=rprp($sum_total_tagihan);?></td>
+                            <td class="text-end"><?=rprp($sum_total_bayar);?></td>
+                            <td class="text-end"><?=rprp($sum_sisa);?></td>
                             <td></td>
                         </tr>
                     </tfoot>

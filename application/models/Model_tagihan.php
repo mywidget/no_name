@@ -16,7 +16,7 @@
 					$this->db->like('rb_tagihan.kode_daftar', $params['search']['keywords']); 
 					$this->db->or_like('rb_psb_daftar.nama', $params['search']['keywords']); 
 				} 
-				 
+				
 				if(!empty($params['search']['status'])){ 
 					$this->db->where('status_lunas', $params['search']['status']); 
 				} 
@@ -241,6 +241,35 @@
 			$result = ($query->num_rows() > 0)?$query->row():FALSE; 
 			return $result;
 		}
+		
+		public function sum_total_tagihan($params = array())
+		{
+			$this->db->select_sum('total_tagihan', 'total');
+			if(array_key_exists("where", $params)){ 
+				foreach($params['where'] as $key => $val){ 
+					$this->db->where($key, $val); 
+				} 
+			}
+			$query = $this->db->get('rb_tagihan'); 
+			$result = $query->row();
+			
+			return ($result && isset($result->total)) ? (float) $result->total : 0;
+		}
+		
+		public function sum_total_bayar($params = array())
+		{
+			$this->db->select_sum('total_bayar', 'total');
+			if(array_key_exists("where", $params)){ 
+				foreach($params['where'] as $key => $val){ 
+					$this->db->where($key, $val); 
+				} 
+			}
+			$query = $this->db->get('rb_tagihan'); 
+			$result = $query->row();
+			
+			return ($result && isset($result->total)) ? (float) $result->total : 0;
+		}
+		
 		
 		private function get_tagihan($id)
 		{
@@ -673,4 +702,4 @@
 			$query = $this->db->get('tagihan_pembayaran');
 			return $query->result_array();
 		}
-	}																																																					
+	}																																																								

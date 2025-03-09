@@ -125,6 +125,9 @@
             $conditions['limit'] = $limit;
 			
             unset($conditions['returnType']);
+            $data['sum_total_tagihan'] = $this->model_tagihan->sum_total_tagihan($conditions);
+            $data['sum_total_bayar'] = $this->model_tagihan->sum_total_bayar($conditions);
+            $data['sum_sisa'] = $data['sum_total_tagihan'] - $data['sum_total_bayar'];
             $data['record'] = $this->model_tagihan->getTagihan($conditions);
 			
             // Load the data list view 
