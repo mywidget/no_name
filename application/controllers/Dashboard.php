@@ -1077,7 +1077,8 @@
 						$this->thm->json_output($response);
 						}else{
 						$response['status'] = false;
-						$response['message'] = '';
+						$response['message'] = 'Gagal';
+						$this->thm->json_output($response);
 					}
 				}
 				else
