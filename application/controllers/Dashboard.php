@@ -1058,7 +1058,7 @@
 						$kuota_terpakai = $kuota_terpakai + 1;
 						$update_kuota = ['kuota'=>$kuota,'terpakai'=>$kuota_terpakai]; 
 						$this->send_notif($post);
-						exit;
+						 
 						$input = $this->model_app->input('rb_psb_daftar',$input_data);
 						if($input['status']==true)
 						{
