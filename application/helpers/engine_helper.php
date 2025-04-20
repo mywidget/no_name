@@ -411,6 +411,24 @@
 		return $row;
 	}
 	
+	function site_image($val,$default='logo.png')
+	{
+		$ci = & get_instance();
+		$sql_cek = $ci->model_app->view_where('rb_setting',['name'=>$val,'jenis'=>'image']);
+		if($sql_cek->num_rows() >0)
+		{
+			$opathFile = FCPATH."upload/" .$sql_cek->row()->value;
+			$size = @filesize($opathFile);
+			if($size !== false){
+				$img=FCPATH."upload/".$file;
+				return base_url('upload/').$sql_cek->row()->value;
+				}else{
+				return base_url('upload/').$default;
+			}
+			}else{
+			return base_url('upload/').$default;
+		}
+	}
 	
 	function autoNumbers($awalan, $digit)
 	{
@@ -796,4 +814,4 @@
 			}
 		}
 		
-	}
+	}					

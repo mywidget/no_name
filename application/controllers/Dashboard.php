@@ -826,9 +826,10 @@
 					array(
 					'field' => 'nisn_daftar',
 					'label' => 'NISN',
-					'rules' => 'trim|numeric|min_length[10]|max_length[11]|is_unique[rb_psb_daftar.nisn]',
+					'rules' => 'trim|numeric|min_length[10]|max_length[12]|is_unique[rb_psb_daftar.nisn]',
 					'errors' => array(
 					'min_length' => '%s minimal 10 digit.',
+					'max_length' => '%s minimal 12 digit.',
 					'numeric' => '%s Harus angka.',
 					'is_unique'     => '%s sudah ada.'
 					)
@@ -1130,7 +1131,7 @@
 					"number"  	=> $post['nomor_hp'],
 					"text" 		=> $isi_pesan
 					];
-					dump($_data);
+					 
 					$url_pesan = "backend-send-text";
 					
 					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
