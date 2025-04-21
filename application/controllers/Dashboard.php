@@ -696,13 +696,13 @@
 				
 				$input_nama = $this->input->post('nama', true);
 				
-				if (!preg_match('/^[a-zA-Z]+$/', $input_nama)) {
-					// Jika input mengandung karakter selain huruf (misalnya angka atau simbol)
-					$response['status'] = false;
-					$response['type'] = 'error';
-					$response['message'] = 'Nama hanya boleh terdiri dari huruf';
-					$this->thm->json_output($response);
-				}
+				// if (!preg_match('/^[a-zA-Z]+$/', $input_nama)) {
+					// // Jika input mengandung karakter selain huruf (misalnya angka atau simbol)
+					// $response['status'] = false;
+					// $response['type'] = 'error';
+					// $response['message'] = 'Nama hanya boleh terdiri dari huruf';
+					// $this->thm->json_output($response);
+				// }
 				if (strlen($input_nama) > 20) {
 					// Nama terlalu panjang
 					$response['status'] = false;
