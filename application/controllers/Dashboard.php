@@ -703,7 +703,7 @@
 					// $response['message'] = 'Nama hanya boleh terdiri dari huruf';
 					// $this->thm->json_output($response);
 				// }
-				if (strlen($input_nama) > 20) {
+				if (strlen($input_nama) > 70) {
 					// Nama terlalu panjang
 					$response['status'] = false;
 					$response['type'] = 'error';
