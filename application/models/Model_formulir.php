@@ -141,8 +141,8 @@
 				$post['nik'],
 				$post['nisn'],
 				$post['email'],
-				get_unit($post['unit_sekolah']),
-				getNamaKelas($post['kelas']),
+				get_unit(decrypt_url($post['unit_sekolah'])),
+				getNamaKelas(decrypt_url($post['kelas'])),
 				$post['kamar'],
 				rp($biaya),
 				$link
