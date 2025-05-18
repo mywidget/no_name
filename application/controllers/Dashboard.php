@@ -680,7 +680,7 @@
 				$this->check_empty_param($kamar,'Kamar belum dipilih');
 				
 				$kuota = decrypt_url($this->input->post('kuota', true));
-				$this->check_empty_param($kuotam,'Kuota sudah kosong');
+				$this->check_empty_param($kuota,'Kuota sudah kosong');
 				
 				$pendidikan_terakhir_ayah = decrypt_url($this->input->post('pendidikan_terakhir_ayah', true));
 				$this->check_empty_param($pendidikan_terakhir_ayah,'Pendidikan Ayah belum dipilih');
