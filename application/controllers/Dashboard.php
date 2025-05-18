@@ -643,11 +643,11 @@
 			}
 		}
 		
-		private function check_empty_param($param) {
+		private function check_empty_param($param,$message='Request error') {
 			if (empty($param)) {
 				$response['status'] = false;
 				$response['type'] = 'error';
-				$response['message'] = 'Request error';
+				$response['message'] = $message;
 				$this->thm->json_output($response);
 			}
 		}
@@ -659,40 +659,40 @@
 			{
 				// Mendekripsi dan memeriksa setiap parameter
 				$thnakademik = decrypt_url($this->input->post('thnakademik', true));
-				$this->check_empty_param($thnakademik);
+				$this->check_empty_param($thnakademik,'Tahun Akademik belum aktif');
 				
 				$jenis_kelamin = decrypt_url($this->input->post('jenis_kelamin', true));
-				$this->check_empty_param($jenis_kelamin);
+				$this->check_empty_param($jenis_kelamin,'Jenis Kelamin Masih Kosong');
 				
 				$status_sekolah = decrypt_url($this->input->post('status_sekolah', true));
-				$this->check_empty_param($status_sekolah);
+				$this->check_empty_param($status_sekolah,'Status sekolah belum dipilih');
 				
 				$unit_sekolah = decrypt_url($this->input->post('unit_sekolah', true));
-				$this->check_empty_param($unit_sekolah);
+				$this->check_empty_param($unit_sekolah,'Unit sekolah belum dipilih');
 				
 				$kelas = decrypt_url($this->input->post('kelas', true));
-				$this->check_empty_param($kelas);
+				$this->check_empty_param($kelas,'Kelas belum dipilih');
 				
 				$biaya = decrypt_url($this->input->post('biaya', true));
-				$this->check_empty_param($biaya);
+				$this->check_empty_param($biaya,'Biaya masih kosong');
 				
 				$kamar = decrypt_url($this->input->post('kamar', true));
-				$this->check_empty_param($kamar);
+				$this->check_empty_param($kamar,'Kamar belum dipilih');
 				
 				$kuota = decrypt_url($this->input->post('kuota', true));
-				$this->check_empty_param($kuota);
+				$this->check_empty_param($kuotam,'Kuota sudah kosong');
 				
 				$pendidikan_terakhir_ayah = decrypt_url($this->input->post('pendidikan_terakhir_ayah', true));
-				$this->check_empty_param($pendidikan_terakhir_ayah);
+				$this->check_empty_param($pendidikan_terakhir_ayah,'Pendidikan Ayah belum dipilih');
 				
 				$pekerjaan_ayah = decrypt_url($this->input->post('pekerjaan_ayah', true));
-				$this->check_empty_param($pekerjaan_ayah);
+				$this->check_empty_param($pekerjaan_ayah,'Pekerjaan Ayah belum dipilih');
 				
 				$pendidikan_terakhir_ibu = decrypt_url($this->input->post('pendidikan_terakhir_ibu', true));
-				$this->check_empty_param($pendidikan_terakhir_ibu);
+				$this->check_empty_param($pendidikan_terakhir_ibu,'Pendidikan Ibu belum dipilih');
 				
 				$pekerjaan_ibu = decrypt_url($this->input->post('pekerjaan_ibu', true));
-				$this->check_empty_param($pekerjaan_ibu);
+				$this->check_empty_param($pekerjaan_ibu,'Pekerjaan Ibu belum dipilih');
 				
 				$input_nama = $this->input->post('nama', true);
 				
