@@ -63,23 +63,6 @@
 			}
 		}
 		
-		public function formulir()
-		{
-			$this->thm->set('title', 'Formulir Pendaftaran | '. tag_key('site_title'));
-			$this->thm->set('description', tag_key('site_desc'));
-			$this->thm->set('keywords', tag_key('site_keys'));
-			$data['menu'] = $this->model_data->get_categories();
-			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
-			
-			$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('rb_unit','id,nama_jurusan','id','ASC')->result_array();
-			$data['kamar'] = $this->model_app->view_ordering('rb_kamar','nama_kamar','ASC')->result_array();
-			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
-			$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
-			$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
-			$data['gelombang'] = $this->model_app->view_where('rb_gelombang',['aktif'=>'Y'])->row();
-			// $this->session->set_userdata(['pendaftaran'=>'sukses', 'nik'=>]);
-			$this->thm->load('frontend/template','frontend/formulir',$data);
-		}
 		
 		public function status()
 		{
@@ -652,14 +635,38 @@
 			}
 		}
 		
+		public function formulir()
+		{
+			
+			$this->thm->set('title', 'Formulir Pendaftaran | '. tag_key('site_title'));
+			$this->thm->set('description', tag_key('site_desc'));
+			$this->thm->set('keywords', tag_key('site_keys'));
+			$data['menu'] = $this->model_data->get_categories();
+			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
+			
+			$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('rb_unit','id,nama_jurusan','id','ASC')->result_array();
+			$data['kamar'] = $this->model_app->view_ordering('rb_kamar','nama_kamar','ASC')->result_array();
+			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
+			$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
+			$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
+			$data['gelombang'] = $this->model_app->view_where('rb_gelombang',['aktif'=>'Y'])->row();
+			// $this->session->set_userdata(['pendaftaran'=>'sukses', 'nik'=>]);
+			$this->thm->load('frontend/template','frontend/formulir',$data);
+		}
+		
 		public function proses()
 		{
 			// dump($_POST);
 			if ( $this->input->is_ajax_request() ) 
 			{
+				$tahun_akademik = $this->model_app->view_where('rb_tahun_akademik', ['aktif' => 'Ya'])->row()->id_tahun_akademik;
+				
 				// Mendekripsi dan memeriksa setiap parameter
-				$thnakademik = decrypt_url($this->input->post('thnakademik', true));
-				$this->check_empty_param($thnakademik,'Tahun Akademik belum aktif');
+				$input_thnakademik = $this->input->post('thnakademik', true);
+				$thnakademik = !empty($input_thnakademik) ? decrypt_url($input_thnakademik) : $tahun_akademik;
+				
+				// Periksa apakah hasil akhirnya masih kosong
+				$this->check_empty_param($thnakademik, 'Tahun Akademik belum aktif');
 				
 				$jenis_kelamin = decrypt_url($this->input->post('jenis_kelamin', true));
 				$this->check_empty_param($jenis_kelamin,'Jenis Kelamin Masih Kosong');
@@ -697,11 +704,11 @@
 				$input_nama = $this->input->post('nama', true);
 				
 				// if (!preg_match('/^[a-zA-Z]+$/', $input_nama)) {
-					// // Jika input mengandung karakter selain huruf (misalnya angka atau simbol)
-					// $response['status'] = false;
-					// $response['type'] = 'error';
-					// $response['message'] = 'Nama hanya boleh terdiri dari huruf';
-					// $this->thm->json_output($response);
+				// // Jika input mengandung karakter selain huruf (misalnya angka atau simbol)
+				// $response['status'] = false;
+				// $response['type'] = 'error';
+				// $response['message'] = 'Nama hanya boleh terdiri dari huruf';
+				// $this->thm->json_output($response);
 				// }
 				if (strlen($input_nama) > 70) {
 					// Nama terlalu panjang
@@ -710,7 +717,7 @@
 					$response['message'] = 'Nama terlalu panjang';
 					$this->thm->json_output($response);
 				}
-				 
+				
 				$saudara_pp = $this->input->post('saudara_pp',true);
 				if(!empty($saudara_pp)){
 					$this->form_validation->set_rules(array(
@@ -1057,7 +1064,7 @@
 						$kuota_terpakai = $this->kuota_terpakai($kamar);
 						$kuota_terpakai = $kuota_terpakai + 1;
 						$update_kuota = ['kuota'=>$kuota,'terpakai'=>$kuota_terpakai]; 
-				
+						
 						$input = $this->model_app->input('rb_psb_daftar',$input_data);
 						if($input['status']==true)
 						{
@@ -1131,7 +1138,7 @@
 					"number"  	=> $post['nomor_hp'],
 					"text" 		=> $isi_pesan
 					];
-					 
+					
 					$url_pesan = "backend-send-text";
 					
 					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
