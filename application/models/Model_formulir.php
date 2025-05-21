@@ -44,7 +44,11 @@
 			
 			if($query->num_rows() > 0){ 
 				$row = $query->row();
-				$biaya = convert_to_number($post['biaya']);
+				$unit_sekolah = decrypt_url($post['unit_sekolah']);
+				$kelas = decrypt_url($post['kelas']);
+				$kamar = decrypt_url($post['kamar']);
+				$biaya = decrypt_url($post['biaya']);
+				$biaya = convert_to_number($biaya);
 				$searchVal = array(
 				"{selamat}",
 				"{nama_sekolah}",
@@ -67,6 +71,7 @@
 				
 				$link = tag_key('site_url').'/cetak-formulir/'.encrypt_url($post['nik']);
 				// Array containing replace string from  search string
+				
 				$replaceVal = array(
 				ucapan(),
 				info('nama_sekolah'),
@@ -80,9 +85,9 @@
 				$post['nik'],
 				$post['nisn_daftar'],
 				$post['email_daftar'],
-				get_unit($post['unit_sekolah']),
-				getNamaKelas($post['kelas']),
-				$post['kamar'],
+				get_unit($unit_sekolah),
+				getNamaKelas($kelas),
+				$kamar,
 				rp($biaya),
 				$link
 				);
