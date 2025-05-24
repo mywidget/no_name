@@ -1,14 +1,14 @@
 <div class="shadow rounded-12 p-3 mb-3">
     <hr class="my-2">
-    <div class="d-flex justify-content-between">
-        Assalamualaikum Wr. Wb <strong> <?php echo $row['nama'];?></strong>
+    <div class="d-flex justify-content-before">
+        Assalamualaikum Wr. Wb &nbsp;<strong> <?php echo ucfirst($row['nama']);?></strong>
     </div>
-    <small class="d-block text-secondary mt-2"><strong>Note: </strong> Selamat Anda Terdaftar Sebagai calon santri Pondok Pesantren Tebuireng 4 Al-Ishlah, pada Unit : <?php echo $row['unit_sekolah'];?> Kelas : <?=getKelas($row['kelas'])->nama_kelas;?>. Untuk selanjutnya silahkan upload bukti pembayaran, Foto Santri, Scan Foto Kartu Keluarga untuk melengkapi proses pendaftaran, Terimakasih Wassalam</small>
+    <small class="d-block text-secondary mt-2"><strong>Note: </strong> Selamat Anda Terdaftar Sebagai calon santri Pondok Pesantren Tebuireng 4 Al-Ishlah, pada Unit : <?php echo $row['unit_sekolah'];?> <br>Kelas : <?=getKelas($row['kelas'])->nama_kelas;?>. Untuk selanjutnya silahkan upload bukti pembayaran, <br>Foto Santri, Scan Foto Kartu Keluarga untuk melengkapi proses pendaftaran, <br><br><strong>Terimakasih Wassalam</strong></small>
 </div>
 <div class="shadow rounded-12 p-3 mb-3">
     <hr class="my-2">
-    <div class="d-flex justify-content-between">
-        Biaya Pendaftaran :  <strong> Rp. <?php echo  $rupiah=number_format($row['biaya_daftar'],0,',','.');?></strong>
+    <div class="d-flex justify-content-before">
+        Biaya Pendaftaran :  &nbsp;<strong> Rp. <?php echo  $rupiah=number_format($row['biaya_daftar'],0,',','.');?></strong>
         <strong id="total"></strong>
     </div>
 </div>
