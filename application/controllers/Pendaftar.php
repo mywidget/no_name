@@ -65,8 +65,10 @@
                 $offset = $page;
 			}
 			$keywords = $this->input->post('keywords');
+			$error = false;
 			if (!empty($keywords)) {
 				$conditions['search']['keywords'] = $keywords;
+				$error = true;
 			}
 			$limit = $this->input->post('limit');
 			if (!empty($limit)) {
@@ -110,7 +112,7 @@
 				$conditions['where'] = ['s_pendidikan'=>'Baru'];
 			}
 			$periode = $this->input->post('periode');
-			if (!empty($periode)) {
+			if (!empty($periode) AND $error==false) {
 				$date = date_ranges($periode);
 				$dari = date_replace_slash($date['dari']);
 				$sampai = date_replace_slash($date['sampai']);
@@ -2183,4 +2185,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																												
+	}																																																																																																																																																																																													

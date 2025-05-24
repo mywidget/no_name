@@ -51,7 +51,7 @@
                                 
                             }
                             $hapus_data = '<a class="btn btn-warning btn-sm flat" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-hapus" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus</a>';
-                             
+                            
                         ?>
                         <tr>
                             <td><input class="form-check-input m-0 align-middle case" type="checkbox" name="pilih[]" id="case<?=$i;?>" value="<?=$i;?>">
@@ -69,7 +69,8 @@
                                         <?=$row['nama'];?>
                                     </button>
                                     <ul class="dropdown-menu" style="">
-                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery(<?=$i;?>);" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">Kode Pendaftaran : <span id="copyText<?=$i;?>"><?=$row['kode_daftar'];?></span></a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=$i.$i.$i;?>_<?=$i;?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">Nama : <span id="copyText<?=$i.$i.$i;?>_<?=$i;?>"><?=$row['nama'];?></span></a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=encrypt_url($row['kode_daftar']);?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">Kode Pendaftaran : <span id="copyText<?=encrypt_url($row['kode_daftar']);?>"><?=$row['kode_daftar'];?></span></a></li>
                                         <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=$i;?>_<?=$i;?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">Tanggal lahir : <span id="copyText<?=$i;?>_<?=$i;?>"><?=$row['tanggal_lahir'];?></span></a></li>
                                         <li><a class="dropdown-item" href="#">Email : <?=$row['email'];?></a></li>
                                         <li><a class="dropdown-item" href="#">Jenis Kelamin : <?=$row['jenis_kelamin'];?></a></li>
@@ -77,12 +78,14 @@
                                         <li><a class="dropdown-item" href="#">UK. Baju : <?=$row['ukuran_seragam_baju'];?></a></li>
                                         <li><a class="dropdown-item" href="#">UK. Celana/Rok : <?=$row['ukuran_celana_rok'];?></a></li>
                                         <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=encrypt_url($row['no_kk']);?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">No. KK : <span id="copyText<?=encrypt_url($row['no_kk']);?>"><?=$row['no_kk'];?></span></a></li>
+                                        <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" href="#">Ayah : <?=$row['nama_ayah'];?></a></li>
-                                        <li><a class="dropdown-item" href="#">NIK Ayah : <?=$row['nik_ayah'];?></a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=encrypt_url($row['nik_ayah']);?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">NIK Ayah : <span id="copyText<?=encrypt_url($row['nik_ayah']);?>"><?=$row['nik_ayah'];?></span></a></li>
+                                       
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" href="#">Ibu : <?=$row['nama_ibu'];?></a></li>
-                                        <li><a class="dropdown-item" href="#">NIK Ibu : <?=$row['nik_ibu'];?></a></li>
-                                        
+                                         <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=encrypt_url($row['nik_ibu']);?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">NIK Ibu : <span id="copyText<?=encrypt_url($row['nik_ibu']);?>"><?=$row['nik_ibu'];?></span></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -92,7 +95,8 @@
                                         <?=$row['nisn'];?>
                                     </button>
                                     <ul class="dropdown-menu" style="">
-                                        <li><a class="dropdown-item" href="#">NIK : <?=$row['nik'];?></a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=encrypt_url($row['nisn']);?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">NISN : <span id="copyText<?=encrypt_url($row['nisn']);?>"><?=$row['nisn'];?></span></a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="withoutJquery('<?=encrypt_url($row['nik']);?>');" data-bs-toggle="tooltips" data-bs-placement="top" title="Click to copy">NIK: <span id="copyText<?=encrypt_url($row['nik']);?>"><?=$row['nik'];?></span></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -119,7 +123,7 @@
                                         Aksi
                                     </button>
                                     <ul class="dropdown-menu"  data-popper-placement="right-start">
-                                    <li><?=$edit;?></li>
+                                        <li><?=$edit;?></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="kirim_formulir('<?=$kode;?>','<?=$row['nomor_hp'];?>')"><i class="fa fa-whatsapp" ></i>&nbsp;&nbsp;Kirim Formulir</a></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Foto Pendaftar</a></li>
                                         <li><a class="dropdown-item"  href="javascript:void(0)" onclick="load_lampiran('<?=$kode;?>','<?=$row['foto_kk'];?>')"><i class="fa fa-image" ></i>&nbsp;&nbsp;Lampiran KK</a></li>
@@ -133,7 +137,7 @@
                                         <?php if($row['status']=='Tidak Diterima'){ ?>
                                             <li><?=$hapus;?></li>
                                         <?php } ?>
-                                            
+                                        
                                         <!--li><hr class="dropdown-divider"></li-->
                                     </ul>
                                     <?=$hapus_data;?>
@@ -152,7 +156,7 @@
     </div>
     
     <script>
-       
+        
         $(document).ready(function () {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltips"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -160,4 +164,4 @@
             })
         });
     </script>    
-    <?php }else{echo "Belum ada data";} ?>
+<?php }else{echo "Belum ada data";} ?>

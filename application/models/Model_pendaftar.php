@@ -42,6 +42,7 @@
 					$this->db->or_like('nik', $params['search']['keywords']); 
 					$this->db->or_like('nisn', $params['search']['keywords']); 
 					$this->db->or_like('nomor_hp', $params['search']['keywords']); 
+					$this->db->or_like('no_kk', $params['search']['keywords']); 
 				} 
 				
 				if(!empty($params['search']['tahun'])){ 
