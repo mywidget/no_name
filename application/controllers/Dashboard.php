@@ -772,13 +772,44 @@
 					array(
 					'field' => 'nisn_daftar',
 					'label' => 'NISN',
-					'rules' => 'trim|numeric|min_length[10]|max_length[11]|is_unique[rb_psb_daftar.nisn]',
+					'rules' => 'trim|numeric|min_length[10]|max_length[12]|is_unique[rb_psb_daftar.nisn]',
 					'errors' => array(
 					'min_length' => '%s minimal 10 digit.',
+					'max_length' => '%s minimal 12 digit.',
 					'numeric' => '%s Harus angka.',
 					'is_unique'     => '%s sudah ada.'
 					)
 					),
+					array(
+					'field' => 'no_kk',
+					'label' => ' Nomor Kartu Keluarga ',
+					'rules' => 'trim|numeric|min_length[16]|max_length[16]',
+					'errors' => array(
+					'numeric' => '%s. Harus angka',
+					'min_length' => '%s minimal 16 digit.',
+					)
+					),
+					
+					array(
+					'field' => 'nik_ayah',
+					'label' => ' NIK Ayah',
+					'rules' => 'trim|numeric|min_length[16]|max_length[16]',
+					'errors' => array(
+					'numeric' => '%s. Harus angka',
+					'min_length' => '%s minimal 16 digit.',
+					)
+					),
+					
+					array(
+					'field' => 'nik_ibu',
+					'label' => ' NIK Ibu',
+					'rules' => 'trim|numeric|min_length[16]|max_length[16]',
+					'errors' => array(
+					'numeric' => '%s. Harus angka',
+					'min_length' => '%s minimal 16 digit.',
+					)
+					),
+					
 					));
 					}else{
 					$this->form_validation->set_rules(array(
@@ -878,6 +909,7 @@
 				}
 				if ( $this->form_validation->run() ) 
 				{
+			// dump($_POST);
 					$captcha_response = trim($this->input->post('g-recaptcha-response'));
 					
 					$check = array(
