@@ -656,6 +656,7 @@
 		
 		public function proses()
 		{
+			ini_set('memory_limit', '256M');
 			// dump($_POST);
 			if ( $this->input->is_ajax_request() ) 
 			{
@@ -909,7 +910,7 @@
 				}
 				if ( $this->form_validation->run() ) 
 				{
-			// dump($_POST);
+					// dump($_POST);
 					$captcha_response = trim($this->input->post('g-recaptcha-response'));
 					
 					$check = array(
