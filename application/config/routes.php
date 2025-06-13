@@ -57,6 +57,7 @@ $route['text-message']             = 'api/command_post';
 $route['syarat']                   = 'dashboard/syarat';
 $route['pendaftaran-sukses']       = 'dashboard/sukses';
 $route['formulir']                 = 'dashboard/formulir';
+$route['formulir_test']            = 'dashboard/formulir_test';
 $route['status']                   = 'dashboard/status';
 $route['brosur']                   = 'dashboard/brosur';
 $route['brosur/(:any)']            = 'dashboard/brosur_detail';

@@ -4,7 +4,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-        <link rel="icon" type="image/x-icon" href="<?= base_url('upload/'); ?><?=info('site_favicon');?>">
+        <link rel="icon" type="image/x-icon" href="<?=site_image('site_favicon','favicon.ico');?>">
         <title><?=$title;?></title>
         <style>
             @import url('https://rsms.me/inter/inter.css');
@@ -75,7 +75,7 @@
                     </button>
                     <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
                         <a href="/home">
-                            <img src="<?= base_url('upload/'); ?><?=info('site_logo');?>" width="110" height="32" alt="" class="navbar-brand-image">
+                            <img src="<?=site_image('site_logo','logo.png');?>" width="110" height="32" alt="" class="navbar-brand-image">
                         </a>
                     </h1>
                     <div class="navbar-nav flex-row order-md-last">

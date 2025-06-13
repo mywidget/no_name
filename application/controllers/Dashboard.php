@@ -1107,10 +1107,10 @@
 							$this->session->set_userdata(["pendaftaran" => 'sukses','nik'=>$nik]);
 							$response['status'] = true;
 							$response['nik'] = $this->input->post('nik',true);
-							$response['message'] = 'Berhasil';
+							$response['message'] = 'Berhasil mendaftar';
 							}else{
 							$response['status'] = false;
-							$response['message'] = 'Gagal';
+							$response['message'] = 'Gagal mendaftar';
 						}
 						// dump($input_data);
 						$this->thm->json_output($response);
@@ -1128,6 +1128,119 @@
 					$this->thm->json_output($response);
 				}
 				
+			}
+		}
+		
+		public function formulir_test()
+		{
+			
+			$this->thm->set('title', 'Formulir Pendaftaran | '. tag_key('site_title'));
+			$this->thm->set('description', tag_key('site_desc'));
+			$this->thm->set('keywords', tag_key('site_keys'));
+			$data['menu'] = $this->model_data->get_categories();
+			$data['tahun'] = $this->model_app->view_where('rb_tahun_akademik',['aktif'=>'Ya'])->row_array();
+			
+			$data['unit_sekolah'] = $this->model_app->view_ordering_distinct('rb_unit','id,nama_jurusan','id','ASC')->result_array();
+			$data['kamar'] = $this->model_app->view_ordering('rb_kamar','nama_kamar','ASC')->result_array();
+			$data['provinsi'] = $this->model_app->view_ordering('t_provinces','name','ASC')->result_array();
+			$data['pendidikan'] = $this->model_app->view_where('rb_pendidikan',['aktif'=>'Ya'])->result();
+			$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
+			$data['gelombang'] = $this->model_app->view_where('rb_gelombang',['aktif'=>'Y'])->row();
+			// $this->session->set_userdata(['pendaftaran'=>'sukses', 'nik'=>]);
+			$this->thm->load('frontend/template','frontend/formulir_test',$data);
+		}
+		
+		public function proses_test()
+		{
+			 
+			if ( $this->input->is_ajax_request() ) 
+			{
+				 
+				   
+						if(!empty($_FILES['fotoSantri']['name']))
+						{
+							$new_name = time().'_'.$_FILES["fotoSantri"]['name'];
+							$config['file_name']        = $new_name;
+							$config['upload_path']   = './upload/foto_dokumen_test'; //path folder
+							$config['max_size']		 = tag_key('file_size');
+							$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+							$config['encrypt_name']  = FALSE; //enkripsi nama file
+							$this->upload->initialize($config);
+							if ($this->upload->do_upload('fotoSantri'))
+							{
+								$gbr = $this->upload->data();
+								$photo_santri = $gbr['file_name'];
+								// $this->_create_foto($nik,$gbr['file_name']);
+								}else{
+								$response['status'] = false;
+								$response['message'] = $this->upload->display_errors();
+								$this->thm->json_output($response);
+							}
+							}else{
+							$response['status'] = false;
+							$response['message'] = 'Foto santri mash kosong';
+							$this->thm->json_output($response);
+						}
+						//foto KK
+						if(!empty($_FILES['fotoKk']['name']))
+						{
+							$new_name = time().'_'.$_FILES["fotoKk"]['name'];
+							$config['file_name']        = $new_name;
+							$config['upload_path']   = './upload/foto_dokumen_test'; //path folder
+							$config['max_size']		 = tag_key('file_size');
+							$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+							$config['encrypt_name']  = FALSE; //enkripsi nama file
+							$this->upload->initialize($config);
+							if ($this->upload->do_upload('fotoKk'))
+							{
+								$gbr = $this->upload->data();
+								$photo_kk = $gbr['file_name'];
+								// $this->_create_kk($nik,$gbr['file_name']);
+								}else{
+								$response['status'] = false;
+								$response['message'] = $this->upload->display_errors();
+								$this->thm->json_output($response);
+							}
+							}else{
+							$response['status'] = false;
+							$response['message'] = 'Foto KK mash kosong';
+							$this->thm->json_output($response);
+						}
+						
+						//foto bukti transfer
+						if(!empty($_FILES['fotobukti']['name']))
+						{
+							$new_name = time().'_'.$_FILES["fotobukti"]['name'];
+							$config['file_name']        = $new_name;
+							$config['upload_path']   = './upload/foto_dokumen_test'; //path folder
+							$config['max_size']		 = tag_key('file_size');
+							$config['allowed_types'] = tag_key('file_allowed'); //type yang image yang dizinkan
+							$config['file_ext_tolower'] = TRUE;
+							$config['encrypt_name']  = FALSE;
+							$this->upload->initialize($config);
+							if ($this->upload->do_upload('fotobukti'))
+							{
+								$gbr = $this->upload->data();
+								$lampiran = $gbr['file_name'];
+								}else{
+								$response['status'] = false;
+								$response['message'] = $this->upload->display_errors();
+								$this->thm->json_output($response);
+							}
+							}else{
+							$response['status'] = false;
+							$response['message'] = 'Foto KK mash kosong';
+							$this->thm->json_output($response);
+						}
+						 
+						$input_data = [
+						"foto"        			      => $photo_santri,
+						"foto_kk"        		      => $photo_kk,
+						"fotobukti"       		      => $lampiran
+						];
+						 
+						dump($input_data);
+						 
 			}
 		}
 		
