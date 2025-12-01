@@ -678,32 +678,32 @@
 		// });
 		
 		
-		// $(document).on('click','.hapus_data',function(e){
-			// var id = $("#data-hapus").val();
-			// $.ajax({
-				// url: base_url + 'whatsapp/add_device',
-				// data: {tipe:'hapus',id:id},
-				// method: 'POST',
-				// dataType:'json',
-				// beforeSend: function () {
-					// $('body').loading();　
-				// },
-				// success: function(data) {
-					// $('#confirm-delete').modal('hide');
-					// if(data.status==true){
-						// showNotif('bottom-right',data.title,data.msg,'success');
-						// }else{
-						// sweet('Peringatan!!!',data.msg,'warning','warning');
-					// }
-					// searchData();
+		$(document).on('click','.hapus_data',function(e){
+			var id = $("#data-hapus").val();
+			$.ajax({
+				url: base_url + 'whatsapp/add_device',
+				data: {type_add:'hapus',id:id},
+				method: 'POST',
+				dataType:'json',
+				beforeSend: function () {
+					$('body').loading();　
+				},
+				success: function(data) {
+					$('#confirm-delete').modal('hide');
+					if(data.status==true){
+						showNotif('bottom-right',data.title,data.msg,'success');
+						}else{
+						sweet('Peringatan!!!',data.msg,'warning','warning');
+					}
+					searchData();
 					
-					// $('body').loading('stop');　
-					// },error: function(xhr, status, error) {
-					// showNotif('bottom-right','Update',error,'error');
-					// $('body').loading('stop');　
-				// }
-			// });
-		// });
+					$('body').loading('stop');　
+					},error: function(xhr, status, error) {
+					showNotif('bottom-right','Update',error,'error');
+					$('body').loading('stop');　
+				}
+			});
+		});
 		
 		$(document).on('click','.clear',function(e){
 			$("#keywords").val('');

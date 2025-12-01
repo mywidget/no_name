@@ -32,7 +32,7 @@
 			$data['menu'] = getMenu($this->menu);
 			$this->thm->load('backend/template','backend/whatsapp/view_index',$data);
 		}
-		 
+		
 		public function pengaturan()
 		{
 			$result= $this->model_app->view('pengaturan_device')->result_array();
@@ -740,9 +740,60 @@
 				$arr = $this->curl->response;
 				$this->update_device_status($arr);
 			}
-			
+			// dump($arr);
 			return $arr;
 			
+		}
+		
+		public function update_device_post()
+		{
+			// dump($_POST);
+			$device = $this->input->post('device');
+			$status = $this->input->post('status');
+			$token = $this->cek_token($device);
+			
+			$data = [
+			'APP-API-KEY' => $token,
+			'device' => $device,
+			'status' => $status
+			];
+			
+			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+			$this->curl->setDefaultJsonDecoder($assoc = true);
+			//$this->curl->setHeader('x-api-key', $this->api_key);
+			$this->curl->setHeader('Content-Type', 'application/json');
+			$this->curl->post($this->url_api.'/api/update_device', $data);
+			
+			if($this->curl->error){
+				$arr = $this->curl->errorMessage;
+				}else{
+				$arr = $this->curl->response;
+				$this->update_device_status($arr);
+			}
+			
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($arr));
+			
+		}
+		
+		public function update_status_device()
+		{
+			$id = $this->input->post('id_pengaturan');
+			$status = $this->input->post('status');
+			// dump($_POST);
+			if($id==1){
+				$device = $this->input->post('device');
+				$token = $this->cek_token($device);
+				$update = $this->model_app->update('rb_device',['device_status'=>$status],['device'=>$device]);
+				}else{
+				$token = $this->input->post('token');
+				$data = $this->cek_status_device_fonnte($token);
+			}
+			$data = ['success'=>true,'message'=>'berhasil'];
+			$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($data));
 		}
 		
 		private function update_device_status($params = []){
@@ -907,6 +958,7 @@
 		public function add_device()
 		{
 			$id = $this->input->post('id');
+			$id = decrypt_url($id);
 			$tipe = $this->input->post('type_add');
 			$id_pengaturan = $this->input->post('id_pengaturan') ? $this->input->post('id_pengaturan') : $this->input->post('load_pengaturan');
 			
@@ -1023,7 +1075,7 @@
 				}else{
 				$arr = $this->curl->response;
 			}
-			
+			// dump($arr);
 			return $arr;
 		}
 		// hapus post
@@ -1321,4 +1373,4 @@
 				$this->thm->load('backend/template','backend/whatsapp/device_scan',$data);
 			}
 		}
-	}	
+	}		

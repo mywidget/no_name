@@ -1,81 +1,99 @@
-
-<div class="container-fluid" id="container-wrapper">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Device</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="./">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Device</li>
-		</ol>
-	</div>
-    
-    <div class="alert alert-info border">Pindai QR ini menggunakan multi perangkat whatsapp.</div>
-    <div class="row">
-        <div class="col-xl-7">
-            <div class="card widget widget-stats-large shadow-none">
-                <div class="card-header" id="logoutbutton" style="display: none;">
-                    <button onclick="startSession()" class="btn btn-primary btn-sm">
-                        <i class="mdi mdi-refresh"></i> Start Ulang
-					</button>
-					<button type="button" class="btn btn-primary btn-sm" onclick="checkConnection()">
-						<i class="mdi mdi-connection"></i> Check Connection
-					</button>
-					<button type="button" class="btn btn-warning btn-sm" onclick="startManualReconnection()">
-						<i class="mdi mdi-reload"></i> Start Reconnection
-					</button>
-					<button type="button" class="btn btn-danger btn-sm" onclick="stopAllMonitoring()">
-						<i class="mdi mdi-stop"></i> Stop All Monitoring
-					</button>
-					
+<div class="page-header d-print-none">
+	<div class="container-xl">
+		<div class="row g-2 align-items-center">
+			<div class="col">
+				<div class="page-pretitle">
+					<?=$menu;?>
 				</div>
-                <div class="card-body">
-					<div id="qr-container">
-						<div id="area-image" class="imageee text-center mb-2 d-flex justify-content-center align-items-center">
-							<img src="<?= base_url() ?>assets/img/logo.png" height="200px" alt="Logo" id="qr-image" class="mx-auto d-block">
-						</div>
-						<div class="text-center mt-2" id="statusss">
-							<button class="btn btn-primary mb-2" type="button" disabled>
-								<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-								Menunggu inisialisasi...
-							</button>
-						</div>
-					</div>
-				</div>
+                <h2 class="page-title">
+					Scan Device
+				</h2>
+			</div>
+			<div class="col-12 col-md-auto ms-auto d-print-none">
+				
 			</div>
 		</div>
-        
-        <div class="col-xl-5">
-            <div class="card widget widget-stats-large shadow-none">
-                <div class="card-header">
-                    <button type="button" data-toggle="modal" data-target="#webhooks" class="btn btn-primary btn-sm">
-                        <i class="mdi mdi-message-settings-variant"></i> Informasi Device:
-					</button>
-				</div>
-                <div class="card-body account">
-                    <h6>Informasi Device:</h6>
-                    <ul class="list-group account list-group-flush">
-                        <li class="list-group-item p-0">Nama : <span id="nama">-</span></li>
-                        <li class="list-group-item p-0">Nomor Device : <span id="number">-</span></li>
-                        <li class="list-group-item p-0">Status : <span id="status-text">Menunggu...</span></li>
-					</ul>
-					<div class="d-flex gap-2 mt-3">
-						<button onclick="logoutDevice()" class="btn btn-danger btn-sm scanbutton">
-							<i class="mdi mdi-logout-variant"></i> Logout perangkat
+	</div>
+</div>
+<div class="page-body">
+	<div class="container-xl">
+		<div class="d-sm-flex align-items-center justify-content-between mb-4">
+			<h1 class="h3 mb-0 text-gray-800">Device</h1>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="./">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Device</li>
+			</ol>
+		</div>
+		
+		<div class="alert alert-info border">Pindai QR ini menggunakan multi perangkat whatsapp.</div>
+		<div class="row">
+			<div class="col-xl-7">
+				<div class="card widget widget-stats-large shadow-none">
+					<div class="card-header" id="logoutbutton" style="display: none;">
+						<button onclick="startSession()" class="btn btn-primary btn-sm">
+							<i class="mdi mdi-refresh"></i> Start Ulang
 						</button>
-						<button onclick="getQRCode()" class="btn btn-warning btn-sm ml-2">
-							<i class="mdi mdi-qrcode"></i> Refresh QR
+						<button type="button" class="btn btn-primary btn-sm" onclick="checkConnection()">
+							<i class="mdi mdi-connection"></i> Check Connection
 						</button>
+						<button type="button" class="btn btn-warning btn-sm" onclick="startManualReconnection()">
+							<i class="mdi mdi-reload"></i> Start Reconnection
+						</button>
+						<button type="button" class="btn btn-danger btn-sm" onclick="stopAllMonitoring()">
+							<i class="mdi mdi-stop"></i> Stop All Monitoring
+						</button>
+						
 					</div>
-					
+					<div class="card-body">
+						<div id="qr-container">
+							<div id="area-image" class="imageee text-center mb-2 d-flex justify-content-center align-items-center">
+								<img src="<?= base_url() ?>assets/img/logo.png" height="200px" alt="Logo" id="qr-image" class="mx-auto d-block">
+							</div>
+							<div class="text-center mt-2" id="statusss">
+								<button class="btn btn-primary mb-2" type="button" disabled>
+									<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+									Menunggu inisialisasi...
+								</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-            
-            <div class="card mt-3">
-                <div class="card-header">
-                    <h6>Log Connection</h6>
+			
+			<div class="col-xl-5">
+				<div class="card widget widget-stats-large shadow-none">
+					<div class="card-header">
+						<button type="button" data-toggle="modal" data-target="#webhooks" class="btn btn-primary btn-sm">
+							<i class="mdi mdi-message-settings-variant"></i> Informasi Device:
+						</button>
+					</div>
+					<div class="card-body account">
+						<h6>Informasi Device:</h6>
+						<ul class="list-group account list-group-flush">
+							<li class="list-group-item p-0">Nama : <span id="nama">-</span></li>
+							<li class="list-group-item p-0">Nomor Device : <span id="number">-</span></li>
+							<li class="list-group-item p-0">Status : <span id="status-text">Menunggu...</span></li>
+						</ul>
+						<div class="d-flex gap-2 mt-3">
+							<button onclick="logoutDevice()" class="btn btn-danger btn-sm scanbutton">
+								<i class="mdi mdi-logout-variant"></i> Logout perangkat
+							</button>
+							<button onclick="getQRCode()" class="btn btn-warning btn-sm ml-2">
+								<i class="mdi mdi-qrcode"></i> Refresh QR
+							</button>
+						</div>
+						
+					</div>
 				</div>
-                <div class="card-body log-container pt-0">
-                    <div id="logs">
-                        <div class="log-entry">System initialized...</div>
+				
+				<div class="card mt-3">
+					<div class="card-header">
+						<h6>Log Connection</h6>
+					</div>
+					<div class="card-body log-container pt-0">
+						<div id="logs">
+							<div class="log-entry">System initialized...</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -313,7 +331,7 @@
         
         updateStatus('Connected', 'connected');
         addLog('WhatsApp connected successfully!', 'success');
-        
+        update_status_device(sessionName,'Connected')
         // Show logout button
         document.getElementById('logoutbutton').style.display = 'block';
         
@@ -358,11 +376,12 @@
                     cek_status_device(sessionName);
                     isConnected = true;
                     stopAllMonitoring();
+					// update_status_device(sessionName,'Connected')
 					} else {
                     addLog('Manual check: Disconnected ✗', 'warning');
                     updateStatus('Disconnected', 'disconnected');
                     isConnected = false;
-                    
+                    update_status_device(sessionName,'Disconnect')
                     // GANTI: alert dengan SweetAlert2
                     Swal.fire({
                         title: 'Device Disconnected',
@@ -589,7 +608,6 @@
         
         let buttonClass = 'btn-secondary';
         let icon = '';
-        
         switch(type) {
             case 'connected':
 			buttonClass = 'btn-success';
@@ -614,25 +632,25 @@
 	
     // // Add log entry
     // function addLog(message, type = 'info') {
-        // const logsContainer = document.getElementById('logs');
-        // const timestamp = new Date().toLocaleTimeString();
-        
-        // let badgeClass = 'badge-secondary';
-        // switch(type) {
-            // case 'success': badgeClass = 'badge-success'; break;
-            // case 'error': badgeClass = 'badge-danger'; break;
-            // case 'warning': badgeClass = 'badge-warning'; break;
-            // case 'info': badgeClass = 'badge-info'; break;
-		// }
-        
-        // const logEntry = document.createElement('div');
-        // logEntry.className = 'log-entry mb-1';
-        // logEntry.innerHTML = `
-		// <span class="badge ${badgeClass}">${timestamp}</span> ${message}
-        // `;
-        
-        // logsContainer.appendChild(logEntry);
-        // logsContainer.scrollTop = logsContainer.scrollHeight;
+	// const logsContainer = document.getElementById('logs');
+	// const timestamp = new Date().toLocaleTimeString();
+	
+	// let badgeClass = 'badge-secondary';
+	// switch(type) {
+	// case 'success': badgeClass = 'badge-success'; break;
+	// case 'error': badgeClass = 'badge-danger'; break;
+	// case 'warning': badgeClass = 'badge-warning'; break;
+	// case 'info': badgeClass = 'badge-info'; break;
+	// }
+	
+	// const logEntry = document.createElement('div');
+	// logEntry.className = 'log-entry mb-1';
+	// logEntry.innerHTML = `
+	// <span class="badge ${badgeClass}">${timestamp}</span> ${message}
+	// `;
+	
+	// logsContainer.appendChild(logEntry);
+	// logsContainer.scrollTop = logsContainer.scrollHeight;
 	// }
 	
 	// MODIFIKASI: Fungsi startManualReconnection dengan SweetAlert2
@@ -745,7 +763,62 @@
 			}
 		});
 	}
-	  // Fungsi tambahan untuk menampilkan error dengan SweetAlert2
+	function update_status_device(device,status) {
+		
+        $.ajax({
+            url: base_url + 'whatsapp/update_device_post',
+            method: 'POST',
+            data: {device: device, id_pengaturan: id_pengaturan,status:status},
+            dataType: "json",
+            success: function(response) {
+			// console.log(response)
+                if(response.status == true && response.message == 'Connected') {
+                    // GANTI: showNotif dengan SweetAlert2
+                    Swal.fire({
+                        title: 'Device Connected',
+                        text: 'Device berhasil terkoneksi',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+					});
+                    
+					
+                    isConnected = true;
+                    
+					} else if(response.success == true && response.message == 'Disconnect') {
+                    // GANTI: showNotif dengan SweetAlert2
+                    Swal.fire({
+                        title: 'Device Disconnected',
+                        text: response.message,
+                        icon: 'error',
+                        timer: 2000,
+                        showConfirmButton: false
+					});
+                    
+					
+                    isConnected = false;
+					} else {
+                    Swal.fire({
+                        title: 'Device Not Connected',
+                        text: 'Perangkat tidak terhubung',
+                        icon: 'error',
+                        timer: 2000,
+                        showConfirmButton: false
+					});
+                    isConnected = false;
+				}
+			},
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Update Error',
+                    text: error,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+				});
+			}
+		});
+	}
+	// Fungsi tambahan untuk menampilkan error dengan SweetAlert2
     function showErrorAlert(title, message) {
         Swal.fire({
             title: title || 'Error',
@@ -753,9 +826,9 @@
             icon: 'error',
             confirmButtonText: 'OK',
             confirmButtonColor: '#d33'
-        });
-    }
-
+		});
+	}
+	
     // Fungsi tambahan untuk menampilkan success dengan SweetAlert2
     function showSuccessAlert(title, message) {
         Swal.fire({
@@ -764,9 +837,9 @@
             icon: 'success',
             timer: 2000,
             showConfirmButton: false
-        });
-    }
-
+		});
+	}
+	
     // Fungsi tambahan untuk menampilkan info dengan SweetAlert2
     function showInfoAlert(title, message) {
         Swal.fire({
@@ -775,9 +848,9 @@
             icon: 'info',
             timer: 1500,
             showConfirmButton: false
-        });
-    }
-
+		});
+	}
+	
     // MODIFIKASI: Update fungsi addLog untuk notifikasi tertentu
     function addLog(message, type = 'info') {
         const logsContainer = document.getElementById('logs');
@@ -786,37 +859,37 @@
         let badgeClass = 'badge-secondary';
         switch(type) {
             case 'success': 
-                badgeClass = 'badge-success'; 
-                // Tampilkan toast untuk log success penting
-                if (message.includes('connected successfully') || message.includes('logged out successfully')) {
-                    showNotif('bottom-right', 'System', message, 'success');
-                }
-                break;
+			badgeClass = 'badge-success'; 
+			// Tampilkan toast untuk log success penting
+			if (message.includes('connected successfully') || message.includes('logged out successfully')) {
+				showNotif('bottom-right', 'System', message, 'success');
+			}
+			break;
             case 'error': 
-                badgeClass = 'badge-danger'; 
-                // Tampilkan toast untuk error penting
-                if (message.includes('Error') || message.includes('Failed') || message.includes('failed')) {
-                    showNotif('bottom-right', 'Error', message, 'error');
-                }
-                break;
+			badgeClass = 'badge-danger'; 
+			// Tampilkan toast untuk error penting
+			if (message.includes('Error') || message.includes('Failed') || message.includes('failed')) {
+				showNotif('bottom-right', 'Error', message, 'error');
+			}
+			break;
             case 'warning': 
-                badgeClass = 'badge-warning'; 
-                break;
+			badgeClass = 'badge-warning'; 
+			break;
             case 'info': 
-                badgeClass = 'badge-info'; 
-                break;
-        }
+			badgeClass = 'badge-info'; 
+			break;
+		}
         
         const logEntry = document.createElement('div');
         logEntry.className = 'log-entry mb-1';
         logEntry.innerHTML = `
-            <span class="badge ${badgeClass}">${timestamp}</span> ${message}
+		<span class="badge ${badgeClass}">${timestamp}</span> ${message}
         `;
         
         logsContainer.appendChild(logEntry);
         logsContainer.scrollTop = logsContainer.scrollHeight;
-    }
-
+	}
+	
     // Cleanup ketika page di-unload dengan SweetAlert2
     window.addEventListener('beforeunload', function(e) {
         if (isReconnectionActive) {
@@ -834,22 +907,22 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, Tinggalkan',
                 cancelButtonText: 'Tetap di Halaman'
-            }).then((result) => {
+				}).then((result) => {
                 if (result.isConfirmed) {
                     stopAllMonitoring();
                     if (socket) {
                         socket.disconnect();
-                    }
+					}
                     window.close();
-                }
-            });
-        } else {
+				}
+			});
+			} else {
             stopAllMonitoring();
             if (socket) {
                 socket.disconnect();
-            }
-        }
-    });
+			}
+		}
+	});
 	// Fungsi untuk menampilkan notifikasi dengan SweetAlert2
     function showNotif(position, title, message, type) {
         const Toast = Swal.mixin({
