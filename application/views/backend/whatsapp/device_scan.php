@@ -47,7 +47,7 @@
 					<div class="card-body">
 						<div id="qr-container">
 							<div id="area-image" class="imageee text-center mb-2 d-flex justify-content-center align-items-center">
-								<img src="<?= base_url() ?>assets/img/logo.png" height="200px" alt="Logo" id="qr-image" class="mx-auto d-block">
+								<img src="<?= base_url() ?>assets/img/image_scan.png" height="200px" alt="Logo" id="qr-image" class="mx-auto d-block">
 							</div>
 							<div class="text-center mt-2" id="statusss">
 								<button class="btn btn-primary mb-2" type="button" disabled>
