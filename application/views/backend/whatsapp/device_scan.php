@@ -771,40 +771,21 @@
             data: {device: device, id_pengaturan: id_pengaturan,status:status},
             dataType: "json",
             success: function(response) {
-			// console.log(response)
+				// console.log(response)
                 if(response.status == true && response.message == 'Connected') {
                     // GANTI: showNotif dengan SweetAlert2
-                    Swal.fire({
-                        title: 'Device Connected',
-                        text: 'Device berhasil terkoneksi',
-                        icon: 'success',
-                        timer: 2000,
-                        showConfirmButton: false
-					});
-                    
+					
+                    showNotif('bottom-right', 'System', 'Device Connected', 'success');
 					
                     isConnected = true;
                     
 					} else if(response.success == true && response.message == 'Disconnect') {
                     // GANTI: showNotif dengan SweetAlert2
-                    Swal.fire({
-                        title: 'Device Disconnected',
-                        text: response.message,
-                        icon: 'error',
-                        timer: 2000,
-                        showConfirmButton: false
-					});
+					showNotif('bottom-right', 'System', 'Device Disconnected', 'error');
                     
-					
                     isConnected = false;
 					} else {
-                    Swal.fire({
-                        title: 'Device Not Connected',
-                        text: 'Perangkat tidak terhubung',
-                        icon: 'error',
-                        timer: 2000,
-                        showConfirmButton: false
-					});
+                    showNotif('bottom-right', 'System', 'Device Disconnected', 'error');
                     isConnected = false;
 				}
 			},
