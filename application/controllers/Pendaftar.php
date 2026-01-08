@@ -1670,7 +1670,7 @@
 					$isi_pesan = $this->model_formulir->get_pesan($post);
 					$_data= [
 					"session"  	=>$status->device,
-					"to"  	=> $post['nomor_hp'],
+					"to"  	=> hp62($post['nomor_hp']),
 					"text" 		=> $isi_pesan
 					];
 					$url_pesan = "backend-send-text";
