@@ -758,18 +758,7 @@
 					'regex_match' => 'Nama hanya boleh berisi huruf dan spasi.',
 					)
 					),
-					
-					array(
-					'field' => 'nik',
-					'label' => 'NIK',
-					'rules' => 'trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik]',
-					'errors' => array(
-					'numeric' => '%s. Harus angka',
-					'min_length' => '%s minimal 16 digit.',
-					'is_unique'     => '%s sudah ada.'
-					)
-					),
-					
+					 
 					array(
 					'field' => 'nisn_daftar',
 					'label' => 'NISN',
