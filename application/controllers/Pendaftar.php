@@ -1611,19 +1611,20 @@
 		private function send_notif_pesan($post)
 		{
 			$status = $this->model_formulir->get_token();
+			
 			if($status->id_pengaturan==1){
 				if($status->device_status=='Connected'){
 					$isi_pesan = $this->model_formulir->get_pesan_admin($post);
 					$_data= [
-					"token"  	=>$status->device,
-					"number"  	=> $post['nomor_hp'],
+					"session"  	=>$status->device,
+					"to"  	=> hp62($post['nomor_hp']),
 					"text" 		=> $isi_pesan
 					];
 					$url_pesan = "backend-send-text";
-					
+					// dump($_data);
 					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 					$this->curl->setDefaultJsonDecoder($assoc = true);
-					$this->curl->setHeader('x-api-key', $status->token);
+					// $this->curl->setHeader('x-api-key', $status->token);
 					$this->curl->setHeader('Content-Type', 'application/json');
 					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
 					if ($this->curl->error) {
@@ -1668,15 +1669,15 @@
 				if($status->device_status=='Connected'){
 					$isi_pesan = $this->model_formulir->get_pesan($post);
 					$_data= [
-					"token"  	=>$status->device,
-					"number"  	=> $post['nomor_hp'],
+					"session"  	=>$status->device,
+					"to"  	=> $post['nomor_hp'],
 					"text" 		=> $isi_pesan
 					];
 					$url_pesan = "backend-send-text";
 					
 					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 					$this->curl->setDefaultJsonDecoder($assoc = true);
-					$this->curl->setHeader('x-api-key', $status->token);
+					// $this->curl->setHeader('x-api-key', $status->token);
 					$this->curl->setHeader('Content-Type', 'application/json');
 					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
 					if ($this->curl->error) {
@@ -2185,4 +2186,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																													
+	}																																																																																																																																																																																														
