@@ -537,8 +537,8 @@
                 $('body').loading();
 			},
 			success: function(data) {
-				// console.log(data);
-				if(data.device_status=='connect'){
+				console.log(data);
+				if(data.message=='Connected'){
 					showNotif('bottom-right','Device','Conected','success');
 					}else{
 					showNotif('bottom-right','Device','Not Conected','error');

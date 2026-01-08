@@ -717,7 +717,7 @@
             data: {device: device, id_pengaturan: id_pengaturan},
             dataType: "json",
             success: function(response) {
-                if(response.success == true && response.message == 'Connected') {
+                if(response.status == true && response.message == 'Connected') {
                     // GANTI: showNotif dengan SweetAlert2
                     Swal.fire({
                         title: 'Device Connected',
