@@ -1551,7 +1551,7 @@
 		public function cek_nomor()
 		{
 			$status = $this->model_formulir->get_token();
-			// dump($status);
+		  
 			if($status->id_pengaturan==1){
 				if($status->device_status=='Connected'){
 					$nomor = $this->input->post('nomor',true);
