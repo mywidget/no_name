@@ -1551,6 +1551,7 @@
 		public function cek_nomor()
 		{
 			$status = $this->model_formulir->get_token();
+			// dump($status);
 			if($status->id_pengaturan==1){
 				if($status->device_status=='Connected'){
 					$nomor = $this->input->post('nomor',true);
@@ -1575,11 +1576,10 @@
 					$result = ['status' => false, 'title'=>'Cek Nomor', 'msg' => 'Device Disconected'];
 				}
 				}else{
+				$nomor = $this->input->post('nomor',true);
 				$token = $this->model_formulir->get_token()->token;
-				$isi_pesan = $this->model_formulir->get_pesan($post);
 				$data_send = array(
-				'target' => $post['nomor_hp'],
-				'message' => $isi_pesan,
+				'target' => $nomor,
 				'countryCode' => '62'
 				);
 				
@@ -1587,7 +1587,7 @@
 				$this->curl->setDefaultJsonDecoder($assoc = true);
 				$this->curl->setHeader('Authorization', $token);
 				$this->curl->setHeader('Content-Type', 'application/json');
-				$this->curl->post('https://api.fonnte.com/send', $data_send);
+				$this->curl->post('https://api.fonnte.com/validate', $data_send);
 				if ($this->curl->error) {
 					$result = ['status' => false, 'msg' => $this->curl->errorMessage];
 					} else {
@@ -1599,11 +1599,11 @@
 			->set_content_type('application/json')
 			->set_output(json_encode($result));
 		}
+		
 		public function kirim_formulir()
 		{
 			$id = decrypt_url($this->input->post('kode',true));
 			$nomor = $this->input->post('nomor',true);
-			$template = $this->input->post('template',true);
 			$post = $this->model_app->view_where('rb_psb_daftar',['id'=>$id])->row_array();
 			$this->send_notif_pesan($post);
 		}
@@ -1635,8 +1635,9 @@
 					$result = ['status' => false, 'title'=>'Kirim Formulir', 'msg' => 'Device Disconected'];
 				}
 				}else{
+				
 				$token = $this->model_formulir->get_token()->token;
-				$isi_pesan = $this->model_formulir->get_pesan($post);
+				$isi_pesan = $this->model_formulir->get_pesan_admin($post);
 				$data_send = array(
 				'target' => $post['nomor_hp'],
 				'message' => $isi_pesan,
