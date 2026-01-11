@@ -1556,15 +1556,15 @@
 				if($status->device_status=='Connected'){
 					$nomor = $this->input->post('nomor',true);
 					$_data= [
-					"token"  	=>$status->device,
-					"number"  	=> $nomor
+					"session"  	=>$status->device,
+					"numbers"  	=> $nomor
 					];
 					$url_pesan = "backend-check-number";
 					// dump($_data);
 					
 					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 					$this->curl->setDefaultJsonDecoder($assoc = true);
-					$this->curl->setHeader('x-api-key', $status->token);
+					// $this->curl->setHeader('x-api-key', $status->token);
 					$this->curl->setHeader('Content-Type', 'application/json');
 					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
 					if ($this->curl->error) {

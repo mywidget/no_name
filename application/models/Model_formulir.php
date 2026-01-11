@@ -168,7 +168,7 @@
 			$this->db->where('aktif','Ya');
 			$this->db->limit(1);
 			$query = $this->db->get(); 
-			
+		 
 			if($query->num_rows() > 0){ 
 				$row = $query->row();
 				$biaya = convert_to_number($post['biaya_daftar']);
