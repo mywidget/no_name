@@ -758,18 +758,7 @@
 					'regex_match' => 'Nama hanya boleh berisi huruf dan spasi.',
 					)
 					),
-					
-					array(
-					'field' => 'nik',
-					'label' => 'NIK',
-					'rules' => 'trim|numeric|min_length[16]|max_length[16]|is_unique[rb_psb_daftar.nik]',
-					'errors' => array(
-					'numeric' => '%s. Harus angka',
-					'min_length' => '%s minimal 16 digit.',
-					'is_unique'     => '%s sudah ada.'
-					)
-					),
-					
+					 
 					array(
 					'field' => 'nisn_daftar',
 					'label' => 'NISN',
@@ -1280,8 +1269,8 @@
 				if($status->device_status=='Connected'){
 					$isi_pesan = $this->model_formulir->get_pesan_pendaftaran($post);
 					$_data= [
-					"token"  	=>$status->device,
-					"number"  	=> $post['nomor_hp'],
+					"session"  	=>$status->device,
+					"to"  	=> hp62($post['nomor_hp']),
 					"text" 		=> $isi_pesan
 					];
 					
@@ -1289,7 +1278,7 @@
 					
 					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 					$this->curl->setDefaultJsonDecoder($assoc = true);
-					$this->curl->setHeader('x-api-key', $status->token);
+					// $this->curl->setHeader('x-api-key', $status->token);
 					$this->curl->setHeader('Content-Type', 'application/json');
 					$this->curl->post($this->url_send.'/'.$url_pesan, $_data);
 					if ($this->curl->error) {

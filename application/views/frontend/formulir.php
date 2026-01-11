@@ -13,7 +13,8 @@
     // $email          ='rangkasku@gmail.com';
     // $nama           ='Munajat';
     // $tempat_lahir   ='Lebak';
-    $tgl_lahir      ='2011-01-01';
+    $tgl_lahir = date('Y-m-d', strtotime('-12 years'));
+    // $tgl_lahir      ='2011-01-01';
     // $nik            ='1205175502120004';
     // $nama_sekolah   ='SMPN 5';
     // $alamat_sekolah ='Rangkasbitung';
