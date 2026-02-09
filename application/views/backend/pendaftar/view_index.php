@@ -853,6 +853,8 @@
 			if(tahun!=''){
 				$("#export").removeClass("btn-secondary").addClass('btn-success');
 				$("#export").attr("disabled", false);
+				$("#date-filter").val("");
+				searchPengguna();
 				}else{
 				$("#export").attr("disabled", true);
 				$("#export").removeClass("btn-success").addClass('btn-secondary');
@@ -999,10 +1001,11 @@
 			var statusSantri = $('#statusPendidikan').val();
 			load_kamar(id)
 			load_biaya(id)
-			// console.log(statusSantri)
+			console.log('load_kamar',id)
+			console.log('load_biaya',id)
 			$.ajax({
 				type: 'POST',
-				url: base_url+ "dashboard/kelas",
+				url: base_url+ "pendaftar/kelas_edit",
 				data: {id:id,status:statusSantri},
 				dataType : "json",
 				beforeSend: function(){
@@ -1031,7 +1034,7 @@
 			
 			$.ajax({
 				type: 'POST',
-				url: base_url+ "dashboard/biaya",
+				url: base_url+ "pendaftar/biaya",
 				data: {id:id_unit,status:status,thnakademik:thnakademik},
 				dataType : "json",
 				beforeSend: function(){
@@ -1055,7 +1058,7 @@
 			// console.log(gender)
 			$.ajax({
 				type: 'POST',
-				url: base_url+ "dashboard/load_kamar",
+				url: base_url+ "pendaftar/load_kamar",
 				data: {id:id,gender:gender},
 				dataType : "json",
 				beforeSend: function(){
