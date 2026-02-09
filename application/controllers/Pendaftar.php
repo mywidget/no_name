@@ -255,6 +255,30 @@
 			}
 		}
 		
+		public function kelas_edit()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id = decrypt_url($this->input->post('id',true));
+				$status = ($this->input->post('status',true));
+				
+				$where = ['id_unit'=>$id,'aktif'=>'Ya'];
+				$kelas = $this->model_app->view_where_ordering('rb_kelas',$where,'nama_kelas','ASC')->result();
+				$response = [];
+				foreach($kelas AS $val)
+				{
+					$response[] = ['id'=>($val->id),
+					'name'=>$val->kode_kelas.' - '.$val->nama_kelas
+					];
+				}
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		
+		
 		public function load_kelas()
 		{
 			if ( $this->input->is_ajax_request() ) 
@@ -428,7 +452,7 @@
 				$response = [];
 				foreach($result AS $val)
 				{
-					$response[] = ['id'=>$val->id,
+					$response[] = ['id'=>encrypt_url($val->id),
 					'name'=>$val->nama_jurusan
 					];
 				}
@@ -437,6 +461,51 @@
 				->set_content_type('application/json')
 				->set_output(json_encode($response));
 			}
+		}
+		public function biaya()
+		{
+			if ( $this->input->is_ajax_request() ) 
+			{
+				$id = decrypt_url($this->input->post('id',true));
+				
+				$id_tahun_akademik = ($this->input->post('thnakademik',true));
+				$status = ($this->input->post('status',true));
+				$cek_kategori = $this->cek_kategori($status);
+				
+				if($cek_kategori==TRUE){
+					$id_kategori = $cek_kategori['id'];
+					}else{
+					$id_kategori =0;
+				}
+				$query = $this->model_app->view_where('rb_biaya',['id_unit'=>$id,'id_kategori'=>$id_kategori,'id_tahun_akademik'=>$id_tahun_akademik]);
+				
+				if($query->num_rows() > 0){
+					$biaya = $query->row();
+					$response = ['id'=>encrypt_url($biaya->amount),
+					'name'=>rprp($biaya->amount)
+					];
+					}else{
+					$response = ['id'=>0,
+					'name'=>'Belum ada data'
+					];
+				}
+				
+				$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
+			}
+		}
+		
+		private function cek_kategori($slug)
+		{
+			$query = $this->model_app->view_where('rb_kategori',['slug'=>$slug]);
+			if($query->num_rows() > 0){
+				$result = ['status'=>true,'id'=>$query->row()->id_kategori];
+				}else{
+				$result = ['status'=>false,'id'=>0];
+			}
+			
+			return $result;
 		}
 		
 		public function load_kamar()
@@ -2187,4 +2256,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																														
+	}																																																																																																																																																																																																			
