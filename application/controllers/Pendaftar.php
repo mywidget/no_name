@@ -843,8 +843,8 @@
 					if ($current_status == false) {
 						$this->model_tagihan->input_tagihan();
 					}
-					
-					$nama_unit = $this->model_pendaftar->nama_unit_byid($this->input->post('unit_sekolah',true));
+					$id_unit = decrypt_url($this->input->post('unit_sekolah',true));
+					$nama_unit = $this->model_pendaftar->nama_unit_byid($id_unit);
 					
 					$input_data = [
 					"kode_daftar"              	  => $this->input->post('nik',true),
@@ -860,7 +860,7 @@
 					"anak_ke"                     => $this->input->post('anak_ke',true),
 					"dari"                        => $this->input->post('dari',true),
 					"s_pendidikan"                => $this->input->post('s_pendidikan',true),
-					"id_unit"                	  => $this->input->post('unit_sekolah',true),
+					"id_unit"                	  => $id_unit,
 					"unit_sekolah"                => $nama_unit,
 					"kelas"                       => $this->input->post('kelas',true),
 					"biaya_daftar"                => convert_to_number($this->input->post('biaya',true)),
