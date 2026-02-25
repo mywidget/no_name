@@ -1071,7 +1071,7 @@
 					for (var i = 0; i < len; i++) {
 						var id = response[i]['id'];
 						var name = response[i]['name'];
-						$("#form_kamar").append("<option value='" + id + "'>" + name + "</option>");
+						$("#form_kamar").append("<option value='" + name + "'>" + name + "</option>");
 					}
 				}
 			});

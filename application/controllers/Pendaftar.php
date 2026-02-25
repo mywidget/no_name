@@ -385,6 +385,7 @@
 				$data['pekerjaan'] = $this->model_app->view_where('rb_pekerjaan',['aktif'=>'Ya'])->result();
 				
 				$data['record'] = $this->model_app->view_where('rb_psb_daftar',['id'=>$index])->row();
+				// dump($data['record']);
 				$this->load->view('backend/pendaftar/form_edit', $data, false);
 			}
 		}
@@ -698,6 +699,8 @@
 		function simpan_pendaftar(){
 			if ( $this->input->is_ajax_request() ) 
 			{
+		
+		// dump($_POST);
 				$id_pendaftar = decrypt_url($this->input->post('id_pendaftar',true));
 				$email = $this->input->post('email',true);
 				$nik = $this->input->post('nik',true);
