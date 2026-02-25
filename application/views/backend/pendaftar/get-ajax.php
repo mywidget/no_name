@@ -12,6 +12,7 @@
                         <th class="w-15 text-left">NISN</th>
                         <th class="w-15 text-left">Unit</th>
                         <th class="w-15 text-left">Kelas </th>
+                        <th class="w-15 text-left">Kamar </th>
                         <th class="w-12 text-end">Status | Print | Aksi</th>
                     </tr>
                 </thead>  
@@ -50,7 +51,7 @@
                                 $kode_kelas = $row['kelas'];
                                 
                             }
-                            $hapus_data = '<a class="btn btn-warning btn-sm flat" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-hapus" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus</a>';
+                            $hapus_data = '<a class="btn btn-warning btn-sm flat" data-id="'.$kode.'" data-bs-toggle="modal" data-bs-target="#confirm-hapus" href="#"><i class="fa fa-trash"></i></a>';
                             
                         ?>
                         <tr>
@@ -61,7 +62,7 @@
                                 <input type='hidden' id='kode_daftar_<?=$i;?>' name='kode_daftar[<?=$i;?>]' value="<?=$row['kode_daftar'];?>" />
                             </td>
                             <td><?=$no;?></td>
-                            <td><?=indo_date($row['tanggal_daftar']);?></td>
+                            <td><?=tgl_pengiriman($row['tanggal_daftar']);?></td>
                             <td><?=$row['tahun_akademik'];?></td>
                             <td>
                                 <div class="btn-group">
@@ -113,6 +114,7 @@
                                 </div>
                             </td>
                             <td><?=$kode_kelas;?></td>
+                            <td><?=$row['kamar'];?></td>
                             <td align="right">
                                 <div class="btn-group btn-sm flat bg-danger">
                                     <?=$status;?>

@@ -2124,16 +2124,14 @@
 					
 				}
 				
-				if($row['status_keluarga']==1){
-					$status_keluarga = 'Anak Kandung';
-					}elseif($row['status_keluarga']==2){
-					$status_keluarga = 'Anak Tiri';
-					}elseif($row['status_keluarga']==3){
-					$status_keluarga = 'Anak Angkat';
-					}else{
-					$status_keluarga = $row['status_keluarga'];
-					
-				}
+				$statusMap = [
+				1 => 'Anak Kandung',
+				2 => 'Anak Tiri',
+				3 => 'Anak Angkat'
+				];
+				
+				$status_keluarga = $statusMap[$row['status_keluarga']] ?? $row['status_keluarga'];
+				
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('A'.$row_number, $key+1);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('B'.$row_number, $row['tanggal_daftar']);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('C'.$row_number, $row['kode_daftar'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
@@ -2271,4 +2269,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																																					
+	}																																																																																																																																																																																																						
