@@ -699,8 +699,8 @@
 		function simpan_pendaftar(){
 			if ( $this->input->is_ajax_request() ) 
 			{
-		
-		// dump($_POST);
+				
+				// dump($_POST);
 				$id_pendaftar = decrypt_url($this->input->post('id_pendaftar',true));
 				$email = $this->input->post('email',true);
 				$nik = $this->input->post('nik',true);
@@ -1623,7 +1623,7 @@
 		public function cek_nomor()
 		{
 			$status = $this->model_formulir->get_token();
-		  
+			
 			if($status->id_pengaturan==1){
 				if($status->device_status=='Connected'){
 					$nomor = $this->input->post('nomor',true);
@@ -2031,6 +2031,7 @@
 		{
 			// dumps();
 			/* Data */
+			// dump($_POST);
 			$filter = $this->input->post('export');
 			$data = $this->model_pendaftar->fetch_transactions();
 			// dump($data);
@@ -2122,6 +2123,17 @@
 					$kode_kelas = $row['kelas'];
 					
 				}
+				
+				if($row['status_keluarga']==1){
+					$status_keluarga = 'Anak Kandung';
+					}elseif($row['status_keluarga']==2){
+					$status_keluarga = 'Anak Tiri';
+					}elseif($row['status_keluarga']==3){
+					$status_keluarga = 'Anak Angkat';
+					}else{
+					$status_keluarga = $row['status_keluarga'];
+					
+				}
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('A'.$row_number, $key+1);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('B'.$row_number, $row['tanggal_daftar']);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('C'.$row_number, $row['kode_daftar'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
@@ -2133,7 +2145,7 @@
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('I'.$row_number, $row['email']);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('J'.$row_number, $row['anak_ke']);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('K'.$row_number, $row['dari']);
-				$spreadsheet->setActiveSheetIndex(0)->setCellValue('L'.$row_number, $row['status_keluarga']);
+				$spreadsheet->setActiveSheetIndex(0)->setCellValue('L'.$row_number, $status_keluarga);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('M'.$row_number, $row['saudara_pp']);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('N'.$row_number, $row['s_pendidikan']);
 				$spreadsheet->setActiveSheetIndex(0)->setCellValue('O'.$row_number, $row['unit_sekolah']);
@@ -2259,4 +2271,4 @@
 			$writer->save('php://output');
 		}
 		
-	}																																																																																																																																																																																																			
+	}																																																																																																																																																																																																					

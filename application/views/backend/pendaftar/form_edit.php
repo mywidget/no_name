@@ -118,9 +118,9 @@
 				</div>
 				<div class="col-sm-9 col-md-8 col-lg-8">
 					<select name="status_keluarga" id="statusAnak" class="form-select" required="">
-						<option value="1" <?=($record->status_keluarga == 'Anak Kandung') ? 'selected' : ''; ?>>Anak Kandung</option>
-						<option value="1" <?=($record->status_keluarga == 'Anak Tiri') ? 'selected' : ''; ?>>Anak Tiri</option>
-						<option value="1" <?=($record->status_keluarga == 'Anak Angkat') ? 'selected' : ''; ?>>Anak Angkat</option>
+						<option value="Anak Kandung" <?=($record->status_keluarga == 'Anak Kandung') ? 'selected' : ''; ?>>Anak Kandung</option>
+						<option value="Anak Tiri" <?=($record->status_keluarga == 'Anak Tiri') ? 'selected' : ''; ?>>Anak Tiri</option>
+						<option value="Anak Angkat" <?=($record->status_keluarga == 'Anak Angkat') ? 'selected' : ''; ?>>Anak Angkat</option>
 					</select>
 					<div class="invalid-feedback"></div>
 				</div>

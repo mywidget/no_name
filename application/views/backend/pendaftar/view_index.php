@@ -604,7 +604,7 @@
 			var status = $("#status").val();
 			var sortUnit = $("#sortUnit").val();
 			var sortKelas = $("#sortKelas").val();
-			
+			 
 			if(sortUnit!=''){
 				$("#show-unit").removeClass('d-none');
 			}
