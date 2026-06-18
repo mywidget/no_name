@@ -32,7 +32,7 @@
     // $dusun          ="Tutul";
     // $kodepos        =42117;
     
-    $selected = 'selected';
+    $selected = 'selected'; 
     
     if(!empty($tahun['nama_tahun'])){
         $nama_tahun = $tahun['nama_tahun'];
