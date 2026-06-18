@@ -14,7 +14,9 @@
 			// Data halaman statis
 			$data['urls'] = [
             ['loc' => base_url(), 'priority' => '1.0', 'changefreq' => 'daily'],
-            ['loc' => base_url('about'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['loc' => base_url('syarat'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['loc' => base_url('formulir'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['loc' => base_url('brosur'), 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['loc' => base_url('contact'), 'priority' => '0.8', 'changefreq' => 'monthly'],
 			];
 			
