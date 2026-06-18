@@ -1,0 +1,18 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+
+# Blokir akses ke folder sistem internal CodeIgniter 3
+Disallow: /application/
+Disallow: /system/
+
+# Blokir halaman atau fitur pencarian agar tidak terjadi duplikasi konten (Opsional)
+Disallow: /*?q=
+Disallow: /search/
+
+# Izinkan Googlebot dan robot lain merayapi aset CSS, JS, dan Gambar agar website tidak dianggap rusak
+Allow: /assets/
+Allow: /application/views/*/*.css
+Allow: /application/views/*/*.js
+
+# Beri tahu mesin pencari di mana lokasi Sitemap Anda
+Sitemap: https://psbtebuireng4.com/sitemap
